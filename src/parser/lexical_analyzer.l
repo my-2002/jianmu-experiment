@@ -39,8 +39,8 @@ void pass_node(char *text){
 \,   {pos_start=pos_end;pos_end=pos_start+1;pass_node(yytext);return COMMA;}
 \%   {pos_start=pos_end;pos_end=pos_start+1;pass_node(yytext);return MOD;}
 \!   {pos_start=pos_end;pos_end=pos_start+1;pass_node(yytext);return NOT;}
-\&&  {pos_start=pos_end;pos_end=pos_start+1;pass_node(yytext);return AND;}
-\||  {pos_start=pos_end;pos_end=pos_start+1;pass_node(yytext);return OR;}
+\&\&  {pos_start=pos_end;pos_end=pos_start+2;pass_node(yytext);return AND;}
+\|\|  {pos_start=pos_end;pos_end=pos_start+2;pass_node(yytext);return OR;}
 
 \(   {pos_start=pos_end;pos_end=pos_start+1;pass_node(yytext);return LPARENTHESE;}
 \)   {pos_start=pos_end;pos_end=pos_start+1;pass_node(yytext);return RPARENTHESE;}
