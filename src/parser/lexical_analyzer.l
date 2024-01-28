@@ -61,8 +61,7 @@ void pass_node(char *text){
 "continue" {pos_start=pos_end;pos_end=pos_start+8;pass_node(yytext);return CONTINUE;}
 " " {pos_start=pos_end;pos_end=pos_start+1;}
  /* 其余 */
- /* [a-zA-Z] {pos_start=pos_end;pos_end=pos_start+1;pass_node(yytext);return LETTER;}
-[0-9] {pos_start=pos_end;pos_end=pos_start+1;pass_node(yytext);return DIGIT;} */
+
 ([a-zA-Z_]+[0-9]*[a-zA-Z_]+) {pos_start=pos_end;pos_end=pos_start+strlen(yytext);pass_node(yytext);return Ident;}
 (0X|0x)[0-9a-fA-F]+|[1-9][0-9]*|0[0-7]* {pos_start=pos_end;pos_end=pos_start+strlen(yytext);pass_node(yytext);return IntConst;}
 ((0x|0X)([0-9a-fA-F]+)|([0-9a-fA-F]+\.|[0-9a-fA-F]*\.[0-9a-fA-F]+)([pP][+-]?\d+))|((\d+\.|\d*\.\d+([eE][+-]?\d+)?)|(\d+[eE][+-]?\d+)) {pos_start=pos_end;pos_end=pos_start+strlen(yytext);pass_node(yytext);return floatConst;}
