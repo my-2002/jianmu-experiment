@@ -23,3 +23,6 @@ $ git pull upstream master
 ```shell
 $ git push origin master
 ```
+
+# 问题记录
+1. 对于新添加文件的cmake需要随使用进行修改
