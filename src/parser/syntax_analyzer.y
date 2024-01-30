@@ -40,7 +40,7 @@ syntax_tree_node *node(const char *node_name, int children_num, ...);
 %token <node> ADD SUB MUL DIV LT LTE GT GTE EQ NEQ ASSIGN SEMICOLON COMMA MOD NOT AND OR
 %token <node> LPARENTHESE RPARENTHESE LBRACKET RBRACKET LSPLINT RSPLINT
 %token <node> ELSE IF INT VOID FLOAT CONST WHILE BREAK CONTINUE RETURN
-%token <node> LETTER DIGIT Ident IntConst floatConst
+%token <node> Ident IntConst floatConst
 
 %type <node> CompUnit Decl ConstDecl BType ConstDef ConstInitVal VarDecl VarDef InitVal 
 %type <node> FuncDef FuncType FuncFParams FuncFParam Block BlockItem Stmt Exp Cond LVal
@@ -58,12 +58,12 @@ program: declaration-list {$$ = node( "program", 1, $1); gt->root = $$;}
 */
 
 CompUnit 
-: Del {$$ = node("CompUnit", 1, $1); gt->root = $$;}
+: Decl {$$ = node("CompUnit", 1, $1); gt->root = $$;}
 | FuncDef {$$ = node("CompUnit", 1, $1); gt->root = $$;}
-| CompUnit Del {$$ = node("CompUnit", 2, $1, $2); gt->root = $$;}
+| CompUnit Decl {$$ = node("CompUnit", 2, $1, $2); gt->root = $$;}
 | CompUnit FuncDef {$$ = node("CompUnit", 2, $1, $2); gt->root = $$;}
 
-Del
+Decl
 : ConstDecl {$$ = node("Del", 1, $1);}
 | VarDecl {$$ = node("Del", 1, $1);}
 
