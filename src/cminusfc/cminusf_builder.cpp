@@ -2,7 +2,7 @@
 
 #define CONST_FP(num) ConstantFP::get((float)num, module.get())
 #define CONST_INT(num) ConstantInt::get(num, module.get())
-
+#define CONST_ZERO(type) ConstantZero::get(type, module.get())
 // types
 Type *VOID_T;
 Type *INT1_T;
@@ -19,7 +19,7 @@ Type *FLOATPTR_T;
  * scope.find: find and return the value bound to the name
  */
 
-Value* CminusfBuilder::visit(ASTProgram &node) {
+Value* CminusfBuilder::visit(ASTCompUnit &node) {
     VOID_T = module->get_void_type();
     INT1_T = module->get_int1_type();
     INT32_T = module->get_int32_type();
@@ -37,15 +37,61 @@ Value* CminusfBuilder::visit(ASTProgram &node) {
 Value* CminusfBuilder::visit(ASTNum &node) {
     // TODO: This function is empty now.
     // Add some code here.
-    return nullptr;
+    Value *ret_val = nullptr;
+    if (node.type == TYPE_INT)                 
+        ret_val = ConstantInt::get(node.i_val, module.get()); 
+    else if (node.type == TYPE_FLOAT)        
+        ret_val = ConstantFP::get(node.f_val, module.get());    
+    return ret_val;
 }
 
 Value* CminusfBuilder::visit(ASTVarDeclaration &node) {
     // TODO: This function is empty now.
     // Add some code here.
-    return nullptr;
+    for(auto &def:node.vardef)
+    {
+        def->accept(*this);
+    }
 }
-
+Value* CminusfBuilder::visit(ASTVarDef& node) {
+    Type* tmpType;              
+    if (node.type == TYPE_INT)     
+        tmpType = INT32_T;       
+    else if (node.type == TYPE_FLOAT)  
+        tmpType = FLOAT_T;       
+    if (!node.expression.empty()) {         
+        //说明声明变量是数组
+        auto* arrayType = ArrayType::get(tmpType, node.expression.size()); 
+        Constant* initializer;
+    if (node.init == nullptr) {
+        initializer = dynamic_cast<Constant*>(CONST_ZERO(tmpType)) ;
+    } else {
+        std::vector<Constant *> val;
+        for(auto &exp:node.init->expression)
+        {
+            val.push_back(exp->accept(*this));
+        }
+        initializer = dynamic_cast<Constant*>(ConstantArray::get(arrayType, node.init->accept(*this)));
+    }           
+        Value* arrayAlloca;             
+        if (scope.in_global())          //若是全局
+            arrayAlloca = GlobalVariable::create(node.id, module.get(), arrayType, false, initializer);
+        else                         
+            arrayAlloca = builder->create_alloca(arrayType);
+        scope.push(node.id, arrayAlloca);// 将获得的数组变量加入域 
+        return arrayAlloca;
+    }
+    else {                            
+        auto initializer = CONST_ZERO(tmpType); 
+        Value* varAlloca;          
+        if (scope.in_global())         
+            varAlloca = GlobalVariable::create(node.id, module.get(), tmpType, false, initializer);
+        else                           
+            varAlloca = builder->create_alloca(tmpType);
+        scope.push(node.id, varAlloca); 
+        return varAlloca;
+    }
+}
 Value* CminusfBuilder::visit(ASTFunDeclaration &node) {
     FunctionType *fun_type;
     Type *ret_type;
@@ -75,7 +121,7 @@ Value* CminusfBuilder::visit(ASTFunDeclaration &node) {
     for (int i = 0; i < node.params.size(); ++i) {
         // TODO: You need to deal with params and store them in the scope.
     }
-    node.compound_stmt->accept(*this);
+    node.block->accept(*this);
     if (not builder->get_insert_block()->is_terminated())
     {
         if (context.func->get_return_type()->is_void_type())
@@ -95,7 +141,7 @@ Value* CminusfBuilder::visit(ASTParam &node) {
     return nullptr;
 }
 
-Value* CminusfBuilder::visit(ASTCompoundStmt &node) {
+/*Value* CminusfBuilder::visit(ASTCompoundStmt &node) {
     // TODO: This function is not complete.
     // You may need to add some code here
     // to deal with complex statements.
@@ -110,7 +156,7 @@ Value* CminusfBuilder::visit(ASTCompoundStmt &node) {
             break;
     }
     return nullptr;
-}
+}*/
 
 Value* CminusfBuilder::visit(ASTExpressionStmt &node) {
     // TODO: This function is empty now.
@@ -141,23 +187,12 @@ Value* CminusfBuilder::visit(ASTReturnStmt &node) {
     return nullptr;
 }
 
-Value* CminusfBuilder::visit(ASTVar &node) {
-    // TODO: This function is empty now.
-    // Add some code here.
-    return nullptr;
-}
-
 Value* CminusfBuilder::visit(ASTAssignExpression &node) {
     // TODO: This function is empty now.
     // Add some code here.
     return nullptr;
 }
 
-Value* CminusfBuilder::visit(ASTSimpleExpression &node) {
-    // TODO: This function is empty now.
-    // Add some code here.
-    return nullptr;
-}
 
 Value* CminusfBuilder::visit(ASTAdditiveExpression &node) {
     // TODO: This function is empty now.
@@ -165,14 +200,44 @@ Value* CminusfBuilder::visit(ASTAdditiveExpression &node) {
     return nullptr;
 }
 
-Value* CminusfBuilder::visit(ASTTerm &node) {
-    // TODO: This function is empty now.
-    // Add some code here.
+Value* CminusfBuilder::visit(ASTBlock& node) {
+    std::cout << "Visiting ASTBlock" << std::endl;
+    // Add your code here
+    return nullptr;
+}
+Value* CminusfBuilder::visit(ASTMulExpression& node) {
+    std::cout << "Visiting ASTMulExpression" << std::endl;
+    // Add your code here
+    return nullptr;
+}
+Value* CminusfBuilder::visit(ASTConstDecl& node) {
+    std::cout << "Visiting ASTConstDecl" << std::endl;
+    // Add your code here
+    return nullptr;
+}
+Value* CminusfBuilder::visit(ASTConstDef& node) {
+    std::cout << "Visiting ASTConstDef" << std::endl;
+    // Add your code here
     return nullptr;
 }
 
-Value* CminusfBuilder::visit(ASTCall &node) {
-    // TODO: This function is empty now.
-    // Add some code here.
+Value* CminusfBuilder::visit(ASTInit& node) {
+    std::cout << "Visiting ASTInit" << std::endl;
+    // Add your code here
+    return nullptr;
+}
+Value* CminusfBuilder::visit(ASTLVal& node) {
+    std::cout << "Visiting ASTLVal" << std::endl;
+    // Add your code here
+    return nullptr;
+}
+Value* CminusfBuilder::visit(ASTCond& node) {
+    std::cout << "Visiting ASTCond" << std::endl;
+    // Add your code here
+    return nullptr;
+}
+Value* CminusfBuilder::visit(ASTUnaryExp& node) {
+    std::cout << "Visiting ASTUnaryExp" << std::endl;
+    // Add your code here
     return nullptr;
 }

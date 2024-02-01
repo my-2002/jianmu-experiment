@@ -84,22 +84,26 @@ class CminusfBuilder : public ASTVisitor {
     std::unique_ptr<Module> getModule() { return std::move(module); }
 
   private:
-    virtual Value *visit(ASTProgram &) override final;
+    virtual Value *visit(ASTCompUnit &) override final;
     virtual Value *visit(ASTNum &) override final;
     virtual Value *visit(ASTVarDeclaration &) override final;
     virtual Value *visit(ASTFunDeclaration &) override final;
     virtual Value *visit(ASTParam &) override final;
-    virtual Value *visit(ASTCompoundStmt &) override final;
+    virtual Value *visit(ASTBlock &) override final;
     virtual Value *visit(ASTExpressionStmt &) override final;
     virtual Value *visit(ASTSelectionStmt &) override final;
     virtual Value *visit(ASTIterationStmt &) override final;
     virtual Value *visit(ASTReturnStmt &) override final;
     virtual Value *visit(ASTAssignExpression &) override final;
-    virtual Value *visit(ASTSimpleExpression &) override final;
+    virtual Value *visit(ASTMulExpression &) override final;
+    virtual Value *visit(ASTConstDecl &) override final;
+    virtual Value *visit(ASTConstDef &) override final;
+    virtual Value *visit(ASTVarDef &) override final;
+    virtual Value *visit(ASTInit &) override final;
+    virtual Value *visit(ASTLVal &) override final;
+    virtual Value *visit(ASTCond &) override final;
+    virtual Value *visit(ASTUnaryExp &) override final;
     virtual Value *visit(ASTAdditiveExpression &) override final;
-    virtual Value *visit(ASTVar &) override final;
-    virtual Value *visit(ASTTerm &) override final;
-    virtual Value *visit(ASTCall &) override final;
 
     std::unique_ptr<IRBuilder> builder;
     Scope scope;
