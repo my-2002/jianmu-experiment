@@ -27,7 +27,4 @@ $ git push origin master
 # log
 1. 对于新添加文件的cmake需要随使用进行修改
 2. 需要完成运行时库
-3. 对relop等变量进行修改，后续需修改有关内容
-需要完成：astcpp的transform_node_iter是将语法书转换为抽象语法树，设计ast，之后在asthpp中写对应节点，再在build里完成访问者的具体实现
-4.program->compunion compoundstmt->block
-5.暂时未对常量表达式和初值与正常的作区分
+3.
