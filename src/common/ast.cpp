@@ -20,16 +20,16 @@ AST::AST(syntax_tree *s) {
     }
     auto node = transform_node_iter(s->root);
     del_syntax_tree(s);
-    root = std::shared_ptr<ASTProgram>(static_cast<ASTProgram *>(node));
+    root = std::shared_ptr<ASTCompUnit>(static_cast<ASTCompUnit *>(node));
 }
 
 ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
-    if (_STR_EQ(n->name, "program")) {
-        auto node = new ASTProgram();
+    if (_STR_EQ(n->name, "CompUnit")) {
+        auto node = new ASTCompUnit();
 
         // flatten declaration list
         std::stack<syntax_tree_node *> s;
-        auto list_ptr = n->children[0];
+        auto list_ptr = n;
         while (list_ptr->children_num == 2) {
             s.push(list_ptr->children[1]);
             list_ptr = list_ptr->children[0];
@@ -46,8 +46,65 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
             s.pop();
         }
         return node;
-    } else if (_STR_EQ(n->name, "declaration")) {
+    } else if (_STR_EQ(n->name, "Decl")) {
         return transform_node_iter(n->children[0]);
+    } else if (_STR_EQ(n->name, "ConstDecl")){
+        auto node = new ASTConstDecl;
+
+        if(_STR_EQ(n->children[1]->name, "INT"))
+            node->type = TYPE_INT;
+        else
+            node->type = TYPE_FLOAT;
+
+        std::stack<syntax_tree_node *> s;
+        auto list_ptr = n->children[2];
+        while (list_ptr->children_num == 3) {
+            s.push(list_ptr->children[2]);
+            list_ptr = list_ptr->children[0];
+        }
+        s.push(list_ptr->children[0]);
+
+        while (!s.empty()) {
+            auto child_node =
+                static_cast<ASTConstDef *>(transform_node_iter(s.top()));
+            auto child_node_shared =
+                std::shared_ptr<ASTConstDef>(child_node);
+            node->declarations.push_back(child_node_shared);
+            s.pop();
+        }
+        return node;
+    } else if (_STR_EQ(n->name, "ConstDef")){
+        auto node = new ASTConstDef;
+
+        node->id = n->children[0]->name;
+        std::stack<syntax_tree_node *> s;
+        if(n->children_num == 3)
+        {
+            auto child_node = static_cast<ASTInit *>(transform_node_iter(n->children[2]));
+            node->initiation = std::shared_ptr<ASTInit>(child_node);
+        }
+        else
+        {
+            auto list_ptr = n->children[1];
+            while(list_ptr->children_num == 4)
+            {
+                s.push(list_ptr->children[3]);
+                list_ptr = list_ptr->children[1];
+            }
+            s.push(list_ptr->children[1]);
+            auto child_node = static_cast<ASTInit *>(transform_node_iter(n->children[3my]));
+            node->initiation = std::shared_ptr<ASTInit>(child_node);
+        }
+
+        while (!s.empty()) {
+            auto child_node =
+                static_cast<ASTAdditiveExpression *>(transform_node_iter(s.top()));
+            auto child_node_shared =
+                std::shared_ptr<ASTAdditiveExpression>(child_node);
+            node->expression.push_back(child_node_shared);
+            s.pop();
+        }
+        return node;
     } else if (_STR_EQ(n->name, "var-declaration")) {
         auto node = new ASTVarDeclaration();
 

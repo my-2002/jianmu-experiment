@@ -77,17 +77,13 @@ struct ASTExpressionStmt;
 struct ASTSelectionStmt;
 struct ASTIterationStmt;
 struct ASTReturnStmt;
-//struct ASTFactor;
 struct ASTExpression;
 struct ASTCond;
-//struct ASTVar;
 struct ASTAssignExpression;
 struct ASTMulExpression;
 struct ASTUnaryExp;
 struct ASTAdditiveExpression;
 struct ASTRelExp;
-//struct ASTTerm;
-//struct ASTCall;
 
 class ASTVisitor;
 
@@ -121,7 +117,6 @@ struct ASTCompUnit : ASTNode {
 struct ASTDeclaration : ASTNode {
     virtual ~ASTDeclaration() = default;
     SysYType type;
-    std::string id;
 };
 
 struct ASTNum : ASTNode {
@@ -138,10 +133,12 @@ struct ASTConstDecl : ASTDeclaration
     virtual Value *accept(ASTVisitor &) override final;
     std::vector<std::shared_ptr<ASTConstDef>> constdef;
 };
-struct ASTConstDef :ASTNode
+
+struct ASTConstDef : ASTNode
 {
     virtual Value *accept(ASTVisitor &) override final;
-    std::shared_ptr<ASTAdditiveExpression> expression;
+    std::string id;
+    std::vector<std::shared_ptr<ASTAdditiveExpression>> expression;
     std::shared_ptr<ASTInit> initiation;
 };
 
@@ -150,13 +147,15 @@ struct ASTVarDeclaration : ASTDeclaration {
     std::vector<std::shared_ptr<ASTVarDef>> vardef;
 };
 
-struct ASTVarDef :ASTDeclaration
+struct ASTVarDef : ASTDeclaration
 {
     virtual Value *accept(ASTVisitor &) override final;
+    std::string id;
     std::vector<std::shared_ptr<ASTAdditiveExpression>> expression;
     std::shared_ptr<ASTInit> init;
 };
-struct ASTInit :ASTNode
+
+struct ASTInit : ASTNode
 {
     virtual Value *accept(ASTVisitor &) override final;
     std::vector<std::shared_ptr<ASTAdditiveExpression>> expression;
@@ -164,6 +163,7 @@ struct ASTInit :ASTNode
 
 struct ASTFunDeclaration : ASTDeclaration {
     virtual Value *accept(ASTVisitor &) override final;
+    std::string id;
     std::vector<std::shared_ptr<ASTParam>> params;
     std::shared_ptr<ASTBlock> block;
 };
@@ -205,11 +205,13 @@ struct ASTIterationStmt : ASTStatement {
     std::shared_ptr<ASTRelExp> condition;
     std::shared_ptr<ASTStatement> statement;
 };
+
 struct ASTIterterminatorStmt :ASTStatement
 {
     virtual Value *accept(ASTVisitor &) override final;
     Terminator terminator;
 };
+
 struct ASTReturnStmt : ASTStatement {
     virtual Value *accept(ASTVisitor &) override final;
     // should be nullptr if return void
@@ -233,6 +235,7 @@ struct ASTMulExpression:ASTExpression
     MulOp op;
     std::shared_ptr<ASTMulExpression> mul_expression;
 };
+
 struct ASTUnaryExp:ASTExpression
 {
     virtual Value *accept(ASTVisitor &) override final;
@@ -244,13 +247,6 @@ struct ASTUnaryExp:ASTExpression
     std::shared_ptr<ASTUnaryExp> unaryexp;
 };
 
-/*struct ASTVar : ASTFactor {
-    virtual Value *accept(ASTVisitor &) override final;
-    std::string id;
-    // nullptr if var is of int type
-    std::shared_ptr<ASTExpression> expression;
-};*/
-
 struct ASTAdditiveExpression : ASTNode {
     virtual Value *accept(ASTVisitor &) override final;
     std::shared_ptr<ASTAdditiveExpression> additive_expression;
@@ -258,18 +254,13 @@ struct ASTAdditiveExpression : ASTNode {
     std::shared_ptr<ASTMulExpression> mul_expression;
 };
 
-/*struct ASTTerm : ASTNode {
-    virtual Value *accept(ASTVisitor &) override final;
-    std::shared_ptr<ASTTerm> term;
-    MulOp op;
-    std::shared_ptr<ASTFactor> factor;
-};*/
 struct ASTLVal : ASTNode
 {
     virtual Value *accept(ASTVisitor &) override final;
     std::string idet;
     std::shared_ptr<ASTAdditiveExpression> expression;
 };
+
 struct ASTRelExp:ASTExpression
 {   //相等和关系,逻辑运算应该可以合并到这里
     virtual Value *accept(ASTVisitor &) override final;
@@ -277,11 +268,6 @@ struct ASTRelExp:ASTExpression
     RelOp op;
     std::shared_ptr<ASTRelExp> relation_expression;
 };
-/*struct ASTCall : ASTFactor {
-    virtual Value *accept(ASTVisitor &) override final;
-    std::string id;
-    std::vector<std::shared_ptr<ASTExpression>> args;
-};*/
 
 
 
