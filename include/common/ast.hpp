@@ -259,7 +259,7 @@ struct ASTAdditiveExpression : ASTNode {
 struct ASTLVal : ASTNode
 {
     virtual Value *accept(ASTVisitor &) override final;
-    std::string idet;
+    std::string id;
     std::shared_ptr<ASTAdditiveExpression> expression;
 };
 

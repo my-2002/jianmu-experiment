@@ -360,10 +360,21 @@ Value* CminusfBuilder::visit(ASTAdditiveExpression &node) {
 
 Value* CminusfBuilder::visit(ASTBlock& node) {
     scope.enter();
-    
+    for(auto& item:node.block_items)
+    {
+        item->accept(*this);
+    }
     scope.exit();
     return nullptr;
 
+}
+Value* CminusfBuilder::visit(ASTBlockItem& node)
+{
+    if (node.local_declaration!=nullptr)
+        node.local_declaration->accept(*this);
+    else 
+        node.statement->accept(*this);
+    return nullptr;
 }
 Value* CminusfBuilder::visit(ASTMulExpression& node) {
     Value* ret_val;

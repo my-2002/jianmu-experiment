@@ -90,6 +90,7 @@ class CminusfBuilder : public ASTVisitor {
     virtual Value *visit(ASTFunDeclaration &) override final;
     virtual Value *visit(ASTParam &) override final;
     virtual Value *visit(ASTBlock &) override final;
+    virtual Value *visit(ASTBlockItem &) override final;
     virtual Value *visit(ASTExpressionStmt &) override final;
     virtual Value *visit(ASTSelectionStmt &) override final;
     virtual Value *visit(ASTIterationStmt &) override final;
