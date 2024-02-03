@@ -72,6 +72,7 @@ struct ASTLVal;
 struct ASTFunDeclaration;
 struct ASTParam;
 struct ASTBlock;
+struct ASTBlockItem;
 struct ASTStatement;
 struct ASTExpressionStmt;
 struct ASTSelectionStmt;
@@ -158,7 +159,8 @@ struct ASTVarDef : ASTDeclaration
 struct ASTInit : ASTNode
 {
     virtual Value *accept(ASTVisitor &) override final;
-    std::vector<std::shared_ptr<ASTAdditiveExpression>> expression;
+    std::vector<std::shared_ptr<ASTInit>> sub_inits;
+    std::shared_ptr<ASTAdditiveExpression> expression;
 };
 
 struct ASTFunDeclaration : ASTDeclaration {
@@ -181,15 +183,15 @@ struct ASTStatement : ASTNode {
     virtual ~ASTStatement() = default;
 };
 
-struct ASTBlock : ASTStatement {
+struct ASTBlock : ASTNode {
     virtual Value *accept(ASTVisitor &) override final;
-    std::vector<std::shared_ptr<ASTDeclaration>> local_declarations;
-    std::vector<std::shared_ptr<ASTStatement>> statement_list;
+    std::vector<std::shared_ptr<ASTBlockItem>> block_items;
 };
 
-struct ASTExpressionStmt : ASTStatement {
+struct ASTBlockItem : ASTNode {
     virtual Value *accept(ASTVisitor &) override final;
-    std::shared_ptr<ASTAdditiveExpression> expression;
+    std::shared_ptr<ASTDeclaration> local_declaration;
+    std::shared_ptr<ASTStatement> statement;
 };
 
 struct ASTSelectionStmt : ASTStatement {
@@ -279,6 +281,7 @@ class ASTVisitor {
     virtual Value *visit(ASTFunDeclaration &) = 0;
     virtual Value *visit(ASTParam &) = 0;
     virtual Value *visit(ASTBlock &) = 0;
+    virtual Value *visit(ASTBlockItem &) = 0;
     virtual Value *visit(ASTExpressionStmt &) = 0;
     virtual Value *visit(ASTSelectionStmt &) = 0;
     virtual Value *visit(ASTIterationStmt &) = 0;
@@ -305,6 +308,7 @@ class ASTPrinter : public ASTVisitor {
     virtual Value *visit(ASTFunDeclaration &) override final;
     virtual Value *visit(ASTParam &) override final;
     virtual Value *visit(ASTBlock &) override final;
+    virtual Value *visit(ASTBlockItem &) override final;
     virtual Value *visit(ASTExpressionStmt &) override final;
     virtual Value *visit(ASTSelectionStmt &) override final;
     virtual Value *visit(ASTIterationStmt &) override final;
@@ -319,7 +323,6 @@ class ASTPrinter : public ASTVisitor {
     virtual Value *visit(ASTCond &) override final;
     virtual Value *visit(ASTUnaryExp &) override final;
     virtual Value *visit(ASTAdditiveExpression &) override final;
-    //virtual Value *visit(ASTVar &) override final;
     void add_depth() { depth += 2; }
     void remove_depth() { depth -= 2; }
 
