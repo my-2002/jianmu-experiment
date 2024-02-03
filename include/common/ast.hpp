@@ -135,7 +135,7 @@ struct ASTConstDecl : ASTDeclaration
     std::vector<std::shared_ptr<ASTConstDef>> constdef;
 };
 
-struct ASTConstDef : ASTNode
+struct ASTConstDef : ASTDeclaration
 {
     virtual Value *accept(ASTVisitor &) override final;
     std::string id;
@@ -161,6 +161,7 @@ struct ASTInit : ASTNode
     virtual Value *accept(ASTVisitor &) override final;
     std::vector<std::shared_ptr<ASTInit>> sub_inits;
     std::shared_ptr<ASTAdditiveExpression> expression;
+    bool isconst;
 };
 
 struct ASTFunDeclaration : ASTDeclaration {
@@ -291,7 +292,7 @@ class ASTVisitor {
     virtual Value *visit(ASTConstDecl &) = 0;
     virtual Value *visit(ASTConstDef &) = 0;
     virtual Value *visit(ASTVarDef &) = 0;
-    virtual Value *visit(ASTInit &) = 0;
+    virtual std::vector<Value*> visit(ASTInit &) = 0;
     virtual Value *visit(ASTLVal &) = 0;
     virtual Value *visit(ASTCond &) = 0;
     virtual Value *visit(ASTUnaryExp &) = 0;
@@ -318,7 +319,7 @@ class ASTPrinter : public ASTVisitor {
     virtual Value *visit(ASTConstDecl &) override final;
     virtual Value *visit(ASTConstDef &) override final;
     virtual Value *visit(ASTVarDef &) override final;
-    virtual Value *visit(ASTInit &) override final;
+    virtual std::vector<Value*> visit(ASTInit &) override final;
     virtual Value *visit(ASTLVal &) override final;
     virtual Value *visit(ASTCond &) override final;
     virtual Value *visit(ASTUnaryExp &) override final;

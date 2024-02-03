@@ -100,7 +100,7 @@ class CminusfBuilder : public ASTVisitor {
     virtual Value *visit(ASTConstDecl &) override final;
     virtual Value *visit(ASTConstDef &) override final;
     virtual Value *visit(ASTVarDef &) override final;
-    virtual Value *visit(ASTInit &) override final;
+    virtual std::vector<Value*> *visit(ASTInit &) override final;
     virtual Value *visit(ASTLVal &) override final;
     virtual Value *visit(ASTCond &) override final;
     virtual Value *visit(ASTUnaryExp &) override final;

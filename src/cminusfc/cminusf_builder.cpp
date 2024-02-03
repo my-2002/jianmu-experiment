@@ -416,15 +416,58 @@ Value* CminusfBuilder::visit(ASTConstDecl& node) {
     return nullptr;
 }
 Value* CminusfBuilder::visit(ASTConstDef& node) {
-    std::cout << "Visiting ASTConstDef" << std::endl;
-    // Add your code here
-    return nullptr;
+    Type* tmpType;              
+    if (node.type == TYPE_INT)     
+        tmpType = INT32_T;       
+    else if (node.type == TYPE_FLOAT)  
+        tmpType = FLOAT_T;       
+    if (!node.expression.empty()) {         
+        //说明声明变量是数组
+        auto* arrayType = ArrayType::get(tmpType, node.expression.size()); 
+        Constant* initializer;
+    if (node.initiation == nullptr) {
+        initializer = dynamic_cast<Constant*>(CONST_ZERO(tmpType)) ;
+    } else {
+        std::vector<Value *> val;
+        for(auto &exp:node.initiation->expression)
+        {
+            val.push_back(exp->accept(*this));
+        }
+        initializer = dynamic_cast<Constant*>(ConstantArray::get(arrayType, val));
+    }           
+    Value* arrayAlloca;             
+    if (scope.in_global())          //若是全局
+        arrayAlloca = GlobalVariable::create(node.id, module.get(), arrayType, false, initializer);
+    else                         
+        arrayAlloca = builder->create_alloca(arrayType);
+    scope.push(node.id, arrayAlloca);// 将获得的数组变量加入域 
+    return arrayAlloca;
+    }
+    else {                            
+        auto initializer = CONST_ZERO(tmpType); 
+        Value* varAlloca;          
+        if (scope.in_global())         
+            varAlloca = GlobalVariable::create(node.id, module.get(), tmpType, false, initializer);
+        else                           
+            varAlloca = builder->create_alloca(tmpType);
+        scope.push(node.id, varAlloca); 
+        return varAlloca;
+    }
 }
 
-Value* CminusfBuilder::visit(ASTInit& node) {
-    std::cout << "Visiting ASTInit" << std::endl;
-    // Add your code here
-    return nullptr;
+std::vector<Value*> CminusfBuilder::visit(ASTInit& node) {
+    std::vector<Value*> val;
+    if(node.expression!=nullptr)
+        val.push_back(node.expression->accept(*this));
+    else
+    {
+        
+        for(auto &init:node.sub_inits)
+        {
+            val.push_back(init->accept(*this));
+        }
+    }
+    return val;
 }
 Value* CminusfBuilder::visit(ASTLVal& node) {
     Value* ret_value;
