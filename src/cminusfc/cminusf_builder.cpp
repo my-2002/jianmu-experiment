@@ -66,20 +66,20 @@ Value* CminusfBuilder::visit(ASTVarDef& node) {
     if (node.init == nullptr) {
         initializer = dynamic_cast<Constant*>(CONST_ZERO(tmpType)) ;
     } else {
-        std::vector<Constant *> val;
+        std::vector<Value *> val;
         for(auto &exp:node.init->expression)
         {
             val.push_back(exp->accept(*this));
         }
-        initializer = dynamic_cast<Constant*>(ConstantArray::get(arrayType, node.init->accept(*this)));
+        initializer = dynamic_cast<Constant*>(ConstantArray::get(arrayType, val));
     }           
-        Value* arrayAlloca;             
-        if (scope.in_global())          //若是全局
-            arrayAlloca = GlobalVariable::create(node.id, module.get(), arrayType, false, initializer);
-        else                         
-            arrayAlloca = builder->create_alloca(arrayType);
-        scope.push(node.id, arrayAlloca);// 将获得的数组变量加入域 
-        return arrayAlloca;
+    Value* arrayAlloca;             
+    if (scope.in_global())          //若是全局
+        arrayAlloca = GlobalVariable::create(node.id, module.get(), arrayType, false, initializer);
+    else                         
+        arrayAlloca = builder->create_alloca(arrayType);
+    scope.push(node.id, arrayAlloca);// 将获得的数组变量加入域 
+    return arrayAlloca;
     }
     else {                            
         auto initializer = CONST_ZERO(tmpType); 
@@ -118,9 +118,22 @@ Value* CminusfBuilder::visit(ASTFunDeclaration &node) {
     for (auto &arg : func->get_args()) {
         args.push_back(&arg);
     }
-    for (int i = 0; i < node.params.size(); ++i) {
-        // TODO: You need to deal with params and store them in the scope.
+    for (auto &param : node.params) {
+        // TODO: Please accomplish param_types.
+        if (param->isarray) {       //参数为数组
+            if (param->type == TYPE_INT)        
+                param_types.push_back(INT32PTR_T);
+            else if(param->type == TYPE_FLOAT) 
+                param_types.push_back(FLOATPTR_T);
+        }
+        else {                 
+            if (param->type == TYPE_INT)       
+                param_types.push_back(INT32_T);
+            else if (param->type == TYPE_FLOAT) 
+                param_types.push_back(FLOAT_T);
+        }
     }
+
     node.block->accept(*this);
     if (not builder->get_insert_block()->is_terminated())
     {
@@ -138,7 +151,23 @@ Value* CminusfBuilder::visit(ASTFunDeclaration &node) {
 Value* CminusfBuilder::visit(ASTParam &node) {
     // TODO: This function is empty now.
     // Add some code here.
-    return nullptr;
+    Value* paramAlloca;
+    if (node.isarray) {            //如果是数组形式
+        if (node.type == TYPE_INT)      
+            paramAlloca = builder->create_alloca(INT32PTR_T);
+        else if (node.type == TYPE_FLOAT) 
+            paramAlloca = builder->create_alloca(FLOATPTR_T);
+    }
+    else {            
+        if (node.type == TYPE_INT)      
+            paramAlloca = builder->create_alloca(INT32_T);
+        else if (node.type == TYPE_FLOAT) 
+            paramAlloca = builder->create_alloca(FLOAT_T);
+    }
+    auto arg = context.arg;
+    builder->create_store(arg, paramAlloca);    
+    scope.push(node.id, paramAlloca);  
+
 }
 
 /*Value* CminusfBuilder::visit(ASTCompoundStmt &node) {

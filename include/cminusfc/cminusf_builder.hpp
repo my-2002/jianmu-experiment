@@ -113,5 +113,9 @@ class CminusfBuilder : public ASTVisitor {
         // function that is being built
         Function *func = nullptr;
         // TODO: you should add more fields to store state
+        Value *arg = nullptr;
+        int label_time=0;    //用于防止对于同一数组多次引用造成检查下标的bb的标签名重复问题
+        bool assign = false; 
+
     } context;
 };
