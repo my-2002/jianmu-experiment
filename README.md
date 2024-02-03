@@ -27,4 +27,4 @@ $ git push origin master
 # log
 1. 对于新添加文件的cmake需要随使用进行修改
 2. 需要完成运行时库
-3.
+3. 注意完成隐式类型转换
