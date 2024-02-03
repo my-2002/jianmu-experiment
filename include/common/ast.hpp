@@ -158,7 +158,8 @@ struct ASTVarDef : ASTDeclaration
 struct ASTInit : ASTNode
 {
     virtual Value *accept(ASTVisitor &) override final;
-    std::vector<std::shared_ptr<ASTAdditiveExpression>> expression;
+    std::vector<std::shared_ptr<ASTInit>> sub_inits;
+    std::shared_ptr<ASTAdditiveExpression> expression;
 };
 
 struct ASTFunDeclaration : ASTDeclaration {
