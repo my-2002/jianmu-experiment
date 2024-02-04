@@ -242,10 +242,11 @@ struct ASTMulExpression:ASTExpression
 struct ASTUnaryExp:ASTExpression
 {
     virtual Value *accept(ASTVisitor &) override final;
-    std::vector<std::shared_ptr<ASTAdditiveExpression>> expression;
+    std::shared_ptr<ASTAdditiveExpression> expression;
     std::shared_ptr<ASTLVal> lval;
     std::shared_ptr<ASTNum> num;
     std::string ident;
+    std::vector<std::shared_ptr<ASTAdditiveExpression>> params;
     UnaryOp op;
     std::shared_ptr<ASTUnaryExp> unaryexp;
 };
@@ -323,6 +324,7 @@ class ASTPrinter : public ASTVisitor {
     virtual Value *visit(ASTLVal &) override final;
     virtual Value *visit(ASTCond &) override final;
     virtual Value *visit(ASTUnaryExp &) override final;
+    virtual Value *visit(ASTRelExp &) override final;
     virtual Value *visit(ASTAdditiveExpression &) override final;
     void add_depth() { depth += 2; }
     void remove_depth() { depth -= 2; }

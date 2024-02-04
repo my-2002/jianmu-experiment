@@ -53,7 +53,7 @@ Value* CminusfBuilder::visit(ASTVarDeclaration &node) {
         def->accept(*this);
     }
 }
-Value* CminusfBuilder::visit(ASTVarDef& node) {
+Value* CminusfBuilder::visit(ASTVarDef& node) {//记得加隐式转换
     Type* tmpType;              
     if (node.type == TYPE_INT)     
         tmpType = INT32_T;       
@@ -523,13 +523,69 @@ Value* CminusfBuilder::visit(ASTLVal& node) {
     return ret_value;
 
 }
-Value* CminusfBuilder::visit(ASTCond& node) {
-    std::cout << "Visiting ASTCond" << std::endl;
-    // Add your code here
-    return nullptr;
+Value* CminusfBuilder::visit(ASTRelExp& node) {
+    auto rres = node.additive_expression->accept(*this);                  
+    if (node.relation_expression == nullptr)  //说明是单个加法式
+        return rres;   
+    auto lres = node.relation_expression->accept(*this);    
+    Value * ret_val;                   
+    if (lres->get_type()->is_integer_type() && rres->get_type()->is_integer_type()) {     //都为整数的情况
+        switch (node.op) {  
+        case OP_LE:
+            ret_val = builder->create_icmp_le(lres, rres);break;
+        case OP_LT:
+            ret_val = builder->create_icmp_lt(lres, rres);break;
+        case OP_GT:
+            ret_val = builder->create_icmp_gt(lres, rres);break;
+        case OP_GE:
+            ret_val = builder->create_icmp_ge(lres, rres);break;
+        case OP_EQ:
+            ret_val = builder->create_icmp_eq(lres, rres);break;
+        case OP_NEQ:
+            ret_val = builder->create_icmp_ne(lres, rres);break;
+        }
+    }
+    else
+    {
+        if (lres->get_type()->is_integer_type())         //若有整数，则先转换
+            lres = builder->create_sitofp(lres, FLOAT_T);
+        if (rres->get_type()->is_integer_type()) 
+            rres = builder->create_sitofp(rres, FLOAT_T);
+        switch (node.op) { 
+        case OP_LE:
+            ret_val = builder->create_fcmp_le(lres, rres);break;
+        case OP_LT:
+            ret_val = builder->create_fcmp_lt(lres, rres);break;
+        case OP_GT:
+            ret_val = builder->create_fcmp_gt(lres, rres);break;
+        case OP_GE:
+            ret_val = builder->create_fcmp_ge(lres, rres);break;
+        case OP_EQ:
+            ret_val = builder->create_fcmp_eq(lres, rres);break;
+        case OP_NEQ:
+            ret_val = builder->create_fcmp_ne(lres, rres);break;
+        }
+    }
+    ret_val = builder->create_zext(ret_val, INT32_T);     //统一讲结果保存为整
+    return ret_val;
+
 }
 Value* CminusfBuilder::visit(ASTUnaryExp& node) {
-    std::cout << "Visiting ASTUnaryExp" << std::endl;
-    // Add your code here
-    return nullptr;
+    if(node.expression!=nullptr)
+        return node.expression->accept(*this);
+    else if(node.lval!=nullptr)
+        return node.lval->accept(*this);
+    else if (node.num!=nullptr)
+        return node.num->accept(*this);
+    else if(node.ident.length()!=0)
+    {
+        //call函数调用
+    }
+    else
+    {
+        Value* val=node.unaryexp->accept(*this);
+        switch (node.op) { 
+        case OP_NOT:
+            builder->create_
+    }
 }
