@@ -80,7 +80,7 @@ struct ASTIterationStmt;
 struct ASTReturnStmt;
 struct ASTExpression;
 struct ASTCond;
-struct ASTAssignExpression;
+struct ASTAssignStmt;
 struct ASTMulExpression;
 struct ASTUnaryExp;
 struct ASTAdditiveExpression;
@@ -224,7 +224,7 @@ struct ASTExpression : ASTNode {
     bool isconst;
 };
 
-struct ASTAssignExpression : ASTExpression {
+struct ASTAssignStmt : ASTStatement {
     virtual Value *accept(ASTVisitor &) override final;
     std::shared_ptr<ASTLVal> lval;
     std::shared_ptr<ASTAdditiveExpression> expression;
@@ -241,10 +241,11 @@ struct ASTMulExpression:ASTExpression
 struct ASTUnaryExp:ASTExpression
 {
     virtual Value *accept(ASTVisitor &) override final;
-    std::vector<std::shared_ptr<ASTAdditiveExpression>> expression;
+    std::shared_ptr<ASTAdditiveExpression> expression;
     std::shared_ptr<ASTLVal> lval;
     std::shared_ptr<ASTNum> num;
     std::string ident;
+    std::vector<std::shared_ptr<ASTAdditiveExpression>> params;
     UnaryOp op;
     std::shared_ptr<ASTUnaryExp> unaryexp;
 };
@@ -259,7 +260,7 @@ struct ASTAdditiveExpression : ASTNode {
 struct ASTLVal : ASTNode
 {
     virtual Value *accept(ASTVisitor &) override final;
-    std::string idet;
+    std::string id;
     std::shared_ptr<ASTAdditiveExpression> expression;
 };
 
@@ -286,7 +287,7 @@ class ASTVisitor {
     virtual Value *visit(ASTSelectionStmt &) = 0;
     virtual Value *visit(ASTIterationStmt &) = 0;
     virtual Value *visit(ASTReturnStmt &) = 0;
-    virtual Value *visit(ASTAssignExpression &) = 0;
+    virtual Value *visit(ASTAssignStmt &) = 0;
     virtual Value *visit(ASTMulExpression &) = 0;
     virtual Value *visit(ASTConstDecl &) = 0;
     virtual Value *visit(ASTConstDef &) = 0;
@@ -313,7 +314,7 @@ class ASTPrinter : public ASTVisitor {
     virtual Value *visit(ASTSelectionStmt &) override final;
     virtual Value *visit(ASTIterationStmt &) override final;
     virtual Value *visit(ASTReturnStmt &) override final;
-    virtual Value *visit(ASTAssignExpression &) override final;
+    virtual Value *visit(ASTAssignStmt &) override final;
     virtual Value *visit(ASTMulExpression &) override final;
     virtual Value *visit(ASTConstDecl &) override final;
     virtual Value *visit(ASTConstDef &) override final;

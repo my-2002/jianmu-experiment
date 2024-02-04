@@ -94,7 +94,7 @@ class CminusfBuilder : public ASTVisitor {
     virtual Value *visit(ASTSelectionStmt &) override final;
     virtual Value *visit(ASTIterationStmt &) override final;
     virtual Value *visit(ASTReturnStmt &) override final;
-    virtual Value *visit(ASTAssignExpression &) override final;
+    virtual Value *visit(ASTAssignStmt &) override final;
     virtual Value *visit(ASTMulExpression &) override final;
     virtual Value *visit(ASTConstDecl &) override final;
     virtual Value *visit(ASTConstDef &) override final;

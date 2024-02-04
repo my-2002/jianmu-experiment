@@ -187,7 +187,7 @@ Value* CminusfBuilder::visit(ASTReturnStmt &node) {
     return nullptr;
 }
 
-Value* CminusfBuilder::visit(ASTAssignExpression &node) {
+Value* CminusfBuilder::visit(ASTAssignStmt &node) {
     // TODO: This function is empty now.
     // Add some code here.
     return nullptr;

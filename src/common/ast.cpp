@@ -51,7 +51,7 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
     } else if (_STR_EQ(n->name, "ConstDecl")){
         auto node = new ASTConstDecl();
 
-        if(_STR_EQ(n->children[1]->name, "INT"))
+        if(_STR_EQ(n->children[1]->children[0]->name, "INT"))
             node->type = TYPE_INT;
         else
             node->type = TYPE_FLOAT;
@@ -142,7 +142,7 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
     } else if (_STR_EQ(n->name, "VarDecl")){
         auto node = new ASTVarDeclaration();
 
-        if(_STR_EQ(n->children[0]->name, "INT"))
+        if(_STR_EQ(n->children[0]->children[0]->name, "INT"))
             node->type = TYPE_INT;
         else
             node->type = TYPE_FLOAT;
@@ -199,11 +199,11 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
             s.pop();
         }
         return node;
-    }  else if (_STR_EQ(n->name, "fun-declaration")) {
+    }  else if (_STR_EQ(n->name, "FuncDef")) {
         auto node = new ASTFunDeclaration();
-        if (_STR_EQ(n->children[0]->children[0]->name, "int")) {
+        if (_STR_EQ(n->children[0]->children[0]->name, "INT")) {
             node->type = TYPE_INT;
-        } else if (_STR_EQ(n->children[0]->children[0]->name, "float")) {
+        } else if (_STR_EQ(n->children[0]->children[0]->name, "FLOAT")) {
             node->type = TYPE_FLOAT;
         } else {
             node->type = TYPE_VOID;
@@ -213,31 +213,32 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
 
         // flatten params
         std::stack<syntax_tree_node *> s;
-        auto list_ptr = n->children[3]->children[0];
-        if (list_ptr->children_num != 0) {
-            if (list_ptr->children_num == 3) {
-                while (list_ptr->children_num == 3) {
-                    s.push(list_ptr->children[2]);
-                    list_ptr = list_ptr->children[0];
-                }
+        if (n->children_num == 6) {
+            auto list_ptr = n->children[3];
+            while (list_ptr->children_num == 3) {
+                s.push(list_ptr->children[2]);
+                list_ptr = list_ptr->children[0];
             }
             s.push(list_ptr->children[0]);
 
             while (!s.empty()) {
                 auto child_node =
                     static_cast<ASTParam *>(transform_node_iter(s.top()));
-
                 auto child_node_shared = std::shared_ptr<ASTParam>(child_node);
                 node->params.push_back(child_node_shared);
                 s.pop();
             }
+            auto block_node = static_cast<ASTBlock *>(transform_node_iter(n->children[5]));
+            node->block = std::shared_ptr<ASTBlock>(block_node);
         }
-
-        auto stmt_node =
-            static_cast<ASTCompoundStmt *>(transform_node_iter(n->children[5]));
-        node->compound_stmt = std::shared_ptr<ASTCompoundStmt>(stmt_node);
+        else
+        {
+            auto block_node = static_cast<ASTBlock *>(transform_node_iter(n->children[4]));
+            node->block = std::shared_ptr<ASTBlock>(block_node);
+        }
+        
         return node;
-    } else if (_STR_EQ(n->name, "param")) {
+    } else if (_STR_EQ(n->name, "FuncFParam")) {
         auto node = new ASTParam();
         if (_STR_EQ(n->children[0]->children[0]->name, "int"))
             node->type = TYPE_INT;
@@ -246,48 +247,67 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
         node->id = n->children[1]->name;
         if (n->children_num > 2)
             node->isarray = true;
-        return node;
-    } else if (_STR_EQ(n->name, "compound-stmt")) {
-        auto node = new ASTCompoundStmt();
-        if (n->children[1]->children_num == 2) {
-            // flatten local declarations
-            auto list_ptr = n->children[1];
+        if (n->children_num == 5)
+        {
             std::stack<syntax_tree_node *> s;
-            while (list_ptr->children_num == 2) {
+            auto list_ptr = n->children[4];
+            while (list_ptr->children_num == 4) {
                 s.push(list_ptr->children[1]);
-                list_ptr = list_ptr->children[0];
+                list_ptr = list_ptr->children[3];
             }
+            s.push(list_ptr->children[1]);
 
             while (!s.empty()) {
-                auto decl_node = static_cast<ASTVarDeclaration *>(
+                auto child_node =
+                    static_cast<ASTAdditiveExpression *>(transform_node_iter(s.top()));
+                auto child_node_shared = std::shared_ptr<ASTAdditiveExpression>(child_node);
+                node->expression.push_back(child_node_shared);
+                s.pop();
+            }
+        }
+        return node;
+    } else if (_STR_EQ(n->name, "Block")) {
+        auto node = new ASTBlock();
+
+        auto list_ptr = n->children[1];
+        std::stack<syntax_tree_node *> s;
+        if(n->children_num == 3)
+        {
+            while(list_ptr->children_num == 2)
+            {
+                s.push(list_ptr->children[0]);
+                list_ptr = list_ptr->children[1];
+            }
+            s.push(list_ptr->children[0]);
+
+            while (!s.empty()) {
+                auto child_node = static_cast<ASTBlockItem *>(
                     transform_node_iter(s.top()));
-                auto decl_node_ptr =
-                    std::shared_ptr<ASTVarDeclaration>(decl_node);
-                node->local_declarations.push_back(decl_node_ptr);
-                s.pop();
-            }
-        }
-
-        if (n->children[2]->children_num == 2) {
-            // flatten statement-list
-            auto list_ptr = n->children[2];
-            std::stack<syntax_tree_node *> s;
-            while (list_ptr->children_num == 2) {
-                s.push(list_ptr->children[1]);
-                list_ptr = list_ptr->children[0];
-            }
-
-            while (!s.empty()) {
-                auto stmt_node =
-                    static_cast<ASTStatement *>(transform_node_iter(s.top()));
-                auto stmt_node_ptr = std::shared_ptr<ASTStatement>(stmt_node);
-                node->statement_list.push_back(stmt_node_ptr);
+                auto child_node_ptr =
+                    std::shared_ptr<ASTBlockItem>(child_node);
+                node->block_items.push_back(child_node_ptr);
                 s.pop();
             }
         }
         return node;
-    } else if (_STR_EQ(n->name, "statement")) {
-        return transform_node_iter(n->children[0]);
+    } else if (_STR_EQ(n->name, "BlockItem")) {
+        auto node = new ASTBlockItem();
+
+        if(_STR_EQ(n->children[0]->name, "Decl"))
+        {
+            auto child_node = static_cast<ASTDeclaration *>(transform_node_iter(n->children[0]));
+            node->local_declaration = std::shared_ptr<ASTDeclaration>(child_node);
+        }
+        else
+        {
+            auto child_node = static_cast<ASTStatement *>(transform_node_iter(n->children[0]));
+            node->statement = std::shared_ptr<ASTStatement>(child_node);
+        }
+        return node;
+    } else if (_STR_EQ(n->name, "Stmt")) {
+        if(_STR_EQ(n->children[0]->name, "LVal")){
+
+        }
     } else if (_STR_EQ(n->name, "expression-stmt")) {
         auto node = new ASTExpressionStmt();
         if (n->children_num == 2) {
@@ -501,7 +521,7 @@ Value* ASTExpressionStmt::accept(ASTVisitor &visitor) { return visitor.visit(*th
 Value* ASTSelectionStmt::accept(ASTVisitor &visitor) { return visitor.visit(*this); }
 Value* ASTIterationStmt::accept(ASTVisitor &visitor) { return visitor.visit(*this); }
 Value* ASTReturnStmt::accept(ASTVisitor &visitor) { return visitor.visit(*this); }
-Value* ASTAssignExpression::accept(ASTVisitor &visitor) { return visitor.visit(*this); }
+Value* ASTAssignStmt::accept(ASTVisitor &visitor) { return visitor.visit(*this); }
 Value* ASTSimpleExpression::accept(ASTVisitor &visitor) { return visitor.visit(*this); }
 Value* ASTAdditiveExpression::accept(ASTVisitor &visitor) {
     return visitor.visit(*this);
@@ -633,9 +653,9 @@ Value* ASTPrinter::visit(ASTReturnStmt &node) {
     return nullptr;
 }
 
-Value* ASTPrinter::visit(ASTAssignExpression &node) {
+Value* ASTPrinter::visit(ASTAssignStmt &node) {
     _DEBUG_PRINT_N_(depth);
-    std::cout << "assign-expression" << std::endl;
+    std::cout << "assign-stmt" << std::endl;
     add_depth();
     node.var->accept(*this);
     node.expression->accept(*this);
