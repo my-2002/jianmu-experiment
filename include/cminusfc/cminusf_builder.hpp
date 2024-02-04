@@ -90,6 +90,7 @@ class CminusfBuilder : public ASTVisitor {
     virtual Value *visit(ASTFunDeclaration &) override final;
     virtual Value *visit(ASTParam &) override final;
     virtual Value *visit(ASTBlock &) override final;
+    virtual Value *visit(ASTBlockItem &) override final;
     virtual Value *visit(ASTExpressionStmt &) override final;
     virtual Value *visit(ASTSelectionStmt &) override final;
     virtual Value *visit(ASTIterationStmt &) override final;
@@ -99,10 +100,11 @@ class CminusfBuilder : public ASTVisitor {
     virtual Value *visit(ASTConstDecl &) override final;
     virtual Value *visit(ASTConstDef &) override final;
     virtual Value *visit(ASTVarDef &) override final;
-    virtual Value *visit(ASTInit &) override final;
+    virtual std::vector<Value*> visit(ASTInit &) override final;
     virtual Value *visit(ASTLVal &) override final;
     virtual Value *visit(ASTCond &) override final;
     virtual Value *visit(ASTUnaryExp &) override final;
+    virtual Value *visit(ASTRelExp &) override final;
     virtual Value *visit(ASTAdditiveExpression &) override final;
 
     std::unique_ptr<IRBuilder> builder;
@@ -113,5 +115,9 @@ class CminusfBuilder : public ASTVisitor {
         // function that is being built
         Function *func = nullptr;
         // TODO: you should add more fields to store state
+        Value *arg = nullptr;
+        int label_time=0;    //用于防止对于同一数组多次引用造成检查下标的bb的标签名重复问题
+        bool assign = false; 
+
     } context;
 };
