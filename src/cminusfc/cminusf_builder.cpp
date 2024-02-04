@@ -191,12 +191,6 @@ Value* CminusfBuilder::visit(ASTParam &node) {
     return nullptr;
 }*/
 
-Value* CminusfBuilder::visit(ASTExpressionStmt &node) {
-    // TODO: This function is empty now.
-    // Add some code here.
-    return nullptr;
-}
-
 Value* CminusfBuilder::visit(ASTSelectionStmt &node) {
     // TODO: This function is empty now.
     // Add some code here.
