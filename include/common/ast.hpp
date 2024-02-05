@@ -37,9 +37,9 @@ enum UnaryOp
     // ！
     OP_NOT,
     // +
-    OP_PLUS,
+    OP_POSITIVE,
     // -
-    OP_MINUS
+    OP_NEGATIVE
 };
 enum AddOp {
     // +

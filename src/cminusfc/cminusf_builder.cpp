@@ -67,11 +67,8 @@ Value* CminusfBuilder::visit(ASTVarDef& node) {//记得加隐式转换
         initializer = dynamic_cast<Constant*>(CONST_ZERO(tmpType)) ;
     } else {
         std::vector<Value *> val;
-        for(auto &exp:node.init->expression)
-        {
-            val.push_back(exp->accept(*this));
-        }
-        initializer = dynamic_cast<Constant*>(ConstantArray::get(arrayType, val));
+        val=node.init->accept(*this);
+        
     }           
     Value* arrayAlloca;             
     if (scope.in_global())          //若是全局
@@ -580,12 +577,41 @@ Value* CminusfBuilder::visit(ASTUnaryExp& node) {
     else if(node.ident.length()!=0)
     {
         //call函数调用
+        Value* ret_val;
+        auto function = static_cast<Function*>(scope.find(node.ident));   
+        auto paramType = function->get_function_type()->param_begin();
+        std::vector<Value*> args;      
+        for (auto arg : node.params) {  
+            auto res = arg->accept(*this);        
+            if (res->get_type()->is_pointer_type()) {  
+                args.push_back(res); 
+            }
+            else { 
+                if (*paramType==FLOAT_T && res->get_type()->is_integer_type())
+                    res = builder->create_sitofp(res, FLOAT_T);
+                if (*paramType==INT32_T && res->get_type()->is_float_type())
+                    res = builder->create_fptosi(res, INT32_T);
+                args.push_back(res);
+            }
+            paramType++;              
+        }
+        ret_val = builder->create_call(static_cast<Function*>(function), args); 
+        return ret_val;
     }
     else
     {
         Value* val=node.unaryexp->accept(*this);
+        Type* temtype=val->get_type();
         switch (node.op) { 
         case OP_NOT:
-            builder->create_
+            val=builder->create_zext(val,temtype);
+            val=builder->create_icmp_le(val,CONST_ZERO(temtype));break;
+        case OP_POSITIVE:
+            break;
+        case OP_NEGATIVE:
+            val=builder->create_isub(CONST_ZERO(temtype),val);
+            break;
+        }
+        return val;
     }
 }
