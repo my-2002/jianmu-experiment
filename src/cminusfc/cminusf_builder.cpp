@@ -61,30 +61,58 @@ Value* CminusfBuilder::visit(ASTVarDef& node) {//记得加隐式转换
         tmpType = FLOAT_T;       
     if (!node.expression.empty()) {         
         //说明声明变量是数组
-        auto* arrayType = ArrayType::get(tmpType, node.expression.size()); 
+        int size;
+        for(auto&exp:node.expression)
+        {
+            size*=dynamic_cast<ConstantInt*>(exp->accept(*this))->get_value();
+        }
+        auto* arrayType = ArrayType::get(tmpType, size); 
         Constant* initializer;
-    if (node.init == nullptr) {
-        initializer = dynamic_cast<Constant*>(CONST_ZERO(tmpType)) ;
-    } else {
-        std::vector<Value *> val;
-        val=node.init->accept(*this);
-        
-    }           
-    Value* arrayAlloca;             
-    if (scope.in_global())          //若是全局
-        arrayAlloca = GlobalVariable::create(node.id, module.get(), arrayType, false, initializer);
-    else                         
-        arrayAlloca = builder->create_alloca(arrayType);
-    scope.push(node.id, arrayAlloca);// 将获得的数组变量加入域 
-    return arrayAlloca;
+        Value* arrayAlloca; 
+        if (node.init == nullptr) {//没有初始化，局部变量不初始化
+            initializer = dynamic_cast<Constant*>(CONST_ZERO(tmpType)) ;         
+            if (scope.in_global())          //若是全局
+                arrayAlloca = GlobalVariable::create(node.id, module.get(), arrayType, false, initializer);
+            else                         
+                arrayAlloca = builder->create_alloca(arrayType);
+            }
+        else {
+            Value *val;
+            val=node.init->accept(*this);
+            initializer=dynamic_cast<Constant*>(val);
+            if (scope.in_global())          //若是全局
+                arrayAlloca = GlobalVariable::create(node.id, module.get(), arrayType, false, initializer);
+            else  
+            {
+                arrayAlloca = builder->create_alloca(arrayType);
+                builder->create_store(initializer,arrayAlloca);
+            }                       
+        }
+        scope.push(node.id, arrayAlloca);// 将获得的数组变量加入域 
+        return arrayAlloca;
     }
-    else {                            
-        auto initializer = CONST_ZERO(tmpType); 
-        Value* varAlloca;          
-        if (scope.in_global())         
-            varAlloca = GlobalVariable::create(node.id, module.get(), tmpType, false, initializer);
-        else                           
-            varAlloca = builder->create_alloca(tmpType);
+    else {  
+        Value* varAlloca;     
+        if (node.init == nullptr)
+        {
+            auto initializer = CONST_ZERO(tmpType);    
+            if (scope.in_global())         
+                varAlloca = GlobalVariable::create(node.id, module.get(), tmpType, false, initializer);
+            else                           
+                varAlloca = builder->create_alloca(tmpType);
+        }                       
+        else
+        {
+            auto initializer=dynamic_cast<Constant*>(node.init->accept(*this));
+            if (scope.in_global())         
+                varAlloca = GlobalVariable::create(node.id, module.get(), tmpType, false, initializer);
+            else   
+            {
+                varAlloca = builder->create_alloca(tmpType);
+                builder->create_store(initializer,varAlloca);
+            }                        
+
+        }
         scope.push(node.id, varAlloca); 
         return varAlloca;
     }
@@ -192,7 +220,7 @@ Value* CminusfBuilder::visit(ASTSelectionStmt &node) {
     // TODO: This function is empty now.
     // Add some code here.
     auto function = builder->get_insert_block()->get_parent();  //获得当前所对应的函数 
-    auto val = node.expression->accept(*this);        
+    auto val = node.condition->accept(*this);        
     auto resType = val->get_type();        
     Value* TrueFalse;                     
     if (resType->is_integer_type()) {       
@@ -414,49 +442,77 @@ Value* CminusfBuilder::visit(ASTConstDef& node) {
         tmpType = FLOAT_T;       
     if (!node.expression.empty()) {         
         //说明声明变量是数组
-        auto* arrayType = ArrayType::get(tmpType, node.expression.size()); 
-        Constant* initializer;
-    if (node.initiation == nullptr) {
-        initializer = dynamic_cast<Constant*>(CONST_ZERO(tmpType)) ;
-    } else {
-        std::vector<Value *> val;
-        for(auto &exp:node.initiation->expression)
+        int size;
+        for(auto&exp:node.expression)
         {
-            val.push_back(exp->accept(*this));
+            size*=dynamic_cast<ConstantInt*>(exp->accept(*this))->get_value();
         }
-        initializer = dynamic_cast<Constant*>(ConstantArray::get(arrayType, val));
-    }           
-    Value* arrayAlloca;             
-    if (scope.in_global())          //若是全局
-        arrayAlloca = GlobalVariable::create(node.id, module.get(), arrayType, false, initializer);
-    else                         
-        arrayAlloca = builder->create_alloca(arrayType);
-    scope.push(node.id, arrayAlloca);// 将获得的数组变量加入域 
-    return arrayAlloca;
+        auto* arrayType = ArrayType::get(tmpType, size); 
+        Constant* initializer;
+        Value* arrayAlloca; 
+        if (node.initiation == nullptr) {//没有初始化，局部变量不初始化
+            initializer = dynamic_cast<Constant*>(CONST_ZERO(tmpType)) ;         
+            if (scope.in_global())          //若是全局
+                arrayAlloca = GlobalVariable::create(node.id, module.get(), arrayType, true, initializer);
+            else                         
+                arrayAlloca = builder->create_alloca(arrayType);
+            }
+        else {
+            Value *val;
+            val=node.initiation->accept(*this);
+            initializer=dynamic_cast<Constant*>(val);
+            if (scope.in_global())          //若是全局
+                arrayAlloca = GlobalVariable::create(node.id, module.get(), arrayType, true, initializer);
+            else  
+            {
+                arrayAlloca = builder->create_alloca(arrayType);
+                builder->create_store(initializer,arrayAlloca);
+            }                       
+        }
+        scope.push(node.id, arrayAlloca);// 将获得的数组变量加入域 
+        return arrayAlloca;
     }
-    else {                            
-        auto initializer = CONST_ZERO(tmpType); 
-        Value* varAlloca;          
-        if (scope.in_global())         
-            varAlloca = GlobalVariable::create(node.id, module.get(), tmpType, false, initializer);
-        else                           
-            varAlloca = builder->create_alloca(tmpType);
+    else {  
+        Value* varAlloca;     
+        if (node.initiation == nullptr)
+        {
+            auto initializer = CONST_ZERO(tmpType);    
+            if (scope.in_global())         
+                varAlloca = GlobalVariable::create(node.id, module.get(), tmpType, true, initializer);
+            else                           
+                varAlloca = builder->create_alloca(tmpType);
+        }                       
+        else
+        {
+            auto initializer=dynamic_cast<Constant*>(node.initiation->accept(*this));
+            if (scope.in_global())         
+                varAlloca = GlobalVariable::create(node.id, module.get(), tmpType, true, initializer);
+            else   
+            {
+                varAlloca = builder->create_alloca(tmpType);
+                builder->create_store(initializer,varAlloca);
+            }                        
+
+        }
         scope.push(node.id, varAlloca); 
         return varAlloca;
     }
 }
 
-std::vector<Value*> CminusfBuilder::visit(ASTInit& node) {
-    std::vector<Value*> val;
+Value* CminusfBuilder::visit(ASTInit& node) {
+    Value* val;
     if(node.expression!=nullptr)
-        val.push_back(node.expression->accept(*this));
-    else
     {
-        
+        val=node.expression->accept(*this);
+    }
+    else
+    {  
+        std::vector<Constant*> consts;
         for(auto &init:node.sub_inits)
         {
-            val.push_back(init->accept(*this));
+            consts.push_back(dynamic_cast<Constant*>(init->accept(*this)));
         }
+        val=ConstantArray::get(ArrayType::get(consts.front()->get_type(),consts.size()),consts);
     }
     return val;
 }
@@ -465,19 +521,27 @@ Value* CminusfBuilder::visit(ASTLVal& node) {
     auto var = scope.find(node.id);       
     bool assign = context.assign;    // 是否由赋值语句调用
     context.assign = false;          
-    Value* index = CONST_INT(0);        
-    if (node.expression != nullptr) {   //说明是数组
-        auto res = node.expression->accept(*this); 
-        if (res->get_type()->is_float_type())          
-            res = builder->create_fptosi(res, INT32_T);     //转换数组下标值
-        index = res;                  
+    std::vector<Value*> index;        
+    if (node.expression.size()!=0) {   //说明是数组
+        for(auto& exp:node.expression)
+        {
+            auto res = exp->accept(*this); 
+            if (res->get_type()->is_float_type())          
+                res = builder->create_fptosi(res, INT32_T);     //转换数组下标值
+            index.push_back(res);
+        }             
 
         auto function = builder->get_insert_block()->get_parent(); 
-        auto indexTest = builder->create_icmp_lt(index, CONST_ZERO(INT32_T)); 
+        Value * cond= CONST_ZERO(INT32_T);
+        for(auto& i:index)
+        {
+            auto indexTest = builder->create_icmp_lt(i, CONST_ZERO(INT32_T)); 
+            cond=builder->create_iadd(indexTest,cond);
+        }
         auto ltzBB = BasicBlock::create(module.get(), node.id + "_ltz" + std::to_string(context.label_time++), function);
         auto gtzBB = BasicBlock::create(module.get(), node.id + "_gtz" + std::to_string(context.label_time++), function);
 
-        builder->create_cond_br(indexTest, ltzBB, gtzBB);
+        builder->create_cond_br(cond, ltzBB, gtzBB);
 
         builder->set_insert_point(ltzBB);       //终止程序
         auto fail = scope.find("neg_idx_except");             
@@ -485,12 +549,15 @@ Value* CminusfBuilder::visit(ASTLVal& node) {
         builder->create_br(gtzBB);    
 
         builder->set_insert_point(gtzBB);  
-        if (var->get_type()->get_pointer_element_type()->is_array_type())  
-            var = builder->create_gep(var, { CONST_INT(0), index });   
+        if (var->get_type()->get_pointer_element_type()->is_array_type()) 
+        {
+            index.insert(index.begin(), CONST_INT(0));
+            var = builder->create_gep(var, index);               
+        } 
         else {
             if (var->get_type()->get_pointer_element_type()->is_pointer_type()) 
                 var = builder->create_load(var);     
-            var = builder->create_gep(var, { index }); 
+            var = builder->create_gep(var, index); 
         }
         if (assign) {       //赋值语句
             ret_value = var;                   
