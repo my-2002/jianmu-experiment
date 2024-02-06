@@ -104,6 +104,14 @@ Value* CminusfBuilder::visit(ASTVarDef& node) {//记得加隐式转换
         else
         {
             auto initializer=dynamic_cast<Constant*>(node.init->accept(*this));
+            if(initializer->get_type()==FLOAT_T && tmpType==INT32_T)
+            {
+                initializer=dynamic_cast<Constant*>(builder->create_fptosi(initializer,tmpType));
+            }
+            else if(initializer->get_type()==INT32_T && tmpType==FLOAT_T)
+            {
+                initializer=dynamic_cast<Constant*>(builder->create_sitofp(initializer,tmpType));
+            }
             if (scope.in_global())         
                 varAlloca = GlobalVariable::create(node.id, module.get(), tmpType, false, initializer);
             else   
