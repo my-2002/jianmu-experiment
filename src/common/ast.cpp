@@ -108,15 +108,20 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
     } else if (_STR_EQ(n->name, "ConstInitVal") || _STR_EQ(n->name, "InitVal")){
         auto node = new ASTInit();
 
+        if(_STR_EQ(n->name, "ConstInitVal"))
+            node->isconst = 1;
+        else
+            node->isconst = 0;
+
         std::stack<syntax_tree_node *> s;
         if(n->children_num == 1)
         {
-            auto child_node = static_cast<ASTAdditiveExpression *>(transform_node_iter(n->childen[0]));
+            auto child_node = static_cast<ASTAdditiveExpression *>(transform_node_iter(n->children[0]));
             node->expression = std::shared_ptr<ASTAdditiveExpression>(child_node);
         }
         else if(n->children_num <= 3)
         {
-            node->expression = NULL;
+            node->expression = nullptr;
             if(n->children_num == 3)
             {
                 auto list_ptr = n->children[1];
@@ -306,205 +311,148 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
         return node;
     } else if (_STR_EQ(n->name, "Stmt")) {
         if(_STR_EQ(n->children[0]->name, "LVal")){
-
-        }
-    } else if (_STR_EQ(n->name, "expression-stmt")) {
-        auto node = new ASTExpressionStmt();
-        if (n->children_num == 2) {
-            auto expr_node = static_cast<ASTExpression *>(
-                transform_node_iter(n->children[0]));
-
-            auto expr_node_ptr = std::shared_ptr<ASTExpression>(expr_node);
-            node->expression = expr_node_ptr;
-        }
-        return node;
-    } else if (_STR_EQ(n->name, "selection-stmt")) {
-        auto node = new ASTSelectionStmt();
-
-        auto expr_node =
-            static_cast<ASTExpression *>(transform_node_iter(n->children[2]));
-        auto expr_node_ptr = std::shared_ptr<ASTExpression>(expr_node);
-        node->expression = expr_node_ptr;
-
-        auto if_stmt_node =
-            static_cast<ASTStatement *>(transform_node_iter(n->children[4]));
-        auto if_stmt_node_ptr = std::shared_ptr<ASTStatement>(if_stmt_node);
-        node->if_statement = if_stmt_node_ptr;
-
-        // check whether this selection statement contains
-        // else structure
-        if (n->children_num == 7) {
-            auto else_stmt_node = static_cast<ASTStatement *>(
-                transform_node_iter(n->children[6]));
-            auto else_stmt_node_ptr =
-                std::shared_ptr<ASTStatement>(else_stmt_node);
-            node->else_statement = else_stmt_node_ptr;
-        }
-
-        return node;
-    } else if (_STR_EQ(n->name, "iteration-stmt")) {
-        auto node = new ASTIterationStmt();
-
-        auto expr_node =
-            static_cast<ASTExpression *>(transform_node_iter(n->children[2]));
-        auto expr_node_ptr = std::shared_ptr<ASTExpression>(expr_node);
-        node->expression = expr_node_ptr;
-
-        auto stmt_node =
-            static_cast<ASTStatement *>(transform_node_iter(n->children[4]));
-        auto stmt_node_ptr = std::shared_ptr<ASTStatement>(stmt_node);
-        node->statement = stmt_node_ptr;
-
-        return node;
-    } else if (_STR_EQ(n->name, "return-stmt")) {
-        auto node = new ASTReturnStmt();
-        if (n->children_num == 3) {
-            auto expr_node = static_cast<ASTExpression *>(
-                transform_node_iter(n->children[1]));
-            node->expression = std::shared_ptr<ASTExpression>(expr_node);
-        }
-        return node;
-    } else if (_STR_EQ(n->name, "expression")) {
-        // simple-expression
-        if (n->children_num == 1) {
+            auto node = new ASTAssignStmt();
+            auto lval_node = static_cast<ASTLVal *>(transform_node_iter(n->children[0]));
+            node->lval = std::shared_ptr<ASTLVal>(lval_node);
+            auto exp_node = static_cast<ASTAdditiveExpression *>(transform_node_iter(n->children[2]));
+            node->expression = std::shared_ptr<ASTAdditiveExpression>(exp_node);
+            return node;
+        } else if (_STR_EQ(n->children[0]->name, "SEMICOLON")){
+            return nullptr;
+        } else if (_STR_EQ(n->children[0]->name, "Exp") || _STR_EQ(n->children[0]->name, "Block")){
             return transform_node_iter(n->children[0]);
-        }
-        auto node = new ASTAssignExpression();
-
-        auto var_node =
-            static_cast<ASTVar *>(transform_node_iter(n->children[0]));
-        node->var = std::shared_ptr<ASTVar>(var_node);
-
-        auto expr_node =
-            static_cast<ASTExpression *>(transform_node_iter(n->children[2]));
-        node->expression = std::shared_ptr<ASTExpression>(expr_node);
-
-        return node;
-    } else if (_STR_EQ(n->name, "var")) {
-        auto node = new ASTVar();
-        node->id = n->children[0]->name;
-        if (n->children_num == 4) {
-            auto expr_node = static_cast<ASTExpression *>(
-                transform_node_iter(n->children[2]));
-            node->expression = std::shared_ptr<ASTExpression>(expr_node);
-        }
-        return node;
-    } else if (_STR_EQ(n->name, "simple-expression")) {
-        auto node = new ASTSimpleExpression();
-        auto expr_node_1 = static_cast<ASTAdditiveExpression *>(
-            transform_node_iter(n->children[0]));
-        node->additive_expression_l =
-            std::shared_ptr<ASTAdditiveExpression>(expr_node_1);
-
-        if (n->children_num == 3) {
-            auto op_name = n->children[1]->children[0]->name;
-            if (_STR_EQ(op_name, "<="))
-                node->op = OP_LE;
-            else if (_STR_EQ(op_name, "<"))
-                node->op = OP_LT;
-            else if (_STR_EQ(op_name, ">"))
-                node->op = OP_GT;
-            else if (_STR_EQ(op_name, ">="))
-                node->op = OP_GE;
-            else if (_STR_EQ(op_name, "=="))
-                node->op = OP_EQ;
-            else if (_STR_EQ(op_name, "!="))
-                node->op = OP_NEQ;
-
-            auto expr_node_2 = static_cast<ASTAdditiveExpression *>(
-                transform_node_iter(n->children[2]));
-            node->additive_expression_r =
-                std::shared_ptr<ASTAdditiveExpression>(expr_node_2);
-        }
-        return node;
-    } else if (_STR_EQ(n->name, "additive-expression")) {
-        auto node = new ASTAdditiveExpression();
-        if (n->children_num == 3) {
-            auto add_expr_node = static_cast<ASTAdditiveExpression *>(
-                transform_node_iter(n->children[0]));
-            node->additive_expression =
-                std::shared_ptr<ASTAdditiveExpression>(add_expr_node);
-
-            auto op_name = n->children[1]->children[0]->name;
-            if (_STR_EQ(op_name, "+"))
-                node->op = OP_PLUS;
-            else if (_STR_EQ(op_name, "-"))
-                node->op = OP_MINUS;
-
-            auto term_node =
-                static_cast<ASTTerm *>(transform_node_iter(n->children[2]));
-            node->term = std::shared_ptr<ASTTerm>(term_node);
-        } else {
-            auto term_node =
-                static_cast<ASTTerm *>(transform_node_iter(n->children[0]));
-            node->term = std::shared_ptr<ASTTerm>(term_node);
-        }
-        return node;
-    } else if (_STR_EQ(n->name, "term")) {
-        auto node = new ASTTerm();
-        if (n->children_num == 3) {
-            auto term_node =
-                static_cast<ASTTerm *>(transform_node_iter(n->children[0]));
-            node->term = std::shared_ptr<ASTTerm>(term_node);
-
-            auto op_name = n->children[1]->children[0]->name;
-            if (_STR_EQ(op_name, "*"))
-                node->op = OP_MUL;
-            else if (_STR_EQ(op_name, "/"))
-                node->op = OP_DIV;
-
-            auto factor_node =
-                static_cast<ASTFactor *>(transform_node_iter(n->children[2]));
-            node->factor = std::shared_ptr<ASTFactor>(factor_node);
-        } else {
-            auto factor_node =
-                static_cast<ASTFactor *>(transform_node_iter(n->children[0]));
-            node->factor = std::shared_ptr<ASTFactor>(factor_node);
-        }
-        return node;
-    } else if (_STR_EQ(n->name, "factor")) {
-        int i = 0;
-        if (n->children_num == 3)
-            i = 1;
-        auto name = n->children[i]->name;
-        if (_STR_EQ(name, "expression") || _STR_EQ(name, "var") ||
-            _STR_EQ(name, "call"))
-            return transform_node_iter(n->children[i]);
-        else {
-            auto num_node = new ASTNum();
-            if (_STR_EQ(name, "integer")) {
-                num_node->type = TYPE_INT;
-                num_node->i_val = std::stoi(n->children[i]->children[0]->name);
-            } else if (_STR_EQ(name, "float")) {
-                num_node->type = TYPE_FLOAT;
-                num_node->f_val = std::stof(n->children[i]->children[0]->name);
-            } else {
-                _AST_NODE_ERROR_
+        } else if (_STR_EQ(n->children[0]->name, "IF")){
+            auto node = new ASTSelectionStmt();
+            auto cond_node = static_cast<ASTRelExp *>(transform_node_iter(n->children[2]));
+            node->conditinon = std::shared_ptr<ASTRelExp>(cond_node);
+            auto if_node = static_cast<ASTStatement *>(transform_node_iter(n->children[4]));
+            node->if_statement = std::shared_ptr<ASTStatement>(if_node);
+            if(n->children_num == 7)
+            {
+                auto else_node = static_cast<ASTStatement *>(transform_node_iter(n->children[6]));
+                node->else_statement = std::shared_ptr<ASTStatement>(else_node);
             }
-            return num_node;
-        }
-    } else if (_STR_EQ(n->name, "call")) {
-        auto node = new ASTCall();
-        node->id = n->children[0]->name;
-        // flatten args
-        if (_STR_EQ(n->children[2]->children[0]->name, "arg-list")) {
-            auto list_ptr = n->children[2]->children[0];
-            auto s = std::stack<syntax_tree_node *>();
-            while (list_ptr->children_num == 3) {
-                s.push(list_ptr->children[2]);
-                list_ptr = list_ptr->children[0];
+            else
+                node->else_statement = nullptr;
+            return node;
+        } else if (_STR_EQ(n->children[0]->name, "WHILE")){
+            auto node = new ASTIterationStmt();
+            auto cond_node = static_cast<ASTRelExp *>(transform_node_iter(n->children[2]));
+            node->conditinon = std::shared_ptr<ASTRelExp>(cond_node);
+            auto stmt_node = static_cast<ASTStatement *>(transform_node_iter(n->children[4]));
+            node->statement = std::shared_ptr<ASTStatement>(stmt_node);
+            return node;
+        } else if (_STR_EQ(n->children[0]->name, "CONTINUE")){
+            auto node = new ASTIterterminatorStmt();
+            node->terminator = CONTINUE;
+            return node;
+        } else if (_STR_EQ(n->children[0]->name, "BREAK")){
+            auto node = new ASTIterterminatorStmt();
+            node->terminator = BREAK;
+            return node;
+        } else if (_STR_EQ(n->children[0]->name, "RETURN")){
+            auto node = new ASTReturnStmt();
+            if(n->children_num == 2)
+                node->expression = nullptr;
+            else
+            {
+                auto child_node = static_cast<ASTAdditiveExpression *>(transform_node_iter(n->children[1]));
+                node->expression = std::shared_ptr<ASTAdditiveExpression>(child_node);
             }
-            s.push(list_ptr->children[0]);
+            return node;
+        }
+    } else if (_STR_EQ(n->name, "Exp")) {
+        auto node = static_cast<ASTAdditiveExpression *>(transform_node_iter(n->children[0]));
+        node->isconst = 0;
+        return node;
+    } else if (_STR_EQ(n->name, "ConstExp")) {
+        auto node = static_cast<ASTAdditiveExpression *>(transform_node_iter(n->children[0]));
+        node->isconst = 1;
+        return node;
+    } else if (_STR_EQ(n->name, "Cond")) {
+        return transform_node_iter(n->children[0]);
+    } else if (_STR_EQ(n->name, "LVal")) {
+        auto node = new ASTLVal();
+        node->id = n->children[0]->name;
+        if(node->children_num == 2)
+        {
+            std::stack<syntax_tree_node *> s;
+            auto list_ptr = n->children[1];
+            while (list_ptr->children_num == 4) {
+                s.push(list_ptr->children[1]);
+                list_ptr = list_ptr->children[3];
+            }
+            s.push(list_ptr->children[1]);
 
             while (!s.empty()) {
-                auto expr_node =
-                    static_cast<ASTExpression *>(transform_node_iter(s.top()));
-                auto expr_node_ptr = std::shared_ptr<ASTExpression>(expr_node);
-                node->args.push_back(expr_node_ptr);
+                auto child_node =
+                    static_cast<ASTAdditiveExpression *>(transform_node_iter(s.top()));
+                auto child_node_shared = std::shared_ptr<ASTAdditiveExpression>(child_node);
+                node->expression.push_back(child_node_shared);
                 s.pop();
             }
         }
         return node;
+    } else if (_STR_EQ(n->name, "Number")) {
+        auto node = new ASTNum();
+        if (_STR_EQ(n->children[0]->name, "IntConst")) {
+            node->type = TYPE_INT;
+            node->i_val = std::stoi(n->children[0]->children[0]->name);
+        } else if (_STR_EQ(n->children[0]->name, "floatConst")) {
+            node->type = TYPE_FLOAT;
+            node->f_val = std::stof(n->children[0]->children[0]->name);
+        } else {
+            _AST_NODE_ERROR_
+        }
+        return node;
+    } else if (_STR_EQ(n->name, "UnaryExp")) {
+        auto node = new ASTUnaryExp();
+
+        if(n->children_num == 1)
+        {
+            if(n->children[0]->children_num == 3)
+            {
+                auto child_node = static_cast<ASTAdditiveExpression *>(transform_node_iter(n->children[0]->children[1]));
+                node->expression = std::shared_ptr<ASTAdditiveExpression>(child_node);
+            }
+            else if (_STR_EQ(n->children[0]->children[0]->name, "LVal"))
+            {
+                auto child_node = static_cast<ASTLVal *>(transform_node_iter(n->children[0]->children[0]));
+                node->lval = std::shared_ptr<ASTLVal>(child_node);
+            }
+            else
+            {
+                auto child_node = static_cast<ASTNum *>(transform_node_iter(n->children[0]->children[0]));
+                node->num = std::shared_ptr<ASTNum>(child_node);
+            }
+        } 
+        else if (n->children_num == 2)
+        {
+            if(_STR_EQ(n->children[0]->children[0]->name, "ADD"))
+                node->op = OP_POS;
+            else if (_STR_EQ(n->children[0]->children[0]->name, "SUB"))
+                node->op = OP_NEG;
+            else 
+                node->op = OP_NOT;
+            auto child_node = static_cast<ASTUnaryExp *>(transform_node_iter(n->children[1]));
+            node->unaryexp = std::shared_ptr<ASTUnaryExp>(child_node);
+        }
+    } else if (_STR_EQ(n->name, "UnaryOp")) {
+        
+    } else if (_STR_EQ(n->name, "FuncRParams")) {
+        
+    } else if (_STR_EQ(n->name, "MulExp")) {
+        
+    } else if (_STR_EQ(n->name, "AddExp")) {
+        
+    } else if (_STR_EQ(n->name, "RelExp")) {
+        
+    } else if (_STR_EQ(n->name, "EqExp")) {
+        
+    } else if (_STR_EQ(n->name, "LAndExp")) {
+        
+    } else if (_STR_EQ(n->name, "LOrExp")) {
+        
     } else {
         std::cerr << "[ast]: transform failure!" << std::endl;
         std::abort();

@@ -74,7 +74,6 @@ struct ASTParam;
 struct ASTBlock;
 struct ASTBlockItem;
 struct ASTStatement;
-struct ASTExpressionStmt;
 struct ASTSelectionStmt;
 struct ASTIterationStmt;
 struct ASTReturnStmt;
@@ -197,7 +196,7 @@ struct ASTBlockItem : ASTNode {
 
 struct ASTSelectionStmt : ASTStatement {
     virtual Value *accept(ASTVisitor &) override final;
-    std::shared_ptr<ASTAdditiveExpression> expression;
+    std::shared_ptr<ASTRelExp> condition;
     std::shared_ptr<ASTStatement> if_statement;
     // should be nullptr if no else structure exists
     std::shared_ptr<ASTStatement> else_statement;
@@ -209,7 +208,7 @@ struct ASTIterationStmt : ASTStatement {
     std::shared_ptr<ASTStatement> statement;
 };
 
-struct ASTIterterminatorStmt :ASTStatement
+struct ASTIterterminatorStmt : ASTStatement
 {
     virtual Value *accept(ASTVisitor &) override final;
     Terminator terminator;
@@ -251,7 +250,7 @@ struct ASTUnaryExp:ASTExpression
     std::shared_ptr<ASTUnaryExp> unaryexp;
 };
 
-struct ASTAdditiveExpression : ASTNode {
+struct ASTAdditiveExpression : ASTExpression {
     virtual Value *accept(ASTVisitor &) override final;
     std::shared_ptr<ASTAdditiveExpression> additive_expression;
     AddOp op;
@@ -262,7 +261,7 @@ struct ASTLVal : ASTNode
 {
     virtual Value *accept(ASTVisitor &) override final;
     std::string id;
-    std::shared_ptr<ASTAdditiveExpression> expression;
+    std::vector<std::shared_ptr<ASTAdditiveExpression>> expression;
 };
 
 struct ASTRelExp:ASTExpression
@@ -284,7 +283,6 @@ class ASTVisitor {
     virtual Value *visit(ASTParam &) = 0;
     virtual Value *visit(ASTBlock &) = 0;
     virtual Value *visit(ASTBlockItem &) = 0;
-    virtual Value *visit(ASTExpressionStmt &) = 0;
     virtual Value *visit(ASTSelectionStmt &) = 0;
     virtual Value *visit(ASTIterationStmt &) = 0;
     virtual Value *visit(ASTReturnStmt &) = 0;
@@ -293,7 +291,7 @@ class ASTVisitor {
     virtual Value *visit(ASTConstDecl &) = 0;
     virtual Value *visit(ASTConstDef &) = 0;
     virtual Value *visit(ASTVarDef &) = 0;
-    virtual std::vector<Value*> visit(ASTInit &) = 0;
+    virtual Value *visit(ASTInit &) = 0;
     virtual Value *visit(ASTLVal &) = 0;
     virtual Value *visit(ASTCond &) = 0;
     virtual Value *visit(ASTUnaryExp &) = 0;
@@ -311,7 +309,6 @@ class ASTPrinter : public ASTVisitor {
     virtual Value *visit(ASTParam &) override final;
     virtual Value *visit(ASTBlock &) override final;
     virtual Value *visit(ASTBlockItem &) override final;
-    virtual Value *visit(ASTExpressionStmt &) override final;
     virtual Value *visit(ASTSelectionStmt &) override final;
     virtual Value *visit(ASTIterationStmt &) override final;
     virtual Value *visit(ASTReturnStmt &) override final;
@@ -320,7 +317,7 @@ class ASTPrinter : public ASTVisitor {
     virtual Value *visit(ASTConstDecl &) override final;
     virtual Value *visit(ASTConstDef &) override final;
     virtual Value *visit(ASTVarDef &) override final;
-    virtual std::vector<Value*> visit(ASTInit &) override final;
+    virtual Value *visit(ASTInit &) override final;
     virtual Value *visit(ASTLVal &) override final;
     virtual Value *visit(ASTCond &) override final;
     virtual Value *visit(ASTUnaryExp &) override final;
