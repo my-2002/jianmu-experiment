@@ -409,6 +409,11 @@ Value* CminusfBuilder::visit(ASTMulExpression& node) {
             ret_val = builder->create_imul(lres, rres);break;
         case OP_DIV:
             ret_val = builder->create_isdiv(lres, rres);break;
+        case OP_MOD:
+            auto temp=builder->create_isdiv(lres, rres);
+            temp=builder->create_imul(temp,rres);
+            ret_val=builder->create_isub(lres,temp);
+            break;
         }
     }
     else { 
@@ -421,6 +426,11 @@ Value* CminusfBuilder::visit(ASTMulExpression& node) {
             ret_val = builder->create_fmul(lres, rres);break;
         case OP_DIV:
             ret_val = builder->create_fdiv(lres, rres);break;
+        case OP_MOD:
+            auto temp=builder->create_fdiv(lres, rres);
+            temp=builder->create_fmul(temp,rres);
+            ret_val=builder->create_fsub(lres,temp);
+            break;
         }
     }
     return ret_val;
@@ -582,10 +592,10 @@ Value* CminusfBuilder::visit(ASTLVal& node) {
 
 }
 Value* CminusfBuilder::visit(ASTRelExp& node) {
-    auto rres = node.additive_expression->accept(*this);                  
-    if (node.relation_expression == nullptr)  //说明是单个加法式
+    auto rres = node.additive_expression!=nullptr?node.additive_expression->accept(*this):node.relation_expression_r->accept(*this);                  
+    if (node.relation_expression_l == nullptr)  //说明是单个加法式
         return rres;   
-    auto lres = node.relation_expression->accept(*this);    
+    auto lres = node.relation_expression_l->accept(*this);    
     Value * ret_val;                   
     if (lres->get_type()->is_integer_type() && rres->get_type()->is_integer_type()) {     //都为整数的情况
         switch (node.op) {  
@@ -601,6 +611,14 @@ Value* CminusfBuilder::visit(ASTRelExp& node) {
             ret_val = builder->create_icmp_eq(lres, rres);break;
         case OP_NEQ:
             ret_val = builder->create_icmp_ne(lres, rres);break;
+        case OP_AND:
+            auto tem=builder->create_iadd(lres,rres);
+            ret_val=builder->create_icmp_eq(tem,ConstantInt::get(2,module.get()));
+            break;
+        case OP_OR:
+            auto tem=builder->create_iadd(lres,rres);
+            ret_val=builder->create_icmp_ge(tem,ConstantInt::get(1,module.get()));
+            break;
         }
     }
     else
