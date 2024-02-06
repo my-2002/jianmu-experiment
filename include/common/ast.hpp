@@ -25,8 +25,6 @@ enum RelOp {
     OP_EQ,
     // !=
     OP_NEQ,
-    // ！
-    OP_NOT,
     // &&
     OP_AND,
     // ||
@@ -267,9 +265,12 @@ struct ASTLVal : ASTNode
 struct ASTRelExp:ASTExpression
 {   //相等和关系,逻辑运算应该可以合并到这里
     virtual Value *accept(ASTVisitor &) override final;
-    std::shared_ptr<ASTAdditiveExpression> additive_expression;
+    union {
+        std::shared_ptr<ASTAdditiveExpression> additive_expression;
+        std::shared_ptr<ASTRelExp> relation_expression_r;
+    };
     RelOp op;
-    std::shared_ptr<ASTRelExp> relation_expression;
+    std::shared_ptr<ASTRelExp> relation_expression_l;
 };
 
 
