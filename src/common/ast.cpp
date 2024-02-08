@@ -69,7 +69,7 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
                 static_cast<ASTConstDef *>(transform_node_iter(s.top()));
             auto child_node_shared =
                 std::shared_ptr<ASTConstDef>(child_node);
-            node->declarations.push_back(child_node_shared);
+            node->constdef.push_back(child_node_shared);
             s.pop();
         }
         return node;
@@ -83,7 +83,7 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
             auto child_node = static_cast<ASTInit *>(transform_node_iter(n->children[2]));
             node->initiation = std::shared_ptr<ASTInit>(child_node);
         }
-        else if(n->chilren_num == 4)
+        else if(n->children_num == 4)
         {
             auto list_ptr = n->children[1];
             while(list_ptr->children_num == 4)
@@ -165,7 +165,7 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
                 static_cast<ASTVarDef *>(transform_node_iter(s.top()));
             auto child_node_shared =
                 std::shared_ptr<ASTVarDef>(child_node);
-            node->declarations.push_back(child_node_shared);
+            node->vardef.push_back(child_node_shared);
             s.pop();
         }
         return node;
@@ -542,6 +542,7 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
             auto add_node = static_cast<ASTAdditiveExpression *>(transform_node_iter(n->children[2]));
             node->additive_expression = std::shared_ptr<ASTAdditiveExpression>(add_node);
         }
+        node->relation_expression_r = nullptr;
         return node;
     } else if (_STR_EQ(n->name, "EqExp")) {
         if(n->children_num == 1)
@@ -562,8 +563,9 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
 
             auto rel_r_node = static_cast<ASTRelExp *>(transform_node_iter(n->children[2]));
             node->relation_expression_r = std::shared_ptr<ASTRelExp>(rel_r_node);
+            node->additive_expression = nullptr;
+            return node;
         }
-        return node;
     } else if (_STR_EQ(n->name, "LAndExp")) {
         if(n->children_num == 1)
             return transform_node_iter(n->children[0]);
@@ -581,8 +583,9 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
 
             auto rel_r_node = static_cast<ASTRelExp *>(transform_node_iter(n->children[2]));
             node->relation_expression_r = std::shared_ptr<ASTRelExp>(rel_r_node);
+            node->additive_expression = nullptr;
+            return node;
         }
-        return node;
     } else if (_STR_EQ(n->name, "LOrExp")) {
         if(n->children_num == 1)
             return transform_node_iter(n->children[0]);
@@ -600,8 +603,9 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
 
             auto rel_r_node = static_cast<ASTRelExp *>(transform_node_iter(n->children[2]));
             node->relation_expression_r = std::shared_ptr<ASTRelExp>(rel_r_node);
+            node->additive_expression = nullptr;
+            return node;
         }
-        return node;
     } else {
         std::cerr << "[ast]: transform failure!" << std::endl;
         std::abort();

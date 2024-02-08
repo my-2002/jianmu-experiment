@@ -21,9 +21,7 @@ void pass_node(char *text){
 
 
 %%
- /* to do for students */
- /* two cases for you, pass_node will send flex's token to bison */
-/* 专用符号 */
+
 \+ 	{pos_start = pos_end; pos_end += 1; pass_node(yytext); return ADD;}
 \-   {pos_start=pos_end;pos_end=pos_start+1;pass_node(yytext);return SUB;}
 \*   {pos_start=pos_end;pos_end=pos_start+1;pass_node(yytext);return MUL;}
