@@ -76,7 +76,6 @@ struct ASTSelectionStmt;
 struct ASTIterationStmt;
 struct ASTReturnStmt;
 struct ASTExpression;
-struct ASTCond;
 struct ASTAssignStmt;
 struct ASTMulExpression;
 struct ASTUnaryExp;
@@ -229,7 +228,7 @@ struct ASTAssignStmt : ASTStatement {
     std::shared_ptr<ASTAdditiveExpression> expression;
 };
 
-struct ASTMulExpression:ASTExpression
+struct ASTMulExpression: ASTExpression
 {
     virtual Value *accept(ASTVisitor &) override final;
     std::shared_ptr<ASTUnaryExp> unaryexp;
@@ -237,7 +236,7 @@ struct ASTMulExpression:ASTExpression
     std::shared_ptr<ASTMulExpression> mul_expression;
 };
 
-struct ASTUnaryExp:ASTExpression
+struct ASTUnaryExp: ASTExpression
 {
     virtual Value *accept(ASTVisitor &) override final;
     std::shared_ptr<ASTAdditiveExpression> expression;
@@ -263,13 +262,11 @@ struct ASTLVal : ASTNode
     std::vector<std::shared_ptr<ASTAdditiveExpression>> expression;
 };
 
-struct ASTRelExp:ASTExpression
+struct ASTRelExp: ASTNode
 {   //相等和关系,逻辑运算应该可以合并到这里
     virtual Value *accept(ASTVisitor &) override final;
-    union {
-        std::shared_ptr<ASTAdditiveExpression> additive_expression;
-        std::shared_ptr<ASTRelExp> relation_expression_r;
-    };
+    std::shared_ptr<ASTAdditiveExpression> additive_expression;
+    std::shared_ptr<ASTRelExp> relation_expression_r;
     RelOp op;
     std::shared_ptr<ASTRelExp> relation_expression_l;
 };
@@ -287,6 +284,7 @@ class ASTVisitor {
     virtual Value *visit(ASTBlockItem &) = 0;
     virtual Value *visit(ASTSelectionStmt &) = 0;
     virtual Value *visit(ASTIterationStmt &) = 0;
+    virtual Value *visit(ASTIterterminatorStmt &) = 0;
     virtual Value *visit(ASTReturnStmt &) = 0;
     virtual Value *visit(ASTAssignStmt &) = 0;
     virtual Value *visit(ASTMulExpression &) = 0;
@@ -295,10 +293,8 @@ class ASTVisitor {
     virtual Value *visit(ASTVarDef &) = 0;
     virtual Value *visit(ASTInit &) = 0;
     virtual Value *visit(ASTLVal &) = 0;
-    virtual Value *visit(ASTCond &) = 0;
     virtual Value *visit(ASTUnaryExp &) = 0;
     virtual Value *visit(ASTAdditiveExpression &) = 0;
-    //virtual Value *visit(ASTVar &) = 0;
     virtual Value *visit(ASTRelExp &) = 0;
 };
 
@@ -313,6 +309,7 @@ class ASTPrinter : public ASTVisitor {
     virtual Value *visit(ASTBlockItem &) override final;
     virtual Value *visit(ASTSelectionStmt &) override final;
     virtual Value *visit(ASTIterationStmt &) override final;
+    virtual Value *visit(ASTIterterminatorStmt &) override final;
     virtual Value *visit(ASTReturnStmt &) override final;
     virtual Value *visit(ASTAssignStmt &) override final;
     virtual Value *visit(ASTMulExpression &) override final;
@@ -321,7 +318,6 @@ class ASTPrinter : public ASTVisitor {
     virtual Value *visit(ASTVarDef &) override final;
     virtual Value *visit(ASTInit &) override final;
     virtual Value *visit(ASTLVal &) override final;
-    virtual Value *visit(ASTCond &) override final;
     virtual Value *visit(ASTUnaryExp &) override final;
     virtual Value *visit(ASTRelExp &) override final;
     virtual Value *visit(ASTAdditiveExpression &) override final;

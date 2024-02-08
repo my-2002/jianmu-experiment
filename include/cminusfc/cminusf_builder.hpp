@@ -101,7 +101,6 @@ class CminusfBuilder : public ASTVisitor {
     virtual Value *visit(ASTVarDef &) override final;
     virtual Value *visit(ASTInit &) override final;
     virtual Value *visit(ASTLVal &) override final;
-    virtual Value *visit(ASTCond &) override final;
     virtual Value *visit(ASTUnaryExp &) override final;
     virtual Value *visit(ASTRelExp &) override final;
     virtual Value *visit(ASTAdditiveExpression &) override final;
