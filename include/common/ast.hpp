@@ -219,6 +219,7 @@ struct ASTReturnStmt : ASTStatement {
 };
 
 struct ASTExpression : ASTNode {
+    virtual ~ASTExpression() = default;
     bool isconst;
 };
 
