@@ -5,10 +5,12 @@
 #include <stack>
 
 #define _AST_NODE_ERROR_                                                       \
-    std::cerr << "Abort due to node cast error."                               \
-                 "Contact with TAs to solve your problem."                     \
-              << std::endl;                                                    \
-    std::abort();
+    do {                                                                       \
+        std::cerr << "Abort due to node cast error."                           \
+                     "Contact with TAs to solve your problem."                 \
+                  << std::endl;                                                \
+            std::abort();                                                      \
+    } while (0);
 #define _STR_EQ(a, b) (strcmp((a), (b)) == 0)
 
 void AST::run_visitor(ASTVisitor &visitor) { root->accept(visitor); }
@@ -177,7 +179,7 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
         if(n->children_num == 3)
         {
             auto child_node = static_cast<ASTInit *>(transform_node_iter(n->children[2]));
-            node->initiation = std::shared_ptr<ASTInit>(child_node);
+            node->init = std::shared_ptr<ASTInit>(child_node);
         }
         else if(n->children_num == 2 || n->children_num == 4)
         {
@@ -191,7 +193,7 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
             if(n->children_num == 4)
             {
                 auto child_node = static_cast<ASTInit *>(transform_node_iter(n->children[3]));
-                node->initiation = std::shared_ptr<ASTInit>(child_node);
+                node->init = std::shared_ptr<ASTInit>(child_node);
             }
         }
 
@@ -376,7 +378,7 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
     } else if (_STR_EQ(n->name, "LVal")) {
         auto node = new ASTLVal();
         node->id = n->children[0]->name;
-        if(node->children_num == 2)
+        if(n->children_num == 2)
         {
             std::stack<syntax_tree_node *> s;
             auto list_ptr = n->children[1];
@@ -441,7 +443,7 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
         }
         else
         {
-            node->id = n->children[0]->name;
+            node->ident = n->children[0]->name;
             if(n->children_num == 4)
             {
                 std::stack<syntax_tree_node *> s;

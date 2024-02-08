@@ -284,6 +284,7 @@ class ASTVisitor {
     virtual Value *visit(ASTBlockItem &) = 0;
     virtual Value *visit(ASTSelectionStmt &) = 0;
     virtual Value *visit(ASTIterationStmt &) = 0;
+    virtual Value *visit(ASTIterterminatorStmt &) = 0;
     virtual Value *visit(ASTReturnStmt &) = 0;
     virtual Value *visit(ASTAssignStmt &) = 0;
     virtual Value *visit(ASTMulExpression &) = 0;
@@ -295,7 +296,6 @@ class ASTVisitor {
     virtual Value *visit(ASTCond &) = 0;
     virtual Value *visit(ASTUnaryExp &) = 0;
     virtual Value *visit(ASTAdditiveExpression &) = 0;
-    //virtual Value *visit(ASTVar &) = 0;
     virtual Value *visit(ASTRelExp &) = 0;
 };
 
@@ -310,6 +310,7 @@ class ASTPrinter : public ASTVisitor {
     virtual Value *visit(ASTBlockItem &) override final;
     virtual Value *visit(ASTSelectionStmt &) override final;
     virtual Value *visit(ASTIterationStmt &) override final;
+    virtual Value *visit(ASTIterterminatorStmt &) override final;
     virtual Value *visit(ASTReturnStmt &) override final;
     virtual Value *visit(ASTAssignStmt &) override final;
     virtual Value *visit(ASTMulExpression &) override final;
