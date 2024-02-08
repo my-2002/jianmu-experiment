@@ -76,7 +76,6 @@ struct ASTSelectionStmt;
 struct ASTIterationStmt;
 struct ASTReturnStmt;
 struct ASTExpression;
-struct ASTCond;
 struct ASTAssignStmt;
 struct ASTMulExpression;
 struct ASTUnaryExp;
@@ -293,7 +292,6 @@ class ASTVisitor {
     virtual Value *visit(ASTVarDef &) = 0;
     virtual Value *visit(ASTInit &) = 0;
     virtual Value *visit(ASTLVal &) = 0;
-    virtual Value *visit(ASTCond &) = 0;
     virtual Value *visit(ASTUnaryExp &) = 0;
     virtual Value *visit(ASTAdditiveExpression &) = 0;
     virtual Value *visit(ASTRelExp &) = 0;
@@ -319,7 +317,6 @@ class ASTPrinter : public ASTVisitor {
     virtual Value *visit(ASTVarDef &) override final;
     virtual Value *visit(ASTInit &) override final;
     virtual Value *visit(ASTLVal &) override final;
-    virtual Value *visit(ASTCond &) override final;
     virtual Value *visit(ASTUnaryExp &) override final;
     virtual Value *visit(ASTRelExp &) override final;
     virtual Value *visit(ASTAdditiveExpression &) override final;
