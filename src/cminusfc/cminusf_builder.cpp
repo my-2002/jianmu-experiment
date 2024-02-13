@@ -286,7 +286,9 @@ Value* CminusfBuilder::visit(ASTIterationStmt &node) {
     auto function = builder->get_insert_block()->get_parent();  
     auto conditionBB = BasicBlock::create(module.get(), "condition"+std::to_string(context.label_time++), function); //条件判断块
     auto loopBB = BasicBlock::create(module.get(), "loop"+std::to_string(context.label_time++), function);         //循环块
-    auto retBB = BasicBlock::create(module.get(), "ret"+std::to_string(context.label_time++), function);            
+    auto retBB = BasicBlock::create(module.get(), "ret"+std::to_string(context.label_time++), function); 
+    context.condbb=conditionBB;
+    context.retbb=retBB;           
     builder->create_br(conditionBB);     
     builder->set_insert_point(conditionBB); 
     auto res = node.condition->accept(*this);       
@@ -310,7 +312,13 @@ Value* CminusfBuilder::visit(ASTIterationStmt &node) {
     return nullptr;
 
 }
-
+Value* CminusfBuilder::visit(ASTIterterminatorStmt &node)
+{
+    if(node.terminator==BREAK)
+        builder->create_br(context.retbb);
+    else
+        builder->create_br(context.condbb);
+}
 Value* CminusfBuilder::visit(ASTReturnStmt &node) {
     if (node.expression == nullptr) {
         builder->create_void_ret();
@@ -606,6 +614,7 @@ Value* CminusfBuilder::visit(ASTRelExp& node) {
     auto lres = node.relation_expression_l->accept(*this);    
     Value * ret_val;                   
     if (lres->get_type()->is_integer_type() && rres->get_type()->is_integer_type()) {     //都为整数的情况
+        auto tem=builder->create_iadd(lres,rres);
         switch (node.op) {  
         case OP_LE:
             ret_val = builder->create_icmp_le(lres, rres);break;
@@ -619,12 +628,10 @@ Value* CminusfBuilder::visit(ASTRelExp& node) {
             ret_val = builder->create_icmp_eq(lres, rres);break;
         case OP_NEQ:
             ret_val = builder->create_icmp_ne(lres, rres);break;
-        case OP_AND:
-            auto tem=builder->create_iadd(lres,rres);
+        case OP_AND:    
             ret_val=builder->create_icmp_eq(tem,ConstantInt::get(2,module.get()));
             break;
         case OP_OR:
-            auto tem=builder->create_iadd(lres,rres);
             ret_val=builder->create_icmp_ge(tem,ConstantInt::get(1,module.get()));
             break;
         }
@@ -693,9 +700,9 @@ Value* CminusfBuilder::visit(ASTUnaryExp& node) {
         case OP_NOT:
             val=builder->create_zext(val,temtype);
             val=builder->create_icmp_le(val,CONST_ZERO(temtype));break;
-        case OP_POSITIVE:
+        case OP_POS:
             break;
-        case OP_NEGATIVE:
+        case OP_NEG:
             val=builder->create_isub(CONST_ZERO(temtype),val);
             break;
         }

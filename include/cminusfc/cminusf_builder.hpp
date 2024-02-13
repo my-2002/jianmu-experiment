@@ -93,6 +93,7 @@ class CminusfBuilder : public ASTVisitor {
     virtual Value *visit(ASTBlockItem &) override final;
     virtual Value *visit(ASTSelectionStmt &) override final;
     virtual Value *visit(ASTIterationStmt &) override final;
+    virtual Value *visit(ASTIterterminatorStmt &) override final;
     virtual Value *visit(ASTReturnStmt &) override final;
     virtual Value *visit(ASTAssignStmt &) override final;
     virtual Value *visit(ASTMulExpression &) override final;
@@ -116,6 +117,7 @@ class CminusfBuilder : public ASTVisitor {
         Value *arg = nullptr;
         int label_time=0;    //用于防止对于同一数组多次引用造成检查下标的bb的标签名重复问题
         bool assign = false; 
-
+        BasicBlock* condbb;
+        BasicBlock* retbb;
     } context;
 };

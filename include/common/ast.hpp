@@ -35,9 +35,9 @@ enum UnaryOp
     // ！
     OP_NOT,
     // +
-    OP_POSITIVE,
+    OP_POS,
     // -
-    OP_NEGATIVE
+    OP_NEG
 };
 enum AddOp {
     // +
@@ -74,6 +74,7 @@ struct ASTBlockItem;
 struct ASTStatement;
 struct ASTSelectionStmt;
 struct ASTIterationStmt;
+struct ASTIterterminatorStmt;
 struct ASTReturnStmt;
 struct ASTExpression;
 struct ASTAssignStmt;
