@@ -7,9 +7,9 @@
 #include "syntax_tree.h"
 #include "syntax_analyzer.h"
 
-int lines;
-int pos_start;
-int pos_end;
+int lines=1;
+int pos_start=1;
+int pos_end=1;
 
 void pass_node(char *text){
      yylval.node = new_syntax_tree_node(text);
