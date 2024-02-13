@@ -252,7 +252,7 @@ enum yysymbol_kind_t
   YYSYMBOL_Decl = 42,                      /* Decl  */
   YYSYMBOL_ConstDecl = 43,                 /* ConstDecl  */
   YYSYMBOL_ConstDefs = 44,                 /* ConstDefs  */
-  YYSYMBOL_Type = 45,                      /* Type  */
+  YYSYMBOL_BType = 45,                     /* BType  */
   YYSYMBOL_ConstDef = 46,                  /* ConstDef  */
   YYSYMBOL_ConstExps = 47,                 /* ConstExps  */
   YYSYMBOL_ConstInitVal = 48,              /* ConstInitVal  */
@@ -677,13 +677,13 @@ static const yytype_uint8 yyrline[] =
        0,    61,    61,    62,    63,    64,    67,    68,    71,    74,
       75,    78,    79,    80,    83,    84,    87,    88,    91,    92,
       93,    96,    97,   100,   103,   104,   107,   108,   109,   110,
-     113,   114,   115,   118,   119,   122,   123,   127,   128,   131,
-     132,   133,   136,   137,   140,   141,   144,   145,   148,   149,
-     152,   153,   154,   155,   156,   157,   158,   159,   160,   161,
-     162,   165,   168,   171,   172,   175,   176,   177,   180,   181,
-     184,   185,   186,   187,   190,   191,   192,   195,   196,   199,
-     200,   201,   202,   205,   206,   207,   210,   211,   212,   213,
-     214,   217,   218,   219,   222,   223,   226,   227,   230
+     113,   114,   115,   118,   119,   122,   123,   126,   127,   130,
+     131,   132,   135,   136,   139,   140,   143,   144,   147,   148,
+     151,   152,   153,   154,   155,   156,   157,   158,   159,   160,
+     161,   164,   167,   170,   171,   174,   175,   176,   179,   180,
+     183,   184,   185,   186,   189,   190,   191,   194,   195,   198,
+     199,   200,   201,   204,   205,   206,   209,   210,   211,   212,
+     213,   216,   217,   218,   221,   222,   225,   226,   229
 };
 #endif
 
@@ -705,7 +705,7 @@ static const char *const yytname[] =
   "RPARENTHESE", "LBRACKET", "RBRACKET", "LSPLINT", "RSPLINT", "ELSE",
   "IF", "INT", "VOID", "FLOAT", "CONST", "WHILE", "BREAK", "CONTINUE",
   "RETURN", "Ident", "IntConst", "floatConst", "$accept", "CompUnit",
-  "Decl", "ConstDecl", "ConstDefs", "Type", "ConstDef", "ConstExps",
+  "Decl", "ConstDecl", "ConstDefs", "BType", "ConstDef", "ConstExps",
   "ConstInitVal", "ConstInitVals", "VarDecl", "VarDefs", "VarDef",
   "InitVal", "InitVals", "FuncDef", "FuncFParams", "FuncFParam", "Exps",
   "Block", "BlockItems", "BlockItem", "Stmt", "Exp", "Cond", "LVal",
@@ -1407,9 +1407,9 @@ yyreduce:
 #line 1408 "syntax_analyzer.tab.c"
     break;
 
-  case 8: /* ConstDecl: CONST Type ConstDefs SEMICOLON  */
+  case 8: /* ConstDecl: CONST BType ConstDefs SEMICOLON  */
 #line 71 "syntax_analyzer.y"
-                                 {(yyval.node) = node("ConstDecl", 4, (yyvsp[-3].node), (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
+                                  {(yyval.node) = node("ConstDecl", 4, (yyvsp[-3].node), (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1414 "syntax_analyzer.tab.c"
     break;
 
@@ -1425,21 +1425,21 @@ yyreduce:
 #line 1426 "syntax_analyzer.tab.c"
     break;
 
-  case 11: /* Type: INT  */
+  case 11: /* BType: INT  */
 #line 78 "syntax_analyzer.y"
-      {(yyval.node) = node("Type", 1, (yyvsp[0].node));}
+      {(yyval.node) = node("BType", 1, (yyvsp[0].node));}
 #line 1432 "syntax_analyzer.tab.c"
     break;
 
-  case 12: /* Type: FLOAT  */
+  case 12: /* BType: FLOAT  */
 #line 79 "syntax_analyzer.y"
-        {(yyval.node) = node("Type", 1, (yyvsp[0].node));}
+        {(yyval.node) = node("BType", 1, (yyvsp[0].node));}
 #line 1438 "syntax_analyzer.tab.c"
     break;
 
-  case 13: /* Type: VOID  */
+  case 13: /* BType: VOID  */
 #line 80 "syntax_analyzer.y"
-       {(yyval.node) = node("Type", 1, (yyvsp[0].node));}
+       {(yyval.node) = node("BType", 1, (yyvsp[0].node));}
 #line 1444 "syntax_analyzer.tab.c"
     break;
 
@@ -1497,9 +1497,9 @@ yyreduce:
 #line 1498 "syntax_analyzer.tab.c"
     break;
 
-  case 23: /* VarDecl: Type VarDefs SEMICOLON  */
+  case 23: /* VarDecl: BType VarDefs SEMICOLON  */
 #line 100 "syntax_analyzer.y"
-                         {(yyval.node) = node("VarDecl", 3, (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
+                          {(yyval.node) = node("VarDecl", 3, (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1504 "syntax_analyzer.tab.c"
     break;
 
@@ -1569,386 +1569,386 @@ yyreduce:
 #line 1570 "syntax_analyzer.tab.c"
     break;
 
-  case 35: /* FuncDef: Type Ident LPARENTHESE RPARENTHESE Block  */
+  case 35: /* FuncDef: BType Ident LPARENTHESE RPARENTHESE Block  */
 #line 122 "syntax_analyzer.y"
-                                           {(yyval.node) = node("FuncDef", 5, (yyvsp[-4].node), (yyvsp[-3].node), (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
+                                            {(yyval.node) = node("FuncDef", 5, (yyvsp[-4].node), (yyvsp[-3].node), (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1576 "syntax_analyzer.tab.c"
     break;
 
-  case 36: /* FuncDef: Type Ident LPARENTHESE FuncFParams RPARENTHESE Block  */
+  case 36: /* FuncDef: BType Ident LPARENTHESE FuncFParams RPARENTHESE Block  */
 #line 123 "syntax_analyzer.y"
-                                                       {(yyval.node) = node("FuncDef", 6, (yyvsp[-5].node), (yyvsp[-4].node), (yyvsp[-3].node), (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
+                                                        {(yyval.node) = node("FuncDef", 6, (yyvsp[-5].node), (yyvsp[-4].node), (yyvsp[-3].node), (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1582 "syntax_analyzer.tab.c"
     break;
 
   case 37: /* FuncFParams: FuncFParam  */
-#line 127 "syntax_analyzer.y"
+#line 126 "syntax_analyzer.y"
              {(yyval.node) = node("FuncFParams", 1, (yyvsp[0].node));}
 #line 1588 "syntax_analyzer.tab.c"
     break;
 
   case 38: /* FuncFParams: FuncFParams COMMA FuncFParam  */
-#line 128 "syntax_analyzer.y"
+#line 127 "syntax_analyzer.y"
                                {(yyval.node) = node("FuncFParams", 3, (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1594 "syntax_analyzer.tab.c"
     break;
 
-  case 39: /* FuncFParam: Type Ident  */
-#line 131 "syntax_analyzer.y"
-             {(yyval.node) = node("FuncFParam", 2, (yyvsp[-1].node), (yyvsp[0].node));}
+  case 39: /* FuncFParam: BType Ident  */
+#line 130 "syntax_analyzer.y"
+              {(yyval.node) = node("FuncFParam", 2, (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1600 "syntax_analyzer.tab.c"
     break;
 
-  case 40: /* FuncFParam: Type Ident LBRACKET RBRACKET  */
-#line 132 "syntax_analyzer.y"
-                               {(yyval.node) = node("FuncFParam", 4, (yyvsp[-3].node), (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
+  case 40: /* FuncFParam: BType Ident LBRACKET RBRACKET  */
+#line 131 "syntax_analyzer.y"
+                                {(yyval.node) = node("FuncFParam", 4, (yyvsp[-3].node), (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1606 "syntax_analyzer.tab.c"
     break;
 
-  case 41: /* FuncFParam: Type Ident LBRACKET RBRACKET Exps  */
-#line 133 "syntax_analyzer.y"
-                                    {(yyval.node) = node("FuncFParam", 5, (yyvsp[-4].node), (yyvsp[-3].node), (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
+  case 41: /* FuncFParam: BType Ident LBRACKET RBRACKET Exps  */
+#line 132 "syntax_analyzer.y"
+                                     {(yyval.node) = node("FuncFParam", 5, (yyvsp[-4].node), (yyvsp[-3].node), (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1612 "syntax_analyzer.tab.c"
     break;
 
   case 42: /* Exps: LBRACKET Exp RBRACKET  */
-#line 136 "syntax_analyzer.y"
+#line 135 "syntax_analyzer.y"
                         {(yyval.node) = node("Exps", 3, (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1618 "syntax_analyzer.tab.c"
     break;
 
   case 43: /* Exps: LBRACKET Exp RBRACKET Exps  */
-#line 137 "syntax_analyzer.y"
+#line 136 "syntax_analyzer.y"
                              {(yyval.node) = node("Exps", 4, (yyvsp[-3].node), (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1624 "syntax_analyzer.tab.c"
     break;
 
   case 44: /* Block: LSPLINT RSPLINT  */
-#line 140 "syntax_analyzer.y"
+#line 139 "syntax_analyzer.y"
                   {(yyval.node) = node("Block", 2, (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1630 "syntax_analyzer.tab.c"
     break;
 
   case 45: /* Block: LSPLINT BlockItems RSPLINT  */
-#line 141 "syntax_analyzer.y"
+#line 140 "syntax_analyzer.y"
                              {(yyval.node) = node("Block", 3, (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1636 "syntax_analyzer.tab.c"
     break;
 
   case 46: /* BlockItems: BlockItem  */
-#line 144 "syntax_analyzer.y"
+#line 143 "syntax_analyzer.y"
             {(yyval.node) = node("BlockItems", 1, (yyvsp[0].node));}
 #line 1642 "syntax_analyzer.tab.c"
     break;
 
   case 47: /* BlockItems: BlockItem BlockItems  */
-#line 145 "syntax_analyzer.y"
+#line 144 "syntax_analyzer.y"
                        {(yyval.node) = node("BlockItems", 2, (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1648 "syntax_analyzer.tab.c"
     break;
 
   case 48: /* BlockItem: Decl  */
-#line 148 "syntax_analyzer.y"
+#line 147 "syntax_analyzer.y"
        {(yyval.node) = node("BlockItem", 1, (yyvsp[0].node));}
 #line 1654 "syntax_analyzer.tab.c"
     break;
 
   case 49: /* BlockItem: Stmt  */
-#line 149 "syntax_analyzer.y"
+#line 148 "syntax_analyzer.y"
        {(yyval.node) = node("BlockItem", 1, (yyvsp[0].node));}
 #line 1660 "syntax_analyzer.tab.c"
     break;
 
   case 50: /* Stmt: LVal ASSIGN Exp SEMICOLON  */
-#line 152 "syntax_analyzer.y"
+#line 151 "syntax_analyzer.y"
                             {(yyval.node) = node("Stmt", 4, (yyvsp[-3].node), (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1666 "syntax_analyzer.tab.c"
     break;
 
   case 51: /* Stmt: SEMICOLON  */
-#line 153 "syntax_analyzer.y"
+#line 152 "syntax_analyzer.y"
             {(yyval.node) = node("Stmt", 1, (yyvsp[0].node));}
 #line 1672 "syntax_analyzer.tab.c"
     break;
 
   case 52: /* Stmt: Exp SEMICOLON  */
-#line 154 "syntax_analyzer.y"
+#line 153 "syntax_analyzer.y"
                 {(yyval.node) = node("Stmt", 2, (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1678 "syntax_analyzer.tab.c"
     break;
 
   case 53: /* Stmt: Block  */
-#line 155 "syntax_analyzer.y"
+#line 154 "syntax_analyzer.y"
         {(yyval.node) = node("Stmt", 1, (yyvsp[0].node));}
 #line 1684 "syntax_analyzer.tab.c"
     break;
 
   case 54: /* Stmt: IF LPARENTHESE Cond RPARENTHESE Stmt  */
-#line 156 "syntax_analyzer.y"
+#line 155 "syntax_analyzer.y"
                                        {(yyval.node) = node("Stmt", 5, (yyvsp[-4].node), (yyvsp[-3].node), (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1690 "syntax_analyzer.tab.c"
     break;
 
   case 55: /* Stmt: IF LPARENTHESE Cond RPARENTHESE Stmt ELSE Stmt  */
-#line 157 "syntax_analyzer.y"
+#line 156 "syntax_analyzer.y"
                                                  {(yyval.node) = node("Stmt", 7, (yyvsp[-6].node), (yyvsp[-5].node), (yyvsp[-4].node), (yyvsp[-3].node), (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1696 "syntax_analyzer.tab.c"
     break;
 
   case 56: /* Stmt: WHILE LPARENTHESE Cond RPARENTHESE Stmt  */
-#line 158 "syntax_analyzer.y"
+#line 157 "syntax_analyzer.y"
                                           {(yyval.node) = node("Stmt", 5, (yyvsp[-4].node), (yyvsp[-3].node), (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1702 "syntax_analyzer.tab.c"
     break;
 
   case 57: /* Stmt: BREAK SEMICOLON  */
-#line 159 "syntax_analyzer.y"
+#line 158 "syntax_analyzer.y"
                   {(yyval.node) = node("Stmt", 2, (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1708 "syntax_analyzer.tab.c"
     break;
 
   case 58: /* Stmt: CONTINUE SEMICOLON  */
-#line 160 "syntax_analyzer.y"
+#line 159 "syntax_analyzer.y"
                      {(yyval.node) = node("Stmt", 2, (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1714 "syntax_analyzer.tab.c"
     break;
 
   case 59: /* Stmt: RETURN SEMICOLON  */
-#line 161 "syntax_analyzer.y"
+#line 160 "syntax_analyzer.y"
                    {(yyval.node) = node("Stmt", 2, (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1720 "syntax_analyzer.tab.c"
     break;
 
   case 60: /* Stmt: RETURN Exp SEMICOLON  */
-#line 162 "syntax_analyzer.y"
+#line 161 "syntax_analyzer.y"
                        {(yyval.node) = node("Stmt", 3, (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1726 "syntax_analyzer.tab.c"
     break;
 
   case 61: /* Exp: AddExp  */
-#line 165 "syntax_analyzer.y"
+#line 164 "syntax_analyzer.y"
          {(yyval.node) = node("Exp", 1, (yyvsp[0].node));}
 #line 1732 "syntax_analyzer.tab.c"
     break;
 
   case 62: /* Cond: LOrExp  */
-#line 168 "syntax_analyzer.y"
+#line 167 "syntax_analyzer.y"
          {(yyval.node) = node("Cond", 1, (yyvsp[0].node));}
 #line 1738 "syntax_analyzer.tab.c"
     break;
 
   case 63: /* LVal: Ident  */
-#line 171 "syntax_analyzer.y"
+#line 170 "syntax_analyzer.y"
         {(yyval.node) = node("LVal", 1, (yyvsp[0].node));}
 #line 1744 "syntax_analyzer.tab.c"
     break;
 
   case 64: /* LVal: Ident Exps  */
-#line 172 "syntax_analyzer.y"
+#line 171 "syntax_analyzer.y"
              {(yyval.node) = node("LVal", 2, (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1750 "syntax_analyzer.tab.c"
     break;
 
   case 65: /* PrimaryExp: LPARENTHESE Exp RPARENTHESE  */
-#line 175 "syntax_analyzer.y"
+#line 174 "syntax_analyzer.y"
                               {(yyval.node) = node("PrimaryExp", 3, (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1756 "syntax_analyzer.tab.c"
     break;
 
   case 66: /* PrimaryExp: LVal  */
-#line 176 "syntax_analyzer.y"
+#line 175 "syntax_analyzer.y"
        {(yyval.node) = node("PrimaryExp", 1, (yyvsp[0].node));}
 #line 1762 "syntax_analyzer.tab.c"
     break;
 
   case 67: /* PrimaryExp: Number  */
-#line 177 "syntax_analyzer.y"
+#line 176 "syntax_analyzer.y"
          {(yyval.node) = node("PrimaryExp", 1, (yyvsp[0].node));}
 #line 1768 "syntax_analyzer.tab.c"
     break;
 
   case 68: /* Number: IntConst  */
-#line 180 "syntax_analyzer.y"
+#line 179 "syntax_analyzer.y"
            {(yyval.node) = node("Number", 1, (yyvsp[0].node));}
 #line 1774 "syntax_analyzer.tab.c"
     break;
 
   case 69: /* Number: floatConst  */
-#line 181 "syntax_analyzer.y"
+#line 180 "syntax_analyzer.y"
              {(yyval.node) = node("Number", 1, (yyvsp[0].node));}
 #line 1780 "syntax_analyzer.tab.c"
     break;
 
   case 70: /* UnaryExp: PrimaryExp  */
-#line 184 "syntax_analyzer.y"
+#line 183 "syntax_analyzer.y"
              {(yyval.node) = node("UnaryExp", 1, (yyvsp[0].node));}
 #line 1786 "syntax_analyzer.tab.c"
     break;
 
   case 71: /* UnaryExp: Ident LPARENTHESE RPARENTHESE  */
-#line 185 "syntax_analyzer.y"
+#line 184 "syntax_analyzer.y"
                                 {(yyval.node) = node("UnaryExp", 3, (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1792 "syntax_analyzer.tab.c"
     break;
 
   case 72: /* UnaryExp: Ident LPARENTHESE FuncRParams RPARENTHESE  */
-#line 186 "syntax_analyzer.y"
+#line 185 "syntax_analyzer.y"
                                             {(yyval.node) = node("UnaryExp", 4, (yyvsp[-3].node), (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1798 "syntax_analyzer.tab.c"
     break;
 
   case 73: /* UnaryExp: UnaryOp UnaryExp  */
-#line 187 "syntax_analyzer.y"
+#line 186 "syntax_analyzer.y"
                    {(yyval.node) = node("UnaryExp", 2, (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1804 "syntax_analyzer.tab.c"
     break;
 
   case 74: /* UnaryOp: ADD  */
-#line 190 "syntax_analyzer.y"
+#line 189 "syntax_analyzer.y"
       {(yyval.node) = node("UnaryOp", 1, (yyvsp[0].node));}
 #line 1810 "syntax_analyzer.tab.c"
     break;
 
   case 75: /* UnaryOp: SUB  */
-#line 191 "syntax_analyzer.y"
+#line 190 "syntax_analyzer.y"
       {(yyval.node) = node("UnaryOp", 1, (yyvsp[0].node));}
 #line 1816 "syntax_analyzer.tab.c"
     break;
 
   case 76: /* UnaryOp: NOT  */
-#line 192 "syntax_analyzer.y"
+#line 191 "syntax_analyzer.y"
       {(yyval.node) = node("UnaryOp", 1, (yyvsp[0].node));}
 #line 1822 "syntax_analyzer.tab.c"
     break;
 
   case 77: /* FuncRParams: Exp  */
-#line 195 "syntax_analyzer.y"
+#line 194 "syntax_analyzer.y"
       {(yyval.node) = node("FuncRParams", 1, (yyvsp[0].node));}
 #line 1828 "syntax_analyzer.tab.c"
     break;
 
   case 78: /* FuncRParams: FuncRParams COMMA Exp  */
-#line 196 "syntax_analyzer.y"
+#line 195 "syntax_analyzer.y"
                         {(yyval.node) = node("FuncRParams", 3, (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1834 "syntax_analyzer.tab.c"
     break;
 
   case 79: /* MulExp: UnaryExp  */
-#line 199 "syntax_analyzer.y"
+#line 198 "syntax_analyzer.y"
            {(yyval.node) = node("MulExp", 1, (yyvsp[0].node));}
 #line 1840 "syntax_analyzer.tab.c"
     break;
 
   case 80: /* MulExp: MulExp MUL UnaryExp  */
-#line 200 "syntax_analyzer.y"
+#line 199 "syntax_analyzer.y"
                       {(yyval.node) = node("MulExp", 3, (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1846 "syntax_analyzer.tab.c"
     break;
 
   case 81: /* MulExp: MulExp DIV UnaryExp  */
-#line 201 "syntax_analyzer.y"
+#line 200 "syntax_analyzer.y"
                       {(yyval.node) = node("MulExp", 3, (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1852 "syntax_analyzer.tab.c"
     break;
 
   case 82: /* MulExp: MulExp MOD UnaryExp  */
-#line 202 "syntax_analyzer.y"
+#line 201 "syntax_analyzer.y"
                       {(yyval.node) = node("MulExp", 3, (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1858 "syntax_analyzer.tab.c"
     break;
 
   case 83: /* AddExp: MulExp  */
-#line 205 "syntax_analyzer.y"
+#line 204 "syntax_analyzer.y"
          {(yyval.node) = node("AddExp", 1, (yyvsp[0].node));}
 #line 1864 "syntax_analyzer.tab.c"
     break;
 
   case 84: /* AddExp: AddExp ADD MulExp  */
-#line 206 "syntax_analyzer.y"
+#line 205 "syntax_analyzer.y"
                     {(yyval.node) = node("AddExp", 3, (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1870 "syntax_analyzer.tab.c"
     break;
 
   case 85: /* AddExp: AddExp SUB MulExp  */
-#line 207 "syntax_analyzer.y"
+#line 206 "syntax_analyzer.y"
                     {(yyval.node) = node("AddExp", 3, (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1876 "syntax_analyzer.tab.c"
     break;
 
   case 86: /* RelExp: AddExp  */
-#line 210 "syntax_analyzer.y"
+#line 209 "syntax_analyzer.y"
           {(yyval.node) = node("RelExp", 1, (yyvsp[0].node));}
 #line 1882 "syntax_analyzer.tab.c"
     break;
 
   case 87: /* RelExp: RelExp LT AddExp  */
-#line 211 "syntax_analyzer.y"
+#line 210 "syntax_analyzer.y"
                    {(yyval.node) = node("RelExp", 3, (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1888 "syntax_analyzer.tab.c"
     break;
 
   case 88: /* RelExp: RelExp LTE AddExp  */
-#line 212 "syntax_analyzer.y"
+#line 211 "syntax_analyzer.y"
                     {(yyval.node) = node("RelExp", 3, (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1894 "syntax_analyzer.tab.c"
     break;
 
   case 89: /* RelExp: RelExp GT AddExp  */
-#line 213 "syntax_analyzer.y"
+#line 212 "syntax_analyzer.y"
                    {(yyval.node) = node("RelExp", 3, (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1900 "syntax_analyzer.tab.c"
     break;
 
   case 90: /* RelExp: RelExp GTE AddExp  */
-#line 214 "syntax_analyzer.y"
+#line 213 "syntax_analyzer.y"
                     {(yyval.node) = node("RelExp", 3, (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1906 "syntax_analyzer.tab.c"
     break;
 
   case 91: /* EqExp: RelExp  */
-#line 217 "syntax_analyzer.y"
+#line 216 "syntax_analyzer.y"
           {(yyval.node) = node("EqExp", 1, (yyvsp[0].node));}
 #line 1912 "syntax_analyzer.tab.c"
     break;
 
   case 92: /* EqExp: EqExp EQ RelExp  */
-#line 218 "syntax_analyzer.y"
+#line 217 "syntax_analyzer.y"
                    {(yyval.node) = node("EqExp", 3, (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1918 "syntax_analyzer.tab.c"
     break;
 
   case 93: /* EqExp: EqExp NEQ RelExp  */
-#line 219 "syntax_analyzer.y"
+#line 218 "syntax_analyzer.y"
                     {(yyval.node) = node("EqExp", 3, (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1924 "syntax_analyzer.tab.c"
     break;
 
   case 94: /* LAndExp: EqExp  */
-#line 222 "syntax_analyzer.y"
+#line 221 "syntax_analyzer.y"
         {(yyval.node) = node("LAndExp", 1, (yyvsp[0].node));}
 #line 1930 "syntax_analyzer.tab.c"
     break;
 
   case 95: /* LAndExp: LAndExp AND EqExp  */
-#line 223 "syntax_analyzer.y"
+#line 222 "syntax_analyzer.y"
                      {(yyval.node) = node("LAndExp", 3, (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1936 "syntax_analyzer.tab.c"
     break;
 
   case 96: /* LOrExp: LAndExp  */
-#line 226 "syntax_analyzer.y"
+#line 225 "syntax_analyzer.y"
           {(yyval.node) = node("LOrExp", 1, (yyvsp[0].node));}
 #line 1942 "syntax_analyzer.tab.c"
     break;
 
   case 97: /* LOrExp: LOrExp OR LAndExp  */
-#line 227 "syntax_analyzer.y"
+#line 226 "syntax_analyzer.y"
                      {(yyval.node) = node("LOrExp", 3, (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node));}
 #line 1948 "syntax_analyzer.tab.c"
     break;
 
   case 98: /* ConstExp: AddExp  */
-#line 230 "syntax_analyzer.y"
+#line 229 "syntax_analyzer.y"
          {(yyval.node) = node("ConstExp", 1, (yyvsp[0].node));}
 #line 1954 "syntax_analyzer.tab.c"
     break;
@@ -2147,7 +2147,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 233 "syntax_analyzer.y"
+#line 232 "syntax_analyzer.y"
 
 
 /// The error reporting function.
@@ -2155,7 +2155,7 @@ void yyerror(const char * s)
 {
     // TO STUDENTS: This is just an example.
     // You can customize it as you like.
-    fprintf(stderr, "error at line %d column %d: %s\n", lines, pos_start, s);
+    fprintf(stderr, "error at line %d column %d , %d: %s\n", lines, pos_start, pos_end,s);
 }
 
 /// Parse input from file `input_path`, and prints the parsing results

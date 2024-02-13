@@ -43,7 +43,7 @@ syntax_tree_node *node(const char *node_name, int children_num, ...);
 %token <node> Ident IntConst floatConst
 
 %type <node> CompUnit Decl ConstDecl BType ConstDef ConstInitVal VarDecl VarDef InitVal 
-%type <node> FuncDef FuncType FuncFParams FuncFParam Block BlockItem Stmt Exp Cond LVal
+%type <node> FuncDef  FuncFParams FuncFParam Block BlockItem Stmt Exp Cond LVal
 %type <node> PrimaryExp Number UnaryExp UnaryOp FuncRParams MulExp AddExp RelExp EqExp LAndExp LOrExp ConstExp
 %type <node> ConstDefs ConstExps ConstInitVals VarDefs InitVals Exps BlockItems
 
@@ -77,6 +77,7 @@ ConstDefs
 BType
 : INT {$$ = node("BType", 1, $1);}
 | FLOAT {$$ = node("BType", 1, $1);}
+| VOID {$$ = node("BType", 1, $1);}
 
 ConstDef
 : Ident ASSIGN ConstInitVal {$$ = node("ConstDef", 3, $1, $2, $3);}
@@ -118,13 +119,8 @@ InitVals
 | InitVals COMMA InitVal {$$ = node("InitVals", 3, $1, $2, $3);}
 
 FuncDef
-: FuncType Ident LPARENTHESE RPARENTHESE Block {$$ = node("FuncDef", 5, $1, $2, $3, $4, $5);}
-| FuncType Ident LPARENTHESE FuncFParams RPARENTHESE Block {$$ = node("FuncDef", 6, $1, $2, $3, $4, $5, $6);}
-
-FuncType
-: VOID {$$ = node("FuncType", 1, $1);}
-| INT {$$ = node("FuncType", 1, $1);}
-| FLOAT {$$ = node("FuncType", 1, $1);}
+: BType Ident LPARENTHESE RPARENTHESE Block {$$ = node("FuncDef", 5, $1, $2, $3, $4, $5);}
+| BType Ident LPARENTHESE FuncFParams RPARENTHESE Block {$$ = node("FuncDef", 6, $1, $2, $3, $4, $5, $6);}
 
 FuncFParams
 : FuncFParam {$$ = node("FuncFParams", 1, $1);}
