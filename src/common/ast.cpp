@@ -55,8 +55,9 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
 
         if(_STR_EQ(n->children[1]->children[0]->name, "INT"))
             node->type = TYPE_INT;
-        else
+        else if(_STR_EQ(n->children[1]->children[0]->name, "FLOAT"))
             node->type = TYPE_FLOAT;
+        else _AST_NODE_ERROR_
 
         std::stack<syntax_tree_node *> s;
         auto list_ptr = n->children[2];
@@ -151,8 +152,9 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
 
         if(_STR_EQ(n->children[0]->children[0]->name, "INT"))
             node->type = TYPE_INT;
-        else
+        else if(_STR_EQ(n->children[0]->children[0]->name, "FLOAT"))
             node->type = TYPE_FLOAT;
+        else _AST_NODE_ERROR_
 
         std::stack<syntax_tree_node *> s;
         auto list_ptr = n->children[1];
@@ -247,10 +249,11 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
         return node;
     } else if (_STR_EQ(n->name, "FuncFParam")) {
         auto node = new ASTParam();
-        if (_STR_EQ(n->children[0]->children[0]->name, "int"))
+        if(_STR_EQ(n->children[0]->children[0]->name, "INT"))
             node->type = TYPE_INT;
-        else
+        else if(_STR_EQ(n->children[0]->children[0]->name, "FLOAT"))
             node->type = TYPE_FLOAT;
+        else _AST_NODE_ERROR_
         node->id = n->children[1]->name;
         if (n->children_num > 2)
             node->isarray = true;
