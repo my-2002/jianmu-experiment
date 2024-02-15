@@ -64,8 +64,8 @@ CompUnit
 | CompUnit FuncDef {$$ = node("CompUnit", 2, $1, $2); gt->root = $$;}
 
 Decl
-: ConstDecl {$$ = node("Del", 1, $1);}
-| VarDecl {$$ = node("Del", 1, $1);}
+: ConstDecl {$$ = node("Decl", 1, $1);}
+| VarDecl {$$ = node("Decl", 1, $1);}
 
 ConstDecl
 : CONST BType ConstDefs SEMICOLON {$$ = node("ConstDecl", 4, $1, $2, $3, $4);}
