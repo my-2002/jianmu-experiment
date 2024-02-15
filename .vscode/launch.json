@@ -8,9 +8,10 @@
             "name": "(gdb) 启动",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/parser",
+            "program": "${workspaceFolder}/build/cminusfc",
             "args": [
-                "${workspaceFolder}/tests/jianmu-tests/func/00_comment2.sy"
+                "${workspaceFolder}/tests/jianmu-tests/func/00_comment2.sy",
+                "-emit-llvm"
             ],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
