@@ -61,7 +61,7 @@ void pass_node(char *text){
 
 ([a-zA-Z_]+[0-9a-zA-Z_]*) {pos_start=pos_end;pos_end=pos_start+strlen(yytext);pass_node(yytext);return Ident;}
 (0X|0x)[0-9a-fA-F]+|[1-9][0-9]*|0[0-7]* {pos_start=pos_end;pos_end=pos_start+strlen(yytext);pass_node(yytext);return IntConst;}
-((0x|0X)(([0-9a-fA-F]*\.[0-9a-fA-F]+|[0-9a-fA-F]+\.)|([0-9a-fA-F]+))([pP][+-]?\d+))|(((\d*\.\d+|\d+\.)([eE][+-]?\d+)?)|(\d+[eE][+-]?\d+)) {pos_start=pos_end;pos_end=pos_start+strlen(yytext);pass_node(yytext);return floatConst;}
+((0x|0X)(([0-9a-fA-F]*\.[0-9a-fA-F]+|[0-9a-fA-F]+\.)|([0-9a-fA-F]+))([pP][+-]?[0-9]+))|((([0-9]*\.[0-9]+|[0-9]+\.)([eE][+-]?[0-9]+)?)|([0-9]+[eE][+-]?[0-9]+)) {pos_start=pos_end;pos_end=pos_start+strlen(yytext);pass_node(yytext);return floatConst;}
 \/\*([^\*]|\*+[^\/\*])*\*+\/  {}
 \/\/.* {}
  /* 保证了中间不会出现\*\/，即判断若出现*，后面那个一定不能是/,这是|后面部分的作用 */
