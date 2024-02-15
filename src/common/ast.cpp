@@ -53,9 +53,9 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
     } else if (_STR_EQ(n->name, "ConstDecl")){
         auto node = new ASTConstDecl();
 
-        if(_STR_EQ(n->children[1]->children[0]->name, "INT"))
+        if(_STR_EQ(n->children[1]->children[0]->name, "int"))
             node->type = TYPE_INT;
-        else if(_STR_EQ(n->children[1]->children[0]->name, "FLOAT"))
+        else if(_STR_EQ(n->children[1]->children[0]->name, "float"))
             node->type = TYPE_FLOAT;
         else _AST_NODE_ERROR_
 
@@ -150,9 +150,9 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
     } else if (_STR_EQ(n->name, "VarDecl")){
         auto node = new ASTVarDeclaration();
 
-        if(_STR_EQ(n->children[0]->children[0]->name, "INT"))
+        if(_STR_EQ(n->children[0]->children[0]->name, "int"))
             node->type = TYPE_INT;
-        else if(_STR_EQ(n->children[0]->children[0]->name, "FLOAT"))
+        else if(_STR_EQ(n->children[0]->children[0]->name, "float"))
             node->type = TYPE_FLOAT;
         else _AST_NODE_ERROR_
 
@@ -210,9 +210,9 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
         return node;
     }  else if (_STR_EQ(n->name, "FuncDef")) {
         auto node = new ASTFunDeclaration();
-        if (_STR_EQ(n->children[0]->children[0]->name, "INT")) {
+        if (_STR_EQ(n->children[0]->children[0]->name, "int")) {
             node->type = TYPE_INT;
-        } else if (_STR_EQ(n->children[0]->children[0]->name, "FLOAT")) {
+        } else if (_STR_EQ(n->children[0]->children[0]->name, "float")) {
             node->type = TYPE_FLOAT;
         } else {
             node->type = TYPE_VOID;
@@ -249,9 +249,9 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
         return node;
     } else if (_STR_EQ(n->name, "FuncFParam")) {
         auto node = new ASTParam();
-        if(_STR_EQ(n->children[0]->children[0]->name, "INT"))
+        if(_STR_EQ(n->children[0]->children[0]->name, "int"))
             node->type = TYPE_INT;
-        else if(_STR_EQ(n->children[0]->children[0]->name, "FLOAT"))
+        else if(_STR_EQ(n->children[0]->children[0]->name, "float"))
             node->type = TYPE_FLOAT;
         else _AST_NODE_ERROR_
         node->id = n->children[1]->name;
@@ -324,11 +324,11 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
             auto exp_node = static_cast<ASTAdditiveExpression *>(transform_node_iter(n->children[2]));
             node->expression = std::shared_ptr<ASTAdditiveExpression>(exp_node);
             return node;
-        } else if (_STR_EQ(n->children[0]->name, "SEMICOLON")){
+        } else if (_STR_EQ(n->children[0]->name, ";")){
             return nullptr;
         } else if (_STR_EQ(n->children[0]->name, "Exp") || _STR_EQ(n->children[0]->name, "Block")){
             return transform_node_iter(n->children[0]);
-        } else if (_STR_EQ(n->children[0]->name, "IF")){
+        } else if (_STR_EQ(n->children[0]->name, "if")){
             auto node = new ASTSelectionStmt();
             auto cond_node = static_cast<ASTRelExp *>(transform_node_iter(n->children[2]));
             node->condition = std::shared_ptr<ASTRelExp>(cond_node);
@@ -342,22 +342,22 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
             else
                 node->else_statement = nullptr;
             return node;
-        } else if (_STR_EQ(n->children[0]->name, "WHILE")){
+        } else if (_STR_EQ(n->children[0]->name, "while")){
             auto node = new ASTIterationStmt();
             auto cond_node = static_cast<ASTRelExp *>(transform_node_iter(n->children[2]));
             node->condition = std::shared_ptr<ASTRelExp>(cond_node);
             auto stmt_node = static_cast<ASTStatement *>(transform_node_iter(n->children[4]));
             node->statement = std::shared_ptr<ASTStatement>(stmt_node);
             return node;
-        } else if (_STR_EQ(n->children[0]->name, "CONTINUE")){
+        } else if (_STR_EQ(n->children[0]->name, "continue")){
             auto node = new ASTIterterminatorStmt();
             node->terminator = CONTINUE;
             return node;
-        } else if (_STR_EQ(n->children[0]->name, "BREAK")){
+        } else if (_STR_EQ(n->children[0]->name, "break")){
             auto node = new ASTIterterminatorStmt();
             node->terminator = BREAK;
             return node;
-        } else if (_STR_EQ(n->children[0]->name, "RETURN")){
+        } else if (_STR_EQ(n->children[0]->name, "return")){
             auto node = new ASTReturnStmt();
             if(n->children_num == 2)
                 node->expression = nullptr;
@@ -435,9 +435,9 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
         } 
         else if (n->children_num == 2)
         {
-            if(_STR_EQ(n->children[0]->children[0]->name, "ADD"))
+            if(_STR_EQ(n->children[0]->children[0]->name, "+"))
                 node->op = OP_POS;
-            else if (_STR_EQ(n->children[0]->children[0]->name, "SUB"))
+            else if (_STR_EQ(n->children[0]->children[0]->name, "-"))
                 node->op = OP_NEG;
             else 
                 node->op = OP_NOT;
@@ -480,11 +480,11 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
             auto mul_node = static_cast<ASTMulExpression *>(transform_node_iter(n->children[0]));
             node->mul_expression = std::shared_ptr<ASTMulExpression>(mul_node);
 
-            if(_STR_EQ(n->children[1]->name, "MUL"))
+            if(_STR_EQ(n->children[1]->name, "*"))
                 node->op = OP_MUL;
-            else if (_STR_EQ(n->children[1]->name, "DIV"))
+            else if (_STR_EQ(n->children[1]->name, "/"))
                 node->op = OP_DIV;
-            else if (_STR_EQ(n->children[1]->name, "MOD"))
+            else if (_STR_EQ(n->children[1]->name, "%"))
                 node->op = OP_MOD;
             else 
                 _AST_NODE_ERROR_
@@ -508,9 +508,9 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
             auto add_node = static_cast<ASTAdditiveExpression *>(transform_node_iter(n->children[0]));
             node->additive_expression = std::shared_ptr<ASTAdditiveExpression>(add_node);
 
-            if(_STR_EQ(n->children[1]->name, "ADD"))
+            if(_STR_EQ(n->children[1]->name, "+"))
                 node->op = OP_PLUS;
-            else if (_STR_EQ(n->children[1]->name, "SUB"))
+            else if (_STR_EQ(n->children[1]->name, "-"))
                 node->op = OP_MINUS;
             else 
                 _AST_NODE_ERROR_
@@ -533,13 +533,13 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
             auto rel_node = static_cast<ASTRelExp *>(transform_node_iter(n->children[0]));
             node->relation_expression_l = std::shared_ptr<ASTRelExp>(rel_node);
 
-            if(_STR_EQ(n->children[1]->name, "LT"))
+            if(_STR_EQ(n->children[1]->name, "<"))
                 node->op = OP_LT;
-            else if (_STR_EQ(n->children[1]->name, "LTE"))
+            else if (_STR_EQ(n->children[1]->name, "<="))
                 node->op = OP_LE;
-            else if (_STR_EQ(n->children[1]->name, "GT"))
+            else if (_STR_EQ(n->children[1]->name, ">"))
                 node->op = OP_GT;
-            else if (_STR_EQ(n->children[1]->name, "GTE"))
+            else if (_STR_EQ(n->children[1]->name, ">="))
                 node->op = OP_GE;
             else 
                 _AST_NODE_ERROR_
@@ -559,9 +559,9 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
             auto rel_l_node = static_cast<ASTRelExp *>(transform_node_iter(n->children[0]));
             node->relation_expression_l = std::shared_ptr<ASTRelExp>(rel_l_node);
 
-            if(_STR_EQ(n->children[1]->name, "EQ"))
+            if(_STR_EQ(n->children[1]->name, "=="))
                 node->op = OP_EQ;
-            else if (_STR_EQ(n->children[1]->name, "NEQ"))
+            else if (_STR_EQ(n->children[1]->name, "!="))
                 node->op = OP_NEQ;
             else 
                 _AST_NODE_ERROR_
@@ -581,7 +581,7 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
             auto rel_l_node = static_cast<ASTRelExp *>(transform_node_iter(n->children[0]));
             node->relation_expression_l = std::shared_ptr<ASTRelExp>(rel_l_node);
 
-            if(_STR_EQ(n->children[1]->name, "AND"))
+            if(_STR_EQ(n->children[1]->name, "&&"))
                 node->op = OP_AND;
             else 
                 _AST_NODE_ERROR_
@@ -601,7 +601,7 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
             auto rel_l_node = static_cast<ASTRelExp *>(transform_node_iter(n->children[0]));
             node->relation_expression_l = std::shared_ptr<ASTRelExp>(rel_l_node);
 
-            if(_STR_EQ(n->children[1]->name, "OR"))
+            if(_STR_EQ(n->children[1]->name, "||"))
                 node->op = OP_OR;
             else 
                 _AST_NODE_ERROR_

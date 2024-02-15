@@ -40,12 +40,12 @@ syntax_tree_node *node(const char *node_name, int children_num, ...);
 %token <node> ADD SUB MUL DIV LT LTE GT GTE EQ NEQ ASSIGN SEMICOLON COMMA MOD NOT AND OR
 %token <node> LPARENTHESE RPARENTHESE LBRACKET RBRACKET LSPLINT RSPLINT
 %token <node> ELSE IF INT VOID FLOAT CONST WHILE BREAK CONTINUE RETURN
-%token <node> Ident IntConst floatConst
+%token <node> Ident INTCONST FLOATCONST
 
 %type <node> CompUnit Decl ConstDecl BType ConstDef ConstInitVal VarDecl VarDef InitVal 
 %type <node> FuncDef  FuncFParams FuncFParam Block BlockItem Stmt Exp Cond LVal
 %type <node> PrimaryExp Number UnaryExp UnaryOp FuncRParams MulExp AddExp RelExp EqExp LAndExp LOrExp ConstExp
-%type <node> ConstDefs ConstExps ConstInitVals VarDefs InitVals Exps BlockItems
+%type <node> ConstDefs ConstExps ConstInitVals VarDefs InitVals Exps BlockItems IntConst floatConst
 
 %start CompUnit
 
@@ -178,6 +178,12 @@ PrimaryExp
 Number
 : IntConst {$$ = node("Number", 1, $1);}
 | floatConst {$$ = node("Number", 1, $1);}
+
+IntConst
+: INTCONST {$$ = node("IntConst", 1, $1);}
+
+floatConst
+: FLOATCONST {$$ = node("floatConst", 1, $1);}
 
 UnaryExp
 : PrimaryExp {$$ = node("UnaryExp", 1, $1);}
