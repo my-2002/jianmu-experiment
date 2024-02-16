@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/build/cminusfc",
             "args": [
-                "${workspaceFolder}/tests/jianmu-tests/func/00_comment2.sy",
+                "${workspaceFolder}/tests/jianmu-tests/func/05_arr_defn4.sy",
                 "-emit-llvm"
             ],
             "stopAtEntry": false,
