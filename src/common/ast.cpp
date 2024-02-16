@@ -81,7 +81,7 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
         auto node = new ASTConstDef();
 
         node->id = n->children[0]->name;
-        std::stack<syntax_tree_node *> s;
+        std::queue<syntax_tree_node *> q;
         if(n->children_num == 3)
         {
             auto child_node = static_cast<ASTInit *>(transform_node_iter(n->children[2]));
@@ -92,21 +92,21 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
             auto list_ptr = n->children[1];
             while(list_ptr->children_num == 4)
             {
-                s.push(list_ptr->children[1]);
+                q.push(list_ptr->children[1]);
                 list_ptr = list_ptr->children[3];
             }
-            s.push(list_ptr->children[1]);
+            q.push(list_ptr->children[1]);
             auto child_node = static_cast<ASTInit *>(transform_node_iter(n->children[3]));
             node->initiation = std::shared_ptr<ASTInit>(child_node);
         }
 
-        while (!s.empty()) {
+        while (!q.empty()) {
             auto child_node =
-                static_cast<ASTAdditiveExpression *>(transform_node_iter(s.top()));
+                static_cast<ASTAdditiveExpression *>(transform_node_iter(q.front()));
             auto child_node_shared =
                 std::shared_ptr<ASTAdditiveExpression>(child_node);
             node->expression.push_back(child_node_shared);
-            s.pop();
+            q.pop();
         }
         return node;
     } else if (_STR_EQ(n->name, "ConstInitVal") || _STR_EQ(n->name, "InitVal")){
