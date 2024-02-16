@@ -3,6 +3,7 @@
 #include <cstring>
 #include <iostream>
 #include <stack>
+#include <queue>
 
 #define _AST_NODE_ERROR_                                                       \
     do {                                                                       \
@@ -280,23 +281,23 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
         auto node = new ASTBlock();
 
         auto list_ptr = n->children[1];
-        std::stack<syntax_tree_node *> s;
+        std::queue<syntax_tree_node *> q;
         if(n->children_num == 3)
         {
             while(list_ptr->children_num == 2)
             {
-                s.push(list_ptr->children[0]);
+                q.push(list_ptr->children[0]);
                 list_ptr = list_ptr->children[1];
             }
-            s.push(list_ptr->children[0]);
+            q.push(list_ptr->children[0]);
 
-            while (!s.empty()) {
+            while (!q.empty()) {
                 auto child_node = static_cast<ASTBlockItem *>(
-                    transform_node_iter(s.top()));
+                    transform_node_iter(q.front()));
                 auto child_node_ptr =
                     std::shared_ptr<ASTBlockItem>(child_node);
                 node->block_items.push_back(child_node_ptr);
-                s.pop();
+                q.pop();
             }
         }
         return node;
