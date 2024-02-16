@@ -91,8 +91,8 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
             auto list_ptr = n->children[1];
             while(list_ptr->children_num == 4)
             {
-                s.push(list_ptr->children[3]);
-                list_ptr = list_ptr->children[1];
+                s.push(list_ptr->children[1]);
+                list_ptr = list_ptr->children[3];
             }
             s.push(list_ptr->children[1]);
             auto child_node = static_cast<ASTInit *>(transform_node_iter(n->children[3]));
