@@ -52,6 +52,7 @@ Value* CminusfBuilder::visit(ASTVarDeclaration &node) {
     {
         def->accept(*this);
     }
+    return nullptr;
 }
 Value* CminusfBuilder::visit(ASTVarDef& node) {//记得加隐式转换
     Type* tmpType;              
@@ -62,9 +63,12 @@ Value* CminusfBuilder::visit(ASTVarDef& node) {//记得加隐式转换
     if (!node.expression.empty()) {         
         //说明声明变量是数组
         int size;
+        context.array_index.clear();
+        context.level=node.expression.size()-1;
         for(auto&exp:node.expression)
         {
             size*=dynamic_cast<ConstantInt*>(exp->accept(*this))->get_value();
+            context.array_index.push_back(size);
         }
         auto* arrayType = ArrayType::get(tmpType, size); 
         Constant* initializer;
@@ -114,6 +118,81 @@ Value* CminusfBuilder::visit(ASTVarDef& node) {//记得加隐式转换
             }
             if (scope.in_global())         
                 varAlloca = GlobalVariable::create(node.id, module.get(), tmpType, false, initializer);
+            else   
+            {
+                varAlloca = builder->create_alloca(tmpType);
+                builder->create_store(initializer,varAlloca);
+            }                        
+
+        }
+        scope.push(node.id, varAlloca); 
+        return varAlloca;
+    }
+}
+Value* CminusfBuilder::visit(ASTConstDecl& node) {
+    // Add your code here
+    for(auto &cdef:node.constdef)
+    {
+        cdef->accept(*this);
+    }
+    return nullptr;
+}
+Value* CminusfBuilder::visit(ASTConstDef& node) {
+    Type* tmpType;              
+    if (node.type == TYPE_INT)     
+        tmpType = INT32_T;       
+    else if (node.type == TYPE_FLOAT)  
+        tmpType = FLOAT_T;       
+    if (!node.expression.empty()) {         
+        //说明声明变量是数组
+        int size;
+        context.array_index.clear();
+        context.level=node.expression.size()-1;
+        for(auto&exp:node.expression)
+        {
+            size*=dynamic_cast<ConstantInt*>(exp->accept(*this))->get_value();
+            context.array_index.push_back(size);
+        }
+        auto* arrayType = ArrayType::get(tmpType, size); 
+        Constant* initializer;
+        Value* arrayAlloca; 
+        if (node.initiation == nullptr) {//没有初始化，局部变量不初始化
+            initializer = dynamic_cast<Constant*>(CONST_ZERO(tmpType)) ;         
+            if (scope.in_global())          //若是全局
+                arrayAlloca = GlobalVariable::create(node.id, module.get(), arrayType, true, initializer);
+            else                         
+                arrayAlloca = builder->create_alloca(arrayType);
+            }
+        else {
+            Value *val;
+            val=node.initiation->accept(*this);
+            initializer=dynamic_cast<Constant*>(val);
+            if (scope.in_global())          //若是全局
+                arrayAlloca = GlobalVariable::create(node.id, module.get(), arrayType, true, initializer);
+            else  
+            {
+                arrayAlloca = builder->create_alloca(arrayType);
+                builder->create_store(initializer,arrayAlloca);
+            }                       
+        }
+        scope.push(node.id, arrayAlloca);// 将获得的数组变量加入域 
+        return arrayAlloca;
+    }
+    else {  
+        Value* varAlloca;     
+        if (node.initiation == nullptr)
+        {
+            auto initializer = CONST_ZERO(tmpType);    
+            if (scope.in_global())         
+                varAlloca = GlobalVariable::create(node.id, module.get(), tmpType, true, initializer);
+            else                           
+                varAlloca = builder->create_alloca(tmpType);
+        }                       
+        else
+        {
+            auto initializer=dynamic_cast<Constant*>(node.initiation->accept(*this));
+            if (scope.in_global())         
+                varAlloca = GlobalVariable::create(node.id, module.get(), tmpType, true, initializer);
             else   
             {
                 varAlloca = builder->create_alloca(tmpType);
@@ -204,7 +283,7 @@ Value* CminusfBuilder::visit(ASTParam &node) {
     auto arg = context.arg;
     builder->create_store(arg, paramAlloca);    
     scope.push(node.id, paramAlloca);  
-
+    return nullptr;
 }
 
 /*Value* CminusfBuilder::visit(ASTCompoundStmt &node) {
@@ -277,7 +356,7 @@ Value* CminusfBuilder::visit(ASTSelectionStmt &node) {
             builder->create_br(retBB);    
         builder->set_insert_point(retBB);  //在后面继续加后续语句 
     }
-
+    return nullptr;
 }
 
 Value* CminusfBuilder::visit(ASTIterationStmt &node) {
@@ -318,6 +397,7 @@ Value* CminusfBuilder::visit(ASTIterterminatorStmt &node)
         builder->create_br(context.retbb);
     else
         builder->create_br(context.condbb);
+    return nullptr;
 }
 Value* CminusfBuilder::visit(ASTReturnStmt &node) {
     if (node.expression == nullptr) {
@@ -452,78 +532,7 @@ Value* CminusfBuilder::visit(ASTMulExpression& node) {
     return ret_val;
 
 }
-Value* CminusfBuilder::visit(ASTConstDecl& node) {
-    // Add your code here
-    for(auto &cdef:node.constdef)
-    {
-        cdef->accept(*this);
-    }
-    return nullptr;
-}
-Value* CminusfBuilder::visit(ASTConstDef& node) {
-    Type* tmpType;              
-    if (node.type == TYPE_INT)     
-        tmpType = INT32_T;       
-    else if (node.type == TYPE_FLOAT)  
-        tmpType = FLOAT_T;       
-    if (!node.expression.empty()) {         
-        //说明声明变量是数组
-        int size;
-        for(auto&exp:node.expression)
-        {
-            size*=dynamic_cast<ConstantInt*>(exp->accept(*this))->get_value();
-        }
-        auto* arrayType = ArrayType::get(tmpType, size); 
-        Constant* initializer;
-        Value* arrayAlloca; 
-        if (node.initiation == nullptr) {//没有初始化，局部变量不初始化
-            initializer = dynamic_cast<Constant*>(CONST_ZERO(tmpType)) ;         
-            if (scope.in_global())          //若是全局
-                arrayAlloca = GlobalVariable::create(node.id, module.get(), arrayType, true, initializer);
-            else                         
-                arrayAlloca = builder->create_alloca(arrayType);
-            }
-        else {
-            Value *val;
-            val=node.initiation->accept(*this);
-            initializer=dynamic_cast<Constant*>(val);
-            if (scope.in_global())          //若是全局
-                arrayAlloca = GlobalVariable::create(node.id, module.get(), arrayType, true, initializer);
-            else  
-            {
-                arrayAlloca = builder->create_alloca(arrayType);
-                builder->create_store(initializer,arrayAlloca);
-            }                       
-        }
-        scope.push(node.id, arrayAlloca);// 将获得的数组变量加入域 
-        return arrayAlloca;
-    }
-    else {  
-        Value* varAlloca;     
-        if (node.initiation == nullptr)
-        {
-            auto initializer = CONST_ZERO(tmpType);    
-            if (scope.in_global())         
-                varAlloca = GlobalVariable::create(node.id, module.get(), tmpType, true, initializer);
-            else                           
-                varAlloca = builder->create_alloca(tmpType);
-        }                       
-        else
-        {
-            auto initializer=dynamic_cast<Constant*>(node.initiation->accept(*this));
-            if (scope.in_global())         
-                varAlloca = GlobalVariable::create(node.id, module.get(), tmpType, true, initializer);
-            else   
-            {
-                varAlloca = builder->create_alloca(tmpType);
-                builder->create_store(initializer,varAlloca);
-            }                        
 
-        }
-        scope.push(node.id, varAlloca); 
-        return varAlloca;
-    }
-}
 
 Value* CminusfBuilder::visit(ASTInit& node) {
     Value* val;
@@ -536,8 +545,13 @@ Value* CminusfBuilder::visit(ASTInit& node) {
         std::vector<Constant*> consts;
         for(auto &init:node.sub_inits)
         {
+            context.level--;
             consts.push_back(dynamic_cast<Constant*>(init->accept(*this)));
+            context.level++;
         }
+        int temp=context.array_index[context.level];
+        for(int i=consts.size()*(context.level>0?context.array_index[context.level-1]:1);i<=temp;i++)
+            consts.push_back(CONST_ZERO(consts.front()->get_type()));
         val=ConstantArray::get(ArrayType::get(consts.front()->get_type(),consts.size()),consts);
     }
     return val;

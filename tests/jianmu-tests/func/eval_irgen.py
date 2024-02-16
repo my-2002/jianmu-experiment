@@ -20,6 +20,7 @@ def eval():
         fname = os.path.basename(file)
         try:
             result = subprocess.run(['cminusfc',fname,"-emit-llvm"], stderr=subprocess.PIPE, timeout=1)
+            
         except Exception as _:
             f.write('\tFail\n')
             continue
@@ -31,7 +32,10 @@ def eval():
                 with open(fname.split(".")[0] + ".in", "rb") as fin:
                     input_option = fin.read()
             try:
-                result = subprocess.run([fname], input=input_option, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=1)
+                result = subprocess.run([fname.split(".")[0]], input=input_option, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=1)
+                name=fname.split(".")[0]
+                with open(f"./llout/{name}.txt","w") as res:
+                    res.write(result.stdout)
                 with open(fname.split(".")[0] + ".out", "rb") as fout:
                     if result.stdout == fout.read():
                         f.write('\tSuccess\n')
