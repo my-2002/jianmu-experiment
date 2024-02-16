@@ -17,6 +17,7 @@ def eval():
     EXE_PATH = "../../../build/cminusfc"
     TEST_BASE_PATH = "./"
     for file in files:
+        fname = os.path.basename(file)
         try:
             result = subprocess.run(['cminusfc',fname,"-emit-llvm"], stderr=subprocess.PIPE, timeout=1)
         except Exception as _:
@@ -24,15 +25,14 @@ def eval():
             continue
 
         if result.returncode == 0:
-            subprocess.run(["clang", "-O0", "-w", "-no-pie", TEST_PATH + ".ll", "-o", TEST_PATH, "-L", "../../../build", "-lcminus_io"])
+            subprocess.run(["clang", "-O0", "-w", "-no-pie", fname.split(".")[0] + ".ll", "-o", fname.split(".")[0], "-L", "-lcminus_io"])
             input_option = None
-            fname = os.path.basename(file)
             if os.path.isfile(fname+".in"):
-                with open(fname + ".in", "rb") as fin:
+                with open(fname.split(".")[0] + ".in", "rb") as fin:
                     input_option = fin.read()
             try:
                 result = subprocess.run([fname], input=input_option, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=1)
-                with open(fname + ".out", "rb") as fout:
+                with open(fname.split(".")[0] + ".out", "rb") as fout:
                     if result.stdout == fout.read():
                         f.write('\tSuccess\n')
                     else:
@@ -41,12 +41,11 @@ def eval():
             except Exception as _:
                 f.write('\tFail\n')
                 has_bonus = False
-            finally:
-                subprocess.call(["rm", "-rf", TEST_PATH, TEST_PATH + ".o", TEST_PATH + ".ll"])
+            #finally:
+                #subprocess.call(["rm", "-rf", TEST_PATH, TEST_PATH + ".o", TEST_PATH + ".ll"])
 
         else:
             f.write('\tFail\n')
-
 
         f.write('===========END========\n\n')
     files = find_files_with_extension(folder_path, '.ll')
@@ -57,7 +56,7 @@ def eval():
         file_path = os.path.abspath(file)
         new_file_path = os.path.join("llout", os.path.basename(file))
         shutil.move(file_path, new_file_path)
-
+    
 
 if __name__ == "__main__":
     eval()
