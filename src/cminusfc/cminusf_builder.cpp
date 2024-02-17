@@ -62,14 +62,15 @@ Value* CminusfBuilder::visit(ASTVarDef& node) {//记得加隐式转换
     if (!node.expression.empty()) {         
         //说明声明变量是数组
         int size = 1;
+        auto* arrayType = context.tmpType;
         context.array_index.clear();
         context.level=node.expression.size()-1;
         for(auto&exp:node.expression)
         {
             size*=dynamic_cast<ConstantInt*>(exp->accept(*this))->get_value();
+            arrayType = ArrayType::get(arrayType, dynamic_cast<ConstantInt*>(exp->accept(*this))->get_value()); 
             context.array_index.push_back(size);
         }
-        auto* arrayType = ArrayType::get(context.tmpType, size); 
         Constant* initializer;
         Value* arrayAlloca; 
         if (node.init == nullptr) {//没有初始化，局部变量不初始化
@@ -144,14 +145,15 @@ Value* CminusfBuilder::visit(ASTConstDef& node) {
     if (!node.expression.empty()) {         
         //说明声明变量是数组
         int size = 1;
+        auto* arrayType = context.tmpType;
         context.array_index.clear();
         context.level=node.expression.size()-1;
         for(auto&exp:node.expression)
         {
             size*=dynamic_cast<ConstantInt*>(exp->accept(*this))->get_value();
+            arrayType = ArrayType::get(arrayType, dynamic_cast<ConstantInt*>(exp->accept(*this))->get_value()); 
             context.array_index.push_back(size);
         }
-        auto* arrayType = ArrayType::get(context.tmpType, size); 
         Constant* initializer;
         Value* arrayAlloca; 
         /*if (node.initiation == nullptr) {//没有初始化，局部变量不初始化
