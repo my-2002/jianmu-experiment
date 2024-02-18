@@ -121,6 +121,6 @@ class CminusfBuilder : public ASTVisitor {
         BasicBlock* retbb;
         std::vector<int> array_index; //储存当前赋值的变量的数组层次元素个数，如a[2][3][4],存储[4,12,24]
         Type* tmpType;
-        int level; //init的当前层次
+        int level; //init的当前层次，一维数组为0层
     } context;
 };

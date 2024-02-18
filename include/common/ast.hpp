@@ -159,6 +159,7 @@ struct ASTInit : ASTNode
     std::vector<std::shared_ptr<ASTInit>> sub_inits;
     std::shared_ptr<ASTAdditiveExpression> expression;
     bool isconst;
+    int level; //若只包含exp，设为-1
 };
 
 struct ASTFunDeclaration : ASTDeclaration {
