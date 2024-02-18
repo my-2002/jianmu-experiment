@@ -556,10 +556,10 @@ Value* CminusfBuilder::visit(ASTInit& node) {
         {
             int capacity = context.array_index[i+1] / (i>=0?context.array_index[i]:1);
             int num=0; //连续可合并个数
+            std::vector<Constant*> uplevel;
             Type* arrayType = i > 0 ? ArrayType::get(context.tmpType, context.array_index[i-1]) : context.tmpType;
             for(int j=0;j<true_level.size();j++)
             {
-                std::vector<Constant*> uplevel;
                 if(true_level[j]==i)
                 {
                     num++;

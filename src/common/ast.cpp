@@ -121,6 +121,7 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
         if(n->children_num == 1)
         {
             auto child_node = static_cast<ASTAdditiveExpression *>(transform_node_iter(n->children[0]));
+            node->level=-1;
             node->expression = std::shared_ptr<ASTAdditiveExpression>(child_node);
         }
         else if(n->children_num <= 3)
@@ -141,6 +142,7 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
         while (!s.empty()) {
             auto child_node =
                 static_cast<ASTInit *>(transform_node_iter(s.top()));
+            node->level=node->level > child_node->level ? node->level : child_node->level;
             auto child_node_shared =
                 std::shared_ptr<ASTInit>(child_node);
             node->sub_inits.push_back(child_node_shared);
