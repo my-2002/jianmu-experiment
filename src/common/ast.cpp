@@ -142,7 +142,7 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
         while (!s.empty()) {
             auto child_node =
                 static_cast<ASTInit *>(transform_node_iter(s.top()));
-            node->level=node->level > child_node->level ? node->level : child_node->level;
+            node->level=node->level > child_node->level + 1 ? node->level : child_node->level + 1;
             auto child_node_shared =
                 std::shared_ptr<ASTInit>(child_node);
             node->sub_inits.push_back(child_node_shared);
