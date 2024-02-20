@@ -7,6 +7,7 @@
 #include "Module.hpp"
 #include "Type.hpp"
 #include "ast.hpp"
+#include "Array.hpp"
 
 #include <map>
 #include <memory>
