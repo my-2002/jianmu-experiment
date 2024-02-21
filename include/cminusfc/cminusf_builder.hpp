@@ -56,30 +56,83 @@ class CminusfBuilder : public ASTVisitor {
         auto *TyVoid = module->get_void_type();
         auto *TyInt32 = module->get_int32_type();
         auto *TyFloat = module->get_float_type();
-
-        auto *input_type = FunctionType::get(TyInt32, {});
+        auto *TyChar = module->get_char_type();
+        /*auto *input_type = FunctionType::get(TyInt32, {});
         auto *input_fun = Function::create(input_type, "input", module.get());
-
-        std::vector<Type *> output_params;
-        output_params.push_back(TyInt32);
-        auto *output_type = FunctionType::get(TyVoid, output_params);
-        auto *output_fun = Function::create(output_type, "output", module.get());
-
-        std::vector<Type *> output_float_params;
-        output_float_params.push_back(TyFloat);
-        auto *output_float_type = FunctionType::get(TyVoid, output_float_params);
-        auto *output_float_fun =
-            Function::create(output_float_type, "outputFloat", module.get());
 
         auto *neg_idx_except_type = FunctionType::get(TyVoid, {});
         auto *neg_idx_except_fun = Function::create(
-            neg_idx_except_type, "neg_idx_except", module.get());
+            neg_idx_except_type, "neg_idx_except", module.get());*/
+
+        auto *getint_type = FunctionType::get(TyInt32, {});
+        auto *getint = Function::create(getint_type, "getint", module.get());
+
+        //需要修改对应的类型
+        auto *getch_type = FunctionType::get(TyInt32, {});
+        auto *getch = Function::create(getch_type, "getch", module.get());
+
+        auto *getfloat_type = FunctionType::get(TyFloat, {});
+        auto *getfloat = Function::create(getfloat_type, "getfloat", module.get());
+
+        //int arrayint_num=10;
+        auto *TyArrayint = module->get_int32_ptr_type();
+        std::vector<Type*> getarray_params;
+        getarray_params.push_back(TyArrayint);
+        auto *getarray_type = FunctionType::get(TyInt32, getarray_params);
+        auto *getarray = Function::create(getarray_type, "getarray", module.get());
+
+        //int arrayfloat_num=10;
+        auto *TyArrayfloat = module->get_float_ptr_type();
+        std::vector<Type*> getfarray_params;
+        getfarray_params.push_back(TyArrayint);
+        auto *getfarray_type = FunctionType::get(TyInt32, getfarray_params);
+        auto *getfarray = Function::create(getfarray_type, "getfarray", module.get());
+
+        std::vector<Type*> putint_params;
+        putint_params.push_back(TyInt32);
+        auto *putint_type = FunctionType::get(TyInt32, putint_params);
+        auto *putint = Function::create(putint_type, "putint", module.get());
+
+        std::vector<Type*> putch_params;
+        putch_params.push_back(TyInt32);
+        auto *putch_type = FunctionType::get(TyInt32, putch_params);
+        auto *putch = Function::create(putch_type, "putch", module.get());
+
+        std::vector<Type*> putarray_params;
+        putarray_params.push_back(TyInt32);
+        putarray_params.push_back(TyArrayint);
+        auto *putarray_type = FunctionType::get(TyInt32, putarray_params);
+        auto *putarray = Function::create(putarray_type, "putarray", module.get());
+
+        std::vector<Type*> putfloat_params;
+        putfloat_params.push_back(TyFloat);
+        auto *putfloat_type = FunctionType::get(TyFloat, putfloat_params);
+        auto *putfloat = Function::create(putfloat_type, "putfloat", module.get());
+
+        std::vector<Type*> putfarray_params;
+        putfarray_params.push_back(TyArrayfloat);
+        auto *putfarray_type = FunctionType::get(TyInt32, putfarray_params);
+        auto *putfarray = Function::create(putfarray_type, "putfarray", module.get());
+
+        std::vector<Type*> putf_params;
+        putf_params.push_back(TyArrayint);
+        auto *putf_type = FunctionType::get(TyInt32, putf_params);
+        auto *putf = Function::create(putf_type, "putf", module.get());
+
+
 
         scope.enter();
-        scope.push("input", input_fun);
-        scope.push("output", output_fun);
-        scope.push("outputFloat", output_float_fun);
-        scope.push("neg_idx_except", neg_idx_except_fun);
+        scope.push("getint", getint);
+        scope.push("getch", getch);
+        scope.push("getfloat", getfloat);
+        scope.push("getarray", getarray);
+        scope.push("getfarray",getfarray);
+        scope.push("putint",putint);
+        scope.push("putch",putch);
+        scope.push("putarray",putarray);
+        scope.push("putfloat",putfloat);
+        scope.push("putfarray",putfarray);
+        scope.push("putf",putf);
     }
 
     std::unique_ptr<Module> getModule() { return std::move(module); }
