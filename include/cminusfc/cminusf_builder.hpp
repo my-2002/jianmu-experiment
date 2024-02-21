@@ -58,11 +58,13 @@ class CminusfBuilder : public ASTVisitor {
         auto *TyFloat = module->get_float_type();
         auto *TyChar = module->get_char_type();
         /*auto *input_type = FunctionType::get(TyInt32, {});
-        auto *input_fun = Function::create(input_type, "input", module.get());
+        auto *input_fun = Function::create(input_type, "input", module.get());*/
 
         auto *neg_idx_except_type = FunctionType::get(TyVoid, {});
         auto *neg_idx_except_fun = Function::create(
-            neg_idx_except_type, "neg_idx_except", module.get());*/
+            neg_idx_except_type, "neg_idx_except", module.get());
+
+        
 
         auto *getint_type = FunctionType::get(TyInt32, {});
         auto *getint = Function::create(getint_type, "getint", module.get());
@@ -119,9 +121,14 @@ class CminusfBuilder : public ASTVisitor {
         auto *putf_type = FunctionType::get(TyInt32, putf_params);
         auto *putf = Function::create(putf_type, "putf", module.get());
 
+        auto *starttime_type = FunctionType::get(TyVoid, {});
+        auto *starttime = Function::create(starttime_type, "starttime", module.get());
 
+        auto *stoptime_type = FunctionType::get(TyVoid, {});
+        auto *stoptime = Function::create(stoptime_type, "stoptime", module.get());
 
         scope.enter();
+        scope.push("neg_idx_except",neg_idx_except_fun);
         scope.push("getint", getint);
         scope.push("getch", getch);
         scope.push("getfloat", getfloat);
@@ -133,6 +140,8 @@ class CminusfBuilder : public ASTVisitor {
         scope.push("putfloat",putfloat);
         scope.push("putfarray",putfarray);
         scope.push("putf",putf);
+        scope.push("starttime",starttime);
+        scope.push("stoptime",stoptime);
     }
 
     std::unique_ptr<Module> getModule() { return std::move(module); }
