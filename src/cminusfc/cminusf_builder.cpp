@@ -66,7 +66,8 @@ Value* CminusfBuilder::visit(ASTVarDef& node) {//记得加隐式转换
         context.level=node.expression.size()-1;
         for(auto&exp:node.expression)
         {
-            int size = dynamic_cast<ConstantInt*>(exp->accept(*this))->get_value();
+            auto temp = exp->accept(*this);
+            int size = dynamic_cast<ConstantInt*>(temp)->get_value();
             arrayType = ArrayType::get(arrayType, size); 
             context.array_index.push_back(size);
         }
@@ -91,7 +92,7 @@ Value* CminusfBuilder::visit(ASTVarDef& node) {//记得加隐式转换
                 builder->create_store(initializer,arrayAlloca);
             }                       
         }
-        scope.push(node.id, arrayAlloca);// 将获得的数组变量加入域 
+        scope.push(node.id, arrayAlloca, false);// 将获得的数组变量加入域 
         return arrayAlloca;
     }
     else {  
@@ -124,7 +125,7 @@ Value* CminusfBuilder::visit(ASTVarDef& node) {//记得加隐式转换
             }                        
 
         }
-        scope.push(node.id, varAlloca); 
+        scope.push(node.id, varAlloca, false); 
         return varAlloca;
     }
 }
@@ -148,59 +149,16 @@ Value* CminusfBuilder::visit(ASTConstDef& node) {
         context.level=node.expression.size()-1;
         for(auto&exp:node.expression)
         {
-            int size = dynamic_cast<ConstantInt*>(exp->accept(*this))->get_value();
+            auto temp = exp->accept(*this);
+            int size = dynamic_cast<ConstantInt*>(temp)->get_value();
             arrayType = ArrayType::get(arrayType, size); 
             context.array_index.push_back(size);
         }
-        Constant* initializer;
-        Value* arrayAlloca; 
-        /*if (node.initiation == nullptr) {//没有初始化，局部变量不初始化
-            initializer = dynamic_cast<Constant*>(CONST_ZERO(context.tmpType)) ;         
-            if (scope.in_global())          //若是全局
-                arrayAlloca = GlobalVariable::create(node.id, module.get(), arrayType, true, initializer);
-            else                         
-                arrayAlloca = builder->create_alloca(arrayType);
-            }
-        else {*/
-        Value *val;
-        val=node.initiation->accept(*this);
-        initializer=dynamic_cast<Constant*>(val);
-        if (scope.in_global())          //若是全局
-            arrayAlloca = GlobalVariable::create(node.id, module.get(), arrayType, true, initializer);
-        else  
-        {
-            arrayAlloca = builder->create_alloca(arrayType);
-            builder->create_store(initializer,arrayAlloca);
-        }                       
-        //}
-        scope.push(node.id, arrayAlloca);// 将获得的数组变量加入域 
-        return arrayAlloca;
     }
-    else {  
-        Value* varAlloca;     
-        if (node.initiation == nullptr)
-        {
-            auto initializer = CONST_ZERO(context.tmpType);    
-            if (scope.in_global())         
-                varAlloca = GlobalVariable::create(node.id, module.get(), context.tmpType, true, initializer);
-            else                           
-                varAlloca = builder->create_alloca(context.tmpType);
-        }                       
-        else
-        {
-            auto initializer=dynamic_cast<Constant*>(node.initiation->accept(*this));
-            if (scope.in_global())         
-                varAlloca = GlobalVariable::create(node.id, module.get(), context.tmpType, true, initializer);
-            else   
-            {
-                varAlloca = builder->create_alloca(context.tmpType);
-                builder->create_store(initializer,varAlloca);
-            }                        
-
-        }
-        scope.push(node.id, varAlloca); 
-        return varAlloca;
-    }
+    Value *init;
+    init=node.initiation->accept(*this);
+    scope.push(node.id, init, true);// 将获得的数组变量加入域 
+    return init;
 }
 Value* CminusfBuilder::visit(ASTFunDeclaration &node) {
     FunctionType *fun_type;
@@ -231,7 +189,7 @@ Value* CminusfBuilder::visit(ASTFunDeclaration &node) {
 
     fun_type = FunctionType::get(ret_type, param_types);
     auto func = Function::create(fun_type, node.id, module.get());
-    scope.push(node.id, func);
+    scope.push(node.id, func, false);
     context.func = func;
     auto funBB = BasicBlock::create(module.get(), "entry", func);
     builder->set_insert_point(funBB);
@@ -280,7 +238,7 @@ Value* CminusfBuilder::visit(ASTParam &node) {
     }
     auto arg = context.arg;
     builder->create_store(arg, paramAlloca);    
-    scope.push(node.id, paramAlloca);  
+    scope.push(node.id, paramAlloca, false);  
     return nullptr;
 }
 
@@ -436,10 +394,6 @@ Value* CminusfBuilder::visit(ASTAssignStmt &node) {
 
 
 Value* CminusfBuilder::visit(ASTAdditiveExpression &node) {
-    // TODO: This function is empty now.
-    // Add some code here.
-    // TODO: This function is empty now.
-    // Add some code here.
     Value* ret_val;
     if (node.additive_expression == nullptr) {  //直接返回term
         ret_val=node.mul_expression->accept(*this);
@@ -447,28 +401,62 @@ Value* CminusfBuilder::visit(ASTAdditiveExpression &node) {
     }
     auto lres = node.additive_expression->accept(*this);                       
     auto rres = node.mul_expression->accept(*this);       
-    if (lres->get_type()->is_integer_type() && rres->get_type()->is_integer_type()) {    
-        switch (node.op) {
-        case OP_PLUS:
-            ret_val = builder->create_iadd(lres, rres);break;
-        case OP_MINUS:
-            ret_val = builder->create_isub(lres, rres);break;
+    if(dynamic_cast<Constant*>(lres) && dynamic_cast<Constant*>(rres))
+    {
+        if (lres->get_type()->is_integer_type() && rres->get_type()->is_integer_type()) {
+            switch (node.op) {
+            case OP_PLUS:
+                ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())+(dynamic_cast<ConstantInt*>(rres)->get_value()));break;
+            case OP_MINUS:
+                ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())-(dynamic_cast<ConstantInt*>(rres)->get_value()));break;
+            }
+        } else if (lres->get_type()->is_integer_type()){ 
+            switch (node.op) {  
+            case OP_PLUS:
+                ret_val = CONST_FP((dynamic_cast<ConstantInt*>(lres)->get_value())+(dynamic_cast<ConstantFP*>(rres)->get_value()));break;
+            case OP_MINUS:
+                ret_val = CONST_FP((dynamic_cast<ConstantInt*>(lres)->get_value())-(dynamic_cast<ConstantFP*>(rres)->get_value()));break;
+            }
+        } else if (rres->get_type()->is_integer_type()){
+            switch (node.op) {  
+            case OP_PLUS:
+                ret_val = CONST_FP((dynamic_cast<ConstantFP*>(lres)->get_value())+(dynamic_cast<ConstantInt*>(rres)->get_value()));break;
+            case OP_MINUS:
+                ret_val = CONST_FP((dynamic_cast<ConstantFP*>(lres)->get_value())-(dynamic_cast<ConstantInt*>(rres)->get_value()));break;
+            }
+        } else {
+            switch (node.op) {  
+            case OP_PLUS:
+                ret_val = CONST_FP((dynamic_cast<ConstantFP*>(lres)->get_value())+(dynamic_cast<ConstantFP*>(rres)->get_value()));break;
+            case OP_MINUS:
+                ret_val = CONST_FP((dynamic_cast<ConstantFP*>(lres)->get_value())-(dynamic_cast<ConstantFP*>(rres)->get_value()));break;
+            }
         }
     }
-    else { 
-        if (lres->get_type()->is_integer_type()) 
-            lres = builder->create_sitofp(lres, FLOAT_T);
-        if (rres->get_type()->is_integer_type()) 
-            rres = builder->create_sitofp(rres, FLOAT_T);
-        switch (node.op) { 
-        case OP_PLUS:
-            ret_val = builder->create_fadd(lres, rres);break;
-        case OP_MINUS:
-            ret_val = builder->create_fsub(lres, rres);break;
+    else
+    {
+        if (lres->get_type()->is_integer_type() && rres->get_type()->is_integer_type()) {    
+            switch (node.op) {
+            case OP_PLUS:
+                ret_val = builder->create_iadd(lres, rres);break;
+            case OP_MINUS:
+                ret_val = builder->create_isub(lres, rres);break;
+            }
         }
-    }
+        else { 
+            if (lres->get_type()->is_integer_type()) 
+                lres = builder->create_sitofp(lres, FLOAT_T);
+            if (rres->get_type()->is_integer_type()) 
+                rres = builder->create_sitofp(rres, FLOAT_T);
+            switch (node.op) { 
+            case OP_PLUS:
+                ret_val = builder->create_fadd(lres, rres);break;
+            case OP_MINUS:
+                ret_val = builder->create_fsub(lres, rres);break;
+            }
+        }
+    }   
     return ret_val;
-
 }
 
 Value* CminusfBuilder::visit(ASTBlock& node) {
@@ -496,39 +484,82 @@ Value* CminusfBuilder::visit(ASTMulExpression& node) {
         return ret_val;  
     }
     auto lres = node.mul_expression->accept(*this);   
-    auto rres = node.unaryexp->accept(*this);   
-    if (lres->get_type()->is_integer_type() && rres->get_type()->is_integer_type()) {
-        switch (node.op) {
-        case OP_MUL:
-            ret_val = builder->create_imul(lres, rres);break;
-        case OP_DIV:
-            ret_val = builder->create_isdiv(lres, rres);break;
-        case OP_MOD:
-            auto temp=builder->create_isdiv(lres, rres);
-            temp=builder->create_imul(temp,rres);
-            ret_val=builder->create_isub(lres,temp);
-            break;
+    auto rres = node.unaryexp->accept(*this);
+    if(dynamic_cast<Constant*>(lres) && dynamic_cast<Constant*>(rres))
+    {
+        if (lres->get_type()->is_integer_type() && rres->get_type()->is_integer_type()) {
+            switch (node.op) {
+            case OP_MUL:
+                ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())*(dynamic_cast<ConstantInt*>(rres)->get_value()));break;
+            case OP_DIV:
+                ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())/(dynamic_cast<ConstantInt*>(rres)->get_value()));break;
+            case OP_MOD:
+                ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())%(dynamic_cast<ConstantInt*>(rres)->get_value()));break;
+            }
+        } else if (lres->get_type()->is_integer_type()){ 
+            switch (node.op) {
+            case OP_MUL:
+                ret_val = CONST_FP((dynamic_cast<ConstantInt*>(lres)->get_value())*(dynamic_cast<ConstantFP*>(rres)->get_value()));break;
+            case OP_DIV:
+                ret_val = CONST_FP((dynamic_cast<ConstantInt*>(lres)->get_value())/(dynamic_cast<ConstantFP*>(rres)->get_value()));break;
+            case OP_MOD:
+                assert("MOD operands are not both i32");break;
+            }
+        } else if (rres->get_type()->is_integer_type()){
+            switch (node.op) {
+            case OP_MUL:
+                ret_val = CONST_FP((dynamic_cast<ConstantFP*>(lres)->get_value())*(dynamic_cast<ConstantInt*>(rres)->get_value()));break;
+            case OP_DIV:
+                ret_val = CONST_FP((dynamic_cast<ConstantFP*>(lres)->get_value())/(dynamic_cast<ConstantInt*>(rres)->get_value()));break;
+            case OP_MOD:
+                assert("MOD operands are not both i32");break;
+            }
+        } else {
+            switch (node.op) {
+            case OP_MUL:
+                ret_val = CONST_FP((dynamic_cast<ConstantFP*>(lres)->get_value())*(dynamic_cast<ConstantFP*>(rres)->get_value()));break;
+            case OP_DIV:
+                ret_val = CONST_FP((dynamic_cast<ConstantFP*>(lres)->get_value())/(dynamic_cast<ConstantFP*>(rres)->get_value()));break;
+            case OP_MOD:
+                assert("MOD operands are not both i32");break;
+            }
         }
-    }
-    else { 
-        if (lres->get_type()->is_integer_type()) 
-            lres = builder->create_sitofp(lres, FLOAT_T);
-        if (rres->get_type()->is_integer_type()) 
-            rres = builder->create_sitofp(rres, FLOAT_T);
-        switch (node.op) {  
-        case OP_MUL:
-            ret_val = builder->create_fmul(lres, rres);break;
-        case OP_DIV:
-            ret_val = builder->create_fdiv(lres, rres);break;
-        case OP_MOD:
-            auto temp=builder->create_fdiv(lres, rres);
-            temp=builder->create_fmul(temp,rres);
-            ret_val=builder->create_fsub(lres,temp);
-            break;
+    }   
+    else
+    {
+        if (lres->get_type()->is_integer_type() && rres->get_type()->is_integer_type()) {
+            switch (node.op) {
+            case OP_MUL:
+                ret_val = builder->create_imul(lres, rres);break;
+            case OP_DIV:
+                ret_val = builder->create_isdiv(lres, rres);break;
+            case OP_MOD:
+                auto temp=builder->create_isdiv(lres, rres);
+                temp=builder->create_imul(temp,rres);
+                ret_val=builder->create_isub(lres,temp);
+                break;
+            }
+        }
+        else { 
+            if (lres->get_type()->is_integer_type()) 
+                lres = builder->create_sitofp(lres, FLOAT_T);
+            if (rres->get_type()->is_integer_type()) 
+                rres = builder->create_sitofp(rres, FLOAT_T);
+            switch (node.op) {  
+            case OP_MUL:
+                ret_val = builder->create_fmul(lres, rres);break;
+            case OP_DIV:
+                ret_val = builder->create_fdiv(lres, rres);break;
+            case OP_MOD:
+                assert("MOD operands are not both i32");
+                //auto temp=builder->create_fdiv(lres, rres);
+                //temp=builder->create_fmul(temp,rres);
+                //ret_val=builder->create_fsub(lres,temp);
+                break;
+            }
         }
     }
     return ret_val;
-
 }
 
 
@@ -606,65 +637,98 @@ Value* CminusfBuilder::visit(ASTInit& node) {
 }
 Value* CminusfBuilder::visit(ASTLVal& node) {
     Value* ret_value;
-    auto var = scope.find(node.id);       
-    bool assign = context.assign;    // 是否由赋值语句调用
-    context.assign = false;          
-    std::vector<Value*> index;        
-    if (node.expression.size()!=0) {   //说明是数组
-        for(auto& exp:node.expression)
-        {
-            auto res = exp->accept(*this); 
-            if (res->get_type()->is_float_type())          
-                res = builder->create_fptosi(res, INT32_T);     //转换数组下标值
-            index.push_back(res);
-        }             
+    std::vector<Value*> index;
+    if(!scope.find(node.id)->is_const)//不是常量名
+    {
+        auto var = scope.find(node.id)->val;       
+        bool assign = context.assign;    // 是否由赋值语句调用
+        context.assign = false;
+        if (node.expression.size()!=0) {   //说明是数组
+            for(auto& exp:node.expression)
+            {
+                auto res = exp->accept(*this); 
+                if (res->get_type()->is_float_type())          
+                    res = builder->create_fptosi(res, INT32_T);     //转换数组下标值
+                index.push_back(res);
+            }             
 
-        auto function = builder->get_insert_block()->get_parent(); 
-        Value * cond= CONST_ZERO(INT32_T);
-        for(auto& i:index)
-        {
-            auto indexTest = builder->create_icmp_lt(i, CONST_ZERO(INT32_T)); 
-            cond=builder->create_iadd(indexTest,cond);
-        }
-        auto ltzBB = BasicBlock::create(module.get(), node.id + "_ltz" + std::to_string(context.label_time++), function);
-        auto gtzBB = BasicBlock::create(module.get(), node.id + "_gtz" + std::to_string(context.label_time++), function);
+            auto function = builder->get_insert_block()->get_parent(); 
+            Value * cond= CONST_ZERO(INT32_T);
+            for(auto& i:index)
+            {
+                auto indexTest = builder->create_icmp_lt(i, CONST_ZERO(INT32_T)); 
+                auto _indexTest = builder->create_zext(indexTest, INT32_T);
+                cond=builder->create_iadd(_indexTest,cond);
+            }
+            auto ltzBB = BasicBlock::create(module.get(), node.id + "_ltz" + std::to_string(context.label_time++), function);
+            auto gtzBB = BasicBlock::create(module.get(), node.id + "_gtz" + std::to_string(context.label_time++), function);
 
-        builder->create_cond_br(cond, ltzBB, gtzBB);
+            auto _cond = builder->create_icmp_ne(cond, CONST_ZERO(INT32_T));
+            builder->create_cond_br(_cond, ltzBB, gtzBB);
 
-        builder->set_insert_point(ltzBB);       //终止程序
-        auto fail = scope.find("neg_idx_except");             
-        builder->create_call(static_cast<Function*>(fail), {});
-        builder->create_br(gtzBB);    
+            builder->set_insert_point(ltzBB);       //终止程序
+            auto fail = scope.find("neg_idx_except")->val;             
+            builder->create_call(static_cast<Function*>(fail), {});
+            builder->create_br(gtzBB);    
 
-        builder->set_insert_point(gtzBB);  
-        if (var->get_type()->get_pointer_element_type()->is_array_type()) 
-        {
-            index.insert(index.begin(), CONST_INT(0));
-            var = builder->create_gep(var, index);               
-        } 
-        else {
-            if (var->get_type()->get_pointer_element_type()->is_pointer_type()) 
-                var = builder->create_load(var);     
+            builder->set_insert_point(gtzBB);  
             var = builder->create_gep(var, index); 
+            if (assign) {       //赋值语句
+                ret_value = var;                   
+                context.assign = false;    
+            }
+            else 
+                ret_value = builder->create_load(var);
+            return ret_value;
         }
         if (assign) {       //赋值语句
             ret_value = var;                   
             context.assign = false;    
-        }
+        }    
         else 
             ret_value = builder->create_load(var);
-        return ret_value;
     }
+    else//是常量名
+    {
+        auto var = scope.find(node.id)->val;
+        if(node.expression.size()!=0)//是数组
+        {
+            for(auto& exp:node.expression)
+            {
+                auto res = exp->accept(*this); 
+                if (res->get_type()->is_float_type())          
+                    res = builder->create_fptosi(res, INT32_T);     //转换数组下标值
+                index.push_back(res);
+            }             
 
-    if (assign) {    //赋值语句
-        ret_value = var;           
-        context.assign = false;
-    }
-    else {                
-        if (var->get_type()->get_pointer_element_type()->is_array_type())  
-            ret_value = builder->create_gep(var, { CONST_INT(0), CONST_INT(0) }); 
-        else
-            ret_value = builder->create_load(var);
+            auto function = builder->get_insert_block()->get_parent(); 
+            Value * cond= CONST_ZERO(INT32_T);
+            for(auto& i:index)
+            {
+                auto indexTest = builder->create_icmp_lt(i, CONST_ZERO(INT32_T)); 
+                auto _indexTest = builder->create_zext(indexTest, INT32_T);
+                cond=builder->create_iadd(_indexTest,cond);
+            }
+            auto ltzBB = BasicBlock::create(module.get(), node.id + "_ltz" + std::to_string(context.label_time++), function);
+            auto gtzBB = BasicBlock::create(module.get(), node.id + "_gtz" + std::to_string(context.label_time++), function);
+
+            auto _cond = builder->create_icmp_ne(cond, CONST_ZERO(INT32_T));
+            builder->create_cond_br(_cond, ltzBB, gtzBB);
+
+            builder->set_insert_point(ltzBB);       //终止程序
+            auto fail = scope.find("neg_idx_except")->val;             
+            builder->create_call(static_cast<Function*>(fail), {});
+            builder->create_br(gtzBB);    
+
+            builder->set_insert_point(gtzBB);  
+
+            for(int i = index.size()-1; i>=0; i--)
+            {
+                int num = dynamic_cast<ConstantInt* >(index[i])->get_value();
+                var = (dynamic_cast<ConstantArray*>(var))->get_element_value(num);
+            } 
+        }
+        ret_value = var;
     }
     return ret_value;
 
@@ -675,51 +739,134 @@ Value* CminusfBuilder::visit(ASTRelExp& node) {
         return rres;   
     auto lres = node.relation_expression_l->accept(*this);    
     Value * ret_val;                   
-    if (lres->get_type()->is_integer_type() && rres->get_type()->is_integer_type()) {     //都为整数的情况
-        auto tem=builder->create_iadd(lres,rres);
-        switch (node.op) {  
-        case OP_LE:
-            ret_val = builder->create_icmp_le(lres, rres);break;
-        case OP_LT:
-            ret_val = builder->create_icmp_lt(lres, rres);break;
-        case OP_GT:
-            ret_val = builder->create_icmp_gt(lres, rres);break;
-        case OP_GE:
-            ret_val = builder->create_icmp_ge(lres, rres);break;
-        case OP_EQ:
-            ret_val = builder->create_icmp_eq(lres, rres);break;
-        case OP_NEQ:
-            ret_val = builder->create_icmp_ne(lres, rres);break;
-        case OP_AND:    
-            ret_val=builder->create_icmp_eq(tem,ConstantInt::get(2,module.get()));
-            break;
-        case OP_OR:
-            ret_val=builder->create_icmp_ge(tem,ConstantInt::get(1,module.get()));
-            break;
+    if(dynamic_cast<Constant*>(lres) && dynamic_cast<Constant*>(rres))
+    {
+        if (lres->get_type()->is_integer_type() && rres->get_type()->is_integer_type()) {
+            switch (node.op) {  
+            case OP_LE:
+                ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())<=(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
+            case OP_LT:
+                ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())<(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
+            case OP_GT:
+                ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())>(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
+            case OP_GE:
+                ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())>=(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
+            case OP_EQ:
+                ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())==(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
+            case OP_NEQ:
+                ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())!=(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
+            case OP_AND:    
+                ret_val = CONST_INT(((dynamic_cast<ConstantInt*>(lres)->get_value())!=0 && (dynamic_cast<ConstantInt*>(rres)->get_value())!=0) ? 1 : 0);break;
+            case OP_OR:
+                ret_val = CONST_INT(((dynamic_cast<ConstantInt*>(lres)->get_value())!=0 || (dynamic_cast<ConstantInt*>(rres)->get_value())!=0) ? 1 : 0);break;
+            }
+        } else if (lres->get_type()->is_integer_type()){ 
+            switch (node.op) {  
+            case OP_LE:
+                ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())<=(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
+            case OP_LT:
+                ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())<(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
+            case OP_GT:
+                ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())>(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
+            case OP_GE:
+                ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())>=(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
+            case OP_EQ:
+                ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())==(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
+            case OP_NEQ:
+                ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())!=(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
+            case OP_AND:    
+                ret_val = CONST_INT(((dynamic_cast<ConstantInt*>(lres)->get_value())!=0 && (dynamic_cast<ConstantFP*>(rres)->get_value())!=0) ? 1 : 0);break;
+            case OP_OR:
+                ret_val = CONST_INT(((dynamic_cast<ConstantInt*>(lres)->get_value())!=0 || (dynamic_cast<ConstantFP*>(rres)->get_value())!=0) ? 1 : 0);break;
+            }
+        } else if (rres->get_type()->is_integer_type()){
+            switch (node.op) {  
+            case OP_LE:
+                ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())<=(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
+            case OP_LT:
+                ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())<(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
+            case OP_GT:
+                ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())>(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
+            case OP_GE:
+                ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())>=(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
+            case OP_EQ:
+                ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())==(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
+            case OP_NEQ:
+                ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())!=(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
+            case OP_AND:    
+                ret_val = CONST_INT(((dynamic_cast<ConstantFP*>(lres)->get_value())!=0 && (dynamic_cast<ConstantInt*>(rres)->get_value())!=0) ? 1 : 0);break;
+            case OP_OR:
+                ret_val = CONST_INT(((dynamic_cast<ConstantFP*>(lres)->get_value())!=0 || (dynamic_cast<ConstantInt*>(rres)->get_value())!=0) ? 1 : 0);break;
+            }
+        } else {
+            switch (node.op) {  
+            case OP_LE:
+                ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())<=(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
+            case OP_LT:
+                ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())<(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
+            case OP_GT:
+                ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())>(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
+            case OP_GE:
+                ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())>=(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
+            case OP_EQ:
+                ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())==(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
+            case OP_NEQ:
+                ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())!=(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
+            case OP_AND:    
+                ret_val = CONST_INT(((dynamic_cast<ConstantFP*>(lres)->get_value())!=0 && (dynamic_cast<ConstantFP*>(rres)->get_value())!=0) ? 1 : 0);break;
+            case OP_OR:
+                ret_val = CONST_INT(((dynamic_cast<ConstantFP*>(lres)->get_value())!=0 || (dynamic_cast<ConstantFP*>(rres)->get_value())!=0) ? 1 : 0);break;
+            }
         }
     }
     else
     {
-        if (lres->get_type()->is_integer_type())         //若有整数，则先转换
-            lres = builder->create_sitofp(lres, FLOAT_T);
-        if (rres->get_type()->is_integer_type()) 
-            rres = builder->create_sitofp(rres, FLOAT_T);
-        switch (node.op) { 
-        case OP_LE:
-            ret_val = builder->create_fcmp_le(lres, rres);break;
-        case OP_LT:
-            ret_val = builder->create_fcmp_lt(lres, rres);break;
-        case OP_GT:
-            ret_val = builder->create_fcmp_gt(lres, rres);break;
-        case OP_GE:
-            ret_val = builder->create_fcmp_ge(lres, rres);break;
-        case OP_EQ:
-            ret_val = builder->create_fcmp_eq(lres, rres);break;
-        case OP_NEQ:
-            ret_val = builder->create_fcmp_ne(lres, rres);break;
+        if (lres->get_type()->is_integer_type() && rres->get_type()->is_integer_type()) {     //都为整数的情况
+            auto tem=builder->create_iadd(lres,rres);
+            switch (node.op) {  
+            case OP_LE:
+                ret_val = builder->create_icmp_le(lres, rres);break;
+            case OP_LT:
+                ret_val = builder->create_icmp_lt(lres, rres);break;
+            case OP_GT:
+                ret_val = builder->create_icmp_gt(lres, rres);break;
+            case OP_GE:
+                ret_val = builder->create_icmp_ge(lres, rres);break;
+            case OP_EQ:
+                ret_val = builder->create_icmp_eq(lres, rres);break;
+            case OP_NEQ:
+                ret_val = builder->create_icmp_ne(lres, rres);break;
+            case OP_AND:    
+                ret_val=builder->create_icmp_eq(tem,ConstantInt::get(2,module.get()));
+                break;
+            case OP_OR:
+                ret_val=builder->create_icmp_ge(tem,ConstantInt::get(1,module.get()));
+                break;
+            }
         }
+        else
+        {
+            if (lres->get_type()->is_integer_type())         //若有整数，则先转换
+                lres = builder->create_sitofp(lres, FLOAT_T);
+            if (rres->get_type()->is_integer_type()) 
+                rres = builder->create_sitofp(rres, FLOAT_T);
+            switch (node.op) { 
+            case OP_LE:
+                ret_val = builder->create_fcmp_le(lres, rres);break;
+            case OP_LT:
+                ret_val = builder->create_fcmp_lt(lres, rres);break;
+            case OP_GT:
+                ret_val = builder->create_fcmp_gt(lres, rres);break;
+            case OP_GE:
+                ret_val = builder->create_fcmp_ge(lres, rres);break;
+            case OP_EQ:
+                ret_val = builder->create_fcmp_eq(lres, rres);break;
+            case OP_NEQ:
+                ret_val = builder->create_fcmp_ne(lres, rres);break;
+            }
+        }
+        ret_val = builder->create_zext(ret_val, INT32_T);     //统一讲结果保存为整
     }
-    ret_val = builder->create_zext(ret_val, INT32_T);     //统一讲结果保存为整
     return ret_val;
 
 }
@@ -734,7 +881,7 @@ Value* CminusfBuilder::visit(ASTUnaryExp& node) {
     {
         //call函数调用
         Value* ret_val;
-        auto function = static_cast<Function*>(scope.find(node.ident));   
+        auto function = static_cast<Function*>(scope.find(node.ident)->val);   
         auto paramType = function->get_function_type()->param_begin();
         std::vector<Value*> args;      
         for (auto arg : node.params) {  
@@ -758,15 +905,41 @@ Value* CminusfBuilder::visit(ASTUnaryExp& node) {
     {
         Value* val=node.unaryexp->accept(*this);
         Type* temtype=val->get_type();
-        switch (node.op) { 
-        case OP_NOT:
-            val=builder->create_zext(val,temtype);
-            val=builder->create_icmp_le(val,CONST_ZERO(temtype));break;
-        case OP_POS:
-            break;
-        case OP_NEG:
-            val=builder->create_isub(CONST_ZERO(temtype),val);
-            break;
+        if(dynamic_cast<Constant*>(val))
+        {
+            switch (node.op) { 
+            case OP_NOT:
+            {
+                if(temtype == FLOAT_T)
+                    val = CONST_INT((dynamic_cast<ConstantFP*>(val)->get_value() == 0 ? 1 : 0));
+                else
+                    val = CONST_INT((dynamic_cast<ConstantInt*>(val)->get_value() == 0 ? 1 : 0));
+                break;
+            }
+            case OP_POS:
+                break;
+            case OP_NEG:
+            {
+                if(temtype == FLOAT_T)
+                    val = CONST_FP(-(dynamic_cast<ConstantFP*>(val)->get_value()));
+                else
+                    val = CONST_INT(-(dynamic_cast<ConstantInt*>(val)->get_value()));
+                break;
+            }
+            }
+        }
+        else
+        {
+            switch (node.op) { 
+            case OP_NOT:
+                val=builder->create_zext(val,temtype);
+                val=builder->create_icmp_le(val,CONST_ZERO(temtype));break;
+            case OP_POS:
+                break;
+            case OP_NEG:
+                val=builder->create_isub(CONST_ZERO(temtype),val);
+                break;
+            }
         }
         return val;
     }

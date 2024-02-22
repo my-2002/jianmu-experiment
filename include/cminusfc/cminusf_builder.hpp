@@ -11,6 +11,11 @@
 #include <map>
 #include <memory>
 
+typedef struct Info{
+    Value* val;
+    bool is_const;
+}Info;
+
 class Scope {
   public:
     // enter a new scope
@@ -24,12 +29,15 @@ class Scope {
     // push a name to scope
     // return true if successful
     // return false if this name already exits
-    bool push(const std::string& name, Value *val) {
-        auto result = inner[inner.size() - 1].insert({name, val});
+    bool push(const std::string& name, Value *val, bool is_const) {
+        Info* info = new Info();
+        info->val = val;
+        info->is_const = is_const;
+        auto result = inner[inner.size() - 1].insert({name, info});
         return result.second;
     }
 
-    Value *find(const std::string& name) {
+    Info* find(const std::string& name) {
         for (auto s = inner.rbegin(); s != inner.rend(); s++) {
             auto iter = s->find(name);
             if (iter != s->end()) {
@@ -44,7 +52,7 @@ class Scope {
     }
 
   private:
-    std::vector<std::map<std::string, Value *>> inner;
+    std::vector<std::map<std::string, Info*>> inner;
 };
 
 class CminusfBuilder : public ASTVisitor {
@@ -75,10 +83,10 @@ class CminusfBuilder : public ASTVisitor {
             neg_idx_except_type, "neg_idx_except", module.get());
 
         scope.enter();
-        scope.push("input", input_fun);
-        scope.push("output", output_fun);
-        scope.push("outputFloat", output_float_fun);
-        scope.push("neg_idx_except", neg_idx_except_fun);
+        scope.push("input", input_fun, false);
+        scope.push("output", output_fun, false);
+        scope.push("outputFloat", output_float_fun, false);
+        scope.push("neg_idx_except", neg_idx_except_fun, false);
     }
 
     std::unique_ptr<Module> getModule() { return std::move(module); }
@@ -119,8 +127,8 @@ class CminusfBuilder : public ASTVisitor {
         bool assign = false; 
         BasicBlock* condbb;
         BasicBlock* retbb;
-        std::vector<int> array_index; //储存当前赋值的变量的数组层次元素个数，如a[2][3][4],存储[4,12,24]
-        Type* tmpType;
+        std::vector<int> array_index; //储存当前赋值的变量的数组层次元素个数，如a[2][3][4],存储[4,3,2]
+        Type* tmpType;//当前声明变量的BType
         int level; //init的当前层次，一维数组为0层
     } context;
 };

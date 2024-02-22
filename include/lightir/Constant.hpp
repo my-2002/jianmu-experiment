@@ -14,11 +14,11 @@ class Constant : public User {
 
 class ConstantInt : public Constant {
   private:
-    int value_;
-    ConstantInt(Type *ty, int val) : Constant(ty, ""), value_(val) {}
+    int val_;
+    ConstantInt(Type *ty, int val) : Constant(ty, ""), val_(val) {}
 
   public:
-    int get_value() { return value_; }
+    int get_value() { return val_; }
     static ConstantInt *get(int val, Module *m);
     static ConstantInt *get(bool val, Module *m);
     virtual std::string print() override;
