@@ -89,7 +89,7 @@ Value* CminusfBuilder::visit(ASTVarDef& node) {//记得加隐式转换
             else  
             {
                 arrayAlloca = builder->create_alloca(arrayType);
-                builder->create_store(initializer,arrayAlloca);
+                builder->create_store(val,arrayAlloca);
             }                       
         }
         scope.push(node.id, arrayAlloca, false);// 将获得的数组变量加入域 
@@ -1001,7 +1001,12 @@ Value* CminusfBuilder::visit(ASTUnaryExp& node) {
             case OP_POS:
                 break;
             case OP_NEG:
-                val=builder->create_isub(CONST_ZERO(temtype),val);
+                if (val->get_type()->is_float_type())
+                {
+                    val=builder->create_fsub(CONST_ZERO(FLOAT_T),val);
+                }
+                else
+                    val=builder->create_isub(CONST_ZERO(INT32_T),val);
                 break;
             }
         }

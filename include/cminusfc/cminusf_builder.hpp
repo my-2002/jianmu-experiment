@@ -65,14 +65,10 @@ class CminusfBuilder : public ASTVisitor {
         auto *TyInt32 = module->get_int32_type();
         auto *TyFloat = module->get_float_type();
         auto *TyChar = module->get_char_type();
-        /*auto *input_type = FunctionType::get(TyInt32, {});
-        auto *input_fun = Function::create(input_type, "input", module.get());*/
 
         auto *neg_idx_except_type = FunctionType::get(TyVoid, {});
         auto *neg_idx_except_fun = Function::create(
             neg_idx_except_type, "neg_idx_except", module.get());
-
-        
 
         auto *getint_type = FunctionType::get(TyInt32, {});
         auto *getint = Function::create(getint_type, "getint", module.get());
@@ -136,20 +132,20 @@ class CminusfBuilder : public ASTVisitor {
         auto *stoptime = Function::create(stoptime_type, "stoptime", module.get());
 
         scope.enter();
-        /*scope.push("neg_idx_except",neg_idx_except_fun);
-        scope.push("getint", getint);
-        scope.push("getch", getch);
-        scope.push("getfloat", getfloat);
-        scope.push("getarray", getarray);
-        scope.push("getfarray",getfarray);
-        scope.push("putint",putint);
-        scope.push("putch",putch);
-        scope.push("putarray",putarray);
-        scope.push("putfloat",putfloat);
-        scope.push("putfarray",putfarray);
-        scope.push("putf",putf);
-        scope.push("starttime",starttime);
-        scope.push("stoptime",stoptime);*/
+        scope.push("neg_idx_except",neg_idx_except_fun,false);
+        scope.push("getint", getint,false);
+        scope.push("getch", getch,false);
+        scope.push("getfloat", getfloat,false);
+        scope.push("getarray", getarray,false);
+        scope.push("getfarray",getfarray,false);
+        scope.push("putint",putint,false);
+        scope.push("putch",putch,false);
+        scope.push("putarray",putarray,false);
+        scope.push("putfloat",putfloat,false);
+        scope.push("putfarray",putfarray,false);
+        scope.push("putf",putf,false);
+        scope.push("starttime",starttime,false);
+        scope.push("stoptime",stoptime,false);
     }
 
     std::unique_ptr<Module> getModule() { return std::move(module); }

@@ -1,18 +1,35 @@
 ; ModuleID = 'sysy'
 source_filename = "/home/syx/Test/jianmu/2023ustc-jianmu-compiler/tests/jianmu-tests/func/06_const_var_defn2.sy"
 
-@a = constant i32 10
-@b = constant i32 5
-declare i32 @input()
-
-declare void @output(i32)
-
-declare void @outputFloat(float)
-
 declare void @neg_idx_except()
+
+declare i32 @getint()
+
+declare i32 @getch()
+
+declare float @getfloat()
+
+declare i32 @getarray(i32*)
+
+declare i32 @getfarray(i32*)
+
+declare i32 @putint(i32)
+
+declare i32 @putch(i32)
+
+declare i32 @putarray(i32, i32*)
+
+declare float @putfloat(float)
+
+declare i32 @putfarray(float*)
+
+declare i32 @putf(i32*)
+
+declare void @starttime()
+
+declare void @stoptime()
 
 define i32 @main() {
 label_entry:
-  %op0 = load i32, i32* @b
-  ret i32 %op0
+  ret i32 5
 }
