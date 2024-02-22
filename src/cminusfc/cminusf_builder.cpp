@@ -84,13 +84,18 @@ Value* CminusfBuilder::visit(ASTVarDef& node) {//记得加隐式转换
             Value *val;
             val=node.init->accept(*this);
             initializer=dynamic_cast<Constant*>(val);
-            if (scope.in_global())          //若是全局
-                arrayAlloca = GlobalVariable::create(node.id, module.get(), arrayType, false, initializer);
-            else  
+            arrayAlloca = builder->create_alloca(arrayType);
+            builder->create_store(initializer,arrayAlloca);
+            if(node.init->isconst==false)
             {
-                arrayAlloca = builder->create_alloca(arrayType);
-                builder->create_store(val,arrayAlloca);
-            }                       
+                for(auto &var:context.val_pos)
+                {
+                    auto des_var=builder->create_load(var.first);
+                    auto des = builder->create_gep(arrayAlloca,var.second);
+                    builder->create_store(des_var,des);
+                }
+            }
+                                  
         }
         scope.push(node.id, arrayAlloca, false);// 将获得的数组变量加入域 
         return arrayAlloca;
@@ -567,7 +572,15 @@ Value* CminusfBuilder::visit(ASTInit& node) {
     Value* val;
     if(node.expression!=nullptr)
     {
-        val=node.expression->accept(*this);
+        if(node.expression->isconst)
+            val=node.expression->accept(*this);
+        else
+        {
+            //说明该处是变量引用
+            val=CONST_ZERO(context.tmpType);
+            for(auto val:context.cur_pos)
+                context.val_pos[node.expression->accept(*this)].push_back(ConstantInt::get(val, module.get()));
+        }
     }
     else if(node.isconst==true)//说明是常量赋值
     {  
@@ -632,7 +645,7 @@ Value* CminusfBuilder::visit(ASTInit& node) {
         for(int i=consts.size()+1;i<=context.array_index[context.level];i++)
             consts.push_back(dynamic_cast<Constant*>(CONST_ZERO(arrayType)));
         val=ConstantArray::get(ArrayType::get(arrayType,consts.size()),consts);
-    }
+    }/*
     else  //说明是变量赋值
     {
         std::vector<Value*> consts;
@@ -696,7 +709,8 @@ Value* CminusfBuilder::visit(ASTInit& node) {
         for(int i=consts.size()+1;i<=context.array_index[context.level];i++)
             consts.push_back(CONST_ZERO(arrayType));
         val=Array::get(ArrayType::get(arrayType,consts.size()),consts);       
-    }
+    }*/
+    context.cur_pos[context.level]=(context.cur_pos[context.level]+1)%context.array_index[context.level];
     return val;
 }
 Value* CminusfBuilder::visit(ASTLVal& node) {
