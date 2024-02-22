@@ -100,33 +100,33 @@ class CminusfBuilder : public ASTVisitor {
 
         std::vector<Type*> putint_params;
         putint_params.push_back(TyInt32);
-        auto *putint_type = FunctionType::get(TyInt32, putint_params);
+        auto *putint_type = FunctionType::get(TyVoid, putint_params);
         auto *putint = Function::create(putint_type, "putint", module.get());
 
         std::vector<Type*> putch_params;
         putch_params.push_back(TyInt32);
-        auto *putch_type = FunctionType::get(TyInt32, putch_params);
+        auto *putch_type = FunctionType::get(TyVoid, putch_params);
         auto *putch = Function::create(putch_type, "putch", module.get());
 
         std::vector<Type*> putarray_params;
         putarray_params.push_back(TyInt32);
         putarray_params.push_back(TyArrayint);
-        auto *putarray_type = FunctionType::get(TyInt32, putarray_params);
+        auto *putarray_type = FunctionType::get(TyVoid, putarray_params);
         auto *putarray = Function::create(putarray_type, "putarray", module.get());
 
         std::vector<Type*> putfloat_params;
         putfloat_params.push_back(TyFloat);
-        auto *putfloat_type = FunctionType::get(TyFloat, putfloat_params);
+        auto *putfloat_type = FunctionType::get(TyVoid, putfloat_params);
         auto *putfloat = Function::create(putfloat_type, "putfloat", module.get());
 
         std::vector<Type*> putfarray_params;
         putfarray_params.push_back(TyArrayfloat);
-        auto *putfarray_type = FunctionType::get(TyInt32, putfarray_params);
+        auto *putfarray_type = FunctionType::get(TyVoid, putfarray_params);
         auto *putfarray = Function::create(putfarray_type, "putfarray", module.get());
 
         std::vector<Type*> putf_params;
         putf_params.push_back(TyArrayint);
-        auto *putf_type = FunctionType::get(TyInt32, putf_params);
+        auto *putf_type = FunctionType::get(TyVoid, putf_params);
         auto *putf = Function::create(putf_type, "putf", module.get());
 
         auto *starttime_type = FunctionType::get(TyVoid, {});
@@ -136,7 +136,7 @@ class CminusfBuilder : public ASTVisitor {
         auto *stoptime = Function::create(stoptime_type, "stoptime", module.get());
 
         scope.enter();
-        scope.push("neg_idx_except",neg_idx_except_fun);
+        /*scope.push("neg_idx_except",neg_idx_except_fun);
         scope.push("getint", getint);
         scope.push("getch", getch);
         scope.push("getfloat", getfloat);
@@ -149,7 +149,7 @@ class CminusfBuilder : public ASTVisitor {
         scope.push("putfarray",putfarray);
         scope.push("putf",putf);
         scope.push("starttime",starttime);
-        scope.push("stoptime",stoptime);
+        scope.push("stoptime",stoptime);*/
     }
 
     std::unique_ptr<Module> getModule() { return std::move(module); }
