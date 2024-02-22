@@ -1,4 +1,6 @@
-add_library(cminus_io io.c)
+add_library(cminus_io 
+io.c
+io.h)
 
 install(
     TARGETS cminus_io

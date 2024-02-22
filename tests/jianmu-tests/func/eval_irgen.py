@@ -26,7 +26,7 @@ def eval():
             continue
 
         if result.returncode == 0:
-            subprocess.run(["clang", "-O0", "-w", "-no-pie", fname.split(".")[0] + ".ll", "-o", fname.split(".")[0], "-L", "-lcminus_io"])
+            subprocess.run(["clang", "-O0", "-w", "-no-pie", fname.split(".")[0] + ".ll", "-o", fname.split(".")[0], "-L", "-lcminus_io", "-ljianmu-src"])
             input_option = None
             if os.path.isfile(fname+".in"):
                 with open(fname.split(".")[0] + ".in", "rb") as fin:
