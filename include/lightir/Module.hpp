@@ -24,6 +24,7 @@ class Module {
     Type *get_label_type();
     IntegerType *get_int1_type();
     IntegerType *get_int32_type();
+    IntegerType *get_char_type();
     PointerType *get_int32_ptr_type();
     FloatType *get_float_type();
     PointerType *get_float_ptr_type();
@@ -48,6 +49,7 @@ class Module {
 
     std::unique_ptr<IntegerType> int1_ty_;
     std::unique_ptr<IntegerType> int32_ty_;
+    std::unique_ptr<IntegerType> char_ty_;
     std::unique_ptr<Type> label_ty_;
     std::unique_ptr<Type> void_ty_;
     std::unique_ptr<FloatType> float32_ty_;

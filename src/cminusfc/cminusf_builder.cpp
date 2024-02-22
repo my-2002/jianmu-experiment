@@ -569,7 +569,7 @@ Value* CminusfBuilder::visit(ASTInit& node) {
     {
         val=node.expression->accept(*this);
     }
-    else
+    else if(node.isconst==true)//说明是常量赋值
     {  
         std::vector<Constant*> consts;
         std::vector<int> true_level;
@@ -632,6 +632,70 @@ Value* CminusfBuilder::visit(ASTInit& node) {
         for(int i=consts.size()+1;i<=context.array_index[context.level];i++)
             consts.push_back(dynamic_cast<Constant*>(CONST_ZERO(arrayType)));
         val=ConstantArray::get(ArrayType::get(arrayType,consts.size()),consts);
+    }
+    else  //说明是变量赋值
+    {
+        std::vector<Value*> consts;
+        std::vector<int> true_level;
+        for(auto &init:node.sub_inits)
+        {
+            context.level--;
+            consts.push_back(init->accept(*this));
+            true_level.push_back(init->level);
+            context.level++;
+        }
+        //对于低于当前维度的进行合并
+        Type* arrayType = context.tmpType;
+        for(int i=-1;i<context.level-1;i++)
+        {
+            int capacity = context.array_index[i+1];
+            int num=0; //连续可合并个数
+            std::vector<Value*> uplevel;
+            for(int j=0;j<true_level.size();j++)
+            {
+                if(true_level[j]==i)
+                {
+                    num++;
+                    uplevel.push_back(consts[j]);
+                    if(num==capacity)
+                    {
+                        consts.erase(consts.begin()+j-capacity+1,consts.begin()+j+1);  
+                        consts.insert(consts.begin()+j-capacity+1,Array::get(ArrayType::get(arrayType,capacity),uplevel));
+                        uplevel.clear();
+                        true_level.erase(true_level.begin()+j-capacity+1,true_level.begin()+j+1);
+                        true_level.insert(true_level.begin()+j-capacity+1,i+1);
+                        j=j-capacity+1;
+                        num=0;
+                    }
+                    else if(j==true_level.size()-1)
+                    {
+                        uplevel.insert(uplevel.end(),capacity-num,dynamic_cast<Constant*>(CONST_ZERO(arrayType)));
+                        consts.erase(consts.begin()+j-num+1,consts.begin()+j+1);  
+                        consts.insert(consts.begin()+j-num+1,Array::get(ArrayType::get(arrayType,capacity),uplevel));
+                        uplevel.clear();
+                        true_level.erase(true_level.begin()+j-num+1,true_level.begin()+j+1);
+                        true_level.insert(true_level.begin()+j-num+1,i+1);
+                        j=j-num+1;
+                        num=0;
+                    }
+                }
+                else if(num>0 )
+                {
+                    uplevel.insert(uplevel.end(),capacity-num,dynamic_cast<Constant*>(CONST_ZERO(arrayType)));
+                    consts.erase(consts.begin()+j-num+1,consts.begin()+j+1);  
+                    consts.insert(consts.begin()+j-num+1,Array::get(ArrayType::get(arrayType,capacity),uplevel));
+                    uplevel.clear();
+                    true_level.erase(true_level.begin()+j-num+1,true_level.begin()+j+1);
+                    true_level.insert(true_level.begin()+j-num+1,i+1);
+                    j=j-num+1;
+                    num=0;
+                }
+            }
+            arrayType = ArrayType::get(arrayType, capacity);
+        }
+        for(int i=consts.size()+1;i<=context.array_index[context.level];i++)
+            consts.push_back(CONST_ZERO(arrayType));
+        val=Array::get(ArrayType::get(arrayType,consts.size()),consts);       
     }
     return val;
 }

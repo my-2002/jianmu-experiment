@@ -5,7 +5,10 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/include/lightir",
-                "${workspaceFolder}/include/lightir"
+                "${workspaceFolder}/include/lightir",
+                "${workspaceFolder}/include/lightir",
+                "${workspaceFolder}/include/lightir",
+                "/usr/include/llvm-14"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/clang",
