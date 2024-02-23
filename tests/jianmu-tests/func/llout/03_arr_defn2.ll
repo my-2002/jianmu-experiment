@@ -14,17 +14,17 @@ declare i32 @getarray(i32*)
 
 declare i32 @getfarray(i32*)
 
-declare i32 @putint(i32)
+declare void @putint(i32)
 
-declare i32 @putch(i32)
+declare void @putch(i32)
 
-declare i32 @putarray(i32, i32*)
+declare void @putarray(i32, i32*)
 
-declare float @putfloat(float)
+declare void @putfloat(float)
 
-declare i32 @putfarray(float*)
+declare void @putfarray(float*)
 
-declare i32 @putf(i32*)
+declare void @putf(i32*)
 
 declare void @starttime()
 

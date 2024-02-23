@@ -53,17 +53,17 @@ declare i32 @getarray(i32*)
 
 declare i32 @getfarray(i32*)
 
-declare i32 @putint(i32)
+declare void @putint(i32)
 
-declare i32 @putch(i32)
+declare void @putch(i32)
 
-declare i32 @putarray(i32, i32*)
+declare void @putarray(i32, i32*)
 
-declare float @putfloat(float)
+declare void @putfloat(float)
 
-declare i32 @putfarray(float*)
+declare void @putfarray(float*)
 
-declare i32 @putf(i32*)
+declare void @putf(i32*)
 
 declare void @starttime()
 
@@ -355,62 +355,62 @@ label_entry:
   %op8 = call i32 @testParam8(i32 %op0, i32 %op1, i32 %op2, i32 %op3, i32 %op4, i32 %op5, i32 %op6, i32 %op7)
   store i32 %op8, i32* @a0
   %op9 = load i32, i32* @a0
-  %op10 = call i32 @putint(i32 %op9)
-  %op11 = load i32, i32* @a32
-  %op12 = load i32, i32* @a33
-  %op13 = load i32, i32* @a34
-  %op14 = load i32, i32* @a35
-  %op15 = load i32, i32* @a36
-  %op16 = load i32, i32* @a37
-  %op17 = load i32, i32* @a38
-  %op18 = load i32, i32* @a39
-  %op19 = load i32, i32* @a8
-  %op20 = load i32, i32* @a9
-  %op21 = load i32, i32* @a10
-  %op22 = load i32, i32* @a11
-  %op23 = load i32, i32* @a12
-  %op24 = load i32, i32* @a13
-  %op25 = load i32, i32* @a14
-  %op26 = load i32, i32* @a15
-  %op27 = call i32 @testParam16(i32 %op11, i32 %op12, i32 %op13, i32 %op14, i32 %op15, i32 %op16, i32 %op17, i32 %op18, i32 %op19, i32 %op20, i32 %op21, i32 %op22, i32 %op23, i32 %op24, i32 %op25, i32 %op26)
-  store i32 %op27, i32* @a0
+  call void @putint(i32 %op9)
+  %op10 = load i32, i32* @a32
+  %op11 = load i32, i32* @a33
+  %op12 = load i32, i32* @a34
+  %op13 = load i32, i32* @a35
+  %op14 = load i32, i32* @a36
+  %op15 = load i32, i32* @a37
+  %op16 = load i32, i32* @a38
+  %op17 = load i32, i32* @a39
+  %op18 = load i32, i32* @a8
+  %op19 = load i32, i32* @a9
+  %op20 = load i32, i32* @a10
+  %op21 = load i32, i32* @a11
+  %op22 = load i32, i32* @a12
+  %op23 = load i32, i32* @a13
+  %op24 = load i32, i32* @a14
+  %op25 = load i32, i32* @a15
+  %op26 = call i32 @testParam16(i32 %op10, i32 %op11, i32 %op12, i32 %op13, i32 %op14, i32 %op15, i32 %op16, i32 %op17, i32 %op18, i32 %op19, i32 %op20, i32 %op21, i32 %op22, i32 %op23, i32 %op24, i32 %op25)
+  store i32 %op26, i32* @a0
+  %op27 = load i32, i32* @a0
+  call void @putint(i32 %op27)
   %op28 = load i32, i32* @a0
-  %op29 = call i32 @putint(i32 %op28)
-  %op30 = load i32, i32* @a0
-  %op31 = load i32, i32* @a1
-  %op32 = load i32, i32* @a2
-  %op33 = load i32, i32* @a3
-  %op34 = load i32, i32* @a4
-  %op35 = load i32, i32* @a5
-  %op36 = load i32, i32* @a6
-  %op37 = load i32, i32* @a7
-  %op38 = load i32, i32* @a8
-  %op39 = load i32, i32* @a9
-  %op40 = load i32, i32* @a10
-  %op41 = load i32, i32* @a11
-  %op42 = load i32, i32* @a12
-  %op43 = load i32, i32* @a13
-  %op44 = load i32, i32* @a14
-  %op45 = load i32, i32* @a15
-  %op46 = load i32, i32* @a16
-  %op47 = load i32, i32* @a17
-  %op48 = load i32, i32* @a18
-  %op49 = load i32, i32* @a19
-  %op50 = load i32, i32* @a20
-  %op51 = load i32, i32* @a21
-  %op52 = load i32, i32* @a22
-  %op53 = load i32, i32* @a23
-  %op54 = load i32, i32* @a24
-  %op55 = load i32, i32* @a25
-  %op56 = load i32, i32* @a26
-  %op57 = load i32, i32* @a27
-  %op58 = load i32, i32* @a28
-  %op59 = load i32, i32* @a29
-  %op60 = load i32, i32* @a30
-  %op61 = load i32, i32* @a31
-  %op62 = call i32 @testParam32(i32 %op30, i32 %op31, i32 %op32, i32 %op33, i32 %op34, i32 %op35, i32 %op36, i32 %op37, i32 %op38, i32 %op39, i32 %op40, i32 %op41, i32 %op42, i32 %op43, i32 %op44, i32 %op45, i32 %op46, i32 %op47, i32 %op48, i32 %op49, i32 %op50, i32 %op51, i32 %op52, i32 %op53, i32 %op54, i32 %op55, i32 %op56, i32 %op57, i32 %op58, i32 %op59, i32 %op60, i32 %op61)
-  store i32 %op62, i32* @a0
-  %op63 = load i32, i32* @a0
-  %op64 = call i32 @putint(i32 %op63)
+  %op29 = load i32, i32* @a1
+  %op30 = load i32, i32* @a2
+  %op31 = load i32, i32* @a3
+  %op32 = load i32, i32* @a4
+  %op33 = load i32, i32* @a5
+  %op34 = load i32, i32* @a6
+  %op35 = load i32, i32* @a7
+  %op36 = load i32, i32* @a8
+  %op37 = load i32, i32* @a9
+  %op38 = load i32, i32* @a10
+  %op39 = load i32, i32* @a11
+  %op40 = load i32, i32* @a12
+  %op41 = load i32, i32* @a13
+  %op42 = load i32, i32* @a14
+  %op43 = load i32, i32* @a15
+  %op44 = load i32, i32* @a16
+  %op45 = load i32, i32* @a17
+  %op46 = load i32, i32* @a18
+  %op47 = load i32, i32* @a19
+  %op48 = load i32, i32* @a20
+  %op49 = load i32, i32* @a21
+  %op50 = load i32, i32* @a22
+  %op51 = load i32, i32* @a23
+  %op52 = load i32, i32* @a24
+  %op53 = load i32, i32* @a25
+  %op54 = load i32, i32* @a26
+  %op55 = load i32, i32* @a27
+  %op56 = load i32, i32* @a28
+  %op57 = load i32, i32* @a29
+  %op58 = load i32, i32* @a30
+  %op59 = load i32, i32* @a31
+  %op60 = call i32 @testParam32(i32 %op28, i32 %op29, i32 %op30, i32 %op31, i32 %op32, i32 %op33, i32 %op34, i32 %op35, i32 %op36, i32 %op37, i32 %op38, i32 %op39, i32 %op40, i32 %op41, i32 %op42, i32 %op43, i32 %op44, i32 %op45, i32 %op46, i32 %op47, i32 %op48, i32 %op49, i32 %op50, i32 %op51, i32 %op52, i32 %op53, i32 %op54, i32 %op55, i32 %op56, i32 %op57, i32 %op58, i32 %op59)
+  store i32 %op60, i32* @a0
+  %op61 = load i32, i32* @a0
+  call void @putint(i32 %op61)
   ret i32 0
 }

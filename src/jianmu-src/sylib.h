@@ -28,4 +28,6 @@ __attribute((destructor)) void after_main();
 void _sysy_starttime(int lineno);
 void _sysy_stoptime(int lineno);
 
+//额外补充
+void neg_idx_except();
 #endif

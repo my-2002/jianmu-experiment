@@ -102,3 +102,9 @@ void _sysy_stoptime(int lineno){
   _sysy_h[_sysy_idx] += _sysy_m[_sysy_idx] / 60 ; _sysy_m[_sysy_idx] %= 60;
   _sysy_idx ++;
 }
+
+//额外补充
+void neg_idx_except() {
+    printf("negative index exception\n");
+    exit(0);
+}
