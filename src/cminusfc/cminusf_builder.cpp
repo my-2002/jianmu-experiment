@@ -62,10 +62,10 @@ Value* CminusfBuilder::visit(ASTVarDef& node) {//记得加隐式转换
     if (!node.expression.empty()) {         
         //说明声明变量是数组
         auto* arrayType = context.tmpType;
-        context.array_index.clear();
+        
         context.level=node.expression.size()-1;
         context.cur_pos.resize(node.expression.size(),0);
-        context.val_pos.clear();
+        
         for(auto&exp:node.expression)
         {
             auto temp = exp->accept(*this);
@@ -100,6 +100,8 @@ Value* CminusfBuilder::visit(ASTVarDef& node) {//记得加隐式转换
             }
                                  
         }
+        context.array_index.clear();
+        context.val_pos.clear();
         scope.push(node.id, arrayAlloca, false);// 将获得的数组变量加入域 
         return arrayAlloca;
     }
@@ -153,10 +155,10 @@ Value* CminusfBuilder::visit(ASTConstDef& node) {
     if (!node.expression.empty()) {         
         //说明声明变量是数组
         auto* arrayType = context.tmpType;
-        context.array_index.clear();
+        
         context.level=node.expression.size()-1;
         context.cur_pos.resize(node.expression.size(),0);
-        context.val_pos.clear();
+        
         for(auto&exp:node.expression)
         {
             auto temp = exp->accept(*this);
@@ -167,6 +169,8 @@ Value* CminusfBuilder::visit(ASTConstDef& node) {
     }
     Value *init;
     init=node.initiation->accept(*this);
+    context.array_index.clear();
+    context.val_pos.clear();
     scope.push(node.id, init, true);// 将获得的数组变量加入域 
     return init;
 }
@@ -657,7 +661,7 @@ Value* CminusfBuilder::visit(ASTInit& node) {
         val=ConstantArray::get(ArrayType::get(arrayType,consts.size()),consts);
         node.level = context.level + 1;
     }
-    if(context.level<context.array_index.size()-1)
+    if(context.level<context.array_index.size()-1 and not context.array_index.empty())
         context.cur_pos[context.level+1]=(context.cur_pos[context.level+1]+1)%context.array_index[context.level+1];
     return val;
 }

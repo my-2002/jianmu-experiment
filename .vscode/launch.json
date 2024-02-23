@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/build/cminusfc",
             "args": [
-                "${workspaceFolder}/tests/jianmu-tests/func/05_arr_defn4.sy",
+                "${workspaceFolder}/tests/jianmu-tests/func/66_exgcd.sy",
                 "-emit-llvm"
             ],
             "stopAtEntry": false,
