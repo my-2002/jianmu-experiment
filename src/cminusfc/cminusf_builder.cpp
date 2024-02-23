@@ -93,7 +93,8 @@ Value* CminusfBuilder::visit(ASTVarDef& node) {//记得加隐式转换
                 for(auto &var:context.val_pos)
                 {
                     //auto des_var=builder->create_load(var.first);
-                    auto des = builder->create_gep(arrayAlloca,var.second);
+                    var.second.insert(var.second.begin(), CONST_INT(0));
+                    auto des = builder->create_gep(arrayAlloca, var.second);
                     builder->create_store(var.first,des);
                 }
             }
@@ -144,7 +145,7 @@ Value* CminusfBuilder::visit(ASTConstDecl& node) {
     }
     return nullptr;
 }
-Value* CminusfBuilder::visit(ASTConstDef& node) {            
+Value* CminusfBuilder::visit(ASTConstDef& node) {         
     if (node.type == TYPE_INT)
         context.tmpType = INT32_T;
     else if (node.type == TYPE_FLOAT)  
@@ -584,8 +585,10 @@ Value* CminusfBuilder::visit(ASTInit& node) {
             //说明该处是变量引用
             val=CONST_ZERO(context.tmpType);
             auto des_val=exp;
-            for(auto val:context.cur_pos)
-                context.val_pos[des_val].push_back(ConstantInt::get(val, module.get()));
+            for(auto pos_val:context.cur_pos)
+                context.val_pos[des_val].push_back(ConstantInt::get(pos_val, module.get()));
+            while(context.val_pos[des_val].size() < context.array_index.size())
+                context.val_pos[des_val].push_back(CONST_INT(0));
             std::reverse(context.val_pos[des_val].begin(),context.val_pos[des_val].end());
         }
     }
@@ -652,6 +655,7 @@ Value* CminusfBuilder::visit(ASTInit& node) {
         for(int i=consts.size()+1;i<=context.array_index[context.level];i++)
             consts.push_back(dynamic_cast<Constant*>(CONST_ZERO(arrayType)));
         val=ConstantArray::get(ArrayType::get(arrayType,consts.size()),consts);
+        node.level = context.level + 1;
     }
     if(context.level<context.array_index.size()-1)
         context.cur_pos[context.level+1]=(context.cur_pos[context.level+1]+1)%context.array_index[context.level+1];
@@ -694,6 +698,7 @@ Value* CminusfBuilder::visit(ASTLVal& node) {
             builder->create_br(gtzBB);    
 
             builder->set_insert_point(gtzBB);  
+            index.insert(index.begin(), CONST_INT(0));
             var = builder->create_gep(var, index); 
             if (assign) {       //赋值语句
                 ret_value = var;                   
