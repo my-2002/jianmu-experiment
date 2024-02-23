@@ -2,6 +2,7 @@
 #include<stdarg.h>
 #include<sys/time.h>
 #include"sylib.h"
+#include <string.h>
 /* Input & output functions */
 int getint(){int t; scanf("%d",&t); return t; }
 int getch(){char c; scanf("%c",&c); return (int)c; }
@@ -46,11 +47,11 @@ void putfarray(int n, float a[]) {
 
 void putf(char a[], ...) {
     va_list args;
-    int num = 0;
+    /*int num = 0;
     for(int i = 0; i < strlen(a) - 1; i++)
       if(a[i] == '%' && (a[i+1] == 'd' || a[i+1] == 'c' || a[i+1] == 'f'))
-        num++;
-    va_start(args, num);
+        num++;*/
+    va_start(args, a);
     for(int i = 0; i < strlen(a) - 1; i++)
     {
       if(a[i] == '%' && a[i+1] == 'd')
