@@ -191,7 +191,7 @@ class CminusfBuilder : public ASTVisitor {
         std::vector<int> array_index; //储存当前赋值的变量的数组层次元素个数，如a[2][3][4],存储[4,3,2]
         Type* tmpType;//当前声明变量的BType
         int level; //init的当前层次，一维数组为0层
-        //用于存储需要改传入的变量的位置 e.g a[2][1]处有变量b，存<b,<1,2>>
+        //用于存储需要改传入的变量的位置 e.g a[2][1]处有变量b，存<b,<2,1>>
         std::unordered_map<Value* ,std::vector<Value*>> val_pos;
         std::vector<int> cur_pos; 
     } context;

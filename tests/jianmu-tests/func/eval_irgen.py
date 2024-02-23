@@ -53,8 +53,9 @@ def eval():
 
         f.write('===========END========\n\n')
     files = find_files_with_extension(folder_path, '.ll')
-    if not os.path.exists("llout"):
-        os.mkdir("llout")
+    if os.path.exists("./llout"):
+        shutil.rmtree("llout")
+    os.mkdir("llout")
     # 移动文件
     for file in files:
         file_path = os.path.abspath(file)
