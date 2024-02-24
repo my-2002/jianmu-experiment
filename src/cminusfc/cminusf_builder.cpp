@@ -582,9 +582,7 @@ Value* CminusfBuilder::visit(ASTInit& node) {
     if(node.expression!=nullptr)
     {
         auto exp=node.expression->accept(*this);
-        if(dynamic_cast<Constant*>(exp)!=nullptr)
-            val=exp;
-        else
+        if(!dynamic_cast<Constant*>(exp) && context.array_index.size())
         {
             //说明该处是变量引用
             val=CONST_ZERO(context.tmpType);
@@ -595,6 +593,8 @@ Value* CminusfBuilder::visit(ASTInit& node) {
                 context.val_pos[des_val].push_back(CONST_INT(0));
             std::reverse(context.val_pos[des_val].begin(),context.val_pos[des_val].end());
         }
+        else
+            val=exp;
     }
     else
     {  
@@ -702,8 +702,16 @@ Value* CminusfBuilder::visit(ASTLVal& node) {
             builder->create_br(gtzBB);    
 
             builder->set_insert_point(gtzBB);  
-            index.insert(index.begin(), CONST_INT(0));
-            var = builder->create_gep(var, index); 
+            if(var->get_type()->get_pointer_element_type()->is_array_type())
+            {
+                index.insert(index.begin(), CONST_INT(0));
+                var = builder->create_gep(var, index); 
+            }
+            else {
+                if (var->get_type()->get_pointer_element_type()->is_pointer_type())
+                    var = builder->create_load(var);
+                var = builder->create_gep(var, index);
+            }
             if (assign) {       //赋值语句
                 ret_value = var;                   
                 context.assign = false;    
