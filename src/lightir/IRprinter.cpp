@@ -221,8 +221,11 @@ std::string StoreInst::print() {
     std::string instr_ir;
     instr_ir += get_instr_op_name();
     instr_ir += " ";
-    instr_ir += this->get_operand(0)->get_type()->print();
-    instr_ir += " ";
+    if(!this->get_operand(0)->get_type()->is_array_type() || dynamic_cast<ConstantZero*>(this->get_operand(0)))
+    {
+        instr_ir += this->get_operand(0)->get_type()->print();
+        instr_ir += " ";
+    }
     instr_ir += print_as_op(this->get_operand(0), false);
     instr_ir += ", ";
     instr_ir += print_as_op(this->get_operand(1), true);

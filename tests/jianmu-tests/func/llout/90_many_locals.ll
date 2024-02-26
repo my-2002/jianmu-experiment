@@ -32,7 +32,7 @@ declare void @stoptime()
 define i32 @foo() {
 label_entry:
   %op0 = alloca [16 x i32]
-  store [16 x i32] [16 x i32] [i32 0, i32 1, i32 2, i32 3, i32 0, i32 1, i32 2, i32 3, i32 0, i32 1, i32 2, i32 3, i32 0, i32 1, i32 2, i32 3], [16 x i32]* %op0
+  store [16 x i32] [i32 0, i32 1, i32 2, i32 3, i32 0, i32 1, i32 2, i32 3, i32 0, i32 1, i32 2, i32 3, i32 0, i32 1, i32 2, i32 3], [16 x i32]* %op0
   %op1 = alloca i32
   store i32 3, i32* %op1
   %op2 = alloca i32

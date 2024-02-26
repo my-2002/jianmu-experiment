@@ -162,9 +162,9 @@ label_entry:
   %op1 = alloca i32
   store i32 15, i32* %op1
   %op2 = alloca [1 x i32]
-  store [1 x i32] [1 x i32] [i32 1], [1 x i32]* %op2
+  store [1 x i32] [i32 1], [1 x i32]* %op2
   %op3 = alloca [1 x i32]
-  store [1 x i32] [1 x i32] [i32 1], [1 x i32]* %op3
+  store [1 x i32] [i32 1], [1 x i32]* %op3
   %op4 = load i32, i32* %op0
   %op5 = load i32, i32* %op1
   %op6 = getelementptr [1 x i32], [1 x i32]* %op2, i32 0, i32 0
