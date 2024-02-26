@@ -734,7 +734,22 @@ Value* CminusfBuilder::visit(ASTLVal& node) {
             context.assign = false;    
         }    
         else 
-            ret_value = builder->create_load(var);
+        {
+            if(var->get_type()->get_pointer_element_type()->is_array_type())
+            {
+                auto tmp_type = var->get_type()->get_pointer_element_type();
+                index.push_back(CONST_INT(0));
+                index.push_back(CONST_INT(0));
+                while(tmp_type->get_array_element_type()->is_array_type())
+                {
+                    index.push_back(CONST_INT(0));
+                    tmp_type = tmp_type->get_array_element_type();
+                }
+                ret_value = builder->create_gep(var, index);
+            }
+            else
+                ret_value = builder->create_load(var);
+        }
     }
     else//是常量名
     {
