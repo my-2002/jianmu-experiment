@@ -1,5 +1,5 @@
 ; ModuleID = 'sysy'
-source_filename = "/home/syx/Test/jianmu/2023ustc-jianmu-compiler/tests/jianmu-tests/func/05_arr_defn4.sy"
+source_filename = "/home/my2002/compiler_principles/lab5/jianmu-experiment/tests/jianmu-tests/func/05_arr_defn4.sy"
 
 declare void @neg_idx_except()
 
@@ -32,9 +32,9 @@ declare void @stoptime()
 define i32 @main() {
 label_entry:
   %op0 = alloca [4 x [2 x i32]]
-  store [4 x [2 x i32]] [4 x [2 x i32]] [[2 x i32]zeroinitializer, [2 x i32]zeroinitializer, [2 x i32]zeroinitializer, [2 x i32]zeroinitializer, ], [4 x [2 x i32]]* %op0
+  store [4 x [2 x i32]] [4 x [2 x i32]] [[2 x i32] zeroinitializer, [2 x i32] zeroinitializer, [2 x i32] zeroinitializer, [2 x i32] zeroinitializer], [4 x [2 x i32]]* %op0
   %op1 = alloca [4 x [2 x i32]]
-  store [4 x [2 x i32]] [4 x [2 x i32]] [[2 x i32] [i321, i322, ], [2 x i32] [i323, i324, ], [2 x i32] [i325, i326, ], [2 x i32] [i327, i328, ], ], [4 x [2 x i32]]* %op1
+  store [4 x [2 x i32]] [4 x [2 x i32]] [[2 x i32] [i32 1, i32 2], [2 x i32] [i32 3, i32 4], [2 x i32] [i32 5, i32 6], [2 x i32] [i32 7, i32 8]], [4 x [2 x i32]]* %op1
   %op2 = icmp slt i32 0, zeroinitializer
   %op3 = zext i1 %op2 to i32
   %op4 = add i32 %op3, zeroinitializer
@@ -48,7 +48,7 @@ label_a_ltz0:                                                ; preds = %label_en
   br label %label_a_gtz1
 label_a_gtz1:                                                ; preds = %label_entry, %label_a_ltz0
   %op9 = alloca [4 x [2 x i32]]
-  store [4 x [2 x i32]] [4 x [2 x i32]] [[2 x i32] [i321, i322, ], [2 x i32] [i323, i32zeroinitializer, ], [2 x i32] [i325, i32zeroinitializer, ], [2 x i32] [i327, i328, ], ], [4 x [2 x i32]]* %op9
+  store [4 x [2 x i32]] [4 x [2 x i32]] [[2 x i32] [i32 1, i32 2], [2 x i32] [i32 3, i32 zeroinitializer], [2 x i32] [i32 5, i32 zeroinitializer], [2 x i32] [i32 7, i32 8]], [4 x [2 x i32]]* %op9
   %op10 = icmp slt i32 1, zeroinitializer
   %op11 = zext i1 %op10 to i32
   %op12 = add i32 %op11, zeroinitializer
@@ -78,7 +78,7 @@ label_c_gtz5:                                                ; preds = %label_d_
   %op26 = getelementptr [4 x [2 x i32]], [4 x [2 x i32]]* %op1, i32 0, i32 1, i32 2
   %op27 = load i32, i32* %op26
   %op28 = alloca [4 x [2 x [1 x i32]]]
-  store [4 x [2 x [1 x i32]]] [4 x [2 x [1 x i32]]] [[2 x [1 x i32]] [[1 x i32] [i32zeroinitializer, ], [1 x i32] [i32zeroinitializer, ], ], [2 x [1 x i32]] [[1 x i32] [i323, ], [1 x i32] [i324, ], ], [2 x [1 x i32]] [[1 x i32] [i325, ], [1 x i32] [i326, ], ], [2 x [1 x i32]] [[1 x i32] [i327, ], [1 x i32] [i328, ], ], ], [4 x [2 x [1 x i32]]]* %op28
+  store [4 x [2 x [1 x i32]]] [4 x [2 x [1 x i32]]] [[2 x [1 x i32]] [[1 x i32] [i32 zeroinitializer], [1 x i32] [i32 zeroinitializer]], [2 x [1 x i32]] [[1 x i32] [i32 3], [1 x i32] [i32 4]], [2 x [1 x i32]] [[1 x i32] [i32 5], [1 x i32] [i32 6]], [2 x [1 x i32]] [[1 x i32] [i32 7], [1 x i32] [i32 8]]], [4 x [2 x [1 x i32]]]* %op28
   %op29 = getelementptr [4 x [2 x [1 x i32]]], [4 x [2 x [1 x i32]]]* %op28, i32 0, i32 0, i32 1, i32 0
   store i32 %op27, i32* %op29
   %op30 = getelementptr [4 x [2 x [1 x i32]]], [4 x [2 x [1 x i32]]]* %op28, i32 0, i32 0, i32 2, i32 0

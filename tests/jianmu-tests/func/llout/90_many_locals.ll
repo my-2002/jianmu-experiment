@@ -1,5 +1,5 @@
 ; ModuleID = 'sysy'
-source_filename = "/home/syx/Test/jianmu/2023ustc-jianmu-compiler/tests/jianmu-tests/func/90_many_locals.sy"
+source_filename = "/home/my2002/compiler_principles/lab5/jianmu-experiment/tests/jianmu-tests/func/90_many_locals.sy"
 
 declare void @neg_idx_except()
 
@@ -32,7 +32,7 @@ declare void @stoptime()
 define i32 @foo() {
 label_entry:
   %op0 = alloca [16 x i32]
-  store [16 x i32] [16 x i32] [i320, i321, i322, i323, i320, i321, i322, i323, i320, i321, i322, i323, i320, i321, i322, i323, ], [16 x i32]* %op0
+  store [16 x i32] [16 x i32] [i32 0, i32 1, i32 2, i32 3, i32 0, i32 1, i32 2, i32 3, i32 0, i32 1, i32 2, i32 3, i32 0, i32 1, i32 2, i32 3], [16 x i32]* %op0
   %op1 = alloca i32
   store i32 3, i32* %op1
   %op2 = alloca i32
@@ -81,7 +81,7 @@ label_entry:
   %op30 = load i32, i32* %op8
   %op31 = add i32 %op29, %op30
   %op32 = alloca i32
-  store i32 zeroinitializer, i32* %op32
+  store i32 %op31, i32* %op32
   %op33 = load i32, i32* %op9
   %op34 = load i32, i32* %op10
   %op35 = add i32 %op33, %op34
@@ -98,7 +98,7 @@ label_entry:
   %op46 = load i32, i32* %op16
   %op47 = add i32 %op45, %op46
   %op48 = alloca i32
-  store i32 zeroinitializer, i32* %op48
+  store i32 %op47, i32* %op48
   %op49 = load i32, i32* %op32
   %op50 = load i32, i32* %op48
   %op51 = add i32 %op49, %op50
@@ -167,7 +167,7 @@ label_entry:
   %op29 = load i32, i32* %op7
   %op30 = add i32 %op28, %op29
   %op31 = alloca i32
-  store i32 zeroinitializer, i32* %op31
+  store i32 %op30, i32* %op31
   %op32 = load i32, i32* %op8
   %op33 = load i32, i32* %op9
   %op34 = add i32 %op32, %op33
@@ -184,7 +184,7 @@ label_entry:
   %op45 = load i32, i32* %op15
   %op46 = add i32 %op44, %op45
   %op47 = alloca i32
-  store i32 zeroinitializer, i32* %op47
+  store i32 %op46, i32* %op47
   %op48 = load i32, i32* %op31
   %op49 = call i32 @foo()
   %op50 = add i32 %op48, %op49
@@ -241,14 +241,14 @@ label_entry:
   %op83 = load i32, i32* %op58
   %op84 = add i32 %op82, %op83
   %op85 = alloca i32
-  store i32 zeroinitializer, i32* %op85
+  store i32 %op84, i32* %op85
   %op86 = load i32, i32* %op31
   %op87 = load i32, i32* %op47
   %op88 = add i32 %op86, %op87
   %op89 = load i32, i32* %op85
   %op90 = add i32 %op88, %op89
   %op91 = alloca i32
-  store i32 zeroinitializer, i32* %op91
+  store i32 %op90, i32* %op91
   %op92 = load i32, i32* %op91
   call void @putint(i32 %op92)
   call void @putch(i32 10)

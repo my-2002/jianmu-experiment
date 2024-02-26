@@ -21,8 +21,11 @@ std::string GlobalVariable::print() {
     global_val_ir += print_as_op(this, false);
     global_val_ir += " = ";
     global_val_ir += (this->is_const() ? "constant " : "global ");
-    global_val_ir += this->get_type()->get_pointer_element_type()->print();
-    global_val_ir += " ";
+    if(!this->get_type()->get_pointer_element_type()->is_array_type() || dynamic_cast<ConstantZero*>(this->get_init()))
+    {
+        global_val_ir += this->get_type()->get_pointer_element_type()->print();
+        global_val_ir += " ";
+    }
     global_val_ir += this->get_init()->print();
     return global_val_ir;
 }

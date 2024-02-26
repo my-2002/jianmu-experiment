@@ -76,29 +76,31 @@ Value* CminusfBuilder::visit(ASTVarDef& node) {//记得加隐式转换
         Constant* initializer;
         Value* arrayAlloca; 
         if (node.init == nullptr) {//没有初始化，局部变量不初始化
-            initializer = dynamic_cast<Constant*>(CONST_ZERO(context.tmpType)) ;         
+            initializer = dynamic_cast<Constant*>(CONST_ZERO(arrayType));         
             if (scope.in_global())          //若是全局
                 arrayAlloca = GlobalVariable::create(node.id, module.get(), arrayType, false, initializer);
             else                         
                 arrayAlloca = builder->create_alloca(arrayType);
             }
         else {
-            Value *val;
-            val=node.init->accept(*this);
-            initializer=dynamic_cast<Constant*>(val);
-            arrayAlloca = builder->create_alloca(arrayType);
-            builder->create_store(initializer,arrayAlloca);
-            if(node.init->isconst==false)
+            initializer=dynamic_cast<Constant*>(node.init->accept(*this));
+            if (scope.in_global())
+                arrayAlloca = GlobalVariable::create(node.id, module.get(), arrayType, false, initializer);
+            else
             {
-                for(auto &var:context.val_pos)
+                arrayAlloca = builder->create_alloca(arrayType);
+                builder->create_store(initializer,arrayAlloca);
+                if(node.init->isconst==false)
                 {
-                    //auto des_var=builder->create_load(var.first);
-                    var.second.insert(var.second.begin(), CONST_INT(0));
-                    auto des = builder->create_gep(arrayAlloca, var.second);
-                    builder->create_store(var.first,des);
+                    for(auto &var:context.val_pos)
+                    {
+                        //auto des_var=builder->create_load(var.first);
+                        var.second.insert(var.second.begin(), CONST_INT(0));
+                        auto des = builder->create_gep(arrayAlloca, var.second);
+                        builder->create_store(var.first,des);
+                    }
                 }
-            }
-                                 
+            }                    
         }
         context.array_index.clear();
         context.val_pos.clear();

@@ -80,9 +80,10 @@ std::string ConstantArray::print() {
         Constant *element = get_element_value(i);
         if (!dynamic_cast<ConstantArray *>(get_element_value(i))) {
             const_ir += element->get_type()->print();
+            const_ir += " ";
         }
         const_ir += element->print();
-        if (i < this->get_size_of_array()) {
+        if (i < this->get_size_of_array() - 1) {
             const_ir += ", ";
         }
     }
