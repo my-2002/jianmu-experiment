@@ -117,23 +117,32 @@ Value* CminusfBuilder::visit(ASTVarDef& node) {//记得加隐式转换
         }                       
         else
         {
-            auto initializer=dynamic_cast<Constant*>(node.init->accept(*this));
-            if(initializer->get_type()==FLOAT_T && context.tmpType==INT32_T)
+            auto initializer=node.init->accept(*this);
+            auto const_init = dynamic_cast<Constant*>(initializer);
+            if (const_init)
             {
-                initializer=dynamic_cast<Constant*>(builder->create_fptosi(initializer,context.tmpType));
+                if(initializer->get_type()==FLOAT_T && context.tmpType==INT32_T)
+                    initializer=dynamic_cast<Constant*>(builder->create_fptosi(const_init,context.tmpType));
+                else if(initializer->get_type()==INT32_T && context.tmpType==FLOAT_T)
+                    initializer=dynamic_cast<Constant*>(builder->create_sitofp(const_init,context.tmpType));
+                if (scope.in_global())         
+                    varAlloca = GlobalVariable::create(node.id, module.get(), context.tmpType, false, const_init);
+                else   
+                {
+                    varAlloca = builder->create_alloca(context.tmpType);
+                    builder->create_store(const_init,varAlloca);
+                }  
             }
-            else if(initializer->get_type()==INT32_T && context.tmpType==FLOAT_T)
+            else
             {
-                initializer=dynamic_cast<Constant*>(builder->create_sitofp(initializer,context.tmpType));
-            }
-            if (scope.in_global())         
-                varAlloca = GlobalVariable::create(node.id, module.get(), context.tmpType, false, initializer);
-            else   
-            {
+                if(initializer->get_type()==FLOAT_T && context.tmpType==INT32_T)
+                    initializer=builder->create_fptosi(initializer,context.tmpType);
+                else if(initializer->get_type()==INT32_T && context.tmpType==FLOAT_T)
+                    initializer=builder->create_sitofp(initializer,context.tmpType);         
+                assert(!scope.in_global() && "global initialization is not a constant");
                 varAlloca = builder->create_alloca(context.tmpType);
                 builder->create_store(initializer,varAlloca);
-            }                        
-
+            }
         }
         scope.push(node.id, varAlloca, false); 
         return varAlloca;
