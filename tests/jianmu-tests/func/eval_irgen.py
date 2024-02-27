@@ -37,6 +37,7 @@ def eval():
                 with open(f"./llout/{name}.txt","w") as res:
                     res.write(result.stdout)
                 with open(fname.split(".")[0] + ".out", "rb") as fout:
+                    f.write(fname.split(".")[0] + result.stdout)
                     if result.stdout == fout.read():
                         f.write('\tSuccess\n')
                     else:

@@ -291,7 +291,9 @@ Value* CminusfBuilder::visit(ASTSelectionStmt &node) {
     auto val = node.condition->accept(*this);        
     auto resType = val->get_type();        
     Value* TrueFalse;                     
-    if (resType->is_integer_type()) {       
+    if (resType->is_integer_type()) {  
+        if(val->get_type()!=INT32_T)
+            val=builder->create_zext(val,INT32_T);     
         TrueFalse = builder->create_icmp_gt(val, CONST_ZERO(INT32_T));  // 大于0视为true 
     }
     else if (resType->is_float_type()) { 
@@ -1024,7 +1026,8 @@ Value* CminusfBuilder::visit(ASTUnaryExp& node) {
         {
             switch (node.op) { 
             case OP_NOT:
-                val=builder->create_zext(val,temtype);
+                if(val->get_type()!=temtype)
+                    val=builder->create_zext(val,temtype);
                 val=builder->create_icmp_le(val,CONST_ZERO(temtype));break;
             case OP_POS:
                 break;

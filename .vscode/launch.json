@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/build/cminusfc",
             "args": [
-                "${workspaceFolder}/tests/jianmu-tests/func/08_global_arr_init.sy",
+                "${workspaceFolder}/tests/jianmu-tests/func/84_long_array2.sy",
                 "-emit-llvm"
             ],
             "stopAtEntry": false,
