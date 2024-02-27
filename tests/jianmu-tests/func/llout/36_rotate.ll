@@ -1,5 +1,5 @@
 ; ModuleID = 'sysy'
-source_filename = "/home/my2002/compiler_principles/lab5/jianmu-experiment/tests/jianmu-tests/func/36_rotate.sy"
+source_filename = "/home/syx/Test/jianmu/2023ustc-jianmu-compiler/tests/jianmu-tests/func/36_rotate.sy"
 
 @image = global [1048576 x i32] zeroinitializer
 @width = global i32 zeroinitializer

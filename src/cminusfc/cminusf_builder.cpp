@@ -590,6 +590,8 @@ Value* CminusfBuilder::visit(ASTMulExpression& node) {
 
 Value* CminusfBuilder::visit(ASTInit& node) {
     Value* val;
+    int flag=0;
+    int temp_conlevel;
     if(node.expression!=nullptr)
     {
         auto exp=node.expression->accept(*this);
@@ -611,6 +613,18 @@ Value* CminusfBuilder::visit(ASTInit& node) {
     {  
         std::vector<Constant*> consts;
         std::vector<int> true_level;
+        int max_true_level=0;
+        for (auto &init:node.sub_inits)
+        {
+            if(max_true_level<init->level)
+                max_true_level=init->level;
+        }
+        if(context.level>max_true_level+1)
+        {
+            temp_conlevel=context.level;
+            context.level=max_true_level+1;
+            flag=1;
+        }
         for(auto &init:node.sub_inits)
         {
             context.level--;
@@ -671,9 +685,22 @@ Value* CminusfBuilder::visit(ASTInit& node) {
             consts.push_back(dynamic_cast<Constant*>(CONST_ZERO(arrayType)));
         val=ConstantArray::get(ArrayType::get(arrayType,consts.size()),consts);
         node.level = context.level + 1;
+        if(flag==1)
+        {
+            for(int i=context.level+1;i<=temp_conlevel;i++)
+            {
+                int capcity = context.array_index[i];
+                std::vector<Constant*> uplevels;
+                uplevels.push_back(dynamic_cast<Constant*>(val));
+                uplevels.insert(uplevels.end(),capcity-1,dynamic_cast<Constant*>(CONST_ZERO(val->get_type())));
+                val=ConstantArray::get(ArrayType::get(val->get_type(),capcity),uplevels);
+            }
+            context.level=temp_conlevel;
+        }
     }
     if(context.level<context.array_index.size()-1 and not context.array_index.empty())
         context.cur_pos[context.level+1]=(context.cur_pos[context.level+1]+1)%context.array_index[context.level+1];
+    
     return val;
 }
 Value* CminusfBuilder::visit(ASTLVal& node) {

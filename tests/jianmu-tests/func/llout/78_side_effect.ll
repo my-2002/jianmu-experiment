@@ -1,5 +1,5 @@
 ; ModuleID = 'sysy'
-source_filename = "/home/my2002/compiler_principles/lab5/jianmu-experiment/tests/jianmu-tests/func/78_side_effect.sy"
+source_filename = "/home/syx/Test/jianmu/2023ustc-jianmu-compiler/tests/jianmu-tests/func/78_side_effect.sy"
 
 @a = global i32 -1
 @b = global i32 1

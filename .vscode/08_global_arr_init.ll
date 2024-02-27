@@ -1,6 +1,7 @@
 ; ModuleID = 'sysy'
-source_filename = "/home/syx/Test/jianmu/2023ustc-jianmu-compiler/tests/jianmu-tests/func/06_const_var_defn2.sy"
+source_filename = "/home/syx/Test/jianmu/2023ustc-jianmu-compiler/tests/jianmu-tests/func/08_global_arr_init.sy"
 
+@i = global [3 x [3 x [4 x i32]]] [[4 x i32] [i32 1, i32 2, i32 3, i32 4], [3 x [4 x i32]] [[4 x i32] [i32 1, i32 2, i32 3, i32 4], [4 x i32] zeroinitializer, [4 x i32] zeroinitializer], [3 x [4 x i32]] [[4 x i32] zeroinitializer, [4 x i32] zeroinitializer, [4 x i32] zeroinitializer]]
 declare void @neg_idx_except()
 
 declare i32 @getint()
