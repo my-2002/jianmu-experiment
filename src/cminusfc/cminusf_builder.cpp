@@ -752,13 +752,7 @@ Value* CminusfBuilder::visit(ASTLVal& node) {
                     var = builder->create_load(var);
                 var = builder->create_gep(var, index);
             }
-            if (assign) {       //赋值语句
-                ret_value = var;                   
-                context.assign = false;    
-            }
-            else 
-                ret_value = builder->create_load(var);
-            return ret_value;
+            index.clear();
         }
         if (assign) {       //赋值语句
             ret_value = var;                   
@@ -825,7 +819,6 @@ Value* CminusfBuilder::visit(ASTLVal& node) {
         ret_value = var;
     }
     return ret_value;
-
 }
 Value* CminusfBuilder::visit(ASTRelExp& node) {
     auto rres = node.additive_expression!=nullptr?node.additive_expression->accept(*this):node.relation_expression_r->accept(*this);                  
