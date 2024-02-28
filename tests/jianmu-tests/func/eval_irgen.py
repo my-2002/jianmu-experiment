@@ -24,7 +24,8 @@ def eval():
         except Exception as _:
             f.write('\tFail\n')
             continue
-
+        
+        print(result.returncode)
         if result.returncode == 0:
             subprocess.run(["clang", "-O0", "-w", "-no-pie", fname.split(".")[0] + ".ll", "-o", fname.split(".")[0], "-L", "-lcminus_io", "-ljianmu-src"])
             input_option = None
@@ -32,19 +33,20 @@ def eval():
                 with open(fname.split(".")[0] + ".in", "rb") as fin:
                     input_option = fin.read()
             try:
-                result = subprocess.run([fname.split(".")[0]], input=input_option, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=1)
+                result = subprocess.run(["./"+fname.split(".")[0]], input=input_option, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=1)
                 name=fname.split(".")[0]
-                with open(f"./llout/{name}.txt","w") as res:
+                print(result.stdout)
+                with open(f"./llout/{name}.txt","wb") as res:
                     res.write(result.stdout)
                 with open(fname.split(".")[0] + ".out", "rb") as fout:
-                    f.write(fname.split(".")[0] + result.stdout)
+                    # f.write(fname.split(".")[0] + result.stdout + input_option)
                     if result.stdout == fout.read():
                         f.write('\tSuccess\n')
                     else:
                         f.write('\tFail\n')
                         has_bonus = False
             except Exception as _:
-                f.write('\tFail\n')
+                f.write('\texecute Fail\n')
                 has_bonus = False
             #finally:
                 #subprocess.call(["rm", "-rf", TEST_PATH, TEST_PATH + ".o", TEST_PATH + ".ll"])
