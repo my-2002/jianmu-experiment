@@ -187,6 +187,9 @@ class CminusfBuilder : public ASTVisitor {
         BasicBlock* condbb;
         BasicBlock* retbb;
 
+        //函数参数相关
+        std::unordered_map<std::string, std::vector<Value*>> array_size;
+
         //init 相关
         std::vector<int> array_index; //储存当前赋值的变量的数组层次元素个数，如a[2][3][4],存储[4,3,2]
         Type* tmpType;//当前声明变量的BType
