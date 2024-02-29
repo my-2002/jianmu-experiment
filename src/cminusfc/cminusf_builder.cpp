@@ -189,6 +189,8 @@ Value* CminusfBuilder::visit(ASTFunDeclaration &node) {
     FunctionType *fun_type;
     Type *ret_type;
     std::vector<Type *> param_types;
+    context.array_size.clear();
+
     if (node.type == TYPE_INT)
         ret_type = INT32_T;
     else if (node.type == TYPE_FLOAT)
@@ -254,6 +256,11 @@ Value* CminusfBuilder::visit(ASTParam &node) {
             paramAlloca = builder->create_alloca(INT32PTR_T);
         else if (node.type == TYPE_FLOAT) 
             paramAlloca = builder->create_alloca(FLOATPTR_T);
+
+        std::vector<Value*> sizes;    
+        for (auto &exp : node.expression)
+            sizes.insert(sizes.begin(), exp->accept(*this));
+        context.array_size.insert({node.id, sizes});  
     }
     else {            
         if (node.type == TYPE_INT)      
@@ -263,7 +270,7 @@ Value* CminusfBuilder::visit(ASTParam &node) {
     }
     auto arg = context.arg;
     builder->create_store(arg, paramAlloca);    
-    scope.push(node.id, paramAlloca, false);  
+    scope.push(node.id, paramAlloca, false);
     return nullptr;
 }
 
@@ -719,7 +726,7 @@ Value* CminusfBuilder::visit(ASTLVal& node) {
                 auto res = exp->accept(*this); 
                 if (res->get_type()->is_float_type())          
                     res = builder->create_fptosi(res, INT32_T);     //转换数组下标值
-                index.push_back(res);
+                index.insert(index.begin(), res);
             }             
 
             auto function = builder->get_insert_block()->get_parent(); 
@@ -743,15 +750,20 @@ Value* CminusfBuilder::visit(ASTLVal& node) {
 
             builder->set_insert_point(gtzBB);  
             if(var->get_type()->get_pointer_element_type()->is_array_type())
-            {
                 index.insert(index.begin(), CONST_INT(0));
-                var = builder->create_gep(var, index); 
+            else if (var->get_type()->get_pointer_element_type()->is_pointer_type())
+            {
+                var = builder->create_load(var);
+                auto tmp_val = index[0];
+                for(int i=0; i<index.size()-1; i++)
+                {
+                    tmp_val = builder->create_imul((context.array_size.find(node.id)->second[i]), tmp_val);
+                    tmp_val = builder->create_iadd(tmp_val, index[i+1]);
+                }
+                index.clear();
+                index.push_back(tmp_val);
             }
-            else {
-                if (var->get_type()->get_pointer_element_type()->is_pointer_type())
-                    var = builder->create_load(var);
-                var = builder->create_gep(var, index);
-            }
+            var = builder->create_gep(var, index);
             index.clear();
         }
         if (assign) {       //赋值语句
