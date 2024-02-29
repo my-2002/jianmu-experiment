@@ -146,10 +146,10 @@ label_c_gtz17:                                                ; preds = %label_e
   %op8 = call i32 @f1(i32* %op7)
   call void @putint(i32 %op8)
   call void @putch(i32 10)
-  %op9 = icmp slt i32 0, zeroinitializer
+  %op9 = icmp slt i32 2, zeroinitializer
   %op10 = zext i1 %op9 to i32
   %op11 = add i32 %op10, zeroinitializer
-  %op12 = icmp slt i32 2, zeroinitializer
+  %op12 = icmp slt i32 0, zeroinitializer
   %op13 = zext i1 %op12 to i32
   %op14 = add i32 %op13, %op11
   %op15 = icmp ne i32 %op14, zeroinitializer
@@ -158,7 +158,7 @@ label_c_ltz18:                                                ; preds = %label_c
   call void @neg_idx_except()
   br label %label_c_gtz19
 label_c_gtz19:                                                ; preds = %label_c_gtz17, %label_c_ltz18
-  %op16 = getelementptr [1024 x [4 x i32]], [1024 x [4 x i32]]* %op1, i32 0, i32 0, i32 2
+  %op16 = getelementptr [1024 x [4 x i32]], [1024 x [4 x i32]]* %op1, i32 0, i32 2, i32 0
   %op17 = load i32, i32* %op16
   ret i32 %op17
 }

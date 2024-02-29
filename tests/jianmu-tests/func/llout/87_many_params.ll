@@ -1559,10 +1559,10 @@ label_condition182:                                                ; preds = %la
   br i1 %op24, label %label_loop183, label %label_ret184
 label_loop183:                                                ; preds = %label_condition182
   %op25 = load i32, i32* %op19
-  %op26 = icmp slt i32 0, zeroinitializer
+  %op26 = icmp slt i32 %op25, zeroinitializer
   %op27 = zext i1 %op26 to i32
   %op28 = add i32 %op27, zeroinitializer
-  %op29 = icmp slt i32 %op25, zeroinitializer
+  %op29 = icmp slt i32 0, zeroinitializer
   %op30 = zext i1 %op29 to i32
   %op31 = add i32 %op30, %op28
   %op32 = icmp ne i32 %op31, zeroinitializer
@@ -1577,13 +1577,13 @@ label_arr_ltz185:                                                ; preds = %labe
   call void @neg_idx_except()
   br label %label_arr_gtz186
 label_arr_gtz186:                                                ; preds = %label_loop183, %label_arr_ltz185
-  %op37 = getelementptr [32 x [2 x i32]], [32 x [2 x i32]]* %op17, i32 0, i32 0, i32 %op25
+  %op37 = getelementptr [32 x [2 x i32]], [32 x [2 x i32]]* %op17, i32 0, i32 %op25, i32 0
   %op38 = load i32, i32* %op19
   %op39 = sub i32 %op38, 1
-  %op40 = icmp slt i32 1, zeroinitializer
+  %op40 = icmp slt i32 %op39, zeroinitializer
   %op41 = zext i1 %op40 to i32
   %op42 = add i32 %op41, zeroinitializer
-  %op43 = icmp slt i32 %op39, zeroinitializer
+  %op43 = icmp slt i32 1, zeroinitializer
   %op44 = zext i1 %op43 to i32
   %op45 = add i32 %op44, %op42
   %op46 = icmp ne i32 %op45, zeroinitializer
@@ -1592,15 +1592,15 @@ label_arr_ltz187:                                                ; preds = %labe
   call void @neg_idx_except()
   br label %label_arr_gtz188
 label_arr_gtz188:                                                ; preds = %label_arr_gtz186, %label_arr_ltz187
-  %op47 = getelementptr [32 x [2 x i32]], [32 x [2 x i32]]* %op17, i32 0, i32 1, i32 %op39
+  %op47 = getelementptr [32 x [2 x i32]], [32 x [2 x i32]]* %op17, i32 0, i32 %op39, i32 1
   %op48 = load i32, i32* %op47
   %op49 = sub i32 %op48, 1
   store i32 %op49, i32* %op37
   %op50 = load i32, i32* %op19
-  %op51 = icmp slt i32 1, zeroinitializer
+  %op51 = icmp slt i32 %op50, zeroinitializer
   %op52 = zext i1 %op51 to i32
   %op53 = add i32 %op52, zeroinitializer
-  %op54 = icmp slt i32 %op50, zeroinitializer
+  %op54 = icmp slt i32 1, zeroinitializer
   %op55 = zext i1 %op54 to i32
   %op56 = add i32 %op55, %op53
   %op57 = icmp ne i32 %op56, zeroinitializer
@@ -1609,13 +1609,13 @@ label_arr_ltz189:                                                ; preds = %labe
   call void @neg_idx_except()
   br label %label_arr_gtz190
 label_arr_gtz190:                                                ; preds = %label_arr_gtz188, %label_arr_ltz189
-  %op58 = getelementptr [32 x [2 x i32]], [32 x [2 x i32]]* %op17, i32 0, i32 1, i32 %op50
+  %op58 = getelementptr [32 x [2 x i32]], [32 x [2 x i32]]* %op17, i32 0, i32 %op50, i32 1
   %op59 = load i32, i32* %op19
   %op60 = sub i32 %op59, 1
-  %op61 = icmp slt i32 0, zeroinitializer
+  %op61 = icmp slt i32 %op60, zeroinitializer
   %op62 = zext i1 %op61 to i32
   %op63 = add i32 %op62, zeroinitializer
-  %op64 = icmp slt i32 %op60, zeroinitializer
+  %op64 = icmp slt i32 0, zeroinitializer
   %op65 = zext i1 %op64 to i32
   %op66 = add i32 %op65, %op63
   %op67 = icmp ne i32 %op66, zeroinitializer
@@ -1624,7 +1624,7 @@ label_arr_ltz191:                                                ; preds = %labe
   call void @neg_idx_except()
   br label %label_arr_gtz192
 label_arr_gtz192:                                                ; preds = %label_arr_gtz190, %label_arr_ltz191
-  %op68 = getelementptr [32 x [2 x i32]], [32 x [2 x i32]]* %op17, i32 0, i32 0, i32 %op60
+  %op68 = getelementptr [32 x [2 x i32]], [32 x [2 x i32]]* %op17, i32 0, i32 %op60, i32 0
   %op69 = load i32, i32* %op68
   %op70 = sub i32 %op69, 2
   store i32 %op70, i32* %op58

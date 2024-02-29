@@ -10,6 +10,10 @@ def find_files_with_extension(folder_path, extension):
 
 TEST_PATH='./'   
 def eval():
+    if os.path.exists("./llout"):
+        shutil.rmtree("llout")
+    os.mkdir("llout")
+
     folder_path = './'   # 替换为你的文件夹路径
     extension = '.sy'   # 替换为你的文件后缀名
     files = find_files_with_extension(folder_path, extension)
@@ -31,15 +35,16 @@ def eval():
             if(exeres.returncode!=0):
                 print(fname.split(".")[0]+" 生成执行文件错误")
             input_option = None
-            if os.path.isfile(fname+".in"):
+            if os.path.isfile(fname.split(".")[0]+".in"):
                 with open(fname.split(".")[0] + ".in", "rb") as fin:
                     input_option = fin.read()
-                    print("input ="+input_option)
+                    # print("input ="+input_option)
             try:
                 result = subprocess.run(["./"+fname.split(".")[0]], input=input_option, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=1)
                 name=fname.split(".")[0]
-                print(name+":")
-                print(result.stdout)
+                print(name+":"+"执行完成")
+                with open(f'./llout/{name}.txt','wb') as ff:
+                    ff.write(result.stdout)
                 with open(fname.split(".")[0] + ".out", "rb") as fout:
                     print(fout.read())
                     # f.write(fname.split(".")[0] + result.stdout + input_option)
@@ -50,7 +55,7 @@ def eval():
                         has_bonus = False
             except Exception as _:
                 f.write('\texecute Fail\n')
-                print("执行失败")
+                print(fname.split(".")[0]+"执行失败")
                 has_bonus = False
             #finally:
                 #subprocess.call(["rm", "-rf", TEST_PATH, TEST_PATH + ".o", TEST_PATH + ".ll"])
@@ -60,9 +65,7 @@ def eval():
 
         f.write('===========END========\n\n')
     files = find_files_with_extension(folder_path, '.ll')
-    if os.path.exists("./llout"):
-        shutil.rmtree("llout")
-    os.mkdir("llout")
+    
     # 移动文件
     for file in files:
         file_path = os.path.abspath(file)

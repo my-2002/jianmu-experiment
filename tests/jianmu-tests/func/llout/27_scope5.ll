@@ -3234,7 +3234,5 @@ label_entry:
   %op2200 = add i32 %op2198, %op2199
   store i32 %op2200, i32* %op1
   %op2201 = load i32, i32* %op1
-  call void @putint(i32 %op2201)
-  %op2202 = load i32, i32* %op1
-  ret i32 %op2202
+  ret i32 %op2201
 }
