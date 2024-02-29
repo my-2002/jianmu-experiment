@@ -1,5 +1,5 @@
 ; ModuleID = 'sysy'
-source_filename = "/home/syx/Test/jianmu/2023ustc-jianmu-compiler/tests/jianmu-tests/func/03_arr_defn2.sy"
+source_filename = "/home/my2002/compiler_principles/lab5/jianmu-experiment/tests/jianmu-tests/func/03_arr_defn2.sy"
 
 @a = global [10 x [10 x i32]] zeroinitializer
 declare void @neg_idx_except()
