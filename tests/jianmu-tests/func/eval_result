@@ -1,10 +1,10 @@
-	Fail
+	Success
 ===========END========
 
-	Fail
+	Success
 ===========END========
 
-	Fail
+	execute Fail
 ===========END========
 
 	Fail
@@ -22,7 +22,10 @@
 	Fail
 ===========END========
 
-	Fail
+	Success
+===========END========
+
+	Success
 ===========END========
 
 	Fail
@@ -31,13 +34,10 @@
 	Fail
 ===========END========
 
-	Fail
+	Success
 ===========END========
 
-	Fail
-===========END========
-
-	Fail
+	execute Fail
 ===========END========
 
 	execute Fail
@@ -46,7 +46,7 @@
 	Fail
 ===========END========
 
-	Fail
+	Success
 ===========END========
 
 	Fail

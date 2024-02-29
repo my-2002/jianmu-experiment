@@ -25,20 +25,23 @@ def eval():
             f.write('\tFail\n')
             continue
         
-        print(result.returncode)
+        #print(result.returncode)
         if result.returncode == 0:
-            subprocess.run(["clang", "-O0", "-w", "-no-pie", fname.split(".")[0] + ".ll", "-o", fname.split(".")[0], "-L", "-lcminus_io", "-ljianmu-src"])
+            exeres=subprocess.run(["clang", "-O0", "-w", "-no-pie", fname.split(".")[0] + ".ll", "-o", fname.split(".")[0], "-L", "-lcminus_io", "-ljianmu-src"])
+            if(exeres.returncode!=0):
+                print(fname.split(".")[0]+" 生成执行文件错误")
             input_option = None
             if os.path.isfile(fname+".in"):
                 with open(fname.split(".")[0] + ".in", "rb") as fin:
                     input_option = fin.read()
+                    print("input ="+input_option)
             try:
                 result = subprocess.run(["./"+fname.split(".")[0]], input=input_option, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=1)
                 name=fname.split(".")[0]
+                print(name+":")
                 print(result.stdout)
-                with open(f"./llout/{name}.txt","wb") as res:
-                    res.write(result.stdout)
                 with open(fname.split(".")[0] + ".out", "rb") as fout:
+                    print(fout.read())
                     # f.write(fname.split(".")[0] + result.stdout + input_option)
                     if result.stdout == fout.read():
                         f.write('\tSuccess\n')
@@ -47,6 +50,7 @@ def eval():
                         has_bonus = False
             except Exception as _:
                 f.write('\texecute Fail\n')
+                print("执行失败")
                 has_bonus = False
             #finally:
                 #subprocess.call(["rm", "-rf", TEST_PATH, TEST_PATH + ".o", TEST_PATH + ".ll"])
