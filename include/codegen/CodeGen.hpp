@@ -61,6 +61,7 @@ class CodeGen {
     void gen_sitofp();
     void gen_fptosi();
     void gen_epilogue();
+    void gen_phi(BasicBlock*);
 
     static std::string label_name(BasicBlock *bb) {
         return "." + bb->get_parent()->get_name() + "_" + bb->get_name();
@@ -72,12 +73,14 @@ class CodeGen {
         Instruction *inst{nullptr}; // 当前指令
         /* 在allocate()中设置 */
         unsigned frame_size{0}; // 当前函数的栈帧大小
+        int fcmp_cnt;
         std::unordered_map<Value *, int> offset_map{}; // 指针相对 fp 的偏移
 
         void clear() {
             func = nullptr;
             inst = nullptr;
             frame_size = 0;
+            fcmp_cnt = 0;
             offset_map.clear();
         }
 
