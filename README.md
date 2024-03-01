@@ -30,3 +30,4 @@ $ git push origin master
 4. 变量定义的数组部分的constexp可能需要做非负整数的检查
 5. getchar 暂时按照整数写，如需要更改，在cminusbuilderhpp中将有关函数类型改为TyChar即可
 6. 数组和putf需要修改，计时函数没有完成
+7.genstore处记得删

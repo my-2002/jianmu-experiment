@@ -3,6 +3,8 @@
 ==========.//03_arr_defn2.sy==========
 0								0
 ==========.//05_arr_defn4.sy==========
+terminate called after throwing an instance of 'std::out_of_range'
+  what():  _Map_base::at
 ==========.//06_const_var_defn2.sy==========
 5								5
 ==========.//08_const_array_defn.sy==========

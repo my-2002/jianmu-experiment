@@ -833,139 +833,216 @@ Value* CminusfBuilder::visit(ASTLVal& node) {
     return ret_value;
 }
 Value* CminusfBuilder::visit(ASTRelExp& node) {
-    auto rres = node.additive_expression!=nullptr?node.additive_expression->accept(*this):node.relation_expression_r->accept(*this);                  
+    auto lres = node.additive_expression!=nullptr?node.additive_expression->accept(*this):node.relation_expression_l->accept(*this);                  
     if (node.relation_expression_l == nullptr)  //说明是单个加法式
-        return rres;   
-    auto lres = node.relation_expression_l->accept(*this);    
-    Value * ret_val;                   
-    if(dynamic_cast<Constant*>(lres) && dynamic_cast<Constant*>(rres))
+        return lres;   
+    //auto rres = node.relation_expression_r->accept(*this);    
+    Value * ret_val; 
+    if(node.op==OP_AND or node.op==OP_AND)   //需要进行短路运算
     {
-        if (lres->get_type()->is_integer_type() && rres->get_type()->is_integer_type()) {
-            switch (node.op) {  
-            case OP_LE:
-                ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())<=(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
-            case OP_LT:
-                ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())<(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
-            case OP_GT:
-                ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())>(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
-            case OP_GE:
-                ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())>=(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
-            case OP_EQ:
-                ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())==(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
-            case OP_NEQ:
-                ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())!=(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
-            case OP_AND:    
-                ret_val = CONST_INT(((dynamic_cast<ConstantInt*>(lres)->get_value())!=0 && (dynamic_cast<ConstantInt*>(rres)->get_value())!=0) ? 1 : 0);break;
-            case OP_OR:
-                ret_val = CONST_INT(((dynamic_cast<ConstantInt*>(lres)->get_value())!=0 || (dynamic_cast<ConstantInt*>(rres)->get_value())!=0) ? 1 : 0);break;
+        if(dynamic_cast<Constant*>(lres))
+        {
+            if(node.op==OP_AND)
+            {
+                if((dynamic_cast<ConstantInt*>(lres)!=nullptr?dynamic_cast<ConstantInt*>(lres)->get_value():dynamic_cast<ConstantFP*>(lres)->get_value())>0)
+                {
+                    auto rres = node.relation_expression_r->accept(*this); 
+                    if(dynamic_cast<ConstantInt*>(rres))
+                        ret_val = CONST_INT(dynamic_cast<ConstantInt*>(rres)->get_value()>0?1:0);
+                    else if(dynamic_cast<ConstantFP*>(rres))
+                        ret_val = CONST_INT(dynamic_cast<ConstantFP*>(rres)->get_value()>0?1:0);
+                    else //变量
+                    {
+                        if(rres->get_type()->is_integer_type())
+                            ret_val = builder->create_icmp_gt(rres,CONST_ZERO(INT32_T));
+                        else
+                            ret_val = builder->create_fcmp_gt(rres,CONST_ZERO(FLOAT_T));
+                    }
+                }
+                else
+                    ret_val = CONST_INT(0);
             }
-        } else if (lres->get_type()->is_integer_type()){ 
-            switch (node.op) {  
-            case OP_LE:
-                ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())<=(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
-            case OP_LT:
-                ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())<(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
-            case OP_GT:
-                ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())>(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
-            case OP_GE:
-                ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())>=(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
-            case OP_EQ:
-                ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())==(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
-            case OP_NEQ:
-                ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())!=(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
-            case OP_AND:    
-                ret_val = CONST_INT(((dynamic_cast<ConstantInt*>(lres)->get_value())!=0 && (dynamic_cast<ConstantFP*>(rres)->get_value())!=0) ? 1 : 0);break;
-            case OP_OR:
-                ret_val = CONST_INT(((dynamic_cast<ConstantInt*>(lres)->get_value())!=0 || (dynamic_cast<ConstantFP*>(rres)->get_value())!=0) ? 1 : 0);break;
-            }
-        } else if (rres->get_type()->is_integer_type()){
-            switch (node.op) {  
-            case OP_LE:
-                ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())<=(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
-            case OP_LT:
-                ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())<(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
-            case OP_GT:
-                ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())>(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
-            case OP_GE:
-                ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())>=(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
-            case OP_EQ:
-                ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())==(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
-            case OP_NEQ:
-                ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())!=(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
-            case OP_AND:    
-                ret_val = CONST_INT(((dynamic_cast<ConstantFP*>(lres)->get_value())!=0 && (dynamic_cast<ConstantInt*>(rres)->get_value())!=0) ? 1 : 0);break;
-            case OP_OR:
-                ret_val = CONST_INT(((dynamic_cast<ConstantFP*>(lres)->get_value())!=0 || (dynamic_cast<ConstantInt*>(rres)->get_value())!=0) ? 1 : 0);break;
-            }
-        } else {
-            switch (node.op) {  
-            case OP_LE:
-                ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())<=(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
-            case OP_LT:
-                ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())<(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
-            case OP_GT:
-                ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())>(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
-            case OP_GE:
-                ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())>=(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
-            case OP_EQ:
-                ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())==(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
-            case OP_NEQ:
-                ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())!=(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
-            case OP_AND:    
-                ret_val = CONST_INT(((dynamic_cast<ConstantFP*>(lres)->get_value())!=0 && (dynamic_cast<ConstantFP*>(rres)->get_value())!=0) ? 1 : 0);break;
-            case OP_OR:
-                ret_val = CONST_INT(((dynamic_cast<ConstantFP*>(lres)->get_value())!=0 || (dynamic_cast<ConstantFP*>(rres)->get_value())!=0) ? 1 : 0);break;
+            else
+            {
+                if((dynamic_cast<ConstantInt*>(lres)!=nullptr?dynamic_cast<ConstantInt*>(lres)->get_value():dynamic_cast<ConstantFP*>(lres)->get_value())<0)
+                {
+                    auto rres = node.relation_expression_r->accept(*this); 
+                    if(dynamic_cast<ConstantInt*>(rres))
+                        ret_val = CONST_INT(dynamic_cast<ConstantInt*>(rres)->get_value()>0?1:0);
+                    else if(dynamic_cast<ConstantFP*>(rres))
+                        ret_val = CONST_INT(dynamic_cast<ConstantFP*>(rres)->get_value()>0?1:0);
+                    else //变量
+                    {
+                        if(rres->get_type()->is_integer_type())
+                            ret_val = builder->create_icmp_gt(rres,CONST_ZERO(INT32_T));
+                        else
+                            ret_val = builder->create_fcmp_gt(rres,CONST_ZERO(FLOAT_T));
+                    }
+                }
+                else
+                    ret_val = CONST_INT(1);
             }
         }
-    }
+        else  //lres 变量
+        {
+            Value* repval;
+            if(lres->get_type()->is_integer_type())
+                repval=builder->create_icmp_ge(lres,CONST_ZERO(INT32_T));
+            else
+                repval=builder->create_fcmp_ge(lres,CONST_ZERO(FLOAT_T));
+            if(node.op==OP_AND)
+            {
+                if((dynamic_cast<ConstantInt*>(repval)!=nullptr?dynamic_cast<ConstantInt*>(repval)->get_value():dynamic_cast<ConstantFP*>(repval)->get_value())>0)
+                {
+                    auto rres = node.relation_expression_r->accept(*this); 
+                    if(dynamic_cast<ConstantInt*>(rres))
+                        ret_val = CONST_INT(dynamic_cast<ConstantInt*>(rres)->get_value()>0?1:0);
+                    else if(dynamic_cast<ConstantFP*>(rres))
+                        ret_val = CONST_INT(dynamic_cast<ConstantFP*>(rres)->get_value()>0?1:0);
+                    else //变量
+                    {
+                        if(rres->get_type()->is_integer_type())
+                            ret_val = builder->create_icmp_gt(rres,CONST_ZERO(INT32_T));
+                        else
+                            ret_val = builder->create_fcmp_gt(rres,CONST_ZERO(FLOAT_T));
+                    }
+                }
+                else
+                ret_val=CONST_INT(0);
+            }
+            else
+            {
+                if((dynamic_cast<ConstantInt*>(repval)!=nullptr?dynamic_cast<ConstantInt*>(repval)->get_value():dynamic_cast<ConstantFP*>(repval)->get_value())<0)
+                {
+                    auto rres = node.relation_expression_r->accept(*this); 
+                    if(dynamic_cast<ConstantInt*>(rres))
+                        ret_val = CONST_INT(dynamic_cast<ConstantInt*>(rres)->get_value()>0?1:0);
+                    else if(dynamic_cast<ConstantFP*>(rres))
+                        ret_val = CONST_INT(dynamic_cast<ConstantFP*>(rres)->get_value()>0?1:0);
+                    else //变量
+                    {
+                        if(rres->get_type()->is_integer_type())
+                            ret_val = builder->create_icmp_gt(rres,CONST_ZERO(INT32_T));
+                        else
+                            ret_val = builder->create_fcmp_gt(rres,CONST_ZERO(FLOAT_T));
+                    }
+                }
+                else
+                ret_val=CONST_INT(1);
+            }
+        }
+    }      
     else
     {
-        if (lres->get_type()->is_integer_type() && rres->get_type()->is_integer_type()) {     //都为整数的情况
-            auto tem=builder->create_iadd(lres,rres);
-            switch (node.op) {  
-            case OP_LE:
-                ret_val = builder->create_icmp_le(lres, rres);break;
-            case OP_LT:
-                ret_val = builder->create_icmp_lt(lres, rres);break;
-            case OP_GT:
-                ret_val = builder->create_icmp_gt(lres, rres);break;
-            case OP_GE:
-                ret_val = builder->create_icmp_ge(lres, rres);break;
-            case OP_EQ:
-                ret_val = builder->create_icmp_eq(lres, rres);break;
-            case OP_NEQ:
-                ret_val = builder->create_icmp_ne(lres, rres);break;
-            case OP_AND:    
-                ret_val=builder->create_icmp_eq(tem,ConstantInt::get(2,module.get()));
-                break;
-            case OP_OR:
-                ret_val=builder->create_icmp_ge(tem,ConstantInt::get(1,module.get()));
-                break;
+        auto rres = node.relation_expression_r->accept(*this);
+        if(dynamic_cast<Constant*>(lres) && dynamic_cast<Constant*>(rres))
+        {
+            if (lres->get_type()->is_integer_type() && rres->get_type()->is_integer_type()) {
+                switch (node.op) {  
+                case OP_LE:
+                    ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())<=(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
+                case OP_LT:
+                    ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())<(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
+                case OP_GT:
+                    ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())>(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
+                case OP_GE:
+                    ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())>=(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
+                case OP_EQ:
+                    ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())==(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
+                case OP_NEQ:
+                    ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())!=(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
+                }
+            } else if (lres->get_type()->is_integer_type()){ 
+                switch (node.op) {  
+                case OP_LE:
+                    ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())<=(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
+                case OP_LT:
+                    ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())<(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
+                case OP_GT:
+                    ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())>(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
+                case OP_GE:
+                    ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())>=(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
+                case OP_EQ:
+                    ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())==(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
+                case OP_NEQ:
+                    ret_val = CONST_INT((dynamic_cast<ConstantInt*>(lres)->get_value())!=(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
+                }
+            } else if (rres->get_type()->is_integer_type()){
+                switch (node.op) {  
+                case OP_LE:
+                    ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())<=(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
+                case OP_LT:
+                    ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())<(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
+                case OP_GT:
+                    ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())>(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
+                case OP_GE:
+                    ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())>=(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
+                case OP_EQ:
+                    ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())==(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
+                case OP_NEQ:
+                    ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())!=(dynamic_cast<ConstantInt*>(rres)->get_value()) ? 1 : 0);break;
+                }
+            } else {
+                switch (node.op) {  
+                case OP_LE:
+                    ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())<=(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
+                case OP_LT:
+                    ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())<(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
+                case OP_GT:
+                    ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())>(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
+                case OP_GE:
+                    ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())>=(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
+                case OP_EQ:
+                    ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())==(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
+                case OP_NEQ:
+                    ret_val = CONST_INT((dynamic_cast<ConstantFP*>(lres)->get_value())!=(dynamic_cast<ConstantFP*>(rres)->get_value()) ? 1 : 0);break;
+                }
             }
         }
         else
         {
-            if (lres->get_type()->is_integer_type())         //若有整数，则先转换
-                lres = builder->create_sitofp(lres, FLOAT_T);
-            if (rres->get_type()->is_integer_type()) 
-                rres = builder->create_sitofp(rres, FLOAT_T);
-            switch (node.op) { 
-            case OP_LE:
-                ret_val = builder->create_fcmp_le(lres, rres);break;
-            case OP_LT:
-                ret_val = builder->create_fcmp_lt(lres, rres);break;
-            case OP_GT:
-                ret_val = builder->create_fcmp_gt(lres, rres);break;
-            case OP_GE:
-                ret_val = builder->create_fcmp_ge(lres, rres);break;
-            case OP_EQ:
-                ret_val = builder->create_fcmp_eq(lres, rres);break;
-            case OP_NEQ:
-                ret_val = builder->create_fcmp_ne(lres, rres);break;
+            if (lres->get_type()->is_integer_type() && rres->get_type()->is_integer_type()) {     //都为整数的情况
+                auto tem=builder->create_iadd(lres,rres);
+                switch (node.op) {  
+                case OP_LE:
+                    ret_val = builder->create_icmp_le(lres, rres);break;
+                case OP_LT:
+                    ret_val = builder->create_icmp_lt(lres, rres);break;
+                case OP_GT:
+                    ret_val = builder->create_icmp_gt(lres, rres);break;
+                case OP_GE:
+                    ret_val = builder->create_icmp_ge(lres, rres);break;
+                case OP_EQ:
+                    ret_val = builder->create_icmp_eq(lres, rres);break;
+                case OP_NEQ:
+                    ret_val = builder->create_icmp_ne(lres, rres);break;
+                }
             }
+            else
+            {
+                if (lres->get_type()->is_integer_type())         //若有整数，则先转换
+                    lres = builder->create_sitofp(lres, FLOAT_T);
+                if (rres->get_type()->is_integer_type()) 
+                    rres = builder->create_sitofp(rres, FLOAT_T);
+                switch (node.op) { 
+                case OP_LE:
+                    ret_val = builder->create_fcmp_le(lres, rres);break;
+                case OP_LT:
+                    ret_val = builder->create_fcmp_lt(lres, rres);break;
+                case OP_GT:
+                    ret_val = builder->create_fcmp_gt(lres, rres);break;
+                case OP_GE:
+                    ret_val = builder->create_fcmp_ge(lres, rres);break;
+                case OP_EQ:
+                    ret_val = builder->create_fcmp_eq(lres, rres);break;
+                case OP_NEQ:
+                    ret_val = builder->create_fcmp_ne(lres, rres);break;
+                }
+            }
+            ret_val = builder->create_zext(ret_val, INT32_T);     //统一讲结果保存为整
         }
-        ret_val = builder->create_zext(ret_val, INT32_T);     //统一讲结果保存为整
-    }
+    }         
+    
     return ret_val;
 
 }
