@@ -335,11 +335,38 @@ void CodeGen::gen_store(Value* val, Value* ptr) {
     if(val_type->is_array_type())
     {
         auto array_val = dynamic_cast<ConstantArray*>(val);
-        for(int i=0; i<array_val->get_size_of_array(); i++)
+        if (array_val!=nullptr)
         {
-            auto sub_val = array_val->get_element_value(i);
-            gen_store(sub_val, ptr);
-            ptr+=sub_val->get_type()->get_size();
+            for(int i=0; i<array_val->get_size_of_array(); i++)
+            {
+                auto sub_val = array_val->get_element_value(i);
+                gen_store(sub_val, ptr);
+                ptr+=sub_val->get_type()->get_size();
+            }
+        }
+        else //说明是zeroinit
+        {
+            auto temptype=val_type;
+            while (val_type->is_array_type())
+            {
+                val_type=val_type->get_array_element_type();
+            }
+            if(val_type->is_integer_type())
+            {
+                for(int i=0; i<temptype->get_size()/4; i++)
+                {
+                    store_from_greg(ptr,Reg(0));
+                    ptr+=4;
+                }
+            }
+            else
+            {
+                for(int i=0; i<temptype->get_size()/4; i++)
+                {
+                    store_from_greg(ptr,Reg(0));
+                    ptr+=4;
+                }
+            }
         }
     }
     else if(val->get_type()->is_float_type())
