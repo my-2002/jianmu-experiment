@@ -3,7 +3,6 @@
 ==========.//03_arr_defn2.sy==========
 0								0
 ==========.//05_arr_defn4.sy==========
-cminusfc: /home/syx/Test/jianmu/2023ustc-jianmu-compiler/src/codegen/CodeGen.cpp:40: void CodeGen::load_to_greg(Value *, const Reg &): Assertion `val->get_type()->is_integer_type() || val->get_type()->is_pointer_type()' failed.
 ==========.//06_const_var_defn2.sy==========
 5								5
 ==========.//08_const_array_defn.sy==========

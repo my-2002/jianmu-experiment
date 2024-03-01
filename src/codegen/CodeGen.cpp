@@ -51,6 +51,7 @@ void CodeGen::load_to_greg(Value *val, const Reg &reg) {
     } else {
         load_from_stack_to_greg(val, reg);
     }
+
 }
 
 void CodeGen::load_large_int32(int32_t val, const Reg &reg) {
@@ -331,7 +332,7 @@ void CodeGen::gen_store(Value* val, Value* ptr) {
         auto array_val = dynamic_cast<ConstantArray*>(val);
         for(int i=0; i<array_val->get_size_of_array(); i++)
         {
-            auto sub_val = array_val->get_element_val(i);
+            auto sub_val = array_val->get_element_value(i);
             gen_store(sub_val, ptr);
             ptr+=sub_val->get_type()->get_size();
         }
@@ -356,8 +357,19 @@ void CodeGen::gen_store(Value* val, Value* ptr) {
 }
 
 void CodeGen::gen_icmp() {
-    load_to_greg(context.inst->get_operand(0), Reg::t(0));
-    load_to_greg(context.inst->get_operand(1), Reg::t(1));
+    if(auto *constant = dynamic_cast<ConstantZero *>(context.inst->get_operand(0)))
+    {
+        append_inst("addi.w $t0, $zero, 0");
+    }
+    else 
+        load_to_greg(context.inst->get_operand(0), Reg::t(0));
+    if(auto *constant = dynamic_cast<ConstantZero *>(context.inst->get_operand(1)))
+    {
+        append_inst("addi.w $t1, $zero, 0");
+    }
+    else 
+        load_to_greg(context.inst->get_operand(1), Reg::t(1));
+        
     switch (context.inst->get_instr_type()) {
     case Instruction::ge:
     {

@@ -10,9 +10,8 @@
             "request": "launch",
             "program": "${workspaceFolder}/build/cminusfc",
             "args": [
-                "${workspaceFolder}/tests/jianmu-tests/func/87_many_params.sy",
-                "${workspaceFolder}/tests/jianmu-tests/func/88_many_params2.sy",
-                "-emit-llvm"
+                "${workspaceFolder}/tests/jianmu-tests/func/08_const_array_defn.sy",
+                "-S"
             ],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
