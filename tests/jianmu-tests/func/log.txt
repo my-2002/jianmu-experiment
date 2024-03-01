@@ -6,8 +6,7 @@
 ==========.//06_const_var_defn2.sy==========
 5								5
 ==========.//08_const_array_defn.sy==========
-terminate called after throwing an instance of 'std::out_of_range'
-  what():  _Map_base::at
+4								4
 ==========.//08_global_arr_init.sy==========
 5								5
 ==========.//27_scope5.sy==========
@@ -16,26 +15,31 @@ terminate called after throwing an instance of 'std::out_of_range'
 terminate called after throwing an instance of 'std::out_of_range'
   what():  _Map_base::at
 ==========.//66_exgcd.sy==========
-terminate called after throwing an instance of 'std::out_of_range'
-  what():  _Map_base::at
+13							      |	130
+0							      <
 ==========.//74_kmp.sy==========
-terminate called after throwing an instance of 'std::out_of_range'
-  what():  _Map_base::at
 ==========.//77_substr.sy==========
-terminate called after throwing an instance of 'std::out_of_range'
-  what():  _Map_base::at
 ==========.//78_side_effect.sy==========
-terminate called after throwing an instance of 'std::out_of_range'
-  what():  _Map_base::at
+1							      |	7
+4 2							      |	222
+5							      |	a7
+8 4							      |	333
+9							      |	a15
+12 8							      |	333
+13							      |	a23
+16 16							      |	333
+24 16							      |	a31
+29 16							      |	333
+29							      |	a39
+							      >	333
+							      >	a47
+							      >	47 0
+							      >	47
 ==========.//83_long_array.sy==========
-terminate called after throwing an instance of 'std::out_of_range'
-  what():  _Map_base::at
 ==========.//84_long_array2.sy==========
-terminate called after throwing an instance of 'std::out_of_range'
-  what():  _Map_base::at
+cminusfc: /home/syx/Test/jianmu/2023ustc-jianmu-compiler/src/codegen/CodeGen.cpp:40: void CodeGen::load_to_greg(Value *, const Reg &): Assertion `val->get_type()->is_integer_type() || val->get_type()->is_pointer_type()' failed.
 ==========.//87_many_params.sy==========
-terminate called after throwing an instance of 'std::out_of_range'
-  what():  _Map_base::at
+cminusfc: /home/syx/Test/jianmu/2023ustc-jianmu-compiler/include/codegen/Register.hpp:40: static Reg Reg::a(unsigned int): Assertion `0 <= i and i <= 7' failed.
 ==========.//88_many_params2.sy==========
 cminusfc: /home/syx/Test/jianmu/2023ustc-jianmu-compiler/include/codegen/Register.hpp:40: static Reg Reg::a(unsigned int): Assertion `0 <= i and i <= 7' failed.
 ==========.//89_many_globals.sy==========

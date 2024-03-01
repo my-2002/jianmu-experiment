@@ -46,7 +46,12 @@ void CodeGen::load_to_greg(Value *val, const Reg &reg) {
         } else {
             load_large_int32(val, reg);
         }
-    } else if (auto *global = dynamic_cast<GlobalVariable *>(val)) {
+    }
+    else if(auto *constant = dynamic_cast<ConstantZero *>(val))
+    {
+        append_inst(ADDI WORD, {reg.print(), "$zero", "0"});
+    }
+     else if (auto *global = dynamic_cast<GlobalVariable *>(val)) {
         append_inst(LOAD_ADDR, {reg.print(), global->get_name()});
     } else {
         load_from_stack_to_greg(val, reg);
@@ -357,18 +362,8 @@ void CodeGen::gen_store(Value* val, Value* ptr) {
 }
 
 void CodeGen::gen_icmp() {
-    if(auto *constant = dynamic_cast<ConstantZero *>(context.inst->get_operand(0)))
-    {
-        append_inst("addi.w $t0, $zero, 0");
-    }
-    else 
-        load_to_greg(context.inst->get_operand(0), Reg::t(0));
-    if(auto *constant = dynamic_cast<ConstantZero *>(context.inst->get_operand(1)))
-    {
-        append_inst("addi.w $t1, $zero, 0");
-    }
-    else 
-        load_to_greg(context.inst->get_operand(1), Reg::t(1));
+    load_to_greg(context.inst->get_operand(0), Reg::t(0));
+    load_to_greg(context.inst->get_operand(1), Reg::t(1));
         
     switch (context.inst->get_instr_type()) {
     case Instruction::ge:
