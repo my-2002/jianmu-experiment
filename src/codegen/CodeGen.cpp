@@ -323,19 +323,28 @@ void CodeGen::gen_load() {
     }
 }
 
-void CodeGen::gen_store() {
-    auto *ptr = context.inst->get_operand(1);
-    auto *val = context.inst->get_operand(0);
-    //auto *type = context.inst->get_type();
-    load_to_greg(ptr, Reg::t(0));
-
-    if(val->get_type()->is_float_type())
+void CodeGen::gen_store(Value* val, Value* ptr) {
+    auto val_type = val->get_type();
+    
+    if(val_type->is_array_type())
     {
+        auto array_val = dynamic_cast<ConstantArray*>(val);
+        for(int i=0; i<array_val->get_size_of_array(); i++)
+        {
+            auto sub_val = array_val->get_element_val(i);
+            gen_store(sub_val, ptr);
+            ptr+=sub_val->get_type()->get_size();
+        }
+    }
+    else if(val->get_type()->is_float_type())
+    {
+        load_to_greg(ptr, Reg::t(0));
         load_to_freg(val, FReg::ft(0));
         append_inst("fst.s $ft0, $t0, 0");
     }
     else
     {
+        load_to_greg(ptr, Reg::t(0));
         load_to_greg(val, Reg::t(1));
         if(val->get_type()->is_pointer_type())
             append_inst("st.d $t1, $t0, 0");
@@ -613,7 +622,7 @@ void CodeGen::run() {
                         gen_load();
                         break;
                     case Instruction::store:
-                        gen_store();
+                        gen_store(context.inst->get_operand(0), context.inst->get_operand(1));
                         break;
                     case Instruction::ge:
                     case Instruction::gt:
