@@ -627,9 +627,11 @@ void CodeGen::run() {
                     context.inst = &instr; // 更新 context
                     switch (instr.get_instr_type()) {
                     case Instruction::ret:
+                        gen_phi(&bb);
                         gen_ret();
                         break;
                     case Instruction::br:
+                        gen_phi(&bb);
                         gen_br();
                         break;
                     case Instruction::add:
@@ -671,7 +673,6 @@ void CodeGen::run() {
                         gen_fcmp();
                         break;
                     case Instruction::phi:
-                        throw not_implemented_error{"need to handle phi!"};
                         break;
                     case Instruction::call:
                         gen_call();
