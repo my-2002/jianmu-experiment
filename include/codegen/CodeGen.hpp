@@ -52,7 +52,7 @@ class CodeGen {
     void gen_float_binary();
     void gen_alloca();
     void gen_load();
-    void gen_store(Value *, Value *);
+    void gen_store(Value *);
     void gen_icmp();
     void gen_fcmp();
     void gen_zext();

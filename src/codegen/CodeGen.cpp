@@ -329,7 +329,7 @@ void CodeGen::gen_load() {
     }
 }
 
-void CodeGen::gen_store(Value* val, Value* ptr) {
+void CodeGen::gen_store(Value* val) {
     auto val_type = val->get_type();
     
     if(val_type->is_array_type())
@@ -340,43 +340,36 @@ void CodeGen::gen_store(Value* val, Value* ptr) {
             for(int i=0; i<(int)array_val->get_size_of_array(); i++)
             {
                 auto sub_val = array_val->get_element_value(i);
-                gen_store(sub_val, ptr);
+                gen_store(sub_val);
             }
         }
         else //说明是zeroinit
         {
             for(int i=0; i<(int)val_type->get_size()/4; i++)
             {
-                load_to_greg(ptr, Reg::t(0));
                 append_inst("st.w $zero, $t0, 0");
                 append_inst("addi.d $t0, $t0, 4");
-                store_from_greg(ptr, Reg::t(0));
             }
         }
     }
     else if(val->get_type()->is_float_type())
     {
-        load_to_greg(ptr, Reg::t(0));
         load_to_freg(val, FReg::ft(0));
         append_inst("fst.s $ft0, $t0, 0");
         append_inst("addi.d $t0, $t0, 4");
-        store_from_greg(ptr, Reg::t(0));
     }
     else
     {
-        load_to_greg(ptr, Reg::t(0));
         load_to_greg(val, Reg::t(1));
         if(val->get_type()->is_pointer_type())
         {
             append_inst("st.d $t1, $t0, 0");
             append_inst("addi.d $t0, $t0, 8");
-            store_from_greg(ptr, Reg::t(0));
         }
         else
         {
             append_inst("st.w $t1, $t0, 0");
             append_inst("addi.d $t0, $t0, 4");
-            store_from_greg(ptr, Reg::t(0));
         } 
     }
     // TODO 翻译 store 指令
@@ -597,7 +590,8 @@ void CodeGen::run() {
             append_inst(global.get_name(), ASMInstruction::Label);
             append_inst(".space", {std::to_string(size)},
                         ASMInstruction::Atrribute);
-            gen_store(global.get_init(), &global);
+            load_to_greg(&global, Reg::t(0));
+            gen_store(global.get_init());
         }
     }
 
@@ -652,11 +646,8 @@ void CodeGen::run() {
                         gen_load();
                         break;
                     case Instruction::store:
-                        gen_store(context.inst->get_operand(0), context.inst->get_operand(1));
-                        load_to_greg(ConstantInt::get((int)(context.inst->get_operand(0)->get_type()->get_size()), m), Reg::t(0));
-                        load_to_greg(context.inst->get_operand(1), Reg::t(1));
-                        append_inst("sub.d $t1, $t1, $t0");
-                        store_from_greg(context.inst->get_operand(1), Reg::t(1));
+                        load_to_greg(context.inst->get_operand(1), Reg::t(0));
+                        gen_store(context.inst->get_operand(0));
                         break;
                     case Instruction::ge:
                     case Instruction::gt:
