@@ -838,7 +838,7 @@ Value* CminusfBuilder::visit(ASTRelExp& node) {
     auto lres = node.relation_expression_l->accept(*this);   
     //auto rres = node.relation_expression_r->accept(*this);    
     Value * ret_val; 
-    if(node.op==OP_AND or node.op==OP_AND)   //需要进行短路运算
+    if(node.op==OP_AND or node.op==OP_OR)   //需要进行短路运算
     {
         if(dynamic_cast<Constant*>(lres))
         {
@@ -905,21 +905,21 @@ Value* CminusfBuilder::visit(ASTRelExp& node) {
             {
                 builder->set_insert_point(trueBB);  
                 auto rres = node.relation_expression_r->accept(*this); 
-                if(dynamic_cast<ConstantInt*>(rres))
-                    ret_val = CONST_INT(dynamic_cast<ConstantInt*>(rres)->get_value()>0?1:0);
-                else if(dynamic_cast<ConstantFP*>(rres))
-                    ret_val = CONST_INT(dynamic_cast<ConstantFP*>(rres)->get_value()>0?1:0);
-                else //变量
-                {
+                //if(dynamic_cast<ConstantInt*>(rres))
+                //    ret_val = builder->create_iadd(CONST_INT(dynamic_cast<ConstantInt*>(rres)->get_value()>0?1:0),CONST_ZERO(INT32_T));
+                //else if(dynamic_cast<ConstantFP*>(rres))
+                //    ret_val = builder->create_iadd(CONST_INT(dynamic_cast<ConstantFP*>(rres)->get_value()>0?1:0),CONST_ZERO(INT32_T));
+                //else //变量
+                //{
                     if(rres->get_type()->is_integer_type())
                         ret_val = builder->create_icmp_gt(rres,CONST_ZERO(INT32_T));
                     else
                         ret_val = builder->create_fcmp_gt(rres,CONST_ZERO(FLOAT_T));
-                }
+                //}
                 builder->create_br(retBB); 
 
                 builder->set_insert_point(falseBB); 
-                ret_val=CONST_INT(0);
+                ret_val=builder->create_icmp_gt(CONST_ZERO(INT32_T),CONST_ZERO(INT32_T));
                 builder->create_br(retBB); 
 
                 builder->set_insert_point(retBB);
@@ -928,26 +928,28 @@ Value* CminusfBuilder::visit(ASTRelExp& node) {
             {
                 builder->set_insert_point(falseBB);  
                 auto rres = node.relation_expression_r->accept(*this); 
-                if(dynamic_cast<ConstantInt*>(rres))
-                    ret_val = CONST_INT(dynamic_cast<ConstantInt*>(rres)->get_value()>0?1:0);
-                else if(dynamic_cast<ConstantFP*>(rres))
-                    ret_val = CONST_INT(dynamic_cast<ConstantFP*>(rres)->get_value()>0?1:0);
-                else //变量
-                {
+                //if(dynamic_cast<ConstantInt*>(rres))
+                //    ret_val = builder->create_iadd(CONST_INT(dynamic_cast<ConstantInt*>(rres)->get_value()>0?1:0),CONST_ZERO(INT32_T));
+                //else if(dynamic_cast<ConstantFP*>(rres))
+                //    ret_val = builder->create_iadd(CONST_INT(dynamic_cast<ConstantFP*>(rres)->get_value()>0?1:0),CONST_ZERO(INT32_T));
+                //else //变量
+                //{
                     if(rres->get_type()->is_integer_type())
                         ret_val = builder->create_icmp_gt(rres,CONST_ZERO(INT32_T));
                     else
                         ret_val = builder->create_fcmp_gt(rres,CONST_ZERO(FLOAT_T));
-                }
+                //}
                 builder->create_br(retBB); 
 
                 builder->set_insert_point(trueBB);  
-                ret_val=CONST_INT(1);
+                ret_val=builder->create_icmp_gt(CONST_INT(1),CONST_ZERO(INT32_T));
                 builder->create_br(retBB); 
 
                 builder->set_insert_point(retBB);
             }
         }
+        if(!ret_val->get_type()->is_int32_type())
+            ret_val = builder->create_zext(ret_val, INT32_T);
     }      
     else
     {
