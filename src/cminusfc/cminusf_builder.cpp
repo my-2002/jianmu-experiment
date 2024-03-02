@@ -838,6 +838,8 @@ Value* CminusfBuilder::visit(ASTRelExp& node) {
     auto lres = node.relation_expression_l->accept(*this);   
     //auto rres = node.relation_expression_r->accept(*this);    
     Value * ret_val; 
+    Value * ret_val1;
+    Value * ret_val2;
     if(node.op==OP_AND or node.op==OP_OR)   //需要进行短路运算
     {
         if(dynamic_cast<Constant*>(lres))
@@ -912,17 +914,18 @@ Value* CminusfBuilder::visit(ASTRelExp& node) {
                 //else //变量
                 //{
                     if(rres->get_type()->is_integer_type())
-                        ret_val = builder->create_icmp_gt(rres,CONST_ZERO(INT32_T));
+                        ret_val1 = builder->create_icmp_gt(rres,CONST_ZERO(INT32_T));
                     else
-                        ret_val = builder->create_fcmp_gt(rres,CONST_ZERO(FLOAT_T));
+                        ret_val1 = builder->create_fcmp_gt(rres,CONST_ZERO(FLOAT_T));
                 //}
                 builder->create_br(retBB); 
 
                 builder->set_insert_point(falseBB); 
-                ret_val=builder->create_icmp_gt(CONST_ZERO(INT32_T),CONST_ZERO(INT32_T));
+                ret_val2=builder->create_icmp_gt(CONST_ZERO(INT32_T),CONST_ZERO(INT32_T));
                 builder->create_br(retBB); 
-
+                
                 builder->set_insert_point(retBB);
+                ret_val=builder->create_phi(INT1_T,retBB,{ret_val1,ret_val2},{trueBB,falseBB});
             }
             else
             {
@@ -935,17 +938,18 @@ Value* CminusfBuilder::visit(ASTRelExp& node) {
                 //else //变量
                 //{
                     if(rres->get_type()->is_integer_type())
-                        ret_val = builder->create_icmp_gt(rres,CONST_ZERO(INT32_T));
+                        ret_val2 = builder->create_icmp_gt(rres,CONST_ZERO(INT32_T));
                     else
-                        ret_val = builder->create_fcmp_gt(rres,CONST_ZERO(FLOAT_T));
+                        ret_val2 = builder->create_fcmp_gt(rres,CONST_ZERO(FLOAT_T));
                 //}
                 builder->create_br(retBB); 
 
                 builder->set_insert_point(trueBB);  
-                ret_val=builder->create_icmp_gt(CONST_INT(1),CONST_ZERO(INT32_T));
+                ret_val1=builder->create_icmp_gt(CONST_INT(1),CONST_ZERO(INT32_T));
                 builder->create_br(retBB); 
 
                 builder->set_insert_point(retBB);
+                ret_val=builder->create_phi(INT1_T,retBB,{ret_val1,ret_val2},{trueBB,falseBB});
             }
         }
         if(!ret_val->get_type()->is_int32_type())

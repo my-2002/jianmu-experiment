@@ -73,7 +73,7 @@ label_false4:                                                ; preds = %label_lo
   %op9 = icmp sgt i32 zeroinitializer, zeroinitializer
   br label %label_ret5
 label_ret5:                                                ; preds = %label_true3, %label_false4
-  %op10 = zext i1 %op9 to i32
+  %op10 = zext i1 % to i32
   %op11 = icmp sge i32 %op10, zeroinitializer
   br i1 %op11, label %label_true6, label %label_false7
 label_true6:                                                ; preds = %label_ret5
@@ -84,7 +84,7 @@ label_false7:                                                ; preds = %label_re
   %op14 = icmp sgt i32 zeroinitializer, zeroinitializer
   br label %label_ret8
 label_ret8:                                                ; preds = %label_true6, %label_false7
-  %op15 = zext i1 %op14 to i32
+  %op15 = zext i1 % to i32
   %op16 = icmp sgt i32 %op15, zeroinitializer
   br i1 %op16, label %label_true9, label %label_ret10
 label_true9:                                                ; preds = %label_ret8

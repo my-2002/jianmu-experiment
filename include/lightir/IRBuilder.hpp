@@ -128,4 +128,10 @@ class IRBuilder {
     FBinaryInst *create_fdiv(Value *lhs, Value *rhs) {
         return FBinaryInst::create_fdiv(lhs, rhs, this->BB_);
     }
+    PhiInst *create_phi(Type *ty, BasicBlock *bb,
+                             std::vector<Value *> vals,
+                             std::vector<BasicBlock *> val_bbs)
+    {
+        return PhiInst::create_phi(ty,bb,vals,val_bbs);
+    }
 };
