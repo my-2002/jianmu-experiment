@@ -88,7 +88,7 @@ label_false8:                                                ; preds = %label_lo
   %op31 = icmp ne i32 %op30, zeroinitializer
   br i1 %op31, label %label_str_ltz10, label %label_str_gtz11
 label_ret9:                                                ; preds = %label_str_gtz13, %label_true7
-  %op32 = zext i1 %op26 to i32
+  %op32 = zext i1 % to i32
   %op33 = icmp sgt i32 %op32, zeroinitializer
   br i1 %op33, label %label_true14, label %label_false15
 label_str_ltz10:                                                ; preds = %label_false8

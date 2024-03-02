@@ -147,7 +147,7 @@ label_false11:                                                ; preds = %label_e
   %op10 = icmp sgt i32 %op9, zeroinitializer
   br label %label_ret12
 label_ret12:                                                ; preds = %label_false11, %label_true10
-  %op11 = zext i1 %op5 to i32
+  %op11 = zext i1 % to i32
   %op12 = icmp sgt i32 %op11, zeroinitializer
   br i1 %op12, label %label_true13, label %label_ret14
 label_true13:                                                ; preds = %label_ret12
@@ -277,7 +277,7 @@ label_false26:                                                ; preds = %label_e
   %op53 = icmp sgt i32 0, zeroinitializer
   br label %label_ret27
 label_ret27:                                                ; preds = %label_false26, %label_true25
-  %op54 = zext i1 %op52 to i32
+  %op54 = zext i1 % to i32
   %op55 = icmp sge i32 %op54, zeroinitializer
   br i1 %op55, label %label_true28, label %label_false29
 label_true28:                                                ; preds = %label_ret27
@@ -288,7 +288,7 @@ label_false29:                                                ; preds = %label_r
   %op58 = icmp sgt i32 %op57, zeroinitializer
   br label %label_ret30
 label_ret30:                                                ; preds = %label_false29, %label_true28
-  %op59 = zext i1 %op56 to i32
+  %op59 = zext i1 % to i32
   %op60 = icmp sgt i32 %op59, zeroinitializer
   br i1 %op60, label %label_true31, label %label_ret32
 label_true31:                                                ; preds = %label_ret30
