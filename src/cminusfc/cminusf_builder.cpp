@@ -926,6 +926,7 @@ Value* CminusfBuilder::visit(ASTRelExp& node) {
                 
                 builder->set_insert_point(retBB);
                 ret_val=builder->create_phi(INT1_T,retBB,{ret_val1,ret_val2},{trueBB,falseBB});
+                retBB->add_instr_begin(dynamic_cast<Instruction*>(ret_val));
             }
             else
             {
@@ -950,6 +951,7 @@ Value* CminusfBuilder::visit(ASTRelExp& node) {
 
                 builder->set_insert_point(retBB);
                 ret_val=builder->create_phi(INT1_T,retBB,{ret_val1,ret_val2},{trueBB,falseBB});
+                retBB->add_instr_begin(dynamic_cast<Instruction*>(ret_val));
             }
         }
         if(!ret_val->get_type()->is_int32_type())
