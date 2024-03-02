@@ -501,12 +501,17 @@ void CodeGen::gen_call() {
 void CodeGen::gen_gep() {
     auto *gepInst = static_cast<GetElementPtrInst *>(context.inst);
     load_to_greg(gepInst->get_operand(0), Reg::t(0));
-    auto size = gepInst->get_element_type()->get_size();
-    unsigned num = gepInst->get_num_operand();
-    load_to_greg(gepInst->get_operand(num-1), Reg::t(1));
-    append_inst("addi.w $t2, $zero, " + std::to_string(size));
-    append_inst("mul.w $t1, $t1, $t2" );
-    append_inst("add.d $t0, $t0, $t1");
+    auto tmp_type = gepInst->get_element_type();
+    for(int i=1; i<(int)(gepInst->get_num_operand()); i++)
+    {
+        auto size = tmp_type->get_size();
+        append_inst("addi.w $t2, $zero, " + std::to_string(size));
+        load_to_greg(gepInst->get_operand(i), Reg::t(1));
+        append_inst("mul.w $t1, $t1, $t2" );
+        append_inst("add.d $t0, $t0, $t1");
+        if(tmp_type->is_array_type())
+            tmp_type = tmp_type->get_array_element_type();
+    }
     store_from_greg(context.inst, Reg::t(0));
     // TODO 计算内存地址
     // throw not_implemented_error{__FUNCTION__};
