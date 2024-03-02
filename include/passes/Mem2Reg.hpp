@@ -6,13 +6,16 @@
 
 #include <map>
 #include <memory>
+#include <stack>
 
 class Mem2Reg : public Pass {
   private:
     Function *func_;
     std::unique_ptr<Dominators> dominators_;
 
-    // TODO 添加需要的变量
+    std::map<Value*, std::stack<Value*>> value_stack_{};
+    std::map<PhiInst*, Value*> phi_belong_{};
+    //  添加需要的变量
 
   public:
     Mem2Reg(Module *m) : Pass(m) {}

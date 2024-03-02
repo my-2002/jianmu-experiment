@@ -5,6 +5,7 @@
 
 #include <map>
 #include <set>
+#include <vector>
 
 class Dominators : public Pass {
   public:
@@ -26,9 +27,15 @@ class Dominators : public Pass {
     void create_idom(Function *f);
     void create_dominance_frontier(Function *f);
     void create_dom_tree_succ(Function *f);
+    void DFS(BasicBlock* bb);
+    BasicBlock* intersect(BasicBlock* b1, BasicBlock* b2);
 
-    // TODO 补充需要的函数
+    //  补充需要的函数
 
+    int cnt_postorder;
+    std::map<BasicBlock *, int> bb_postorder_{};
+    std::vector<BasicBlock*> bb_vector_{};
+    std::map<BasicBlock *, bool> bb_vis_{};
     std::map<BasicBlock *, BasicBlock *> idom_{};  // 直接支配
     std::map<BasicBlock *, BBSet> dom_frontier_{}; // 支配边界集合
     std::map<BasicBlock *, BBSet> dom_tree_succ_blocks_{}; // 支配树中的后继节点
