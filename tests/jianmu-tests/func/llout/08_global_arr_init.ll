@@ -1,5 +1,5 @@
 ; ModuleID = 'sysy'
-source_filename = "/home/my2002/compiler_principles/lab5/jianmu-experiment/tests/jianmu-tests/func/08_global_arr_init.sy"
+source_filename = "/home/syx/Test/jianmu/2023ustc-jianmu-compiler/tests/jianmu-tests/func/08_global_arr_init.sy"
 
 @i = global [2 x [3 x [4 x i32]]] [[3 x [4 x i32]] [[4 x i32] [i32 1, i32 2, i32 3, i32 4], [4 x i32] [i32 5, i32 zeroinitializer, i32 zeroinitializer, i32 zeroinitializer], [4 x i32] [i32 zeroinitializer, i32 zeroinitializer, i32 zeroinitializer, i32 zeroinitializer]], [3 x [4 x i32]] zeroinitializer]
 declare void @neg_idx_except()

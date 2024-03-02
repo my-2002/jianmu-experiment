@@ -832,19 +832,24 @@ Value* CminusfBuilder::visit(ASTLVal& node) {
     }
     return ret_value;
 }
-Value* CminusfBuilder::visit(ASTRelExp& node) {
-    auto lres = node.additive_expression!=nullptr?node.additive_expression->accept(*this):node.relation_expression_l->accept(*this);                  
-    if (node.relation_expression_l == nullptr)  //说明是单个加法式
-        return lres;   
+Value* CminusfBuilder::visit(ASTRelExp& node) {                  
+    if (node.additive_expression != nullptr)  //说明是单个加法式
+        return node.additive_expression->accept(*this);  
+    auto lres = node.relation_expression_l->accept(*this);   
     //auto rres = node.relation_expression_r->accept(*this);    
     Value * ret_val; 
     if(node.op==OP_AND or node.op==OP_AND)   //需要进行短路运算
     {
         if(dynamic_cast<Constant*>(lres))
         {
+            bool temp;
+            if(dynamic_cast<ConstantInt*>(lres))
+                temp=dynamic_cast<ConstantInt*>(lres)->get_value()>0;
+            else
+                temp=dynamic_cast<ConstantFP*>(lres)->get_value()>0;
             if(node.op==OP_AND)
             {
-                if((dynamic_cast<ConstantInt*>(lres)!=nullptr?dynamic_cast<ConstantInt*>(lres)->get_value():dynamic_cast<ConstantFP*>(lres)->get_value())>0)
+                if(temp)
                 {
                     auto rres = node.relation_expression_r->accept(*this); 
                     if(dynamic_cast<ConstantInt*>(rres))
@@ -864,7 +869,7 @@ Value* CminusfBuilder::visit(ASTRelExp& node) {
             }
             else
             {
-                if((dynamic_cast<ConstantInt*>(lres)!=nullptr?dynamic_cast<ConstantInt*>(lres)->get_value():dynamic_cast<ConstantFP*>(lres)->get_value())<0)
+                if(!temp)
                 {
                     auto rres = node.relation_expression_r->accept(*this); 
                     if(dynamic_cast<ConstantInt*>(rres))
@@ -890,45 +895,57 @@ Value* CminusfBuilder::visit(ASTRelExp& node) {
                 repval=builder->create_icmp_ge(lres,CONST_ZERO(INT32_T));
             else
                 repval=builder->create_fcmp_ge(lres,CONST_ZERO(FLOAT_T));
+            bool temp;
+            auto function = builder->get_insert_block()->get_parent();
+            auto trueBB = BasicBlock::create(module.get(), "true"+std::to_string(context.label_time++), function);   
+            auto falseBB = BasicBlock::create(module.get(), "false"+std::to_string(context.label_time++), function);
+            auto retBB = BasicBlock::create(module.get(), "ret"+std::to_string(context.label_time++), function);
+            builder->create_cond_br(repval,trueBB,falseBB);
             if(node.op==OP_AND)
             {
-                if((dynamic_cast<ConstantInt*>(repval)!=nullptr?dynamic_cast<ConstantInt*>(repval)->get_value():dynamic_cast<ConstantFP*>(repval)->get_value())>0)
+                builder->set_insert_point(trueBB);  
+                auto rres = node.relation_expression_r->accept(*this); 
+                if(dynamic_cast<ConstantInt*>(rres))
+                    ret_val = CONST_INT(dynamic_cast<ConstantInt*>(rres)->get_value()>0?1:0);
+                else if(dynamic_cast<ConstantFP*>(rres))
+                    ret_val = CONST_INT(dynamic_cast<ConstantFP*>(rres)->get_value()>0?1:0);
+                else //变量
                 {
-                    auto rres = node.relation_expression_r->accept(*this); 
-                    if(dynamic_cast<ConstantInt*>(rres))
-                        ret_val = CONST_INT(dynamic_cast<ConstantInt*>(rres)->get_value()>0?1:0);
-                    else if(dynamic_cast<ConstantFP*>(rres))
-                        ret_val = CONST_INT(dynamic_cast<ConstantFP*>(rres)->get_value()>0?1:0);
-                    else //变量
-                    {
-                        if(rres->get_type()->is_integer_type())
-                            ret_val = builder->create_icmp_gt(rres,CONST_ZERO(INT32_T));
-                        else
-                            ret_val = builder->create_fcmp_gt(rres,CONST_ZERO(FLOAT_T));
-                    }
+                    if(rres->get_type()->is_integer_type())
+                        ret_val = builder->create_icmp_gt(rres,CONST_ZERO(INT32_T));
+                    else
+                        ret_val = builder->create_fcmp_gt(rres,CONST_ZERO(FLOAT_T));
                 }
-                else
+                builder->create_br(retBB); 
+
+                builder->set_insert_point(falseBB); 
                 ret_val=CONST_INT(0);
+                builder->create_br(retBB); 
+
+                builder->set_insert_point(retBB);
             }
             else
             {
-                if((dynamic_cast<ConstantInt*>(repval)!=nullptr?dynamic_cast<ConstantInt*>(repval)->get_value():dynamic_cast<ConstantFP*>(repval)->get_value())<0)
+                builder->set_insert_point(falseBB);  
+                auto rres = node.relation_expression_r->accept(*this); 
+                if(dynamic_cast<ConstantInt*>(rres))
+                    ret_val = CONST_INT(dynamic_cast<ConstantInt*>(rres)->get_value()>0?1:0);
+                else if(dynamic_cast<ConstantFP*>(rres))
+                    ret_val = CONST_INT(dynamic_cast<ConstantFP*>(rres)->get_value()>0?1:0);
+                else //变量
                 {
-                    auto rres = node.relation_expression_r->accept(*this); 
-                    if(dynamic_cast<ConstantInt*>(rres))
-                        ret_val = CONST_INT(dynamic_cast<ConstantInt*>(rres)->get_value()>0?1:0);
-                    else if(dynamic_cast<ConstantFP*>(rres))
-                        ret_val = CONST_INT(dynamic_cast<ConstantFP*>(rres)->get_value()>0?1:0);
-                    else //变量
-                    {
-                        if(rres->get_type()->is_integer_type())
-                            ret_val = builder->create_icmp_gt(rres,CONST_ZERO(INT32_T));
-                        else
-                            ret_val = builder->create_fcmp_gt(rres,CONST_ZERO(FLOAT_T));
-                    }
+                    if(rres->get_type()->is_integer_type())
+                        ret_val = builder->create_icmp_gt(rres,CONST_ZERO(INT32_T));
+                    else
+                        ret_val = builder->create_fcmp_gt(rres,CONST_ZERO(FLOAT_T));
                 }
-                else
+                builder->create_br(retBB); 
+
+                builder->set_insert_point(trueBB);  
                 ret_val=CONST_INT(1);
+                builder->create_br(retBB); 
+
+                builder->set_insert_point(retBB);
             }
         }
     }      

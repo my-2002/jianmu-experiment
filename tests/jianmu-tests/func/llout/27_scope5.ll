@@ -1,5 +1,5 @@
 ; ModuleID = 'sysy'
-source_filename = "/home/my2002/compiler_principles/lab5/jianmu-experiment/tests/jianmu-tests/func/27_scope5.sy"
+source_filename = "/home/syx/Test/jianmu/2023ustc-jianmu-compiler/tests/jianmu-tests/func/27_scope5.sy"
 
 declare void @neg_idx_except()
 
