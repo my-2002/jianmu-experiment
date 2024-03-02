@@ -47,10 +47,10 @@ void CodeGen::load_to_greg(Value *val, const Reg &reg) {
             load_large_int32(val, reg);
         }
     }
-    else if(auto *constant = dynamic_cast<ConstantZero *>(val))
+    /*else if(dynamic_cast<ConstantZero *>(val))
     {
         append_inst(ADDI WORD, {reg.print(), "$zero", "0"});
-    }
+    }*/
      else if (auto *global = dynamic_cast<GlobalVariable *>(val)) {
         append_inst(LOAD_ADDR, {reg.print(), global->get_name()});
     } else {
@@ -337,35 +337,20 @@ void CodeGen::gen_store(Value* val, Value* ptr) {
         auto array_val = dynamic_cast<ConstantArray*>(val);
         if (array_val!=nullptr)
         {
-            for(int i=0; i<array_val->get_size_of_array(); i++)
+            for(int i=0; i<(int)array_val->get_size_of_array(); i++)
             {
                 auto sub_val = array_val->get_element_value(i);
                 gen_store(sub_val, ptr);
-                ptr+=sub_val->get_type()->get_size();
             }
         }
         else //说明是zeroinit
         {
-            auto temptype=val_type;
-            while (val_type->is_array_type())
+            for(int i=0; i<(int)val_type->get_size()/4; i++)
             {
-                val_type=val_type->get_array_element_type();
-            }
-            if(val_type->is_integer_type())
-            {
-                for(int i=0; i<temptype->get_size()/4; i++)
-                {
-                    store_from_greg(ptr,Reg(0));
-                    ptr+=4;
-                }
-            }
-            else
-            {
-                for(int i=0; i<temptype->get_size()/4; i++)
-                {
-                    store_from_greg(ptr,Reg(0));
-                    ptr+=4;
-                }
+                load_to_greg(ptr, Reg::t(0));
+                append_inst("st.w $zero, $t0, 0");
+                append_inst("addi.d $t0, $t0, 4");
+                store_from_greg(ptr, Reg::t(0));
             }
         }
     }
@@ -374,15 +359,25 @@ void CodeGen::gen_store(Value* val, Value* ptr) {
         load_to_greg(ptr, Reg::t(0));
         load_to_freg(val, FReg::ft(0));
         append_inst("fst.s $ft0, $t0, 0");
+        append_inst("addi.d $t0, $t0, 4");
+        store_from_greg(ptr, Reg::t(0));
     }
     else
     {
         load_to_greg(ptr, Reg::t(0));
         load_to_greg(val, Reg::t(1));
         if(val->get_type()->is_pointer_type())
+        {
             append_inst("st.d $t1, $t0, 0");
+            append_inst("addi.d $t0, $t0, 8");
+            store_from_greg(ptr, Reg::t(0));
+        }
         else
+        {
             append_inst("st.w $t1, $t0, 0");
+            append_inst("addi.d $t0, $t0, 4");
+            store_from_greg(ptr, Reg::t(0));
+        } 
     }
     // TODO 翻译 store 指令
     // throw not_implemented_error{__FUNCTION__};
@@ -602,6 +597,7 @@ void CodeGen::run() {
             append_inst(global.get_name(), ASMInstruction::Label);
             append_inst(".space", {std::to_string(size)},
                         ASMInstruction::Atrribute);
+            gen_store(global.get_init(), &global);
         }
     }
 
@@ -657,6 +653,10 @@ void CodeGen::run() {
                         break;
                     case Instruction::store:
                         gen_store(context.inst->get_operand(0), context.inst->get_operand(1));
+                        load_to_greg(ConstantInt::get((int)(context.inst->get_operand(0)->get_type()->get_size()), m), Reg::t(0));
+                        load_to_greg(context.inst->get_operand(1), Reg::t(1));
+                        append_inst("sub.d $t1, $t1, $t0");
+                        store_from_greg(context.inst->get_operand(1), Reg::t(1));
                         break;
                     case Instruction::ge:
                     case Instruction::gt:
