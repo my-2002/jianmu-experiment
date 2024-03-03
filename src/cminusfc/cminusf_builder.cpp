@@ -225,7 +225,7 @@ Value* CminusfBuilder::visit(ASTFunDeclaration &node) {
     for (auto &arg : func->get_args()) {
         args.push_back(&arg);
     }
-    for (int i = 0; i < node.params.size(); ++i) {
+    for (int i = 0; i < (int)node.params.size(); ++i) {
         // TODO: You need to deal with params and store them in the scope.
         auto param = node.params[i];
         auto arg = args[i];   
@@ -648,7 +648,7 @@ Value* CminusfBuilder::visit(ASTInit& node) {
             int capacity = context.array_index[i+1];
             int num=0; //连续可合并个数
             std::vector<Constant*> uplevel;
-            for(int j=0;j<true_level.size();j++)
+            for(int j=0;j<(int)true_level.size();j++)
             {
                 if(true_level[j]==i)
                 {
@@ -664,7 +664,7 @@ Value* CminusfBuilder::visit(ASTInit& node) {
                         j=j-capacity+1;
                         num=0;
                     }
-                    else if(j==true_level.size()-1)
+                    else if(j==(int)true_level.size()-1)
                     {
                         uplevel.insert(uplevel.end(),capacity-num,dynamic_cast<Constant*>(CONST_ZERO(arrayType)));
                         consts.erase(consts.begin()+j-num+1,consts.begin()+j+1);  
@@ -707,7 +707,7 @@ Value* CminusfBuilder::visit(ASTInit& node) {
             context.level=temp_conlevel;
         }
     }
-    if(context.level<context.array_index.size()-1 and not context.array_index.empty())
+    if(context.level < (int)context.array_index.size()-1 and not context.array_index.empty())
         context.cur_pos[context.level+1]=(context.cur_pos[context.level+1]+1)%context.array_index[context.level+1];
     
     return val;
@@ -755,7 +755,7 @@ Value* CminusfBuilder::visit(ASTLVal& node) {
             {
                 var = builder->create_load(var);
                 auto tmp_val = index[0];
-                for(int i=0; i<index.size()-1; i++)
+                for(int i=0; i<(int)index.size()-1; i++)
                 {
                     tmp_val = builder->create_imul((context.array_size.find(node.id)->second[i]), tmp_val);
                     tmp_val = builder->create_iadd(tmp_val, index[i+1]);
@@ -896,7 +896,6 @@ Value* CminusfBuilder::visit(ASTRelExp& node) {
                 repval=builder->create_icmp_gt(lres,CONST_ZERO(INT32_T));
             else
                 repval=builder->create_fcmp_gt(lres,CONST_ZERO(FLOAT_T));
-            bool temp;
             auto function = builder->get_insert_block()->get_parent();
             auto trueBB = BasicBlock::create(module.get(), "true"+std::to_string(context.label_time++), function);   
             auto falseBB = BasicBlock::create(module.get(), "false"+std::to_string(context.label_time++), function);

@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/build/cminusfc",
             "args": [
-                "${workspaceFolder}/tests/jianmu-tests/func/36_rotate.sy",
+                "${workspaceFolder}/tests/jianmu-tests/func/87_many_params.sy",
                 "-S"
             ],
             "stopAtEntry": false,
