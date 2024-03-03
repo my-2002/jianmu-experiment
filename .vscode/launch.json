@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/build/cminusfc",
             "args": [
-                "${workspaceFolder}/tests/jianmu-tests/func/78_side_effect.sy",
+                "${workspaceFolder}/tests/jianmu-tests/func/36_rotate.sy",
                 "-emit-llvm"
             ],
             "stopAtEntry": false,

@@ -170,6 +170,7 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
         while (!s.empty()) {
             auto child_node =
                 static_cast<ASTVarDef *>(transform_node_iter(s.top()));
+            child_node->type = node->type;
             auto child_node_shared =
                 std::shared_ptr<ASTVarDef>(child_node);
             node->vardef.push_back(child_node_shared);

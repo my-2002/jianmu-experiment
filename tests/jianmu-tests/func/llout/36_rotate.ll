@@ -284,123 +284,129 @@ label_entry:
   store float %arg2, float* %op5
   %op6 = load float, float* %op5
   %op7 = call float @my_sin(float %op6)
-  %op8 = fptosi float %op7 to i32
-  %op9 = alloca i32
-  store i32 %op8, i32* %op9
-  %op10 = load float, float* %op5
-  %op11 = call float @my_cos(float %op10)
-  %op12 = fptosi float %op11 to i32
-  %op13 = alloca i32
-  store i32 %op12, i32* %op13
-  %op14 = load i32, i32* @width
-  %op15 = sdiv i32 %op14, 2
-  %op16 = alloca i32
-  store i32 %op15, i32* %op16
-  %op17 = load i32, i32* @height
-  %op18 = sdiv i32 %op17, 2
-  %op19 = alloca i32
-  store i32 %op18, i32* %op19
-  %op20 = load i32, i32* %op3
-  %op21 = load i32, i32* %op16
-  %op22 = sub i32 %op20, %op21
-  %op23 = alloca i32
-  store i32 %op22, i32* %op23
-  %op24 = load i32, i32* %op4
-  %op25 = load i32, i32* %op19
-  %op26 = sub i32 %op24, %op25
-  %op27 = alloca i32
-  store i32 %op26, i32* %op27
-  %op28 = load i32, i32* %op23
-  %op29 = load i32, i32* %op13
-  %op30 = mul i32 %op28, %op29
-  %op31 = load i32, i32* %op27
-  %op32 = load i32, i32* %op9
-  %op33 = mul i32 %op31, %op32
-  %op34 = sub i32 %op30, %op33
-  %op35 = load i32, i32* %op16
-  %op36 = add i32 %op34, %op35
-  %op37 = alloca i32
-  store i32 %op36, i32* %op37
-  %op38 = load i32, i32* %op23
-  %op39 = load i32, i32* %op9
-  %op40 = mul i32 %op38, %op39
-  %op41 = load i32, i32* %op27
-  %op42 = load i32, i32* %op13
-  %op43 = mul i32 %op41, %op42
-  %op44 = add i32 %op40, %op43
-  %op45 = load i32, i32* %op19
-  %op46 = add i32 %op44, %op45
-  %op47 = alloca i32
-  store i32 %op46, i32* %op47
-  %op48 = load i32, i32* %op37
-  %op49 = icmp slt i32 %op48, 0
-  %op50 = zext i1 %op49 to i32
-  %op51 = icmp sgt i32 %op50, zeroinitializer
-  br i1 %op51, label %label_true34, label %label_false35
-label_true34:                                                ; preds = %label_entry
-  %op52 = icmp sgt i32 1, zeroinitializer
-  br label %label_ret36
-label_false35:                                                ; preds = %label_entry
-  %op53 = load i32, i32* %op37
-  %op54 = load i32, i32* @width
-  %op55 = icmp sge i32 %op53, %op54
+  %op8 = alloca float
+  store float %op7, float* %op8
+  %op9 = load float, float* %op5
+  %op10 = call float @my_cos(float %op9)
+  %op11 = alloca float
+  store float %op10, float* %op11
+  %op12 = load i32, i32* @width
+  %op13 = sdiv i32 %op12, 2
+  %op14 = alloca i32
+  store i32 %op13, i32* %op14
+  %op15 = load i32, i32* @height
+  %op16 = sdiv i32 %op15, 2
+  %op17 = alloca i32
+  store i32 %op16, i32* %op17
+  %op18 = load i32, i32* %op3
+  %op19 = load i32, i32* %op14
+  %op20 = sub i32 %op18, %op19
+  %op21 = alloca i32
+  store i32 %op20, i32* %op21
+  %op22 = load i32, i32* %op4
+  %op23 = load i32, i32* %op17
+  %op24 = sub i32 %op22, %op23
+  %op25 = alloca i32
+  store i32 %op24, i32* %op25
+  %op26 = load i32, i32* %op21
+  %op27 = load float, float* %op11
+  %op28 = sitofp i32 %op26 to float
+  %op29 = fmul float %op28, %op27
+  %op30 = load i32, i32* %op25
+  %op31 = load float, float* %op8
+  %op32 = sitofp i32 %op30 to float
+  %op33 = fmul float %op32, %op31
+  %op34 = fsub float %op29, %op33
+  %op35 = load i32, i32* %op14
+  %op36 = sitofp i32 %op35 to float
+  %op37 = fadd float %op34, %op36
+  %op38 = fptosi float %op37 to i32
+  %op39 = alloca i32
+  store i32 %op38, i32* %op39
+  %op40 = load i32, i32* %op21
+  %op41 = load float, float* %op8
+  %op42 = sitofp i32 %op40 to float
+  %op43 = fmul float %op42, %op41
+  %op44 = load i32, i32* %op25
+  %op45 = load float, float* %op11
+  %op46 = sitofp i32 %op44 to float
+  %op47 = fmul float %op46, %op45
+  %op48 = fadd float %op43, %op47
+  %op49 = load i32, i32* %op17
+  %op50 = sitofp i32 %op49 to float
+  %op51 = fadd float %op48, %op50
+  %op52 = fptosi float %op51 to i32
+  %op53 = alloca i32
+  store i32 %op52, i32* %op53
+  %op54 = load i32, i32* %op39
+  %op55 = icmp slt i32 %op54, 0
   %op56 = zext i1 %op55 to i32
   %op57 = icmp sgt i32 %op56, zeroinitializer
+  br i1 %op57, label %label_true34, label %label_false35
+label_true34:                                                ; preds = %label_entry
+  %op58 = icmp sgt i32 1, zeroinitializer
+  br label %label_ret36
+label_false35:                                                ; preds = %label_entry
+  %op59 = load i32, i32* %op39
+  %op60 = load i32, i32* @width
+  %op61 = icmp sge i32 %op59, %op60
+  %op62 = zext i1 %op61 to i32
+  %op63 = icmp sgt i32 %op62, zeroinitializer
   br label %label_ret36
 label_ret36:                                                ; preds = %label_false35, %label_true34
-  %op58 = phi i1 [ %op52, %label_true34 ], [ %op57, %label_false35 ]
-  %op59 = zext i1 %op58 to i32
-  %op60 = icmp sgt i32 %op59, zeroinitializer
-  br i1 %op60, label %label_true37, label %label_false38
+  %op64 = phi i1 [ %op58, %label_true34 ], [ %op63, %label_false35 ]
+  %op65 = zext i1 %op64 to i32
+  %op66 = icmp sgt i32 %op65, zeroinitializer
+  br i1 %op66, label %label_true37, label %label_false38
 label_true37:                                                ; preds = %label_ret36
-  %op61 = icmp sgt i32 1, zeroinitializer
+  %op67 = icmp sgt i32 1, zeroinitializer
   br label %label_ret39
 label_false38:                                                ; preds = %label_ret36
-  %op62 = load i32, i32* %op47
-  %op63 = icmp slt i32 %op62, 0
-  %op64 = zext i1 %op63 to i32
-  %op65 = icmp sgt i32 %op64, zeroinitializer
+  %op68 = load i32, i32* %op53
+  %op69 = icmp slt i32 %op68, 0
+  %op70 = zext i1 %op69 to i32
+  %op71 = icmp sgt i32 %op70, zeroinitializer
   br label %label_ret39
 label_ret39:                                                ; preds = %label_false38, %label_true37
-  %op66 = phi i1 [ %op61, %label_true37 ], [ %op65, %label_false38 ]
-  %op67 = zext i1 %op66 to i32
-  %op68 = icmp sgt i32 %op67, zeroinitializer
-  br i1 %op68, label %label_true40, label %label_false41
-label_true40:                                                ; preds = %label_ret39
-  %op69 = icmp sgt i32 1, zeroinitializer
-  br label %label_ret42
-label_false41:                                                ; preds = %label_ret39
-  %op70 = load i32, i32* %op47
-  %op71 = load i32, i32* @height
-  %op72 = icmp sge i32 %op70, %op71
+  %op72 = phi i1 [ %op67, %label_true37 ], [ %op71, %label_false38 ]
   %op73 = zext i1 %op72 to i32
   %op74 = icmp sgt i32 %op73, zeroinitializer
+  br i1 %op74, label %label_true40, label %label_false41
+label_true40:                                                ; preds = %label_ret39
+  %op75 = icmp sgt i32 1, zeroinitializer
+  br label %label_ret42
+label_false41:                                                ; preds = %label_ret39
+  %op76 = load i32, i32* %op53
+  %op77 = load i32, i32* @height
+  %op78 = icmp sge i32 %op76, %op77
+  %op79 = zext i1 %op78 to i32
+  %op80 = icmp sgt i32 %op79, zeroinitializer
   br label %label_ret42
 label_ret42:                                                ; preds = %label_false41, %label_true40
-  %op75 = phi i1 [ %op69, %label_true40 ], [ %op74, %label_false41 ]
-  %op76 = zext i1 %op75 to i32
-  %op77 = icmp sgt i32 %op76, zeroinitializer
-  br i1 %op77, label %label_true43, label %label_ret44
+  %op81 = phi i1 [ %op75, %label_true40 ], [ %op80, %label_false41 ]
+  %op82 = zext i1 %op81 to i32
+  %op83 = icmp sgt i32 %op82, zeroinitializer
+  br i1 %op83, label %label_true43, label %label_ret44
 label_true43:                                                ; preds = %label_ret42
   ret i32 0
 label_ret44:                                                ; preds = %label_ret42
-  %op78 = load i32, i32* %op47
-  %op79 = load i32, i32* @width
-  %op80 = mul i32 %op78, %op79
-  %op81 = load i32, i32* %op37
-  %op82 = add i32 %op80, %op81
-  %op83 = icmp slt i32 %op82, zeroinitializer
-  %op84 = zext i1 %op83 to i32
-  %op85 = add i32 %op84, zeroinitializer
-  %op86 = icmp ne i32 %op85, zeroinitializer
-  br i1 %op86, label %label_image_ltz45, label %label_image_gtz46
+  %op84 = load i32, i32* %op53
+  %op85 = load i32, i32* @width
+  %op86 = mul i32 %op84, %op85
+  %op87 = load i32, i32* %op39
+  %op88 = add i32 %op86, %op87
+  %op89 = icmp slt i32 %op88, zeroinitializer
+  %op90 = zext i1 %op89 to i32
+  %op91 = add i32 %op90, zeroinitializer
+  %op92 = icmp ne i32 %op91, zeroinitializer
+  br i1 %op92, label %label_image_ltz45, label %label_image_gtz46
 label_image_ltz45:                                                ; preds = %label_ret44
   call void @neg_idx_except()
   br label %label_image_gtz46
 label_image_gtz46:                                                ; preds = %label_ret44, %label_image_ltz45
-  %op87 = getelementptr [1048576 x i32], [1048576 x i32]* @image, i32 0, i32 %op82
-  %op88 = load i32, i32* %op87
-  ret i32 %op88
+  %op93 = getelementptr [1048576 x i32], [1048576 x i32]* @image, i32 0, i32 %op88
+  %op94 = load i32, i32* %op93
+  ret i32 %op94
 }
 define void @write_pgm(float %arg0) {
 label_entry:
@@ -461,25 +467,19 @@ label_ret52:                                                ; preds = %label_con
 define i32 @main() {
 label_entry:
   %op0 = call float @getfloat()
-  %op1 = fptosi float %op0 to i32
-  %op2 = alloca i32
-  store i32 %op1, i32* %op2
-  %op3 = load i32, i32* %op2
-  %op4 = sitofp i32 %op3 to float
-  call void @putfloat(float %op4)
-  call void @putch(i32 10)
-  %op5 = call i32 @getch()
-  %op6 = call i32 @getch()
-  %op7 = call i32 @read_image()
-  %op8 = icmp slt i32 %op7, 0
-  %op9 = zext i1 %op8 to i32
-  %op10 = icmp sgt i32 %op9, zeroinitializer
-  br i1 %op10, label %label_true53, label %label_ret54
+  %op1 = alloca float
+  store float %op0, float* %op1
+  %op2 = call i32 @getch()
+  %op3 = call i32 @getch()
+  %op4 = call i32 @read_image()
+  %op5 = icmp slt i32 %op4, 0
+  %op6 = zext i1 %op5 to i32
+  %op7 = icmp sgt i32 %op6, zeroinitializer
+  br i1 %op7, label %label_true53, label %label_ret54
 label_true53:                                                ; preds = %label_entry
   ret i32 -1
 label_ret54:                                                ; preds = %label_entry
-  %op11 = load i32, i32* %op2
-  %op12 = sitofp i32 %op11 to float
-  call void @write_pgm(float %op12)
+  %op8 = load float, float* %op1
+  call void @write_pgm(float %op8)
   ret i32 0
 }
