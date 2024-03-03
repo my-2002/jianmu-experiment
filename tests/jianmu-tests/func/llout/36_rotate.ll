@@ -147,64 +147,65 @@ label_false11:                                                ; preds = %label_e
   %op10 = icmp sgt i32 %op9, zeroinitializer
   br label %label_ret12
 label_ret12:                                                ; preds = %label_false11, %label_true10
-  %op11 = zext i1 % to i32
-  %op12 = icmp sgt i32 %op11, zeroinitializer
-  br i1 %op12, label %label_true13, label %label_ret14
+  %op11 = phi i1 [ %op5, %label_true10 ], [ %op10, %label_false11 ]
+  %op12 = zext i1 %op11 to i32
+  %op13 = icmp sgt i32 %op12, zeroinitializer
+  br i1 %op13, label %label_true13, label %label_ret14
 label_true13:                                                ; preds = %label_ret12
   ret i32 -1
 label_ret14:                                                ; preds = %label_ret12
-  %op13 = call i32 @getint()
-  store i32 %op13, i32* @width
   %op14 = call i32 @getint()
-  store i32 %op14, i32* @height
-  %op15 = icmp sgt i32 1, zeroinitializer
-  br i1 %op15, label %label_true15, label %label_ret16
+  store i32 %op14, i32* @width
+  %op15 = call i32 @getint()
+  store i32 %op15, i32* @height
+  %op16 = icmp sgt i32 1, zeroinitializer
+  br i1 %op16, label %label_true15, label %label_ret16
 label_true15:                                                ; preds = %label_ret14
   ret i32 -1
 label_ret16:                                                ; preds = %label_ret14
-  %op16 = alloca i32
-  store i32 0, i32* %op16
+  %op17 = alloca i32
+  store i32 0, i32* %op17
   br label %label_condition17
 label_condition17:                                                ; preds = %label_ret16, %label_ret22
-  %op17 = load i32, i32* @height
-  %op18 = icmp sgt i32 %op17, zeroinitializer
-  br i1 %op18, label %label_loop18, label %label_ret19
+  %op18 = load i32, i32* @height
+  %op19 = icmp sgt i32 %op18, zeroinitializer
+  br i1 %op19, label %label_loop18, label %label_ret19
 label_loop18:                                                ; preds = %label_condition17
-  %op19 = alloca i32
-  store i32 0, i32* %op19
+  %op20 = alloca i32
+  store i32 0, i32* %op20
   br label %label_condition20
 label_ret19:                                                ; preds = %label_condition17
   ret i32 0
 label_condition20:                                                ; preds = %label_loop18, %label_image_gtz24
-  %op20 = load i32, i32* @width
-  %op21 = icmp sgt i32 %op20, zeroinitializer
-  br i1 %op21, label %label_loop21, label %label_ret22
+  %op21 = load i32, i32* @width
+  %op22 = icmp sgt i32 %op21, zeroinitializer
+  br i1 %op22, label %label_loop21, label %label_ret22
 label_loop21:                                                ; preds = %label_condition20
-  %op22 = load i32, i32* %op16
-  %op23 = load i32, i32* @width
-  %op24 = mul i32 %op22, %op23
-  %op25 = load i32, i32* %op19
-  %op26 = add i32 %op24, %op25
-  %op27 = icmp slt i32 %op26, zeroinitializer
-  %op28 = zext i1 %op27 to i32
-  %op29 = add i32 %op28, zeroinitializer
-  %op30 = icmp ne i32 %op29, zeroinitializer
-  br i1 %op30, label %label_image_ltz23, label %label_image_gtz24
+  %op23 = load i32, i32* %op17
+  %op24 = load i32, i32* @width
+  %op25 = mul i32 %op23, %op24
+  %op26 = load i32, i32* %op20
+  %op27 = add i32 %op25, %op26
+  %op28 = icmp slt i32 %op27, zeroinitializer
+  %op29 = zext i1 %op28 to i32
+  %op30 = add i32 %op29, zeroinitializer
+  %op31 = icmp ne i32 %op30, zeroinitializer
+  br i1 %op31, label %label_image_ltz23, label %label_image_gtz24
 label_ret22:                                                ; preds = %label_condition20
-  %op31 = load i32, i32* %op16
-  %op32 = add i32 %op31, 1
-  store i32 %op32, i32* %op16
+  %op32 = load i32, i32* %op17
+  %op33 = add i32 %op32, 1
+  store i32 %op33, i32* %op17
   br label %label_condition17
 label_image_ltz23:                                                ; preds = %label_loop21
   call void @neg_idx_except()
   br label %label_image_gtz24
 label_image_gtz24:                                                ; preds = %label_loop21, %label_image_ltz23
-  %op33 = getelementptr [1048576 x i32], [1048576 x i32]* @image, i32 0, i32 %op26
-  %op34 = call i32 @getint()
-  store i32 %op34, i32* %op33
-  %op35 = load i32, i32* %op19
-  %op36 = add i32 %op35, 1
-  store i32 %op36, i32* %op19
+  %op34 = getelementptr [1048576 x i32], [1048576 x i32]* @image, i32 0, i32 %op27
+  %op35 = call i32 @getint()
+  store i32 %op35, i32* %op34
+  %op36 = load i32, i32* %op20
+  %op37 = add i32 %op36, 1
+  store i32 %op37, i32* %op20
   br label %label_condition20
 }
 define i32 @rotate(i32 %arg0, i32 %arg1, float %arg2) {
@@ -277,40 +278,42 @@ label_false26:                                                ; preds = %label_e
   %op53 = icmp sgt i32 0, zeroinitializer
   br label %label_ret27
 label_ret27:                                                ; preds = %label_false26, %label_true25
-  %op54 = zext i1 % to i32
-  %op55 = icmp sge i32 %op54, zeroinitializer
-  br i1 %op55, label %label_true28, label %label_false29
+  %op54 = phi i1 [ %op52, %label_true25 ], [ %op53, %label_false26 ]
+  %op55 = zext i1 %op54 to i32
+  %op56 = icmp sge i32 %op55, zeroinitializer
+  br i1 %op56, label %label_true28, label %label_false29
 label_true28:                                                ; preds = %label_ret27
-  %op56 = icmp sgt i32 1, zeroinitializer
+  %op57 = icmp sgt i32 1, zeroinitializer
   br label %label_ret30
 label_false29:                                                ; preds = %label_ret27
-  %op57 = load i32, i32* @height
-  %op58 = icmp sgt i32 %op57, zeroinitializer
+  %op58 = load i32, i32* @height
+  %op59 = icmp sgt i32 %op58, zeroinitializer
   br label %label_ret30
 label_ret30:                                                ; preds = %label_false29, %label_true28
-  %op59 = zext i1 % to i32
-  %op60 = icmp sgt i32 %op59, zeroinitializer
-  br i1 %op60, label %label_true31, label %label_ret32
+  %op60 = phi i1 [ %op57, %label_true28 ], [ %op59, %label_false29 ]
+  %op61 = zext i1 %op60 to i32
+  %op62 = icmp sgt i32 %op61, zeroinitializer
+  br i1 %op62, label %label_true31, label %label_ret32
 label_true31:                                                ; preds = %label_ret30
   ret i32 0
 label_ret32:                                                ; preds = %label_ret30
-  %op61 = load i32, i32* %op47
-  %op62 = load i32, i32* @width
-  %op63 = mul i32 %op61, %op62
-  %op64 = load i32, i32* %op37
-  %op65 = add i32 %op63, %op64
-  %op66 = icmp slt i32 %op65, zeroinitializer
-  %op67 = zext i1 %op66 to i32
-  %op68 = add i32 %op67, zeroinitializer
-  %op69 = icmp ne i32 %op68, zeroinitializer
-  br i1 %op69, label %label_image_ltz33, label %label_image_gtz34
+  %op63 = load i32, i32* %op47
+  %op64 = load i32, i32* @width
+  %op65 = mul i32 %op63, %op64
+  %op66 = load i32, i32* %op37
+  %op67 = add i32 %op65, %op66
+  %op68 = icmp slt i32 %op67, zeroinitializer
+  %op69 = zext i1 %op68 to i32
+  %op70 = add i32 %op69, zeroinitializer
+  %op71 = icmp ne i32 %op70, zeroinitializer
+  br i1 %op71, label %label_image_ltz33, label %label_image_gtz34
 label_image_ltz33:                                                ; preds = %label_ret32
   call void @neg_idx_except()
   br label %label_image_gtz34
 label_image_gtz34:                                                ; preds = %label_ret32, %label_image_ltz33
-  %op70 = getelementptr [1048576 x i32], [1048576 x i32]* @image, i32 0, i32 %op65
-  %op71 = load i32, i32* %op70
-  ret i32 %op71
+  %op72 = getelementptr [1048576 x i32], [1048576 x i32]* @image, i32 0, i32 %op67
+  %op73 = load i32, i32* %op72
+  ret i32 %op73
 }
 define void @write_pgm(float %arg0) {
 label_entry:
