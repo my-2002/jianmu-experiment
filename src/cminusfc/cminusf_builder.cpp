@@ -835,8 +835,7 @@ Value* CminusfBuilder::visit(ASTLVal& node) {
 Value* CminusfBuilder::visit(ASTRelExp& node) {                  
     if (node.relation_expression_l == nullptr)  //说明是单个加法式
         return node.additive_expression->accept(*this);  
-    auto lres = node.relation_expression_l->accept(*this);   
-    auto rres = node.relation_expression_r ? node.relation_expression_r->accept(*this) : node.additive_expression->accept(*this);    
+    auto lres = node.relation_expression_l->accept(*this);     
     Value * ret_val; 
     Value * ret_val1;
     Value * ret_val2;
@@ -853,6 +852,7 @@ Value* CminusfBuilder::visit(ASTRelExp& node) {
             {
                 if(temp)
                 {
+                    auto rres = node.relation_expression_r ? node.relation_expression_r->accept(*this) : node.additive_expression->accept(*this);  
                     if(dynamic_cast<ConstantInt*>(rres))
                         ret_val = CONST_INT(dynamic_cast<ConstantInt*>(rres)->get_value()>0?1:0);
                     else if(dynamic_cast<ConstantFP*>(rres))
@@ -870,6 +870,7 @@ Value* CminusfBuilder::visit(ASTRelExp& node) {
             }
             else
             {
+                auto rres = node.relation_expression_r ? node.relation_expression_r->accept(*this) : node.additive_expression->accept(*this);  
                 if(!temp)
                 {
                     if(dynamic_cast<ConstantInt*>(rres))
@@ -892,9 +893,9 @@ Value* CminusfBuilder::visit(ASTRelExp& node) {
         {
             Value* repval;
             if(lres->get_type()->is_integer_type())
-                repval=builder->create_icmp_ge(lres,CONST_ZERO(INT32_T));
+                repval=builder->create_icmp_gt(lres,CONST_ZERO(INT32_T));
             else
-                repval=builder->create_fcmp_ge(lres,CONST_ZERO(FLOAT_T));
+                repval=builder->create_fcmp_gt(lres,CONST_ZERO(FLOAT_T));
             bool temp;
             auto function = builder->get_insert_block()->get_parent();
             auto trueBB = BasicBlock::create(module.get(), "true"+std::to_string(context.label_time++), function);   
@@ -904,6 +905,7 @@ Value* CminusfBuilder::visit(ASTRelExp& node) {
             if(node.op==OP_AND)
             {
                 builder->set_insert_point(trueBB);  
+                auto rres = node.relation_expression_r ? node.relation_expression_r->accept(*this) : node.additive_expression->accept(*this);  
                 //if(dynamic_cast<ConstantInt*>(rres))
                 //    ret_val = builder->create_iadd(CONST_INT(dynamic_cast<ConstantInt*>(rres)->get_value()>0?1:0),CONST_ZERO(INT32_T));
                 //else if(dynamic_cast<ConstantFP*>(rres))
@@ -929,6 +931,7 @@ Value* CminusfBuilder::visit(ASTRelExp& node) {
             else
             {
                 builder->set_insert_point(falseBB);  
+                auto rres = node.relation_expression_r ? node.relation_expression_r->accept(*this) : node.additive_expression->accept(*this);  
                 //if(dynamic_cast<ConstantInt*>(rres))
                 //    ret_val = builder->create_iadd(CONST_INT(dynamic_cast<ConstantInt*>(rres)->get_value()>0?1:0),CONST_ZERO(INT32_T));
                 //else if(dynamic_cast<ConstantFP*>(rres))
@@ -957,6 +960,7 @@ Value* CminusfBuilder::visit(ASTRelExp& node) {
     }      
     else
     {
+        auto rres = node.relation_expression_r ? node.relation_expression_r->accept(*this) : node.additive_expression->accept(*this);  
         if(dynamic_cast<Constant*>(lres) && dynamic_cast<Constant*>(rres))
         {
             if (lres->get_type()->is_integer_type() && rres->get_type()->is_integer_type()) {

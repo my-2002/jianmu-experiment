@@ -1,5 +1,5 @@
 ; ModuleID = 'sysy'
-source_filename = "/home/syx/Test/jianmu/2023ustc-jianmu-compiler/tests/jianmu-tests/func/89_many_globals.sy"
+source_filename = "/home/my2002/compiler_principles/lab5/jianmu-experiment/tests/jianmu-tests/func/89_many_globals.sy"
 
 @a0 = global i32 zeroinitializer
 @a1 = global i32 zeroinitializer
