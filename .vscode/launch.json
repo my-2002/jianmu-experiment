@@ -11,7 +11,7 @@
             "program": "${workspaceFolder}/build/cminusfc",
             "args": [
                 "${workspaceFolder}/tests/jianmu-tests/func/36_rotate.sy",
-                "-emit-llvm"
+                "-S"
             ],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",

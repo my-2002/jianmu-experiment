@@ -1,5 +1,5 @@
 ; ModuleID = 'sysy'
-source_filename = "/home/my2002/compiler_principles/lab5/jianmu-experiment/tests/jianmu-tests/func/74_kmp.sy"
+source_filename = "/home/syx/Test/jianmu/2023ustc-jianmu-compiler/tests/jianmu-tests/func/74_kmp.sy"
 
 declare void @neg_idx_except()
 
@@ -63,7 +63,7 @@ label_loop3:                                                ; preds = %label_str
   %op17 = load i32, i32* %op11
   %op18 = icmp eq i32 %op17, -1
   %op19 = zext i1 %op18 to i32
-  %op20 = icmp sgt i32 %op19, zeroinitializer
+  %op20 = icmp sge i32 %op19, zeroinitializer
   br i1 %op20, label %label_true7, label %label_false8
 label_ret4:                                                ; preds = %label_str_gtz6
   ret void
