@@ -47,10 +47,10 @@ void CodeGen::load_to_greg(Value *val, const Reg &reg) {
             load_large_int32(val, reg);
         }
     }
-    /*else if(dynamic_cast<ConstantZero *>(val))
+    else if(dynamic_cast<ConstantZero *>(val))
     {
         append_inst(ADDI WORD, {reg.print(), "$zero", "0"});
-    }*/
+    }
      else if (auto *global = dynamic_cast<GlobalVariable *>(val)) {
         append_inst(LOAD_ADDR, {reg.print(), global->get_name()});
     } else {
@@ -134,6 +134,10 @@ void CodeGen::load_to_freg(Value *val, const FReg &freg) {
     if (auto *constant = dynamic_cast<ConstantFP *>(val)) {
         float val = constant->get_value();
         load_float_imm(val, freg);
+    }
+    else if(dynamic_cast<ConstantZero *>(val))
+    {
+        append_inst("movgr2fr" WORD, {freg.print(),"$zero"});    
     } else {
         auto offset = context.offset_map.at(val);
         auto offset_str = std::to_string(offset);
@@ -300,7 +304,13 @@ void CodeGen::gen_alloca() {
     auto alloc_size = alloca_inst->get_alloca_type()->get_size();
     auto offset = context.offset_map.at(context.inst);
     load_large_int64(offset, Reg::t(0));
-    append_inst("addi.d $t0, $t0, " + std::to_string(-static_cast<int>(alloc_size)));
+    if(alloc_size<4095)
+        append_inst("addi.d $t0, $t0, " + std::to_string(-static_cast<int>(alloc_size)));
+    else
+    {
+        load_large_int64(alloc_size,Reg::t(1));
+        append_inst("sub.d $t0, $t0, $t1");
+    }
     append_inst("add.d $t0, $fp, $t0");
     store_from_greg(context.inst, Reg::t(0));
     /* 我们已经为 alloca 的内容分配空间，在此我们还需保存 alloca
@@ -345,11 +355,23 @@ void CodeGen::gen_store(Value* val) {
         }
         else //说明是zeroinit
         {
-            for(int i=0; i<(int)val_type->get_size()/4; i++)
-            {
-                append_inst("st.w $zero, $t0, 0");
-                append_inst("addi.d $t0, $t0, 4");
-            }
+            int num = (int)val_type->get_size()/4;
+            if(num<4095)
+                append_inst("addi.w $t1, $zero, "+std::to_string(num));
+            else
+                load_large_int32(num,Reg::t(1));
+            //append_inst("init_loop_"+val->get_name(),ASMInstruction::Label);
+            append_inst("st.w $zero, $t0, 0");
+            append_inst("addi.d $t0, $t0, 4");
+            append_inst("addi.w $t1, $t1, -1");
+            append_inst("bne $zero, $t1, -12");
+            
+            
+            //for(int i=0; i<(int)val_type->get_size()/4; i++)
+            //{
+            //    append_inst("st.w $zero, $t0, 0");
+            //    append_inst("addi.d $t0, $t0, 4");
+            //}
         }
     }
     else if(val->get_type()->is_float_type())
@@ -501,11 +523,14 @@ void CodeGen::gen_call() {
 void CodeGen::gen_gep() {
     auto *gepInst = static_cast<GetElementPtrInst *>(context.inst);
     load_to_greg(gepInst->get_operand(0), Reg::t(0));
-    auto tmp_type = gepInst->get_element_type();
+    auto tmp_type = gepInst->get_operand(0)->get_type()->get_pointer_element_type();
     for(int i=1; i<(int)(gepInst->get_num_operand()); i++)
     {
         auto size = tmp_type->get_size();
-        append_inst("addi.w $t2, $zero, " + std::to_string(size));
+        if(size<4095)
+            append_inst("addi.w $t2, $zero, " + std::to_string(size));
+        else
+            load_large_int32(size,Reg::t(2));       //大数组情况
         load_to_greg(gepInst->get_operand(i), Reg::t(1));
         append_inst("mul.w $t1, $t1, $t2" );
         append_inst("add.d $t0, $t0, $t1");

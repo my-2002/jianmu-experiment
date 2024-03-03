@@ -8,6 +8,7 @@ main:
 	addi.d $sp, $sp, -16
 .main_label_entry:
 # ret i32 5
+# gen_phi
 	addi.w $a0, $zero, 5
 	b .main_exit
 .main_exit:

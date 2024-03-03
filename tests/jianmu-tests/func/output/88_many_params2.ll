@@ -53,92 +53,84 @@ label_entry:
   store i32 0, i32* %op18
   br label %label_condition0
 label_condition0:                                                ; preds = %label_entry, %label_b_gtz4
-  %op19 = load i32, i32* %op18
-  %op20 = add i32 %op19, 10
-  %op21 = icmp slt i32 %op19, 10
-  %op22 = zext i1 %op21 to i32
-  %op23 = icmp sgt i32 %op22, zeroinitializer
-  br i1 %op23, label %label_loop1, label %label_ret2
+  %op19 = icmp sgt i32 10, zeroinitializer
+  br i1 %op19, label %label_loop1, label %label_ret2
 label_loop1:                                                ; preds = %label_condition0
-  %op24 = load i32, i32* %op18
-  %op25 = load i32, i32* %op9
-  %op26 = icmp slt i32 %op25, zeroinitializer
-  %op27 = zext i1 %op26 to i32
-  %op28 = add i32 %op27, zeroinitializer
-  %op29 = icmp slt i32 %op24, zeroinitializer
-  %op30 = zext i1 %op29 to i32
-  %op31 = add i32 %op30, %op28
-  %op32 = icmp ne i32 %op31, zeroinitializer
-  br i1 %op32, label %label_b_ltz3, label %label_b_gtz4
+  %op20 = load i32, i32* %op18
+  %op21 = load i32, i32* %op9
+  %op22 = icmp slt i32 %op21, zeroinitializer
+  %op23 = zext i1 %op22 to i32
+  %op24 = add i32 %op23, zeroinitializer
+  %op25 = icmp slt i32 %op20, zeroinitializer
+  %op26 = zext i1 %op25 to i32
+  %op27 = add i32 %op26, %op24
+  %op28 = icmp ne i32 %op27, zeroinitializer
+  br i1 %op28, label %label_b_ltz3, label %label_b_gtz4
 label_ret2:                                                ; preds = %label_condition0
   call void @putch(i32 10)
-  %op33 = load i32, i32* %op11
-  %op34 = icmp slt i32 %op33, zeroinitializer
-  %op35 = zext i1 %op34 to i32
-  %op36 = add i32 %op35, zeroinitializer
-  %op37 = icmp ne i32 %op36, zeroinitializer
-  br i1 %op37, label %label_d_ltz5, label %label_d_gtz6
+  %op29 = load i32, i32* %op11
+  %op30 = icmp slt i32 %op29, zeroinitializer
+  %op31 = zext i1 %op30 to i32
+  %op32 = add i32 %op31, zeroinitializer
+  %op33 = icmp ne i32 %op32, zeroinitializer
+  br i1 %op33, label %label_d_ltz5, label %label_d_gtz6
 label_b_ltz3:                                                ; preds = %label_loop1
   call void @neg_idx_except()
   br label %label_b_gtz4
 label_b_gtz4:                                                ; preds = %label_loop1, %label_b_ltz3
-  %op38 = load i32*, i32** %op10
-  %op39 = mul i32 59, %op25
-  %op40 = add i32 %op39, %op24
-  %op41 = getelementptr i32, i32* %op38, i32 %op40
-  %op42 = load i32, i32* %op41
-  call void @putint(i32 %op42)
-  %op43 = load i32, i32* %op18
-  %op44 = add i32 %op43, 1
-  store i32 %op44, i32* %op18
+  %op34 = load i32*, i32** %op10
+  %op35 = mul i32 59, %op21
+  %op36 = add i32 %op35, %op20
+  %op37 = getelementptr i32, i32* %op34, i32 %op36
+  %op38 = load i32, i32* %op37
+  call void @putint(i32 %op38)
+  %op39 = load i32, i32* %op18
+  %op40 = add i32 %op39, 1
+  store i32 %op40, i32* %op18
   br label %label_condition0
 label_d_ltz5:                                                ; preds = %label_ret2
   call void @neg_idx_except()
   br label %label_d_gtz6
 label_d_gtz6:                                                ; preds = %label_ret2, %label_d_ltz5
-  %op45 = load i32*, i32** %op12
-  %op46 = getelementptr i32, i32* %op45, i32 %op33
-  %op47 = load i32, i32* %op46
-  call void @putint(i32 %op47)
+  %op41 = load i32*, i32** %op12
+  %op42 = getelementptr i32, i32* %op41, i32 %op29
+  %op43 = load i32, i32* %op42
+  call void @putint(i32 %op43)
   call void @putch(i32 10)
   br label %label_condition7
 label_condition7:                                                ; preds = %label_d_gtz6, %label_g_gtz11
-  %op48 = load i32, i32* %op17
-  %op49 = add i32 %op48, 10
-  %op50 = icmp slt i32 %op48, 10
-  %op51 = zext i1 %op50 to i32
-  %op52 = icmp sgt i32 %op51, zeroinitializer
-  br i1 %op52, label %label_loop8, label %label_ret9
+  %op44 = icmp sgt i32 10, zeroinitializer
+  br i1 %op44, label %label_loop8, label %label_ret9
 label_loop8:                                                ; preds = %label_condition7
-  %op53 = load i32, i32* %op17
-  %op54 = icmp slt i32 %op53, zeroinitializer
-  %op55 = zext i1 %op54 to i32
-  %op56 = add i32 %op55, zeroinitializer
-  %op57 = icmp ne i32 %op56, zeroinitializer
-  br i1 %op57, label %label_g_ltz10, label %label_g_gtz11
+  %op45 = load i32, i32* %op17
+  %op46 = icmp slt i32 %op45, zeroinitializer
+  %op47 = zext i1 %op46 to i32
+  %op48 = add i32 %op47, zeroinitializer
+  %op49 = icmp ne i32 %op48, zeroinitializer
+  br i1 %op49, label %label_g_ltz10, label %label_g_gtz11
 label_ret9:                                                ; preds = %label_condition7
-  %op58 = load i32, i32* %op13
-  %op59 = load i32, i32* %op14
-  %op60 = add i32 %op58, %op59
-  ret i32 %op60
+  %op50 = load i32, i32* %op13
+  %op51 = load i32, i32* %op14
+  %op52 = add i32 %op50, %op51
+  ret i32 %op52
 label_g_ltz10:                                                ; preds = %label_loop8
   call void @neg_idx_except()
   br label %label_g_gtz11
 label_g_gtz11:                                                ; preds = %label_loop8, %label_g_ltz10
-  %op61 = load i32*, i32** %op15
-  %op62 = getelementptr i32, i32* %op61, i32 %op53
-  %op63 = load i32, i32* %op16
-  %op64 = mul i32 %op63, 128875
-  %op65 = sdiv i32 %op64, 3724
-  %op66 = mul i32 %op65, 3724
-  %op67 = sub i32 %op64, %op66
-  store i32 %op67, i32* %op62
-  %op68 = load i32, i32* %op17
-  %op69 = add i32 %op68, 1
-  store i32 %op69, i32* %op17
-  %op70 = load i32, i32* %op16
-  %op71 = add i32 %op70, 7
-  store i32 %op71, i32* %op16
+  %op53 = load i32*, i32** %op15
+  %op54 = getelementptr i32, i32* %op53, i32 %op45
+  %op55 = load i32, i32* %op16
+  %op56 = mul i32 %op55, 128875
+  %op57 = sdiv i32 %op56, 3724
+  %op58 = mul i32 %op57, 3724
+  %op59 = sub i32 %op56, %op58
+  store i32 %op59, i32* %op54
+  %op60 = load i32, i32* %op17
+  %op61 = add i32 %op60, 1
+  store i32 %op61, i32* %op17
+  %op62 = load i32, i32* %op16
+  %op63 = add i32 %op62, 7
+  store i32 %op63, i32* %op16
   br label %label_condition7
 }
 define i32 @main() {
@@ -386,22 +378,18 @@ label_b_gtz45:                                                ; preds = %label_b
   store i32 %op143, i32* %op74
   br label %label_condition46
 label_condition46:                                                ; preds = %label_b_gtz45, %label_b_gtz50
-  %op144 = load i32, i32* %op74
-  %op145 = add i32 %op144, 0
-  %op146 = icmp sge i32 %op144, 0
-  %op147 = zext i1 %op146 to i32
-  %op148 = icmp sgt i32 %op147, zeroinitializer
-  br i1 %op148, label %label_loop47, label %label_ret48
+  %op144 = icmp sgt i32 0, zeroinitializer
+  br i1 %op144, label %label_loop47, label %label_ret48
 label_loop47:                                                ; preds = %label_condition46
-  %op149 = load i32, i32* %op74
-  %op150 = icmp slt i32 6, zeroinitializer
-  %op151 = zext i1 %op150 to i32
-  %op152 = add i32 %op151, zeroinitializer
-  %op153 = icmp slt i32 %op149, zeroinitializer
-  %op154 = zext i1 %op153 to i32
-  %op155 = add i32 %op154, %op152
-  %op156 = icmp ne i32 %op155, zeroinitializer
-  br i1 %op156, label %label_b_ltz49, label %label_b_gtz50
+  %op145 = load i32, i32* %op74
+  %op146 = icmp slt i32 6, zeroinitializer
+  %op147 = zext i1 %op146 to i32
+  %op148 = add i32 %op147, zeroinitializer
+  %op149 = icmp slt i32 %op145, zeroinitializer
+  %op150 = zext i1 %op149 to i32
+  %op151 = add i32 %op150, %op148
+  %op152 = icmp ne i32 %op151, zeroinitializer
+  br i1 %op152, label %label_b_ltz49, label %label_b_gtz50
 label_ret48:                                                ; preds = %label_condition46
   call void @putch(i32 10)
   ret i32 0
@@ -409,12 +397,12 @@ label_b_ltz49:                                                ; preds = %label_l
   call void @neg_idx_except()
   br label %label_b_gtz50
 label_b_gtz50:                                                ; preds = %label_loop47, %label_b_ltz49
-  %op157 = getelementptr [53 x [59 x i32]], [53 x [59 x i32]]* %op1, i32 0, i32 6, i32 %op149
-  %op158 = load i32, i32* %op157
-  call void @putint(i32 %op158)
+  %op153 = getelementptr [53 x [59 x i32]], [53 x [59 x i32]]* %op1, i32 0, i32 6, i32 %op145
+  %op154 = load i32, i32* %op153
+  call void @putint(i32 %op154)
   call void @putch(i32 32)
-  %op159 = load i32, i32* %op74
-  %op160 = sub i32 %op159, 1
-  store i32 %op160, i32* %op74
+  %op155 = load i32, i32* %op74
+  %op156 = sub i32 %op155, 1
+  store i32 %op156, i32* %op74
   br label %label_condition46
 }

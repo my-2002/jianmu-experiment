@@ -206,54 +206,53 @@ label_entry:
   %op63 = alloca i32
   store i32 %arg31, i32* %op63
   %op64 = load i32, i32* %op32
-  %op65 = add i32 %op64, 0
-  %op66 = icmp eq i32 %op64, 0
-  %op67 = zext i1 %op66 to i32
-  %op68 = icmp sgt i32 %op67, zeroinitializer
-  br i1 %op68, label %label_true18, label %label_false19
+  %op65 = icmp eq i32 %op64, 0
+  %op66 = zext i1 %op65 to i32
+  %op67 = icmp sgt i32 %op66, zeroinitializer
+  br i1 %op67, label %label_true18, label %label_false19
 label_true18:                                                ; preds = %label_entry
-  %op69 = load i32, i32* %op33
-  ret i32 %op69
+  %op68 = load i32, i32* %op33
+  ret i32 %op68
 label_false19:                                                ; preds = %label_entry
-  %op70 = load i32, i32* %op32
-  %op71 = sub i32 %op70, 1
-  %op72 = load i32, i32* %op33
-  %op73 = load i32, i32* %op34
-  %op74 = add i32 %op72, %op73
-  %op75 = sdiv i32 %op74, 998244353
-  %op76 = mul i32 %op75, 998244353
-  %op77 = sub i32 %op74, %op76
-  %op78 = load i32, i32* %op35
-  %op79 = load i32, i32* %op36
-  %op80 = load i32, i32* %op37
-  %op81 = load i32, i32* %op38
-  %op82 = load i32, i32* %op39
-  %op83 = load i32, i32* %op40
-  %op84 = load i32, i32* %op41
-  %op85 = load i32, i32* %op42
-  %op86 = load i32, i32* %op43
-  %op87 = load i32, i32* %op44
-  %op88 = load i32, i32* %op45
-  %op89 = load i32, i32* %op46
-  %op90 = load i32, i32* %op47
-  %op91 = load i32, i32* %op48
-  %op92 = load i32, i32* %op49
-  %op93 = load i32, i32* %op50
-  %op94 = load i32, i32* %op51
-  %op95 = load i32, i32* %op52
-  %op96 = load i32, i32* %op53
-  %op97 = load i32, i32* %op54
-  %op98 = load i32, i32* %op55
-  %op99 = load i32, i32* %op56
-  %op100 = load i32, i32* %op57
-  %op101 = load i32, i32* %op58
-  %op102 = load i32, i32* %op59
-  %op103 = load i32, i32* %op60
-  %op104 = load i32, i32* %op61
-  %op105 = load i32, i32* %op62
-  %op106 = load i32, i32* %op63
-  %op107 = call i32 @param32_rec(i32 %op71, i32 %op77, i32 %op78, i32 %op79, i32 %op80, i32 %op81, i32 %op82, i32 %op83, i32 %op84, i32 %op85, i32 %op86, i32 %op87, i32 %op88, i32 %op89, i32 %op90, i32 %op91, i32 %op92, i32 %op93, i32 %op94, i32 %op95, i32 %op96, i32 %op97, i32 %op98, i32 %op99, i32 %op100, i32 %op101, i32 %op102, i32 %op103, i32 %op104, i32 %op105, i32 %op106, i32 0)
-  ret i32 %op107
+  %op69 = load i32, i32* %op32
+  %op70 = sub i32 %op69, 1
+  %op71 = load i32, i32* %op33
+  %op72 = load i32, i32* %op34
+  %op73 = add i32 %op71, %op72
+  %op74 = sdiv i32 %op73, 998244353
+  %op75 = mul i32 %op74, 998244353
+  %op76 = sub i32 %op73, %op75
+  %op77 = load i32, i32* %op35
+  %op78 = load i32, i32* %op36
+  %op79 = load i32, i32* %op37
+  %op80 = load i32, i32* %op38
+  %op81 = load i32, i32* %op39
+  %op82 = load i32, i32* %op40
+  %op83 = load i32, i32* %op41
+  %op84 = load i32, i32* %op42
+  %op85 = load i32, i32* %op43
+  %op86 = load i32, i32* %op44
+  %op87 = load i32, i32* %op45
+  %op88 = load i32, i32* %op46
+  %op89 = load i32, i32* %op47
+  %op90 = load i32, i32* %op48
+  %op91 = load i32, i32* %op49
+  %op92 = load i32, i32* %op50
+  %op93 = load i32, i32* %op51
+  %op94 = load i32, i32* %op52
+  %op95 = load i32, i32* %op53
+  %op96 = load i32, i32* %op54
+  %op97 = load i32, i32* %op55
+  %op98 = load i32, i32* %op56
+  %op99 = load i32, i32* %op57
+  %op100 = load i32, i32* %op58
+  %op101 = load i32, i32* %op59
+  %op102 = load i32, i32* %op60
+  %op103 = load i32, i32* %op61
+  %op104 = load i32, i32* %op62
+  %op105 = load i32, i32* %op63
+  %op106 = call i32 @param32_rec(i32 %op70, i32 %op76, i32 %op77, i32 %op78, i32 %op79, i32 %op80, i32 %op81, i32 %op82, i32 %op83, i32 %op84, i32 %op85, i32 %op86, i32 %op87, i32 %op88, i32 %op89, i32 %op90, i32 %op91, i32 %op92, i32 %op93, i32 %op94, i32 %op95, i32 %op96, i32 %op97, i32 %op98, i32 %op99, i32 %op100, i32 %op101, i32 %op102, i32 %op103, i32 %op104, i32 %op105, i32 0)
+  ret i32 %op106
 }
 define i32 @param32_arr(i32* %arg0, i32* %arg1, i32* %arg2, i32* %arg3, i32* %arg4, i32* %arg5, i32* %arg6, i32* %arg7, i32* %arg8, i32* %arg9, i32* %arg10, i32* %arg11, i32* %arg12, i32* %arg13, i32* %arg14, i32* %arg15, i32* %arg16, i32* %arg17, i32* %arg18, i32* %arg19, i32* %arg20, i32* %arg21, i32* %arg22, i32* %arg23, i32* %arg24, i32* %arg25, i32* %arg26, i32* %arg27, i32* %arg28, i32* %arg29, i32* %arg30, i32* %arg31) {
 label_entry:

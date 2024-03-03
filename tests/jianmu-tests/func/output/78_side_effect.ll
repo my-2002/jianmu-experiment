@@ -49,35 +49,47 @@ label_entry:
   %op0 = alloca i32
   store i32 5, i32* %op0
   br label %label_condition0
-label_condition0:                                                ; preds = %label_entry, %label_ret7
-  %op1 = load i32, i32* %op0
-  %op2 = add i32 %op1, 0
-  %op3 = icmp sge i32 %op1, 0
-  %op4 = zext i1 %op3 to i32
-  %op5 = icmp sgt i32 %op4, zeroinitializer
-  br i1 %op5, label %label_loop1, label %label_ret2
+label_condition0:                                                ; preds = %label_entry, %label_ret13
+  %op1 = icmp sgt i32 0, zeroinitializer
+  br i1 %op1, label %label_loop1, label %label_ret2
 label_loop1:                                                ; preds = %label_condition0
-  %op6 = call i32 @inc_a()
-  %op7 = call i32 @inc_a()
-  %op8 = call i32 @inc_a()
-  %op9 = add i32 %op8, %op7
-  %op10 = icmp eq i32 %op9, 2
-  %op11 = zext i1 %op10 to i32
-  %op12 = add i32 %op11, %op6
-  %op13 = icmp eq i32 %op12, 2
-  %op14 = zext i1 %op13 to i32
-  %op15 = icmp sgt i32 %op14, zeroinitializer
-  br i1 %op15, label %label_true3, label %label_ret4
+  %op2 = call i32 @inc_a()
+  %op3 = icmp sge i32 %op2, zeroinitializer
+  br i1 %op3, label %label_true3, label %label_false4
 label_ret2:                                                ; preds = %label_condition0
-  %op16 = load i32, i32* @a
-  call void @putint(i32 %op16)
+  %op4 = load i32, i32* @a
+  call void @putint(i32 %op4)
   call void @putch(i32 32)
-  %op17 = load i32, i32* @b
-  call void @putint(i32 %op17)
+  %op5 = load i32, i32* @b
+  call void @putint(i32 %op5)
   call void @putch(i32 10)
-  %op18 = load i32, i32* @a
-  ret i32 %op18
+  %op6 = load i32, i32* @a
+  ret i32 %op6
 label_true3:                                                ; preds = %label_loop1
+  %op7 = call i32 @inc_a()
+  %op8 = icmp sgt i32 %op7, zeroinitializer
+  br label %label_ret5
+label_false4:                                                ; preds = %label_loop1
+  %op9 = icmp sgt i32 zeroinitializer, zeroinitializer
+  br label %label_ret5
+label_ret5:                                                ; preds = %label_true3, %label_false4
+  %op10 = phi i1 [ %op8, %label_true3 ], [ %op9, %label_false4 ]
+  %op11 = zext i1 %op10 to i32
+  %op12 = icmp sge i32 %op11, zeroinitializer
+  br i1 %op12, label %label_true6, label %label_false7
+label_true6:                                                ; preds = %label_ret5
+  %op13 = call i32 @inc_a()
+  %op14 = icmp sgt i32 %op13, zeroinitializer
+  br label %label_ret8
+label_false7:                                                ; preds = %label_ret5
+  %op15 = icmp sgt i32 zeroinitializer, zeroinitializer
+  br label %label_ret8
+label_ret8:                                                ; preds = %label_true6, %label_false7
+  %op16 = phi i1 [ %op14, %label_true6 ], [ %op15, %label_false7 ]
+  %op17 = zext i1 %op16 to i32
+  %op18 = icmp sgt i32 %op17, zeroinitializer
+  br i1 %op18, label %label_true9, label %label_ret10
+label_true9:                                                ; preds = %label_ret8
   %op19 = load i32, i32* @a
   call void @putint(i32 %op19)
   call void @putch(i32 32)
@@ -85,46 +97,31 @@ label_true3:                                                ; preds = %label_loo
   call void @putint(i32 %op20)
   call void @putch(i32 10)
   call void @putint(i32 111)
-  br label %label_ret4
-label_ret4:                                                ; preds = %label_loop1, %label_true3
-  %op21 = call i32 @inc_a()
-  %op22 = call i32 @inc_a()
-  %op23 = sub i32 %op21, %op22
-  %op24 = add i32 %op23, 1
-  %op25 = call i32 @inc_a()
-  %op26 = add i32 %op25, %op24
-  %op27 = icmp eq i32 %op26, 2
-  %op28 = zext i1 %op27 to i32
-  %op29 = call i32 @inc_a()
-  %op30 = add i32 %op29, 14
-  %op31 = icmp slt i32 %op29, 14
-  %op32 = zext i1 %op31 to i32
-  %op33 = add i32 %op32, %op28
-  %op34 = icmp sge i32 %op33, 1
-  %op35 = zext i1 %op34 to i32
-  %op36 = icmp sgt i32 %op35, zeroinitializer
-  br i1 %op36, label %label_true5, label %label_false6
-label_true5:                                                ; preds = %label_ret4
-  %op37 = load i32, i32* @a
-  call void @putint(i32 %op37)
+  br label %label_ret10
+label_ret10:                                                ; preds = %label_ret8, %label_true9
+  %op21 = icmp sgt i32 1, zeroinitializer
+  br i1 %op21, label %label_true11, label %label_false12
+label_true11:                                                ; preds = %label_ret10
+  %op22 = load i32, i32* @a
+  call void @putint(i32 %op22)
   call void @putch(i32 10)
-  %op38 = load i32, i32* @b
-  %op39 = mul i32 %op38, 2
-  store i32 %op39, i32* @b
+  %op23 = load i32, i32* @b
+  %op24 = mul i32 %op23, 2
+  store i32 %op24, i32* @b
   call void @putint(i32 222)
-  br label %label_ret7
-label_false6:                                                ; preds = %label_ret4
-  %op40 = call i32 @inc_a()
+  br label %label_ret13
+label_false12:                                                ; preds = %label_ret10
+  %op25 = call i32 @inc_a()
   call void @putint(i32 333)
-  br label %label_ret7
-label_ret7:                                                ; preds = %label_true5, %label_false6
-  %op41 = load i32, i32* %op0
-  %op42 = sub i32 %op41, 1
-  store i32 %op42, i32* %op0
+  br label %label_ret13
+label_ret13:                                                ; preds = %label_true11, %label_false12
+  %op26 = load i32, i32* %op0
+  %op27 = sub i32 %op26, 1
+  store i32 %op27, i32* %op0
   call void @putch(i32 10)
   call void @putch(i32 97)
-  %op43 = load i32, i32* @a
-  call void @putint(i32 %op43)
+  %op28 = load i32, i32* @a
+  call void @putint(i32 %op28)
   call void @putch(i32 10)
   br label %label_condition0
 }

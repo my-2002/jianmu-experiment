@@ -23,6 +23,7 @@ main:
 	ld.d $t0, $fp, -24
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 4056
@@ -35,6 +36,7 @@ main:
 	ld.d $t0, $fp, -40
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2 = load i32, i32* %op0
 	ld.d $t0, $fp, -24
 	ld.w $t1, $t0, 0
@@ -48,6 +50,7 @@ main:
 	ld.d $t0, $fp, -24
 	ld.w $t1, $fp, -52
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op4 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -65,6 +68,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -64
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op7 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 4024
@@ -77,6 +81,7 @@ main:
 	ld.d $t0, $fp, -72
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op8 = load i32, i32* %op7
 	ld.d $t0, $fp, -72
 	ld.w $t1, $t0, 0
@@ -90,6 +95,7 @@ main:
 	ld.d $t0, $fp, -72
 	ld.w $t1, $fp, -84
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op10 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -107,6 +113,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -96
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op13 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 3992
@@ -119,6 +126,7 @@ main:
 	ld.d $t0, $fp, -104
 	addi.w $t1, $zero, 3
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op14 = load i32, i32* %op13
 	ld.d $t0, $fp, -104
 	ld.w $t1, $t0, 0
@@ -132,6 +140,7 @@ main:
 	ld.d $t0, $fp, -104
 	ld.w $t1, $fp, -116
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op16 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -149,6 +158,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -128
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op19 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 3960
@@ -161,6 +171,7 @@ main:
 	ld.d $t0, $fp, -136
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op20 = load i32, i32* %op19
 	ld.d $t0, $fp, -136
 	ld.w $t1, $t0, 0
@@ -174,6 +185,7 @@ main:
 	ld.d $t0, $fp, -136
 	ld.w $t1, $fp, -148
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op22 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -191,6 +203,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -160
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op25 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 3928
@@ -203,6 +216,7 @@ main:
 	ld.d $t0, $fp, -168
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op26 = load i32, i32* %op25
 	ld.d $t0, $fp, -168
 	ld.w $t1, $t0, 0
@@ -216,6 +230,7 @@ main:
 	ld.d $t0, $fp, -168
 	ld.w $t1, $fp, -180
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op28 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -233,6 +248,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -192
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op31 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 3896
@@ -245,6 +261,7 @@ main:
 	ld.d $t0, $fp, -200
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op32 = load i32, i32* %op31
 	ld.d $t0, $fp, -200
 	ld.w $t1, $t0, 0
@@ -258,6 +275,7 @@ main:
 	ld.d $t0, $fp, -200
 	ld.w $t1, $fp, -212
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op34 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -275,6 +293,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -224
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op37 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 3864
@@ -287,6 +306,7 @@ main:
 	ld.d $t0, $fp, -232
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op38 = load i32, i32* %op37
 	ld.d $t0, $fp, -232
 	ld.w $t1, $t0, 0
@@ -300,6 +320,7 @@ main:
 	ld.d $t0, $fp, -232
 	ld.w $t1, $fp, -244
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op40 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -317,6 +338,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -256
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op43 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 3832
@@ -329,6 +351,7 @@ main:
 	ld.d $t0, $fp, -264
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op44 = load i32, i32* %op43
 	ld.d $t0, $fp, -264
 	ld.w $t1, $t0, 0
@@ -342,6 +365,7 @@ main:
 	ld.d $t0, $fp, -264
 	ld.w $t1, $fp, -276
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op46 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -359,6 +383,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -288
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op49 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 3800
@@ -371,6 +396,7 @@ main:
 	ld.d $t0, $fp, -296
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op50 = load i32, i32* %op49
 	ld.d $t0, $fp, -296
 	ld.w $t1, $t0, 0
@@ -384,6 +410,7 @@ main:
 	ld.d $t0, $fp, -296
 	ld.w $t1, $fp, -308
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op52 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -401,6 +428,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -320
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op55 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 3768
@@ -413,6 +441,7 @@ main:
 	ld.d $t0, $fp, -328
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op56 = load i32, i32* %op55
 	ld.d $t0, $fp, -328
 	ld.w $t1, $t0, 0
@@ -426,6 +455,7 @@ main:
 	ld.d $t0, $fp, -328
 	ld.w $t1, $fp, -340
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op58 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -443,6 +473,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -352
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op61 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 3736
@@ -455,6 +486,7 @@ main:
 	ld.d $t0, $fp, -360
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op62 = load i32, i32* %op61
 	ld.d $t0, $fp, -360
 	ld.w $t1, $t0, 0
@@ -468,6 +500,7 @@ main:
 	ld.d $t0, $fp, -360
 	ld.w $t1, $fp, -372
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op64 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -485,6 +518,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -384
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op67 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 3704
@@ -497,6 +531,7 @@ main:
 	ld.d $t0, $fp, -392
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op68 = load i32, i32* %op67
 	ld.d $t0, $fp, -392
 	ld.w $t1, $t0, 0
@@ -510,6 +545,7 @@ main:
 	ld.d $t0, $fp, -392
 	ld.w $t1, $fp, -404
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op70 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -527,6 +563,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -416
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op73 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 3672
@@ -539,6 +576,7 @@ main:
 	ld.d $t0, $fp, -424
 	addi.w $t1, $zero, 4
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op74 = load i32, i32* %op73
 	ld.d $t0, $fp, -424
 	ld.w $t1, $t0, 0
@@ -552,6 +590,7 @@ main:
 	ld.d $t0, $fp, -424
 	ld.w $t1, $fp, -436
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op76 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -569,6 +608,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -448
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op79 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 3640
@@ -581,6 +621,7 @@ main:
 	ld.d $t0, $fp, -456
 	addi.w $t1, $zero, 3
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op80 = load i32, i32* %op79
 	ld.d $t0, $fp, -456
 	ld.w $t1, $t0, 0
@@ -594,6 +635,7 @@ main:
 	ld.d $t0, $fp, -456
 	ld.w $t1, $fp, -468
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op82 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -611,6 +653,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -480
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op85 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 3608
@@ -623,6 +666,7 @@ main:
 	ld.d $t0, $fp, -488
 	addi.w $t1, $zero, 3
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op86 = load i32, i32* %op85
 	ld.d $t0, $fp, -488
 	ld.w $t1, $t0, 0
@@ -636,6 +680,7 @@ main:
 	ld.d $t0, $fp, -488
 	ld.w $t1, $fp, -500
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op88 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -653,6 +698,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -512
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op91 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 3576
@@ -665,6 +711,7 @@ main:
 	ld.d $t0, $fp, -520
 	addi.w $t1, $zero, 3
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op92 = load i32, i32* %op91
 	ld.d $t0, $fp, -520
 	ld.w $t1, $t0, 0
@@ -678,6 +725,7 @@ main:
 	ld.d $t0, $fp, -520
 	ld.w $t1, $fp, -532
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op94 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -695,6 +743,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -544
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op97 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 3544
@@ -707,6 +756,7 @@ main:
 	ld.d $t0, $fp, -552
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op98 = load i32, i32* %op97
 	ld.d $t0, $fp, -552
 	ld.w $t1, $t0, 0
@@ -720,6 +770,7 @@ main:
 	ld.d $t0, $fp, -552
 	ld.w $t1, $fp, -564
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op100 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -737,6 +788,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -576
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op103 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 3512
@@ -749,6 +801,7 @@ main:
 	ld.d $t0, $fp, -584
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op104 = load i32, i32* %op103
 	ld.d $t0, $fp, -584
 	ld.w $t1, $t0, 0
@@ -762,6 +815,7 @@ main:
 	ld.d $t0, $fp, -584
 	ld.w $t1, $fp, -596
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op106 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -779,6 +833,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -608
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op109 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 3480
@@ -791,6 +846,7 @@ main:
 	ld.d $t0, $fp, -616
 	addi.w $t1, $zero, 4
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op110 = load i32, i32* %op109
 	ld.d $t0, $fp, -616
 	ld.w $t1, $t0, 0
@@ -804,6 +860,7 @@ main:
 	ld.d $t0, $fp, -616
 	ld.w $t1, $fp, -628
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op112 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -821,6 +878,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -640
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op115 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 3448
@@ -833,6 +891,7 @@ main:
 	ld.d $t0, $fp, -648
 	addi.w $t1, $zero, 3
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op116 = load i32, i32* %op115
 	ld.d $t0, $fp, -648
 	ld.w $t1, $t0, 0
@@ -846,6 +905,7 @@ main:
 	ld.d $t0, $fp, -648
 	ld.w $t1, $fp, -660
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op118 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -863,6 +923,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -672
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op121 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 3416
@@ -875,6 +936,7 @@ main:
 	ld.d $t0, $fp, -680
 	addi.w $t1, $zero, 4
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op122 = load i32, i32* %op121
 	ld.d $t0, $fp, -680
 	ld.w $t1, $t0, 0
@@ -888,6 +950,7 @@ main:
 	ld.d $t0, $fp, -680
 	ld.w $t1, $fp, -692
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op124 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -905,6 +968,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -704
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op127 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 3384
@@ -917,6 +981,7 @@ main:
 	ld.d $t0, $fp, -712
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op128 = load i32, i32* %op127
 	ld.d $t0, $fp, -712
 	ld.w $t1, $t0, 0
@@ -930,6 +995,7 @@ main:
 	ld.d $t0, $fp, -712
 	ld.w $t1, $fp, -724
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op130 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -947,6 +1013,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -736
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op133 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 3352
@@ -959,6 +1026,7 @@ main:
 	ld.d $t0, $fp, -744
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op134 = load i32, i32* %op133
 	ld.d $t0, $fp, -744
 	ld.w $t1, $t0, 0
@@ -972,6 +1040,7 @@ main:
 	ld.d $t0, $fp, -744
 	ld.w $t1, $fp, -756
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op136 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -989,6 +1058,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -768
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op139 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 3320
@@ -1001,6 +1071,7 @@ main:
 	ld.d $t0, $fp, -776
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op140 = load i32, i32* %op139
 	ld.d $t0, $fp, -776
 	ld.w $t1, $t0, 0
@@ -1014,6 +1085,7 @@ main:
 	ld.d $t0, $fp, -776
 	ld.w $t1, $fp, -788
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op142 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -1031,6 +1103,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -800
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op145 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 3288
@@ -1043,6 +1116,7 @@ main:
 	ld.d $t0, $fp, -808
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op146 = load i32, i32* %op145
 	ld.d $t0, $fp, -808
 	ld.w $t1, $t0, 0
@@ -1056,6 +1130,7 @@ main:
 	ld.d $t0, $fp, -808
 	ld.w $t1, $fp, -820
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op148 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -1073,6 +1148,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -832
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op151 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 3256
@@ -1085,6 +1161,7 @@ main:
 	ld.d $t0, $fp, -840
 	addi.w $t1, $zero, 4
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op152 = load i32, i32* %op151
 	ld.d $t0, $fp, -840
 	ld.w $t1, $t0, 0
@@ -1098,6 +1175,7 @@ main:
 	ld.d $t0, $fp, -840
 	ld.w $t1, $fp, -852
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op154 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -1115,6 +1193,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -864
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op157 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 3224
@@ -1127,6 +1206,7 @@ main:
 	ld.d $t0, $fp, -872
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op158 = load i32, i32* %op157
 	ld.d $t0, $fp, -872
 	ld.w $t1, $t0, 0
@@ -1140,6 +1220,7 @@ main:
 	ld.d $t0, $fp, -872
 	ld.w $t1, $fp, -884
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op160 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -1157,6 +1238,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -896
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op163 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 3192
@@ -1169,6 +1251,7 @@ main:
 	ld.d $t0, $fp, -904
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op164 = load i32, i32* %op163
 	ld.d $t0, $fp, -904
 	ld.w $t1, $t0, 0
@@ -1182,6 +1265,7 @@ main:
 	ld.d $t0, $fp, -904
 	ld.w $t1, $fp, -916
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op166 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -1199,6 +1283,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -928
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op169 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 3160
@@ -1211,6 +1296,7 @@ main:
 	ld.d $t0, $fp, -936
 	addi.w $t1, $zero, 4
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op170 = load i32, i32* %op169
 	ld.d $t0, $fp, -936
 	ld.w $t1, $t0, 0
@@ -1224,6 +1310,7 @@ main:
 	ld.d $t0, $fp, -936
 	ld.w $t1, $fp, -948
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op172 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -1241,6 +1328,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -960
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op175 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 3128
@@ -1253,6 +1341,7 @@ main:
 	ld.d $t0, $fp, -968
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op176 = load i32, i32* %op175
 	ld.d $t0, $fp, -968
 	ld.w $t1, $t0, 0
@@ -1266,6 +1355,7 @@ main:
 	ld.d $t0, $fp, -968
 	ld.w $t1, $fp, -980
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op178 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -1283,6 +1373,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -992
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op181 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 3096
@@ -1295,6 +1386,7 @@ main:
 	ld.d $t0, $fp, -1000
 	addi.w $t1, $zero, 3
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op182 = load i32, i32* %op181
 	ld.d $t0, $fp, -1000
 	ld.w $t1, $t0, 0
@@ -1308,6 +1400,7 @@ main:
 	ld.d $t0, $fp, -1000
 	ld.w $t1, $fp, -1012
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op184 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -1325,6 +1418,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -1024
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op187 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 3064
@@ -1337,6 +1431,7 @@ main:
 	ld.d $t0, $fp, -1032
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op188 = load i32, i32* %op187
 	ld.d $t0, $fp, -1032
 	ld.w $t1, $t0, 0
@@ -1350,6 +1445,7 @@ main:
 	ld.d $t0, $fp, -1032
 	ld.w $t1, $fp, -1044
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op190 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -1367,6 +1463,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -1056
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op193 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 3032
@@ -1379,6 +1476,7 @@ main:
 	ld.d $t0, $fp, -1064
 	addi.w $t1, $zero, 4
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op194 = load i32, i32* %op193
 	ld.d $t0, $fp, -1064
 	ld.w $t1, $t0, 0
@@ -1392,6 +1490,7 @@ main:
 	ld.d $t0, $fp, -1064
 	ld.w $t1, $fp, -1076
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op196 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -1409,6 +1508,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -1088
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op199 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 3000
@@ -1421,6 +1521,7 @@ main:
 	ld.d $t0, $fp, -1096
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op200 = load i32, i32* %op199
 	ld.d $t0, $fp, -1096
 	ld.w $t1, $t0, 0
@@ -1434,6 +1535,7 @@ main:
 	ld.d $t0, $fp, -1096
 	ld.w $t1, $fp, -1108
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op202 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -1451,6 +1553,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -1120
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op205 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 2968
@@ -1463,6 +1566,7 @@ main:
 	ld.d $t0, $fp, -1128
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op206 = load i32, i32* %op205
 	ld.d $t0, $fp, -1128
 	ld.w $t1, $t0, 0
@@ -1476,6 +1580,7 @@ main:
 	ld.d $t0, $fp, -1128
 	ld.w $t1, $fp, -1140
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op208 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -1493,6 +1598,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -1152
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op211 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 2936
@@ -1505,6 +1611,7 @@ main:
 	ld.d $t0, $fp, -1160
 	addi.w $t1, $zero, 4
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op212 = load i32, i32* %op211
 	ld.d $t0, $fp, -1160
 	ld.w $t1, $t0, 0
@@ -1518,6 +1625,7 @@ main:
 	ld.d $t0, $fp, -1160
 	ld.w $t1, $fp, -1172
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op214 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -1535,6 +1643,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -1184
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op217 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 2904
@@ -1547,6 +1656,7 @@ main:
 	ld.d $t0, $fp, -1192
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op218 = load i32, i32* %op217
 	ld.d $t0, $fp, -1192
 	ld.w $t1, $t0, 0
@@ -1560,6 +1670,7 @@ main:
 	ld.d $t0, $fp, -1192
 	ld.w $t1, $fp, -1204
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op220 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -1577,6 +1688,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -1216
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op223 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 2872
@@ -1589,6 +1701,7 @@ main:
 	ld.d $t0, $fp, -1224
 	addi.w $t1, $zero, 4
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op224 = load i32, i32* %op223
 	ld.d $t0, $fp, -1224
 	ld.w $t1, $t0, 0
@@ -1602,6 +1715,7 @@ main:
 	ld.d $t0, $fp, -1224
 	ld.w $t1, $fp, -1236
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op226 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -1619,6 +1733,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -1248
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op229 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 2840
@@ -1631,6 +1746,7 @@ main:
 	ld.d $t0, $fp, -1256
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op230 = load i32, i32* %op229
 	ld.d $t0, $fp, -1256
 	ld.w $t1, $t0, 0
@@ -1644,6 +1760,7 @@ main:
 	ld.d $t0, $fp, -1256
 	ld.w $t1, $fp, -1268
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op232 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -1661,6 +1778,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -1280
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op235 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 2808
@@ -1673,6 +1791,7 @@ main:
 	ld.d $t0, $fp, -1288
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op236 = load i32, i32* %op235
 	ld.d $t0, $fp, -1288
 	ld.w $t1, $t0, 0
@@ -1686,6 +1805,7 @@ main:
 	ld.d $t0, $fp, -1288
 	ld.w $t1, $fp, -1300
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op238 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -1703,6 +1823,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -1312
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op241 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 2776
@@ -1715,6 +1836,7 @@ main:
 	ld.d $t0, $fp, -1320
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op242 = load i32, i32* %op241
 	ld.d $t0, $fp, -1320
 	ld.w $t1, $t0, 0
@@ -1728,6 +1850,7 @@ main:
 	ld.d $t0, $fp, -1320
 	ld.w $t1, $fp, -1332
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op244 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -1745,6 +1868,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -1344
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op247 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 2744
@@ -1757,6 +1881,7 @@ main:
 	ld.d $t0, $fp, -1352
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op248 = load i32, i32* %op247
 	ld.d $t0, $fp, -1352
 	ld.w $t1, $t0, 0
@@ -1770,6 +1895,7 @@ main:
 	ld.d $t0, $fp, -1352
 	ld.w $t1, $fp, -1364
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op250 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -1787,6 +1913,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -1376
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op253 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 2712
@@ -1799,6 +1926,7 @@ main:
 	ld.d $t0, $fp, -1384
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op254 = load i32, i32* %op253
 	ld.d $t0, $fp, -1384
 	ld.w $t1, $t0, 0
@@ -1812,6 +1940,7 @@ main:
 	ld.d $t0, $fp, -1384
 	ld.w $t1, $fp, -1396
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op256 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -1829,6 +1958,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -1408
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op259 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 2680
@@ -1841,6 +1971,7 @@ main:
 	ld.d $t0, $fp, -1416
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op260 = load i32, i32* %op259
 	ld.d $t0, $fp, -1416
 	ld.w $t1, $t0, 0
@@ -1854,6 +1985,7 @@ main:
 	ld.d $t0, $fp, -1416
 	ld.w $t1, $fp, -1428
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op262 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -1871,6 +2003,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -1440
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op265 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 2648
@@ -1883,6 +2016,7 @@ main:
 	ld.d $t0, $fp, -1448
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op266 = load i32, i32* %op265
 	ld.d $t0, $fp, -1448
 	ld.w $t1, $t0, 0
@@ -1896,6 +2030,7 @@ main:
 	ld.d $t0, $fp, -1448
 	ld.w $t1, $fp, -1460
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op268 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -1913,6 +2048,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -1472
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op271 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 2616
@@ -1925,6 +2061,7 @@ main:
 	ld.d $t0, $fp, -1480
 	addi.w $t1, $zero, 4
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op272 = load i32, i32* %op271
 	ld.d $t0, $fp, -1480
 	ld.w $t1, $t0, 0
@@ -1938,6 +2075,7 @@ main:
 	ld.d $t0, $fp, -1480
 	ld.w $t1, $fp, -1492
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op274 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -1955,6 +2093,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -1504
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op277 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 2584
@@ -1967,6 +2106,7 @@ main:
 	ld.d $t0, $fp, -1512
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op278 = load i32, i32* %op277
 	ld.d $t0, $fp, -1512
 	ld.w $t1, $t0, 0
@@ -1980,6 +2120,7 @@ main:
 	ld.d $t0, $fp, -1512
 	ld.w $t1, $fp, -1524
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op280 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -1997,6 +2138,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -1536
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op283 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 2552
@@ -2009,6 +2151,7 @@ main:
 	ld.d $t0, $fp, -1544
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op284 = load i32, i32* %op283
 	ld.d $t0, $fp, -1544
 	ld.w $t1, $t0, 0
@@ -2022,6 +2165,7 @@ main:
 	ld.d $t0, $fp, -1544
 	ld.w $t1, $fp, -1556
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op286 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -2039,6 +2183,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -1568
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op289 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 2520
@@ -2051,6 +2196,7 @@ main:
 	ld.d $t0, $fp, -1576
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op290 = load i32, i32* %op289
 	ld.d $t0, $fp, -1576
 	ld.w $t1, $t0, 0
@@ -2064,6 +2210,7 @@ main:
 	ld.d $t0, $fp, -1576
 	ld.w $t1, $fp, -1588
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op292 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -2081,6 +2228,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -1600
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op295 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 2488
@@ -2093,6 +2241,7 @@ main:
 	ld.d $t0, $fp, -1608
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op296 = load i32, i32* %op295
 	ld.d $t0, $fp, -1608
 	ld.w $t1, $t0, 0
@@ -2106,6 +2255,7 @@ main:
 	ld.d $t0, $fp, -1608
 	ld.w $t1, $fp, -1620
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op298 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -2123,6 +2273,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -1632
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op301 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 2456
@@ -2135,6 +2286,7 @@ main:
 	ld.d $t0, $fp, -1640
 	addi.w $t1, $zero, 3
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op302 = load i32, i32* %op301
 	ld.d $t0, $fp, -1640
 	ld.w $t1, $t0, 0
@@ -2148,6 +2300,7 @@ main:
 	ld.d $t0, $fp, -1640
 	ld.w $t1, $fp, -1652
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op304 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -2165,6 +2318,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -1664
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op307 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 2424
@@ -2177,6 +2331,7 @@ main:
 	ld.d $t0, $fp, -1672
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op308 = load i32, i32* %op307
 	ld.d $t0, $fp, -1672
 	ld.w $t1, $t0, 0
@@ -2190,6 +2345,7 @@ main:
 	ld.d $t0, $fp, -1672
 	ld.w $t1, $fp, -1684
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op310 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -2207,6 +2363,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -1696
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op313 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 2392
@@ -2219,6 +2376,7 @@ main:
 	ld.d $t0, $fp, -1704
 	addi.w $t1, $zero, 3
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op314 = load i32, i32* %op313
 	ld.d $t0, $fp, -1704
 	ld.w $t1, $t0, 0
@@ -2232,6 +2390,7 @@ main:
 	ld.d $t0, $fp, -1704
 	ld.w $t1, $fp, -1716
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op316 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -2249,6 +2408,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -1728
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op319 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 2360
@@ -2261,6 +2421,7 @@ main:
 	ld.d $t0, $fp, -1736
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op320 = load i32, i32* %op319
 	ld.d $t0, $fp, -1736
 	ld.w $t1, $t0, 0
@@ -2274,6 +2435,7 @@ main:
 	ld.d $t0, $fp, -1736
 	ld.w $t1, $fp, -1748
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op322 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -2291,6 +2453,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -1760
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op325 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 2328
@@ -2303,6 +2466,7 @@ main:
 	ld.d $t0, $fp, -1768
 	addi.w $t1, $zero, 3
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op326 = load i32, i32* %op325
 	ld.d $t0, $fp, -1768
 	ld.w $t1, $t0, 0
@@ -2316,6 +2480,7 @@ main:
 	ld.d $t0, $fp, -1768
 	ld.w $t1, $fp, -1780
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op328 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -2333,6 +2498,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -1792
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op331 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 2296
@@ -2345,6 +2511,7 @@ main:
 	ld.d $t0, $fp, -1800
 	addi.w $t1, $zero, 4
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op332 = load i32, i32* %op331
 	ld.d $t0, $fp, -1800
 	ld.w $t1, $t0, 0
@@ -2358,6 +2525,7 @@ main:
 	ld.d $t0, $fp, -1800
 	ld.w $t1, $fp, -1812
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op334 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -2375,6 +2543,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -1824
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op337 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 2264
@@ -2387,6 +2556,7 @@ main:
 	ld.d $t0, $fp, -1832
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op338 = load i32, i32* %op337
 	ld.d $t0, $fp, -1832
 	ld.w $t1, $t0, 0
@@ -2400,6 +2570,7 @@ main:
 	ld.d $t0, $fp, -1832
 	ld.w $t1, $fp, -1844
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op340 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -2417,6 +2588,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -1856
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op343 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 2232
@@ -2429,6 +2601,7 @@ main:
 	ld.d $t0, $fp, -1864
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op344 = load i32, i32* %op343
 	ld.d $t0, $fp, -1864
 	ld.w $t1, $t0, 0
@@ -2442,6 +2615,7 @@ main:
 	ld.d $t0, $fp, -1864
 	ld.w $t1, $fp, -1876
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op346 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -2459,6 +2633,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -1888
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op349 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 2200
@@ -2471,6 +2646,7 @@ main:
 	ld.d $t0, $fp, -1896
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op350 = load i32, i32* %op349
 	ld.d $t0, $fp, -1896
 	ld.w $t1, $t0, 0
@@ -2484,6 +2660,7 @@ main:
 	ld.d $t0, $fp, -1896
 	ld.w $t1, $fp, -1908
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op352 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -2501,6 +2678,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -1920
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op355 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 2168
@@ -2513,6 +2691,7 @@ main:
 	ld.d $t0, $fp, -1928
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op356 = load i32, i32* %op355
 	ld.d $t0, $fp, -1928
 	ld.w $t1, $t0, 0
@@ -2526,6 +2705,7 @@ main:
 	ld.d $t0, $fp, -1928
 	ld.w $t1, $fp, -1940
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op358 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -2543,6 +2723,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -1952
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op361 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 2136
@@ -2555,6 +2736,7 @@ main:
 	ld.d $t0, $fp, -1960
 	addi.w $t1, $zero, 4
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op362 = load i32, i32* %op361
 	ld.d $t0, $fp, -1960
 	ld.w $t1, $t0, 0
@@ -2568,6 +2750,7 @@ main:
 	ld.d $t0, $fp, -1960
 	ld.w $t1, $fp, -1972
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op364 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -2585,6 +2768,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -1984
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op367 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 2104
@@ -2597,6 +2781,7 @@ main:
 	ld.d $t0, $fp, -1992
 	addi.w $t1, $zero, 4
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op368 = load i32, i32* %op367
 	ld.d $t0, $fp, -1992
 	ld.w $t1, $t0, 0
@@ -2610,6 +2795,7 @@ main:
 	ld.d $t0, $fp, -1992
 	ld.w $t1, $fp, -2004
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op370 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -2627,6 +2813,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -2016
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op373 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 2072
@@ -2639,6 +2826,7 @@ main:
 	ld.d $t0, $fp, -2024
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op374 = load i32, i32* %op373
 	ld.d $t0, $fp, -2024
 	ld.w $t1, $t0, 0
@@ -2652,6 +2840,7 @@ main:
 	ld.d $t0, $fp, -2024
 	ld.w $t1, $fp, -2036
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op376 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -2669,6 +2858,7 @@ main:
 	ld.d $t0, $fp, -40
 	ld.w $t1, $fp, -2048
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op379 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 2040
@@ -2691,6 +2881,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op380 = load i32, i32* %op379
 	lu12i.w $t0, -1
 	ori $t0, $t0, 2040
@@ -2734,6 +2925,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op382 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -2786,6 +2978,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op385 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 2008
@@ -2808,6 +3001,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op386 = load i32, i32* %op385
 	lu12i.w $t0, -1
 	ori $t0, $t0, 2008
@@ -2851,6 +3045,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op388 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -2903,6 +3098,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op391 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1976
@@ -2925,6 +3121,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op392 = load i32, i32* %op391
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1976
@@ -2968,6 +3165,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op394 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -3020,6 +3218,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op397 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1944
@@ -3042,6 +3241,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op398 = load i32, i32* %op397
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1944
@@ -3085,6 +3285,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op400 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -3137,6 +3338,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op403 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1912
@@ -3159,6 +3361,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op404 = load i32, i32* %op403
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1912
@@ -3202,6 +3405,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op406 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -3254,6 +3458,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op409 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1880
@@ -3276,6 +3481,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op410 = load i32, i32* %op409
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1880
@@ -3319,6 +3525,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op412 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -3371,6 +3578,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op415 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1848
@@ -3393,6 +3601,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op416 = load i32, i32* %op415
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1848
@@ -3436,6 +3645,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op418 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -3488,6 +3698,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op421 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1816
@@ -3510,6 +3721,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op422 = load i32, i32* %op421
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1816
@@ -3553,6 +3765,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op424 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -3605,6 +3818,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op427 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1784
@@ -3627,6 +3841,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op428 = load i32, i32* %op427
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1784
@@ -3670,6 +3885,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op430 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -3722,6 +3938,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op433 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1752
@@ -3744,6 +3961,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 3
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op434 = load i32, i32* %op433
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1752
@@ -3787,6 +4005,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op436 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -3839,6 +4058,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op439 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1720
@@ -3861,6 +4081,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 3
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op440 = load i32, i32* %op439
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1720
@@ -3904,6 +4125,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op442 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -3956,6 +4178,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op445 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1688
@@ -3978,6 +4201,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op446 = load i32, i32* %op445
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1688
@@ -4021,6 +4245,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op448 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -4073,6 +4298,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op451 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1656
@@ -4095,6 +4321,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 3
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op452 = load i32, i32* %op451
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1656
@@ -4138,6 +4365,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op454 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -4190,6 +4418,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op457 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1624
@@ -4212,6 +4441,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op458 = load i32, i32* %op457
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1624
@@ -4255,6 +4485,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op460 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -4307,6 +4538,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op463 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1592
@@ -4329,6 +4561,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 3
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op464 = load i32, i32* %op463
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1592
@@ -4372,6 +4605,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op466 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -4424,6 +4658,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op469 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1560
@@ -4446,6 +4681,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 3
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op470 = load i32, i32* %op469
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1560
@@ -4489,6 +4725,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op472 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -4541,6 +4778,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op475 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1528
@@ -4563,6 +4801,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 3
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op476 = load i32, i32* %op475
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1528
@@ -4606,6 +4845,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op478 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -4658,6 +4898,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op481 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1496
@@ -4680,6 +4921,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op482 = load i32, i32* %op481
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1496
@@ -4723,6 +4965,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op484 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -4775,6 +5018,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op487 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1464
@@ -4797,6 +5041,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op488 = load i32, i32* %op487
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1464
@@ -4840,6 +5085,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op490 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -4892,6 +5138,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op493 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1432
@@ -4914,6 +5161,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 4
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op494 = load i32, i32* %op493
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1432
@@ -4957,6 +5205,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op496 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -5009,6 +5258,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op499 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1400
@@ -5031,6 +5281,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op500 = load i32, i32* %op499
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1400
@@ -5074,6 +5325,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op502 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -5126,6 +5378,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op505 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1368
@@ -5148,6 +5401,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 4
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op506 = load i32, i32* %op505
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1368
@@ -5191,6 +5445,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op508 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -5243,6 +5498,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op511 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1336
@@ -5265,6 +5521,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op512 = load i32, i32* %op511
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1336
@@ -5308,6 +5565,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op514 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -5360,6 +5618,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op517 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1304
@@ -5382,6 +5641,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op518 = load i32, i32* %op517
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1304
@@ -5425,6 +5685,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op520 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -5477,6 +5738,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op523 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1272
@@ -5499,6 +5761,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op524 = load i32, i32* %op523
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1272
@@ -5542,6 +5805,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op526 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -5594,6 +5858,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op529 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1240
@@ -5616,6 +5881,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 3
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op530 = load i32, i32* %op529
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1240
@@ -5659,6 +5925,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op532 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -5711,6 +5978,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op535 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1208
@@ -5733,6 +6001,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op536 = load i32, i32* %op535
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1208
@@ -5776,6 +6045,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op538 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -5828,6 +6098,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op541 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1176
@@ -5850,6 +6121,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 3
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op542 = load i32, i32* %op541
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1176
@@ -5893,6 +6165,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op544 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -5945,6 +6218,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op547 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1144
@@ -5967,6 +6241,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op548 = load i32, i32* %op547
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1144
@@ -6010,6 +6285,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op550 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -6062,6 +6338,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op553 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1112
@@ -6084,6 +6361,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op554 = load i32, i32* %op553
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1112
@@ -6127,6 +6405,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op556 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -6179,6 +6458,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op559 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1080
@@ -6201,6 +6481,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op560 = load i32, i32* %op559
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1080
@@ -6244,6 +6525,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op562 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -6296,6 +6578,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op565 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1048
@@ -6318,6 +6601,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op566 = load i32, i32* %op565
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1048
@@ -6361,6 +6645,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op568 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -6413,6 +6698,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op571 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1016
@@ -6435,6 +6721,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op572 = load i32, i32* %op571
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1016
@@ -6478,6 +6765,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op574 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -6530,6 +6818,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op577 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 984
@@ -6552,6 +6841,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op578 = load i32, i32* %op577
 	lu12i.w $t0, -1
 	ori $t0, $t0, 984
@@ -6595,6 +6885,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op580 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -6647,6 +6938,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op583 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 952
@@ -6669,6 +6961,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op584 = load i32, i32* %op583
 	lu12i.w $t0, -1
 	ori $t0, $t0, 952
@@ -6712,6 +7005,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op586 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -6764,6 +7058,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op589 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 920
@@ -6786,6 +7081,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op590 = load i32, i32* %op589
 	lu12i.w $t0, -1
 	ori $t0, $t0, 920
@@ -6829,6 +7125,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op592 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -6881,6 +7178,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op595 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 888
@@ -6903,6 +7201,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 4
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op596 = load i32, i32* %op595
 	lu12i.w $t0, -1
 	ori $t0, $t0, 888
@@ -6946,6 +7245,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op598 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -6998,6 +7298,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op601 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 856
@@ -7020,6 +7321,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op602 = load i32, i32* %op601
 	lu12i.w $t0, -1
 	ori $t0, $t0, 856
@@ -7063,6 +7365,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op604 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -7115,6 +7418,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op607 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 824
@@ -7137,6 +7441,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 3
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op608 = load i32, i32* %op607
 	lu12i.w $t0, -1
 	ori $t0, $t0, 824
@@ -7180,6 +7485,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op610 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -7232,6 +7538,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op613 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 792
@@ -7254,6 +7561,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 4
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op614 = load i32, i32* %op613
 	lu12i.w $t0, -1
 	ori $t0, $t0, 792
@@ -7297,6 +7605,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op616 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -7349,6 +7658,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op619 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 760
@@ -7371,6 +7681,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op620 = load i32, i32* %op619
 	lu12i.w $t0, -1
 	ori $t0, $t0, 760
@@ -7414,6 +7725,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op622 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -7466,6 +7778,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op625 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 728
@@ -7488,6 +7801,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op626 = load i32, i32* %op625
 	lu12i.w $t0, -1
 	ori $t0, $t0, 728
@@ -7531,6 +7845,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op628 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -7583,6 +7898,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op631 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 696
@@ -7605,6 +7921,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op632 = load i32, i32* %op631
 	lu12i.w $t0, -1
 	ori $t0, $t0, 696
@@ -7648,6 +7965,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op634 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -7700,6 +8018,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op637 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 664
@@ -7722,6 +8041,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 4
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op638 = load i32, i32* %op637
 	lu12i.w $t0, -1
 	ori $t0, $t0, 664
@@ -7765,6 +8085,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op640 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -7817,6 +8138,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op643 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 632
@@ -7839,6 +8161,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op644 = load i32, i32* %op643
 	lu12i.w $t0, -1
 	ori $t0, $t0, 632
@@ -7882,6 +8205,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op646 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -7934,6 +8258,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op649 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 600
@@ -7956,6 +8281,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op650 = load i32, i32* %op649
 	lu12i.w $t0, -1
 	ori $t0, $t0, 600
@@ -7999,6 +8325,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op652 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -8051,6 +8378,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op655 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 568
@@ -8073,6 +8401,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op656 = load i32, i32* %op655
 	lu12i.w $t0, -1
 	ori $t0, $t0, 568
@@ -8116,6 +8445,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op658 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -8168,6 +8498,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op661 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 536
@@ -8190,6 +8521,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op662 = load i32, i32* %op661
 	lu12i.w $t0, -1
 	ori $t0, $t0, 536
@@ -8233,6 +8565,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op664 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -8285,6 +8618,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op667 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 504
@@ -8307,6 +8641,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op668 = load i32, i32* %op667
 	lu12i.w $t0, -1
 	ori $t0, $t0, 504
@@ -8350,6 +8685,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op670 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -8402,6 +8738,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op673 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 472
@@ -8424,6 +8761,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 3
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op674 = load i32, i32* %op673
 	lu12i.w $t0, -1
 	ori $t0, $t0, 472
@@ -8467,6 +8805,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op676 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -8519,6 +8858,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op679 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 440
@@ -8541,6 +8881,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op680 = load i32, i32* %op679
 	lu12i.w $t0, -1
 	ori $t0, $t0, 440
@@ -8584,6 +8925,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op682 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -8636,6 +8978,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op685 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 408
@@ -8658,6 +9001,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op686 = load i32, i32* %op685
 	lu12i.w $t0, -1
 	ori $t0, $t0, 408
@@ -8701,6 +9045,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op688 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -8753,6 +9098,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op691 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 376
@@ -8775,6 +9121,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op692 = load i32, i32* %op691
 	lu12i.w $t0, -1
 	ori $t0, $t0, 376
@@ -8818,6 +9165,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op694 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -8870,6 +9218,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op697 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 344
@@ -8892,6 +9241,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op698 = load i32, i32* %op697
 	lu12i.w $t0, -1
 	ori $t0, $t0, 344
@@ -8935,6 +9285,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op700 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -8987,6 +9338,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op703 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 312
@@ -9009,6 +9361,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 4
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op704 = load i32, i32* %op703
 	lu12i.w $t0, -1
 	ori $t0, $t0, 312
@@ -9052,6 +9405,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op706 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -9104,6 +9458,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op709 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 280
@@ -9126,6 +9481,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op710 = load i32, i32* %op709
 	lu12i.w $t0, -1
 	ori $t0, $t0, 280
@@ -9169,6 +9525,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op712 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -9221,6 +9578,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op715 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 248
@@ -9243,6 +9601,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op716 = load i32, i32* %op715
 	lu12i.w $t0, -1
 	ori $t0, $t0, 248
@@ -9286,6 +9645,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op718 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -9338,6 +9698,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op721 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 216
@@ -9360,6 +9721,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 3
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op722 = load i32, i32* %op721
 	lu12i.w $t0, -1
 	ori $t0, $t0, 216
@@ -9403,6 +9765,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op724 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -9455,6 +9818,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op727 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 184
@@ -9477,6 +9841,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op728 = load i32, i32* %op727
 	lu12i.w $t0, -1
 	ori $t0, $t0, 184
@@ -9520,6 +9885,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op730 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -9572,6 +9938,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op733 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 152
@@ -9594,6 +9961,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op734 = load i32, i32* %op733
 	lu12i.w $t0, -1
 	ori $t0, $t0, 152
@@ -9637,6 +10005,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op736 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -9689,6 +10058,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op739 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 120
@@ -9711,6 +10081,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op740 = load i32, i32* %op739
 	lu12i.w $t0, -1
 	ori $t0, $t0, 120
@@ -9754,6 +10125,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op742 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -9806,6 +10178,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op745 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 88
@@ -9828,6 +10201,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op746 = load i32, i32* %op745
 	lu12i.w $t0, -1
 	ori $t0, $t0, 88
@@ -9871,6 +10245,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op748 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -9923,6 +10298,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op751 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 56
@@ -9945,6 +10321,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 3
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op752 = load i32, i32* %op751
 	lu12i.w $t0, -1
 	ori $t0, $t0, 56
@@ -9988,6 +10365,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op754 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -10040,6 +10418,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op757 = alloca i32
 	lu12i.w $t0, -1
 	ori $t0, $t0, 24
@@ -10062,6 +10441,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op758 = load i32, i32* %op757
 	lu12i.w $t0, -1
 	ori $t0, $t0, 24
@@ -10105,6 +10485,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op760 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -10157,6 +10538,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op763 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 4088
@@ -10179,6 +10561,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 4
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op764 = load i32, i32* %op763
 	lu12i.w $t0, -2
 	ori $t0, $t0, 4088
@@ -10222,6 +10605,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op766 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -10274,6 +10658,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op769 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 4056
@@ -10296,6 +10681,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op770 = load i32, i32* %op769
 	lu12i.w $t0, -2
 	ori $t0, $t0, 4056
@@ -10339,6 +10725,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op772 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -10391,6 +10778,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op775 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 4024
@@ -10413,6 +10801,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op776 = load i32, i32* %op775
 	lu12i.w $t0, -2
 	ori $t0, $t0, 4024
@@ -10456,6 +10845,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op778 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -10508,6 +10898,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op781 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3992
@@ -10530,6 +10921,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 4
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op782 = load i32, i32* %op781
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3992
@@ -10573,6 +10965,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op784 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -10625,6 +11018,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op787 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3960
@@ -10647,6 +11041,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op788 = load i32, i32* %op787
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3960
@@ -10690,6 +11085,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op790 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -10742,6 +11138,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op793 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3928
@@ -10764,6 +11161,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op794 = load i32, i32* %op793
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3928
@@ -10807,6 +11205,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op796 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -10859,6 +11258,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op799 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3896
@@ -10881,6 +11281,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op800 = load i32, i32* %op799
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3896
@@ -10924,6 +11325,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op802 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -10976,6 +11378,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op805 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3864
@@ -10998,6 +11401,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op806 = load i32, i32* %op805
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3864
@@ -11041,6 +11445,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op808 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -11093,6 +11498,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op811 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3832
@@ -11115,6 +11521,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op812 = load i32, i32* %op811
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3832
@@ -11158,6 +11565,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op814 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -11210,6 +11618,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op817 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3800
@@ -11232,6 +11641,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op818 = load i32, i32* %op817
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3800
@@ -11275,6 +11685,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op820 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -11327,6 +11738,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op823 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3768
@@ -11349,6 +11761,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 4
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op824 = load i32, i32* %op823
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3768
@@ -11392,6 +11805,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op826 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -11444,6 +11858,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op829 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3736
@@ -11466,6 +11881,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op830 = load i32, i32* %op829
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3736
@@ -11509,6 +11925,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op832 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -11561,6 +11978,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op835 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3704
@@ -11583,6 +12001,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op836 = load i32, i32* %op835
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3704
@@ -11626,6 +12045,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op838 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -11678,6 +12098,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op841 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3672
@@ -11700,6 +12121,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op842 = load i32, i32* %op841
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3672
@@ -11743,6 +12165,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op844 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -11795,6 +12218,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op847 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3640
@@ -11817,6 +12241,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op848 = load i32, i32* %op847
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3640
@@ -11860,6 +12285,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op850 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -11912,6 +12338,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op853 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3608
@@ -11934,6 +12361,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 3
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op854 = load i32, i32* %op853
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3608
@@ -11977,6 +12405,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op856 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -12029,6 +12458,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op859 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3576
@@ -12051,6 +12481,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op860 = load i32, i32* %op859
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3576
@@ -12094,6 +12525,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op862 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -12146,6 +12578,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op865 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3544
@@ -12168,6 +12601,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 4
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op866 = load i32, i32* %op865
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3544
@@ -12211,6 +12645,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op868 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -12263,6 +12698,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op871 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3512
@@ -12285,6 +12721,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 4
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op872 = load i32, i32* %op871
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3512
@@ -12328,6 +12765,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op874 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -12380,6 +12818,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op877 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3480
@@ -12402,6 +12841,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op878 = load i32, i32* %op877
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3480
@@ -12445,6 +12885,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op880 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -12497,6 +12938,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op883 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3448
@@ -12519,6 +12961,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 3
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op884 = load i32, i32* %op883
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3448
@@ -12562,6 +13005,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op886 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -12614,6 +13058,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op889 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3416
@@ -12636,6 +13081,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 3
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op890 = load i32, i32* %op889
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3416
@@ -12679,6 +13125,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op892 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -12731,6 +13178,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op895 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3384
@@ -12753,6 +13201,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op896 = load i32, i32* %op895
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3384
@@ -12796,6 +13245,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op898 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -12848,6 +13298,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op901 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3352
@@ -12870,6 +13321,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op902 = load i32, i32* %op901
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3352
@@ -12913,6 +13365,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op904 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -12965,6 +13418,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op907 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3320
@@ -12987,6 +13441,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op908 = load i32, i32* %op907
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3320
@@ -13030,6 +13485,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op910 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -13082,6 +13538,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op913 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3288
@@ -13104,6 +13561,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op914 = load i32, i32* %op913
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3288
@@ -13147,6 +13605,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op916 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -13199,6 +13658,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op919 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3256
@@ -13221,6 +13681,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 3
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op920 = load i32, i32* %op919
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3256
@@ -13264,6 +13725,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op922 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -13316,6 +13778,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op925 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3224
@@ -13338,6 +13801,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op926 = load i32, i32* %op925
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3224
@@ -13381,6 +13845,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op928 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -13433,6 +13898,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op931 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3192
@@ -13455,6 +13921,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op932 = load i32, i32* %op931
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3192
@@ -13498,6 +13965,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op934 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -13550,6 +14018,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op937 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3160
@@ -13572,6 +14041,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 3
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op938 = load i32, i32* %op937
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3160
@@ -13615,6 +14085,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op940 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -13667,6 +14138,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op943 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3128
@@ -13689,6 +14161,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 4
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op944 = load i32, i32* %op943
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3128
@@ -13732,6 +14205,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op946 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -13784,6 +14258,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op949 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3096
@@ -13806,6 +14281,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 4
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op950 = load i32, i32* %op949
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3096
@@ -13849,6 +14325,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op952 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -13901,6 +14378,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op955 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3064
@@ -13923,6 +14401,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op956 = load i32, i32* %op955
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3064
@@ -13966,6 +14445,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op958 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -14018,6 +14498,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op961 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3032
@@ -14040,6 +14521,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op962 = load i32, i32* %op961
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3032
@@ -14083,6 +14565,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op964 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -14135,6 +14618,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op967 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3000
@@ -14157,6 +14641,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 3
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op968 = load i32, i32* %op967
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3000
@@ -14200,6 +14685,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op970 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -14252,6 +14738,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op973 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2968
@@ -14274,6 +14761,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op974 = load i32, i32* %op973
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2968
@@ -14317,6 +14805,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op976 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -14369,6 +14858,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op979 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2936
@@ -14391,6 +14881,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op980 = load i32, i32* %op979
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2936
@@ -14434,6 +14925,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op982 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -14486,6 +14978,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op985 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2904
@@ -14508,6 +15001,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op986 = load i32, i32* %op985
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2904
@@ -14551,6 +15045,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op988 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -14603,6 +15098,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op991 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2872
@@ -14625,6 +15121,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 3
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op992 = load i32, i32* %op991
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2872
@@ -14668,6 +15165,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op994 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -14720,6 +15218,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op997 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2840
@@ -14742,6 +15241,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op998 = load i32, i32* %op997
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2840
@@ -14785,6 +15285,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1000 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -14837,6 +15338,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1003 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2808
@@ -14859,6 +15361,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1004 = load i32, i32* %op1003
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2808
@@ -14902,6 +15405,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1006 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -14954,6 +15458,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1009 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2776
@@ -14976,6 +15481,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 4
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1010 = load i32, i32* %op1009
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2776
@@ -15019,6 +15525,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1012 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -15071,6 +15578,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1015 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2744
@@ -15093,6 +15601,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 4
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1016 = load i32, i32* %op1015
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2744
@@ -15136,6 +15645,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1018 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -15188,6 +15698,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1021 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2712
@@ -15210,6 +15721,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 4
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1022 = load i32, i32* %op1021
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2712
@@ -15253,6 +15765,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1024 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -15305,6 +15818,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1027 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2680
@@ -15327,6 +15841,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1028 = load i32, i32* %op1027
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2680
@@ -15370,6 +15885,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1030 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -15422,6 +15938,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1033 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2648
@@ -15444,6 +15961,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 4
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1034 = load i32, i32* %op1033
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2648
@@ -15487,6 +16005,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1036 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -15539,6 +16058,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1039 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2616
@@ -15561,6 +16081,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 3
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1040 = load i32, i32* %op1039
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2616
@@ -15604,6 +16125,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1042 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -15656,6 +16178,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1045 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2584
@@ -15678,6 +16201,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1046 = load i32, i32* %op1045
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2584
@@ -15721,6 +16245,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1048 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -15773,6 +16298,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1051 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2552
@@ -15795,6 +16321,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 4
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1052 = load i32, i32* %op1051
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2552
@@ -15838,6 +16365,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1054 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -15890,6 +16418,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1057 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2520
@@ -15912,6 +16441,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1058 = load i32, i32* %op1057
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2520
@@ -15955,6 +16485,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1060 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -16007,6 +16538,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1063 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2488
@@ -16029,6 +16561,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 3
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1064 = load i32, i32* %op1063
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2488
@@ -16072,6 +16605,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1066 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -16124,6 +16658,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1069 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2456
@@ -16146,6 +16681,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1070 = load i32, i32* %op1069
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2456
@@ -16189,6 +16725,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1072 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -16241,6 +16778,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1075 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2424
@@ -16263,6 +16801,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 3
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1076 = load i32, i32* %op1075
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2424
@@ -16306,6 +16845,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1078 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -16358,6 +16898,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1081 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2392
@@ -16380,6 +16921,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1082 = load i32, i32* %op1081
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2392
@@ -16423,6 +16965,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1084 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -16475,6 +17018,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1087 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2360
@@ -16497,6 +17041,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 4
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1088 = load i32, i32* %op1087
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2360
@@ -16540,6 +17085,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1090 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -16592,6 +17138,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1093 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2328
@@ -16614,6 +17161,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1094 = load i32, i32* %op1093
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2328
@@ -16657,6 +17205,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1096 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -16709,6 +17258,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1099 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2296
@@ -16731,6 +17281,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1100 = load i32, i32* %op1099
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2296
@@ -16774,6 +17325,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1102 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -16826,6 +17378,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1105 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2264
@@ -16848,6 +17401,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1106 = load i32, i32* %op1105
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2264
@@ -16891,6 +17445,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1108 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -16943,6 +17498,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1111 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2232
@@ -16965,6 +17521,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1112 = load i32, i32* %op1111
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2232
@@ -17008,6 +17565,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1114 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -17060,6 +17618,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1117 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2200
@@ -17082,6 +17641,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 3
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1118 = load i32, i32* %op1117
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2200
@@ -17125,6 +17685,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1120 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -17177,6 +17738,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1123 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2168
@@ -17199,6 +17761,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 3
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1124 = load i32, i32* %op1123
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2168
@@ -17242,6 +17805,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1126 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -17294,6 +17858,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1129 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2136
@@ -17316,6 +17881,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1130 = load i32, i32* %op1129
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2136
@@ -17359,6 +17925,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1132 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -17411,6 +17978,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1135 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2104
@@ -17433,6 +18001,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1136 = load i32, i32* %op1135
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2104
@@ -17476,6 +18045,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1138 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -17528,6 +18098,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1141 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2072
@@ -17550,6 +18121,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1142 = load i32, i32* %op1141
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2072
@@ -17593,6 +18165,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1144 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -17645,6 +18218,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1147 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2040
@@ -17667,6 +18241,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 4
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1148 = load i32, i32* %op1147
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2040
@@ -17710,6 +18285,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1150 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -17762,6 +18338,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1153 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2008
@@ -17784,6 +18361,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1154 = load i32, i32* %op1153
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2008
@@ -17827,6 +18405,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1156 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -17879,6 +18458,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1159 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 1976
@@ -17901,6 +18481,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 4
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1160 = load i32, i32* %op1159
 	lu12i.w $t0, -2
 	ori $t0, $t0, 1976
@@ -17944,6 +18525,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1162 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -17996,6 +18578,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1165 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 1944
@@ -18018,6 +18601,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1166 = load i32, i32* %op1165
 	lu12i.w $t0, -2
 	ori $t0, $t0, 1944
@@ -18061,6 +18645,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1168 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -18113,6 +18698,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1171 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 1912
@@ -18135,6 +18721,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1172 = load i32, i32* %op1171
 	lu12i.w $t0, -2
 	ori $t0, $t0, 1912
@@ -18178,6 +18765,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1174 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -18230,6 +18818,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1177 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 1880
@@ -18252,6 +18841,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 3
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1178 = load i32, i32* %op1177
 	lu12i.w $t0, -2
 	ori $t0, $t0, 1880
@@ -18295,6 +18885,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1180 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -18347,6 +18938,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1183 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 1848
@@ -18369,6 +18961,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1184 = load i32, i32* %op1183
 	lu12i.w $t0, -2
 	ori $t0, $t0, 1848
@@ -18412,6 +19005,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1186 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -18464,6 +19058,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1189 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 1816
@@ -18486,6 +19081,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 1
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1190 = load i32, i32* %op1189
 	lu12i.w $t0, -2
 	ori $t0, $t0, 1816
@@ -18529,6 +19125,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1192 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -18581,6 +19178,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1195 = alloca i32
 	lu12i.w $t0, -2
 	ori $t0, $t0, 1784
@@ -18603,6 +19201,7 @@ main:
 	ld.d $t0, $t0, 0
 	addi.w $t1, $zero, 2
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1196 = load i32, i32* %op1195
 	lu12i.w $t0, -2
 	ori $t0, $t0, 1784
@@ -18646,6 +19245,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1198 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -18698,6 +19298,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1201 = load i32, i32* %op1195
 	lu12i.w $t0, -2
 	ori $t0, $t0, 1784
@@ -18741,6 +19342,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1203 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -18793,6 +19395,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1206 = load i32, i32* %op1189
 	lu12i.w $t0, -2
 	ori $t0, $t0, 1816
@@ -18836,6 +19439,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1208 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -18888,6 +19492,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1211 = load i32, i32* %op1183
 	lu12i.w $t0, -2
 	ori $t0, $t0, 1848
@@ -18931,6 +19536,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1213 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -18983,6 +19589,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1216 = load i32, i32* %op1177
 	lu12i.w $t0, -2
 	ori $t0, $t0, 1880
@@ -19026,6 +19633,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1218 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -19078,6 +19686,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1221 = load i32, i32* %op1171
 	lu12i.w $t0, -2
 	ori $t0, $t0, 1912
@@ -19121,6 +19730,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1223 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -19173,6 +19783,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1226 = load i32, i32* %op1165
 	lu12i.w $t0, -2
 	ori $t0, $t0, 1944
@@ -19216,6 +19827,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1228 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -19268,6 +19880,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1231 = load i32, i32* %op1159
 	lu12i.w $t0, -2
 	ori $t0, $t0, 1976
@@ -19311,6 +19924,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1233 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -19363,6 +19977,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1236 = load i32, i32* %op1153
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2008
@@ -19406,6 +20021,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1238 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -19458,6 +20074,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1241 = load i32, i32* %op1147
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2040
@@ -19501,6 +20118,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1243 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -19553,6 +20171,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1246 = load i32, i32* %op1141
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2072
@@ -19596,6 +20215,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1248 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -19648,6 +20268,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1251 = load i32, i32* %op1135
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2104
@@ -19691,6 +20312,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1253 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -19743,6 +20365,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1256 = load i32, i32* %op1129
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2136
@@ -19786,6 +20409,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1258 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -19838,6 +20462,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1261 = load i32, i32* %op1123
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2168
@@ -19881,6 +20506,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1263 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -19933,6 +20559,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1266 = load i32, i32* %op1117
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2200
@@ -19976,6 +20603,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1268 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -20028,6 +20656,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1271 = load i32, i32* %op1111
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2232
@@ -20071,6 +20700,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1273 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -20123,6 +20753,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1276 = load i32, i32* %op1105
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2264
@@ -20166,6 +20797,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1278 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -20218,6 +20850,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1281 = load i32, i32* %op1099
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2296
@@ -20261,6 +20894,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1283 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -20313,6 +20947,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1286 = load i32, i32* %op1093
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2328
@@ -20356,6 +20991,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1288 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -20408,6 +21044,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1291 = load i32, i32* %op1087
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2360
@@ -20451,6 +21088,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1293 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -20503,6 +21141,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1296 = load i32, i32* %op1081
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2392
@@ -20546,6 +21185,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1298 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -20598,6 +21238,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1301 = load i32, i32* %op1075
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2424
@@ -20641,6 +21282,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1303 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -20693,6 +21335,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1306 = load i32, i32* %op1069
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2456
@@ -20736,6 +21379,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1308 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -20788,6 +21432,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1311 = load i32, i32* %op1063
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2488
@@ -20831,6 +21476,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1313 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -20883,6 +21529,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1316 = load i32, i32* %op1057
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2520
@@ -20926,6 +21573,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1318 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -20978,6 +21626,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1321 = load i32, i32* %op1051
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2552
@@ -21021,6 +21670,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1323 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -21073,6 +21723,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1326 = load i32, i32* %op1045
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2584
@@ -21116,6 +21767,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1328 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -21168,6 +21820,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1331 = load i32, i32* %op1039
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2616
@@ -21211,6 +21864,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1333 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -21263,6 +21917,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1336 = load i32, i32* %op1033
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2648
@@ -21306,6 +21961,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1338 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -21358,6 +22014,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1341 = load i32, i32* %op1027
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2680
@@ -21401,6 +22058,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1343 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -21453,6 +22111,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1346 = load i32, i32* %op1021
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2712
@@ -21496,6 +22155,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1348 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -21548,6 +22208,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1351 = load i32, i32* %op1015
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2744
@@ -21591,6 +22252,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1353 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -21643,6 +22305,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1356 = load i32, i32* %op1009
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2776
@@ -21686,6 +22349,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1358 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -21738,6 +22402,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1361 = load i32, i32* %op1003
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2808
@@ -21781,6 +22446,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1363 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -21833,6 +22499,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1366 = load i32, i32* %op997
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2840
@@ -21876,6 +22543,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1368 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -21928,6 +22596,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1371 = load i32, i32* %op991
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2872
@@ -21971,6 +22640,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1373 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -22023,6 +22693,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1376 = load i32, i32* %op985
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2904
@@ -22066,6 +22737,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1378 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -22118,6 +22790,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1381 = load i32, i32* %op979
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2936
@@ -22161,6 +22834,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1383 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -22213,6 +22887,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1386 = load i32, i32* %op973
 	lu12i.w $t0, -2
 	ori $t0, $t0, 2968
@@ -22256,6 +22931,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1388 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -22308,6 +22984,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1391 = load i32, i32* %op967
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3000
@@ -22351,6 +23028,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1393 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -22403,6 +23081,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1396 = load i32, i32* %op961
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3032
@@ -22446,6 +23125,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1398 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -22498,6 +23178,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1401 = load i32, i32* %op955
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3064
@@ -22541,6 +23222,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1403 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -22593,6 +23275,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1406 = load i32, i32* %op949
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3096
@@ -22636,6 +23319,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1408 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -22688,6 +23372,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1411 = load i32, i32* %op943
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3128
@@ -22731,6 +23416,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1413 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -22783,6 +23469,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1416 = load i32, i32* %op937
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3160
@@ -22826,6 +23513,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1418 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -22878,6 +23566,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1421 = load i32, i32* %op931
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3192
@@ -22921,6 +23610,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1423 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -22973,6 +23663,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1426 = load i32, i32* %op925
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3224
@@ -23016,6 +23707,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1428 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -23068,6 +23760,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1431 = load i32, i32* %op919
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3256
@@ -23111,6 +23804,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1433 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -23163,6 +23857,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1436 = load i32, i32* %op913
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3288
@@ -23206,6 +23901,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1438 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -23258,6 +23954,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1441 = load i32, i32* %op907
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3320
@@ -23301,6 +23998,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1443 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -23353,6 +24051,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1446 = load i32, i32* %op901
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3352
@@ -23396,6 +24095,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1448 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -23448,6 +24148,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1451 = load i32, i32* %op895
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3384
@@ -23491,6 +24192,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1453 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -23543,6 +24245,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1456 = load i32, i32* %op889
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3416
@@ -23586,6 +24289,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1458 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -23638,6 +24342,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1461 = load i32, i32* %op883
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3448
@@ -23681,6 +24386,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1463 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -23733,6 +24439,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1466 = load i32, i32* %op877
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3480
@@ -23776,6 +24483,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1468 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -23828,6 +24536,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1471 = load i32, i32* %op871
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3512
@@ -23871,6 +24580,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1473 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -23923,6 +24633,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1476 = load i32, i32* %op865
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3544
@@ -23966,6 +24677,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1478 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -24018,6 +24730,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1481 = load i32, i32* %op859
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3576
@@ -24061,6 +24774,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1483 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -24113,6 +24827,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1486 = load i32, i32* %op853
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3608
@@ -24156,6 +24871,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1488 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -24208,6 +24924,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1491 = load i32, i32* %op847
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3640
@@ -24251,6 +24968,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1493 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -24303,6 +25021,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1496 = load i32, i32* %op841
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3672
@@ -24346,6 +25065,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1498 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -24398,6 +25118,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1501 = load i32, i32* %op835
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3704
@@ -24441,6 +25162,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1503 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -24493,6 +25215,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1506 = load i32, i32* %op829
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3736
@@ -24536,6 +25259,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1508 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -24588,6 +25312,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1511 = load i32, i32* %op823
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3768
@@ -24631,6 +25356,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1513 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -24683,6 +25409,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1516 = load i32, i32* %op817
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3800
@@ -24726,6 +25453,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1518 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -24778,6 +25506,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1521 = load i32, i32* %op811
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3832
@@ -24821,6 +25550,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1523 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -24873,6 +25603,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1526 = load i32, i32* %op805
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3864
@@ -24916,6 +25647,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1528 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -24968,6 +25700,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1531 = load i32, i32* %op799
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3896
@@ -25011,6 +25744,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1533 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -25063,6 +25797,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1536 = load i32, i32* %op793
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3928
@@ -25106,6 +25841,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1538 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -25158,6 +25894,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1541 = load i32, i32* %op787
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3960
@@ -25201,6 +25938,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1543 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -25253,6 +25991,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1546 = load i32, i32* %op781
 	lu12i.w $t0, -2
 	ori $t0, $t0, 3992
@@ -25296,6 +26035,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1548 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -25348,6 +26088,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1551 = load i32, i32* %op775
 	lu12i.w $t0, -2
 	ori $t0, $t0, 4024
@@ -25391,6 +26132,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1553 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -25443,6 +26185,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1556 = load i32, i32* %op769
 	lu12i.w $t0, -2
 	ori $t0, $t0, 4056
@@ -25486,6 +26229,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1558 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -25538,6 +26282,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1561 = load i32, i32* %op763
 	lu12i.w $t0, -2
 	ori $t0, $t0, 4088
@@ -25581,6 +26326,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1563 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -25633,6 +26379,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1566 = load i32, i32* %op757
 	lu12i.w $t0, -1
 	ori $t0, $t0, 24
@@ -25676,6 +26423,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1568 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -25728,6 +26476,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1571 = load i32, i32* %op751
 	lu12i.w $t0, -1
 	ori $t0, $t0, 56
@@ -25771,6 +26520,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1573 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -25823,6 +26573,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1576 = load i32, i32* %op745
 	lu12i.w $t0, -1
 	ori $t0, $t0, 88
@@ -25866,6 +26617,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1578 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -25918,6 +26670,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1581 = load i32, i32* %op739
 	lu12i.w $t0, -1
 	ori $t0, $t0, 120
@@ -25961,6 +26714,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1583 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -26013,6 +26767,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1586 = load i32, i32* %op733
 	lu12i.w $t0, -1
 	ori $t0, $t0, 152
@@ -26056,6 +26811,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1588 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -26108,6 +26864,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1591 = load i32, i32* %op727
 	lu12i.w $t0, -1
 	ori $t0, $t0, 184
@@ -26151,6 +26908,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1593 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -26203,6 +26961,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1596 = load i32, i32* %op721
 	lu12i.w $t0, -1
 	ori $t0, $t0, 216
@@ -26246,6 +27005,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1598 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -26298,6 +27058,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1601 = load i32, i32* %op715
 	lu12i.w $t0, -1
 	ori $t0, $t0, 248
@@ -26341,6 +27102,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1603 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -26393,6 +27155,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1606 = load i32, i32* %op709
 	lu12i.w $t0, -1
 	ori $t0, $t0, 280
@@ -26436,6 +27199,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1608 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -26488,6 +27252,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1611 = load i32, i32* %op703
 	lu12i.w $t0, -1
 	ori $t0, $t0, 312
@@ -26531,6 +27296,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1613 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -26583,6 +27349,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1616 = load i32, i32* %op697
 	lu12i.w $t0, -1
 	ori $t0, $t0, 344
@@ -26626,6 +27393,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1618 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -26678,6 +27446,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1621 = load i32, i32* %op691
 	lu12i.w $t0, -1
 	ori $t0, $t0, 376
@@ -26721,6 +27490,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1623 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -26773,6 +27543,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1626 = load i32, i32* %op685
 	lu12i.w $t0, -1
 	ori $t0, $t0, 408
@@ -26816,6 +27587,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1628 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -26868,6 +27640,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1631 = load i32, i32* %op679
 	lu12i.w $t0, -1
 	ori $t0, $t0, 440
@@ -26911,6 +27684,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1633 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -26963,6 +27737,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1636 = load i32, i32* %op673
 	lu12i.w $t0, -1
 	ori $t0, $t0, 472
@@ -27006,6 +27781,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1638 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -27058,6 +27834,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1641 = load i32, i32* %op667
 	lu12i.w $t0, -1
 	ori $t0, $t0, 504
@@ -27101,6 +27878,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1643 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -27153,6 +27931,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1646 = load i32, i32* %op661
 	lu12i.w $t0, -1
 	ori $t0, $t0, 536
@@ -27196,6 +27975,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1648 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -27248,6 +28028,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1651 = load i32, i32* %op655
 	lu12i.w $t0, -1
 	ori $t0, $t0, 568
@@ -27291,6 +28072,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1653 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -27343,6 +28125,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1656 = load i32, i32* %op649
 	lu12i.w $t0, -1
 	ori $t0, $t0, 600
@@ -27386,6 +28169,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1658 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -27438,6 +28222,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1661 = load i32, i32* %op643
 	lu12i.w $t0, -1
 	ori $t0, $t0, 632
@@ -27481,6 +28266,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1663 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -27533,6 +28319,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1666 = load i32, i32* %op637
 	lu12i.w $t0, -1
 	ori $t0, $t0, 664
@@ -27576,6 +28363,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1668 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -27628,6 +28416,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1671 = load i32, i32* %op631
 	lu12i.w $t0, -1
 	ori $t0, $t0, 696
@@ -27671,6 +28460,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1673 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -27723,6 +28513,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1676 = load i32, i32* %op625
 	lu12i.w $t0, -1
 	ori $t0, $t0, 728
@@ -27766,6 +28557,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1678 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -27818,6 +28610,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1681 = load i32, i32* %op619
 	lu12i.w $t0, -1
 	ori $t0, $t0, 760
@@ -27861,6 +28654,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1683 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -27913,6 +28707,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1686 = load i32, i32* %op613
 	lu12i.w $t0, -1
 	ori $t0, $t0, 792
@@ -27956,6 +28751,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1688 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -28008,6 +28804,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1691 = load i32, i32* %op607
 	lu12i.w $t0, -1
 	ori $t0, $t0, 824
@@ -28051,6 +28848,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1693 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -28103,6 +28901,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1696 = load i32, i32* %op601
 	lu12i.w $t0, -1
 	ori $t0, $t0, 856
@@ -28146,6 +28945,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1698 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -28198,6 +28998,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1701 = load i32, i32* %op595
 	lu12i.w $t0, -1
 	ori $t0, $t0, 888
@@ -28241,6 +29042,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1703 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -28293,6 +29095,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1706 = load i32, i32* %op589
 	lu12i.w $t0, -1
 	ori $t0, $t0, 920
@@ -28336,6 +29139,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1708 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -28388,6 +29192,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1711 = load i32, i32* %op583
 	lu12i.w $t0, -1
 	ori $t0, $t0, 952
@@ -28431,6 +29236,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1713 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -28483,6 +29289,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1716 = load i32, i32* %op577
 	lu12i.w $t0, -1
 	ori $t0, $t0, 984
@@ -28526,6 +29333,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1718 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -28578,6 +29386,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1721 = load i32, i32* %op571
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1016
@@ -28621,6 +29430,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1723 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -28673,6 +29483,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1726 = load i32, i32* %op565
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1048
@@ -28716,6 +29527,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1728 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -28768,6 +29580,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1731 = load i32, i32* %op559
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1080
@@ -28811,6 +29624,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1733 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -28863,6 +29677,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1736 = load i32, i32* %op553
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1112
@@ -28906,6 +29721,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1738 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -28958,6 +29774,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1741 = load i32, i32* %op547
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1144
@@ -29001,6 +29818,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1743 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -29053,6 +29871,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1746 = load i32, i32* %op541
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1176
@@ -29096,6 +29915,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1748 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -29148,6 +29968,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1751 = load i32, i32* %op535
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1208
@@ -29191,6 +30012,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1753 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -29243,6 +30065,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1756 = load i32, i32* %op529
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1240
@@ -29286,6 +30109,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1758 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -29338,6 +30162,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1761 = load i32, i32* %op523
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1272
@@ -29381,6 +30206,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1763 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -29433,6 +30259,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1766 = load i32, i32* %op517
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1304
@@ -29476,6 +30303,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1768 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -29528,6 +30356,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1771 = load i32, i32* %op511
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1336
@@ -29571,6 +30400,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1773 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -29623,6 +30453,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1776 = load i32, i32* %op505
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1368
@@ -29666,6 +30497,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1778 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -29718,6 +30550,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1781 = load i32, i32* %op499
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1400
@@ -29761,6 +30594,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1783 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -29813,6 +30647,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1786 = load i32, i32* %op493
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1432
@@ -29856,6 +30691,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1788 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -29908,6 +30744,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1791 = load i32, i32* %op487
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1464
@@ -29951,6 +30788,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1793 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -30003,6 +30841,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1796 = load i32, i32* %op481
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1496
@@ -30046,6 +30885,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1798 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -30098,6 +30938,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1801 = load i32, i32* %op475
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1528
@@ -30141,6 +30982,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1803 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -30193,6 +31035,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1806 = load i32, i32* %op469
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1560
@@ -30236,6 +31079,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1808 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -30288,6 +31132,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1811 = load i32, i32* %op463
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1592
@@ -30331,6 +31176,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1813 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -30383,6 +31229,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1816 = load i32, i32* %op457
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1624
@@ -30426,6 +31273,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1818 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -30478,6 +31326,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1821 = load i32, i32* %op451
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1656
@@ -30521,6 +31370,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1823 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -30573,6 +31423,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1826 = load i32, i32* %op445
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1688
@@ -30616,6 +31467,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1828 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -30668,6 +31520,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1831 = load i32, i32* %op439
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1720
@@ -30711,6 +31564,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1833 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -30763,6 +31617,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1836 = load i32, i32* %op433
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1752
@@ -30806,6 +31661,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1838 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -30858,6 +31714,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1841 = load i32, i32* %op427
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1784
@@ -30901,6 +31758,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1843 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -30953,6 +31811,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1846 = load i32, i32* %op421
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1816
@@ -30996,6 +31855,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1848 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -31048,6 +31908,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1851 = load i32, i32* %op415
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1848
@@ -31091,6 +31952,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1853 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -31143,6 +32005,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1856 = load i32, i32* %op409
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1880
@@ -31186,6 +32049,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1858 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -31238,6 +32102,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1861 = load i32, i32* %op403
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1912
@@ -31281,6 +32146,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1863 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -31333,6 +32199,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1866 = load i32, i32* %op397
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1944
@@ -31376,6 +32243,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1868 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -31428,6 +32296,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1871 = load i32, i32* %op391
 	lu12i.w $t0, -1
 	ori $t0, $t0, 1976
@@ -31471,6 +32340,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1873 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -31523,6 +32393,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1876 = load i32, i32* %op385
 	lu12i.w $t0, -1
 	ori $t0, $t0, 2008
@@ -31566,6 +32437,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1878 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -31618,6 +32490,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1881 = load i32, i32* %op379
 	lu12i.w $t0, -1
 	ori $t0, $t0, 2040
@@ -31661,6 +32534,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1883 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -31713,6 +32587,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1886 = load i32, i32* %op373
 	ld.d $t0, $fp, -2024
 	ld.w $t1, $t0, 0
@@ -31746,6 +32621,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1888 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -31793,6 +32669,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1891 = load i32, i32* %op367
 	ld.d $t0, $fp, -1992
 	ld.w $t1, $t0, 0
@@ -31826,6 +32703,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1893 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -31873,6 +32751,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1896 = load i32, i32* %op361
 	ld.d $t0, $fp, -1960
 	ld.w $t1, $t0, 0
@@ -31906,6 +32785,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1898 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -31953,6 +32833,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1901 = load i32, i32* %op355
 	ld.d $t0, $fp, -1928
 	ld.w $t1, $t0, 0
@@ -31986,6 +32867,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1903 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -32033,6 +32915,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1906 = load i32, i32* %op349
 	ld.d $t0, $fp, -1896
 	ld.w $t1, $t0, 0
@@ -32066,6 +32949,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1908 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -32113,6 +32997,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1911 = load i32, i32* %op343
 	ld.d $t0, $fp, -1864
 	ld.w $t1, $t0, 0
@@ -32146,6 +33031,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1913 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -32193,6 +33079,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1916 = load i32, i32* %op337
 	ld.d $t0, $fp, -1832
 	ld.w $t1, $t0, 0
@@ -32226,6 +33113,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1918 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -32273,6 +33161,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1921 = load i32, i32* %op331
 	ld.d $t0, $fp, -1800
 	ld.w $t1, $t0, 0
@@ -32306,6 +33195,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1923 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -32353,6 +33243,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1926 = load i32, i32* %op325
 	ld.d $t0, $fp, -1768
 	ld.w $t1, $t0, 0
@@ -32386,6 +33277,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1928 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -32433,6 +33325,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1931 = load i32, i32* %op319
 	ld.d $t0, $fp, -1736
 	ld.w $t1, $t0, 0
@@ -32466,6 +33359,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1933 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -32513,6 +33407,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1936 = load i32, i32* %op313
 	ld.d $t0, $fp, -1704
 	ld.w $t1, $t0, 0
@@ -32546,6 +33441,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1938 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -32593,6 +33489,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1941 = load i32, i32* %op307
 	ld.d $t0, $fp, -1672
 	ld.w $t1, $t0, 0
@@ -32626,6 +33523,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1943 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -32673,6 +33571,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1946 = load i32, i32* %op301
 	ld.d $t0, $fp, -1640
 	ld.w $t1, $t0, 0
@@ -32706,6 +33605,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1948 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -32753,6 +33653,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1951 = load i32, i32* %op295
 	ld.d $t0, $fp, -1608
 	ld.w $t1, $t0, 0
@@ -32786,6 +33687,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1953 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -32833,6 +33735,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1956 = load i32, i32* %op289
 	ld.d $t0, $fp, -1576
 	ld.w $t1, $t0, 0
@@ -32866,6 +33769,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1958 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -32913,6 +33817,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1961 = load i32, i32* %op283
 	ld.d $t0, $fp, -1544
 	ld.w $t1, $t0, 0
@@ -32946,6 +33851,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1963 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -32993,6 +33899,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1966 = load i32, i32* %op277
 	ld.d $t0, $fp, -1512
 	ld.w $t1, $t0, 0
@@ -33026,6 +33933,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1968 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -33073,6 +33981,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1971 = load i32, i32* %op271
 	ld.d $t0, $fp, -1480
 	ld.w $t1, $t0, 0
@@ -33106,6 +34015,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1973 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -33153,6 +34063,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1976 = load i32, i32* %op265
 	ld.d $t0, $fp, -1448
 	ld.w $t1, $t0, 0
@@ -33186,6 +34097,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1978 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -33233,6 +34145,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1981 = load i32, i32* %op259
 	ld.d $t0, $fp, -1416
 	ld.w $t1, $t0, 0
@@ -33266,6 +34179,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1983 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -33313,6 +34227,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1986 = load i32, i32* %op253
 	ld.d $t0, $fp, -1384
 	ld.w $t1, $t0, 0
@@ -33346,6 +34261,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1988 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -33393,6 +34309,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1991 = load i32, i32* %op247
 	ld.d $t0, $fp, -1352
 	ld.w $t1, $t0, 0
@@ -33426,6 +34343,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1993 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -33473,6 +34391,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1996 = load i32, i32* %op241
 	ld.d $t0, $fp, -1320
 	ld.w $t1, $t0, 0
@@ -33506,6 +34425,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op1998 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -33553,6 +34473,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2001 = load i32, i32* %op235
 	ld.d $t0, $fp, -1288
 	ld.w $t1, $t0, 0
@@ -33586,6 +34507,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2003 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -33633,6 +34555,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2006 = load i32, i32* %op229
 	ld.d $t0, $fp, -1256
 	ld.w $t1, $t0, 0
@@ -33666,6 +34589,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2008 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -33713,6 +34637,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2011 = load i32, i32* %op223
 	ld.d $t0, $fp, -1224
 	ld.w $t1, $t0, 0
@@ -33746,6 +34671,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2013 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -33793,6 +34719,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2016 = load i32, i32* %op217
 	ld.d $t0, $fp, -1192
 	ld.w $t1, $t0, 0
@@ -33826,6 +34753,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2018 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -33873,6 +34801,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2021 = load i32, i32* %op211
 	ld.d $t0, $fp, -1160
 	ld.w $t1, $t0, 0
@@ -33906,6 +34835,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2023 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -33953,6 +34883,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2026 = load i32, i32* %op205
 	ld.d $t0, $fp, -1128
 	ld.w $t1, $t0, 0
@@ -33986,6 +34917,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2028 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -34033,6 +34965,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2031 = load i32, i32* %op199
 	ld.d $t0, $fp, -1096
 	ld.w $t1, $t0, 0
@@ -34066,6 +34999,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2033 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -34113,6 +35047,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2036 = load i32, i32* %op193
 	ld.d $t0, $fp, -1064
 	ld.w $t1, $t0, 0
@@ -34146,6 +35081,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2038 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -34193,6 +35129,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2041 = load i32, i32* %op187
 	ld.d $t0, $fp, -1032
 	ld.w $t1, $t0, 0
@@ -34226,6 +35163,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2043 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -34273,6 +35211,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2046 = load i32, i32* %op181
 	ld.d $t0, $fp, -1000
 	ld.w $t1, $t0, 0
@@ -34306,6 +35245,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2048 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -34353,6 +35293,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2051 = load i32, i32* %op175
 	ld.d $t0, $fp, -968
 	ld.w $t1, $t0, 0
@@ -34386,6 +35327,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2053 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -34433,6 +35375,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2056 = load i32, i32* %op169
 	ld.d $t0, $fp, -936
 	ld.w $t1, $t0, 0
@@ -34466,6 +35409,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2058 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -34513,6 +35457,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2061 = load i32, i32* %op163
 	ld.d $t0, $fp, -904
 	ld.w $t1, $t0, 0
@@ -34546,6 +35491,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2063 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -34593,6 +35539,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2066 = load i32, i32* %op157
 	ld.d $t0, $fp, -872
 	ld.w $t1, $t0, 0
@@ -34626,6 +35573,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2068 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -34673,6 +35621,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2071 = load i32, i32* %op151
 	ld.d $t0, $fp, -840
 	ld.w $t1, $t0, 0
@@ -34706,6 +35655,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2073 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -34753,6 +35703,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2076 = load i32, i32* %op145
 	ld.d $t0, $fp, -808
 	ld.w $t1, $t0, 0
@@ -34786,6 +35737,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2078 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -34833,6 +35785,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2081 = load i32, i32* %op139
 	ld.d $t0, $fp, -776
 	ld.w $t1, $t0, 0
@@ -34866,6 +35819,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2083 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -34913,6 +35867,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2086 = load i32, i32* %op133
 	ld.d $t0, $fp, -744
 	ld.w $t1, $t0, 0
@@ -34946,6 +35901,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2088 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -34993,6 +35949,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2091 = load i32, i32* %op127
 	ld.d $t0, $fp, -712
 	ld.w $t1, $t0, 0
@@ -35026,6 +35983,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2093 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -35073,6 +36031,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2096 = load i32, i32* %op121
 	ld.d $t0, $fp, -680
 	ld.w $t1, $t0, 0
@@ -35106,6 +36065,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2098 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -35153,6 +36113,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2101 = load i32, i32* %op115
 	ld.d $t0, $fp, -648
 	ld.w $t1, $t0, 0
@@ -35186,6 +36147,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2103 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -35233,6 +36195,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2106 = load i32, i32* %op109
 	ld.d $t0, $fp, -616
 	ld.w $t1, $t0, 0
@@ -35266,6 +36229,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2108 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -35313,6 +36277,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2111 = load i32, i32* %op103
 	ld.d $t0, $fp, -584
 	ld.w $t1, $t0, 0
@@ -35346,6 +36311,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2113 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -35393,6 +36359,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2116 = load i32, i32* %op97
 	ld.d $t0, $fp, -552
 	ld.w $t1, $t0, 0
@@ -35426,6 +36393,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2118 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -35473,6 +36441,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2121 = load i32, i32* %op91
 	ld.d $t0, $fp, -520
 	ld.w $t1, $t0, 0
@@ -35506,6 +36475,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2123 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -35553,6 +36523,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2126 = load i32, i32* %op85
 	ld.d $t0, $fp, -488
 	ld.w $t1, $t0, 0
@@ -35586,6 +36557,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2128 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -35633,6 +36605,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2131 = load i32, i32* %op79
 	ld.d $t0, $fp, -456
 	ld.w $t1, $t0, 0
@@ -35666,6 +36639,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2133 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -35713,6 +36687,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2136 = load i32, i32* %op73
 	ld.d $t0, $fp, -424
 	ld.w $t1, $t0, 0
@@ -35746,6 +36721,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2138 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -35793,6 +36769,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2141 = load i32, i32* %op67
 	ld.d $t0, $fp, -392
 	ld.w $t1, $t0, 0
@@ -35826,6 +36803,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2143 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -35873,6 +36851,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2146 = load i32, i32* %op61
 	ld.d $t0, $fp, -360
 	ld.w $t1, $t0, 0
@@ -35906,6 +36885,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2148 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -35953,6 +36933,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2151 = load i32, i32* %op55
 	ld.d $t0, $fp, -328
 	ld.w $t1, $t0, 0
@@ -35986,6 +36967,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2153 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -36033,6 +37015,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2156 = load i32, i32* %op49
 	ld.d $t0, $fp, -296
 	ld.w $t1, $t0, 0
@@ -36066,6 +37049,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2158 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -36113,6 +37097,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2161 = load i32, i32* %op43
 	ld.d $t0, $fp, -264
 	ld.w $t1, $t0, 0
@@ -36146,6 +37131,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2163 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -36193,6 +37179,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2166 = load i32, i32* %op37
 	ld.d $t0, $fp, -232
 	ld.w $t1, $t0, 0
@@ -36226,6 +37213,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2168 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -36273,6 +37261,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2171 = load i32, i32* %op31
 	ld.d $t0, $fp, -200
 	ld.w $t1, $t0, 0
@@ -36306,6 +37295,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2173 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -36353,6 +37343,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2176 = load i32, i32* %op25
 	ld.d $t0, $fp, -168
 	ld.w $t1, $t0, 0
@@ -36386,6 +37377,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2178 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -36433,6 +37425,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2181 = load i32, i32* %op19
 	ld.d $t0, $fp, -136
 	ld.w $t1, $t0, 0
@@ -36466,6 +37459,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2183 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -36513,6 +37507,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2186 = load i32, i32* %op13
 	ld.d $t0, $fp, -104
 	ld.w $t1, $t0, 0
@@ -36546,6 +37541,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2188 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -36593,6 +37589,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2191 = load i32, i32* %op7
 	ld.d $t0, $fp, -72
 	ld.w $t1, $t0, 0
@@ -36626,6 +37623,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2193 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -36673,6 +37671,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2196 = load i32, i32* %op0
 	ld.d $t0, $fp, -24
 	ld.w $t1, $t0, 0
@@ -36706,6 +37705,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2198 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -36753,6 +37753,7 @@ main:
 	add.d $t1, $fp, $t1
 	ld.w $t1, $t1, 0
 	st.w $t1, $t0, 0
+	addi.d $t0, $t0, 4
 # %op2201 = load i32, i32* %op1
 	ld.d $t0, $fp, -40
 	ld.w $t1, $t0, 0
@@ -36763,6 +37764,7 @@ main:
 	add.d $t8, $fp, $t8
 	st.w $t1, $t8, 0
 # ret i32 %op2201
+# gen_phi
 	lu12i.w $a0, -3
 	ori $a0, $a0, 1852
 	lu32i.d $a0, -1

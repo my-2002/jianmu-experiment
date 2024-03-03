@@ -29,6 +29,7 @@ main:
 	or $t2, $t2, $t3
 	st.b $t2, $fp, -29
 # br i1 %op3, label %label_a_ltz0, label %label_a_gtz1
+# gen_phi
 	ld.b $t0, $fp, -29
 	bnez $t0, .main_label_a_ltz0
 	b .main_label_a_gtz1
@@ -36,9 +37,11 @@ main:
 # call void @neg_idx_except()
 	bl neg_idx_except
 # br label %label_a_gtz1
+# gen_phi
 	b .main_label_a_gtz1
 .main_label_a_gtz1:
 # ret i32 4
+# gen_phi
 	addi.w $a0, $zero, 4
 	b .main_exit
 .main_exit:
