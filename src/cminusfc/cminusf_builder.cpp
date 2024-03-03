@@ -913,11 +913,12 @@ Value* CminusfBuilder::visit(ASTRelExp& node) {
                 //    ret_val = builder->create_iadd(CONST_INT(dynamic_cast<ConstantFP*>(rres)->get_value()>0?1:0),CONST_ZERO(INT32_T));
                 //else //变量
                 //{
-                    if(rres->get_type()->is_integer_type())
-                        ret_val1 = builder->create_icmp_gt(rres,CONST_ZERO(INT32_T));
-                    else
-                        ret_val1 = builder->create_fcmp_gt(rres,CONST_ZERO(FLOAT_T));
+                if(rres->get_type()->is_integer_type())
+                    ret_val1 = builder->create_icmp_gt(rres,CONST_ZERO(INT32_T));
+                else
+                    ret_val1 = builder->create_fcmp_gt(rres,CONST_ZERO(FLOAT_T));
                 //}
+                trueBB=builder->get_insert_block();
                 builder->create_br(retBB); 
 
                 builder->set_insert_point(falseBB); 
@@ -943,6 +944,7 @@ Value* CminusfBuilder::visit(ASTRelExp& node) {
                     else
                         ret_val2 = builder->create_fcmp_gt(rres,CONST_ZERO(FLOAT_T));
                 //}
+                falseBB=builder->get_insert_block();
                 builder->create_br(retBB); 
 
                 builder->set_insert_point(trueBB);  
@@ -1027,7 +1029,7 @@ Value* CminusfBuilder::visit(ASTRelExp& node) {
         else
         {
             if (lres->get_type()->is_integer_type() && rres->get_type()->is_integer_type()) {     //都为整数的情况
-                auto tem=builder->create_iadd(lres,rres);
+                
                 switch (node.op) {  
                 case OP_LE:
                     ret_val = builder->create_icmp_le(lres, rres);break;
