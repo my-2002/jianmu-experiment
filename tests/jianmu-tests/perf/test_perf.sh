@@ -1,9 +1,9 @@
 #!/bin/bash
 
-project_dir=$(realpath ../../)
-io_dir=$(realpath "$project_dir"/src/io)
+project_dir=$(realpath ../../../)
+io_dir=$(realpath "$project_dir"/src/jainmu-src)
 output_dir=output
-suffix=cminus
+suffix=sy
 
 LOG=log.txt
 
@@ -20,7 +20,7 @@ check_return_value() {
     fi
 }
 
-test_dir=./performance-cases
+test_dir=./
 testcases=$(ls "$test_dir"/*."$suffix" | sort -V)
 check_return_value $? 0 "PATH" "unable to access to '$test_dir'" || exit 1
 
