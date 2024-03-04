@@ -190,13 +190,17 @@ void CodeGen::gen_prologue() {
     // 将函数参数转移到栈帧上
     int garg_cnt = 0;
     int farg_cnt = 0;
-    for (auto &arg : context.func->get_args()) {
-        if (arg.get_type()->is_float_type()) {
-            store_from_freg(&arg, FReg::fa(farg_cnt++));
-        } else { // int or pointer
-            store_from_greg(&arg, Reg::a(garg_cnt++));
+    if(context.func->get_args().size()<=7)
+    {
+        for (auto &arg : context.func->get_args()) {
+            if (arg.get_type()->is_float_type()) {
+                store_from_freg(&arg, FReg::fa(farg_cnt++));
+            } else { // int or pointer
+                store_from_greg(&arg, Reg::a(garg_cnt++));
+            }
         }
     }
+    //栈上传参已经处理好
 }
 
 void CodeGen::gen_epilogue() {
@@ -500,14 +504,43 @@ void CodeGen::gen_call() {
     unsigned i, a_i, fa_i;
     i = 1;
     a_i = fa_i = 0;
-    for(auto &arg : Func->get_args())
+    int argus_num = Func->get_args().size();
+    if (argus_num<=7)     //寄存器传参
     {
-        auto arg_type = arg.get_type();
-        if(arg_type->is_float_type())
-            load_to_freg(context.inst->get_operand(i++), FReg::fa(fa_i++));
-        else
-            load_to_greg(context.inst->get_operand(i++), Reg::a(a_i++));
+        for(auto &arg : Func->get_args())
+        {
+            auto arg_type = arg.get_type();
+            if(arg_type->is_float_type())
+                load_to_freg(context.inst->get_operand(i++), FReg::fa(fa_i++));
+            else
+                load_to_greg(context.inst->get_operand(i++), Reg::a(a_i++));
+        }
     }
+    else      //栈上传参
+    {
+        int offset = 16;
+        //append_inst("addi.d $t1, $sp, -16");
+        for(auto &arg : Func->get_args())
+        {
+            auto size = arg.get_type()->get_size();
+            auto arg_type = arg.get_type();
+            offset=  ALIGN(offset + size, size);
+            if(arg_type->is_float_type())
+            {
+                load_to_freg(context.inst->get_operand(i++), FReg::ft(0));
+                append_inst("addi.d $t1, $sp, -"+std::to_string(offset));
+                append_inst("fst.d $ft0, $t1, 0");
+            }
+            else
+            {
+                load_to_greg(context.inst->get_operand(i++), Reg::t(0));
+                append_inst("addi.d $t1, $sp, -"+std::to_string(offset));
+                append_inst("st.d $t0, $t1, 0");
+            }
+            
+        }
+    }
+    
     append_inst("bl "+Func_name);
     if(not Func->get_return_type()->is_void_type())
     {
