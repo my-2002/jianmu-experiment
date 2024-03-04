@@ -190,7 +190,7 @@ void CodeGen::gen_prologue() {
     // 将函数参数转移到栈帧上
     int garg_cnt = 0;
     int farg_cnt = 0;
-    if(context.func->get_args().size()<=7)
+    if(context.func->get_args().size()<=8)
     {
         for (auto &arg : context.func->get_args()) {
             if (arg.get_type()->is_float_type()) {
@@ -508,7 +508,7 @@ void CodeGen::gen_call() {
     i = 1;
     a_i = fa_i = 0;
     int argus_num = Func->get_args().size();
-    if (argus_num<=7)     //寄存器传参
+    if (argus_num<=8)     //寄存器传参
     {
         for(auto &arg : Func->get_args())
         {

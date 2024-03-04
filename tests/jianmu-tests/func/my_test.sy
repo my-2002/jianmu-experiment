@@ -1,20 +1,14 @@
-int test(int x1,int x2,int x3,int x4,int x5,int x6,int x7,int x8,int x9)
+int a=2, b=1;
+int test()
 {
-    putint(x1);
-    putint(x2);
-    putint(x3);
-    putint(x4);
-    putint(x5);
-    putint(x6);
-    putint(x7);
-    putint(x8);
-    putint(x9);
-    return x1+x2+x3+x4+x5+x6+x7+x8+x9;
+    a=a+1;
+    return a;
 }
 int main()
 {
-    int x1=1,x2=2,x3=3,x4=4,x5=5,x6=6,x7=7,x8=8,x9=9;
-    int a;
-    a=test( x1, x2, x3, x4, x5, x6, x7, x8, x9);
+    if(test())
+    {
+        putint(666);
+    }
     putint(a);
 }
