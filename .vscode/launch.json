@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/build/cminusfc",
             "args": [
-                "${workspaceFolder}/tests/jianmu-tests/func/87_many_params.sy",
+                "${workspaceFolder}/tests/jianmu-tests/func/my_test.sy",
                 "-S"
             ],
             "stopAtEntry": false,

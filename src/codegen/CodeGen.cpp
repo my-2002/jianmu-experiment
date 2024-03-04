@@ -305,7 +305,7 @@ void CodeGen::gen_float_binary() {
 
 void CodeGen::gen_alloca() {
     auto *alloca_inst = static_cast<AllocaInst *>(context.inst);
-    auto alloc_size = alloca_inst->get_alloca_type()->get_size();
+    auto alloc_size = (int)alloca_inst->get_alloca_type()->get_size();
     auto offset = context.offset_map.at(context.inst);
     load_large_int64(offset, Reg::t(0));
     if(alloc_size<4095)
