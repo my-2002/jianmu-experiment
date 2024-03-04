@@ -532,13 +532,16 @@ void CodeGen::gen_call() {
             {
                 load_to_freg(context.inst->get_operand(i++), FReg::ft(0));
                 append_inst("addi.d $t1, $sp, -"+std::to_string(offset));
-                append_inst("fst.d $ft0, $t1, 0");
+                append_inst("fst.w $ft0, $t1, 0");
             }
             else
             {
                 load_to_greg(context.inst->get_operand(i++), Reg::t(0));
                 append_inst("addi.d $t1, $sp, -"+std::to_string(offset));
-                append_inst("st.d $t0, $t1, 0");
+                if(arg_type->is_pointer_type())
+                    append_inst("st.d $t0, $t1, 0");
+                else
+                    append_inst("st.w $t0, $t1, 0");
             }
             
         }
