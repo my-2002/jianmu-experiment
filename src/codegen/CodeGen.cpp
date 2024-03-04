@@ -627,6 +627,25 @@ void CodeGen::gen_phi(BasicBlock* bb) {
         }
 }
 
+std::string CodeGen::print_init(Constant* init){
+    std::string str;
+    if(auto init_array = dynamic_cast<ConstantArray*>(init))
+    {
+        for(int i=0; i<(int)(init_array->get_size_of_array()); i++)
+        {
+            str += print_init(init_array->get_element_value(i));
+            if(i<(int)(init_array->get_size_of_array())-1)
+                str += ", ";
+        }
+            
+    }
+    else if (auto init_int = dynamic_cast<ConstantInt*>(init))
+        return init_int->print();
+    else
+        return dynamic_cast<ConstantFP*>(init)->print();
+    return str;
+}
+
 void CodeGen::run() {
     // 确保每个函数中基本块的名字都被设置好
     // 想一想：为什么？
@@ -652,15 +671,18 @@ void CodeGen::run() {
                 global.get_type()->get_pointer_element_type()->get_size();
             append_inst(".globl", {global.get_name()},
                         ASMInstruction::Atrribute);
+            if(!dynamic_cast<ConstantZero*>(global.get_init()))
+                append_inst(".data", ASMInstruction::Atrribute);
             append_inst(".type", {global.get_name(), "@object"},
                         ASMInstruction::Atrribute);
             append_inst(".size", {global.get_name(), std::to_string(size)},
                         ASMInstruction::Atrribute);
             append_inst(global.get_name(), ASMInstruction::Label);
-            append_inst(".space", {std::to_string(size)},
+            if(!dynamic_cast<ConstantZero*>(global.get_init()))
+                append_inst(".word", {print_init(global.get_init())}, ASMInstruction::Atrribute);
+            else
+                append_inst(".space", {std::to_string(size)},
                         ASMInstruction::Atrribute);
-            load_to_greg(&global, Reg::t(0));
-            gen_store(global.get_init());
         }
     }
 

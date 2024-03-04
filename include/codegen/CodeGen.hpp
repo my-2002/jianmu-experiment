@@ -63,6 +63,8 @@ class CodeGen {
     void gen_epilogue();
     void gen_phi(BasicBlock*);
 
+    std::string print_init(Constant*);
+
     static std::string label_name(BasicBlock *bb) {
         return "." + bb->get_parent()->get_name() + "_" + bb->get_name();
     }
