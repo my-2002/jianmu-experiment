@@ -1,0 +1,390 @@
+==========.//00_main.sy==========
+3								3
+==========.//01_var_defn2.sy==========
+10							      |	5
+==========.//02_var_defn3.sy==========
+5								5
+==========.//03_arr_defn2.sy==========
+0								0
+==========.//04_arr_defn3.sy==========
+14							      |	8
+==========.//05_arr_defn4.sy==========
+21								21
+==========.//06_const_var_defn2.sy==========
+5								5
+==========.//07_const_var_defn3.sy==========
+5								5
+==========.//08_const_array_defn.sy==========
+4								4
+==========.//09_func_defn.sy==========
+9								9
+==========.//10_var_defn_func.sy==========
+4								4
+==========.//11_add2.sy==========
+9								9
+==========.//12_addc.sy==========
+15								15
+==========.//13_sub2.sy==========
+248								248
+==========.//14_subc.sy==========
+8								8
+==========.//15_mul.sy==========
+50								50
+==========.//16_mulc.sy==========
+25								25
+==========.//17_div.sy==========
+2								2
+==========.//18_divc.sy==========
+2								2
+==========.//19_mod.sy==========
+3								3
+==========.//20_rem.sy==========
+1								1
+==========.//21_if_test2.sy==========
+-5							      |	-50
+0							      <
+==========.//22_if_test3.sy==========
+25								25
+==========.//23_if_test4.sy==========
+25								25
+==========.//24_if_test5.sy==========
+25								25
+==========.//25_while_if.sy==========
+88							      |	880
+0							      <
+==========.//26_while_test1.sy==========
+3								3
+==========.//27_while_test2.sy==========
+54								54
+==========.//28_while_test3.sy==========
+23								23
+==========.//29_break.sy==========
+201								201
+==========.//30_continue.sy==========
+36								36
+==========.//31_while_if_test1.sy==========
+198								198
+==========.//32_while_if_test2.sy==========
+96								96
+==========.//33_while_if_test3.sy==========
+88								88
+==========.//34_arr_expr_len.sy==========
+51							      |	0
+==========.//35_op_priority1.sy==========
+40								40
+==========.//36_op_priority2.sy==========
+24								24
+==========.//37_op_priority3.sy==========
+40								40
+==========.//38_op_priority4.sy==========
+1								1
+==========.//39_op_priority5.sy==========
+1							      |	11
+1							      <
+==========.//40_unary_op.sy==========
+cminusfc: /home/syx/Test/jianmu/2023ustc-jianmu-compiler/src/lightir/Instruction.cpp:73: ICmpInst::ICmpInst(Instruction::OpID, Value *, Value *, BasicBlock *): Assertion `lhs->get_type()->is_int32_type() && rhs->get_type()->is_int32_type() && "CmpInst operands are not both i32"' failed.
+cminusfc: /home/syx/Test/jianmu/2023ustc-jianmu-compiler/src/lightir/Instruction.cpp:73: ICmpInst::ICmpInst(Instruction::OpID, Value *, Value *, BasicBlock *): Assertion `lhs->get_type()->is_int32_type() && rhs->get_type()->is_int32_type() && "CmpInst operands are not both i32"' failed.
+==========.//41_unary_op2.sy==========
+cminusfc: /home/syx/Test/jianmu/2023ustc-jianmu-compiler/src/lightir/Instruction.cpp:73: ICmpInst::ICmpInst(Instruction::OpID, Value *, Value *, BasicBlock *): Assertion `lhs->get_type()->is_int32_type() && rhs->get_type()->is_int32_type() && "CmpInst operands are not both i32"' failed.
+cminusfc: /home/syx/Test/jianmu/2023ustc-jianmu-compiler/src/lightir/Instruction.cpp:73: ICmpInst::ICmpInst(Instruction::OpID, Value *, Value *, BasicBlock *): Assertion `lhs->get_type()->is_int32_type() && rhs->get_type()->is_int32_type() && "CmpInst operands are not both i32"' failed.
+==========.//42_empty_stmt.sy==========
+==========.//43_logi_assign.sy==========
+1								1
+==========.//44_stmt_expr.sy==========
+1024							      |	10240
+0							      <
+==========.//45_comment1.sy==========
+5								5
+==========.//46_hex_defn.sy==========
+15							      |	0
+==========.//47_hex_oct_add.sy==========
+88							      |	75
+==========.//48_assign_complex_expr.sy==========
+-171							      |	-1710
+0							      <
+==========.//49_if_complex_expr.sy==========
+2							      |	20
+0							      <
+==========.//50_short_circuit.sy==========
+cminusfc: /home/syx/Test/jianmu/2023ustc-jianmu-compiler/src/lightir/Instruction.cpp:73: ICmpInst::ICmpInst(Instruction::OpID, Value *, Value *, BasicBlock *): Assertion `lhs->get_type()->is_int32_type() && rhs->get_type()->is_int32_type() && "CmpInst operands are not both i32"' failed.
+cminusfc: /home/syx/Test/jianmu/2023ustc-jianmu-compiler/src/lightir/Instruction.cpp:73: ICmpInst::ICmpInst(Instruction::OpID, Value *, Value *, BasicBlock *): Assertion `lhs->get_type()->is_int32_type() && rhs->get_type()->is_int32_type() && "CmpInst operands are not both i32"' failed.
+==========.//51_short_circuit3.sy==========
+==========.//52_scope.sy==========
+1							      |	10
+0							      <
+==========.//53_scope2.sy==========
+-40							      |	-4062
+62							      <
+==========.//54_hidden_var.sy==========
+331								331
+1								1
+218								218
+5							      |	0
+6719							      |	0010
+0								0
+==========.//55_sort_test1.sy==========
+0								0
+1								1
+2								2
+3								3
+4								4
+5								5
+6								6
+7								7
+8								8
+9								9
+0								0
+==========.//56_sort_test2.sy==========
+0								0
+1								1
+2								2
+3								3
+4								4
+5								5
+6								6
+7								7
+8								8
+9								9
+0								0
+==========.//57_sort_test3.sy==========
+0								0
+1								1
+2								2
+3								3
+4								4
+5								5
+6								6
+7								7
+8								8
+9								9
+0								0
+==========.//58_sort_test4.sy==========
+0								0
+1								1
+2								2
+3								3
+4								4
+5								5
+6								6
+7								7
+8								8
+9								9
+0								0
+==========.//59_sort_test5.sy==========
+0								0
+1								1
+2								2
+3								3
+4								4
+5								5
+6								6
+7								7
+8								8
+9								9
+0								0
+==========.//60_sort_test6.sy==========
+0								0
+1								1
+2								2
+3								3
+4								4
+5								5
+6								6
+7								7
+8								8
+9								9
+0								0
+==========.//61_sort_test7.sy==========
+97: -64412 -63865 -63687 -62145 -60066 -59283 -58581 -58451 -	97: -64412 -63865 -63687 -62145 -60066 -59283 -58581 -58451 -
+0								0
+==========.//62_percolation.sy==========
+8								8
+0								0
+==========.//63_big_int_mul.sy==========
+3102343761271952753654505476597868729361003112012671299112096 |	3102343761271952753654505476597868729361003112012671299112096
+0							      <
+==========.//64_calculator.sy==========
+2							      |	20
+0							      <
+==========.//65_color.sy==========
+39480							      |	3948056
+56							      <
+==========.//66_exgcd.sy==========
+13							      |	130
+0							      <
+==========.//67_reverse_output.sy==========
+5975945915885855825795765735705675645615585555525495465435405 |	5975945915885855825795765735705675645615585555525495465435405
+0							      <
+==========.//68_brainfk.sy==========
+I'm Suzumiya Haruhi from the East Junior High School, and I'm	I'm Suzumiya Haruhi from the East Junior High School, and I'm
+0								0
+==========.//69_expr_eval.sy==========
+-820							      |	panic!
+696							      |	-1
+1220							      |	panic!
+							      >	-1
+							      >	panic!
+							      >	-1
+panic!								panic!
+-1								-1
+panic!								panic!
+-1								-1
+0								0
+==========.//70_dijkstra.sy==========
+0 1 8 4 13 17 							0 1 8 4 13 17 
+0								0
+==========.//71_full_conn.sy==========
+dog								dog
+cat							      <
+dog								dog
+dog								dog
+cat							      |	dog
+cat							      |	dog
+							      >	dog
+0								0
+==========.//72_hanoi.sy==========
+1 2, 1 3, 2 3, 1 2, 3 1, 3 2, 1 2, 1 3, 2 3, 2 1, 3 1, 2 3, 1	1 2, 1 3, 2 3, 1 2, 3 1, 3 2, 1 2, 1 3, 2 3, 2 1, 3 1, 2 3, 1
+1 3, 1 2, 3 2, 1 3, 2 1, 2 3, 1 3, 1 2, 3 2, 3 1, 2 1, 3 2, 1	1 3, 1 2, 3 2, 1 3, 2 1, 2 3, 1 3, 1 2, 3 2, 3 1, 2 1, 3 2, 1
+1 3, 1 2, 3 2, 1 3, 2 1, 2 3, 1 3, 				1 3, 1 2, 3 2, 1 3, 2 1, 2 3, 1 3, 
+1 3, 1 2, 3 2, 1 3, 2 1, 2 3, 1 3, 1 2, 3 2, 3 1, 2 1, 3 2, 1	1 3, 1 2, 3 2, 1 3, 2 1, 2 3, 1 3, 1 2, 3 2, 3 1, 2 1, 3 2, 1
+0								0
+==========.//73_int_io.sy==========
+4006571								4006571
+9900								9900
+1504379								1504379
+758219								758219
+99336677							99336677
+0								0
+==========.//74_kmp.sy==========
+23								23
+0								0
+==========.//75_max_flow.sy==========
+77							      |	0
+0								0
+==========.//76_n_queens.sy==========
+cminusfc: /home/syx/Test/jianmu/2023ustc-jianmu-compiler/src/lightir/Instruction.cpp:73: ICmpInst::ICmpInst(Instruction::OpID, Value *, Value *, BasicBlock *): Assertion `lhs->get_type()->is_int32_type() && rhs->get_type()->is_int32_type() && "CmpInst operands are not both i32"' failed.
+cminusfc: /home/syx/Test/jianmu/2023ustc-jianmu-compiler/src/lightir/Instruction.cpp:73: ICmpInst::ICmpInst(Instruction::OpID, Value *, Value *, BasicBlock *): Assertion `lhs->get_type()->is_int32_type() && rhs->get_type()->is_int32_type() && "CmpInst operands are not both i32"' failed.
+==========.//77_substr.sy==========
+43								43
+6								6
+0								0
+==========.//78_side_effect.sy==========
+1							      |	3 0
+4 2							      |	4
+5							      |	7 0
+8 4							      |	8
+9							      |	11 0
+12 8							      |	12
+13							      |	15 0
+16 16							      |	23 0
+24 16							      |	31 0
+29 16							      |	36 0
+29							      |	36
+==========.//79_var_name.sy==========
+3								3
+5								5
+8								8
+13								13
+21								21
+34								34
+55								55
+89								89
+144								144
+233								233
+377								377
+610								610
+987								987
+1597								1597
+2584								2584
+4181								4181
+6765								6765
+10946								10946
+236								236
+==========.//80_chaos_token.sy==========
+Welcome to the Japari Park!				      <
+Araiguma says hello to Tairiku Ookami			      <
+Tairiku Ookami says hello to Saabaru			      <
+Araiguma says hello to Kaban				      <
+Hunboruto Pengin says hello to Hashibirokou		      <
+Hashibirokou says hello to Tairiku Ookami		      <
+Hunboruto Pengin says hello to Saabaru			      <
+Hashibirokou says hello to Araiguma			      <
+Araiguma says hello to Hunboruto Pengin			      <
+Hashibirokou says hello to Kaban			      <
+Araiguma says hello to Hashibirokou			      <
+Kaban says hello to Tairiku Ookami			      <
+Araiguma says hello to Saabaru				      <
+Kaban says hello to Araiguma				      <
+Hashibirokou says hello to Hunboruto Pengin		      <
+Saabaru says hello to Tairiku Ookami			      <
+Hashibirokou says hello to Saabaru			      <
+Saabaru says hello to Araiguma				      <
+Kaban says hello to Hunboruto Pengin			      <
+Saabaru says hello to Kaban				      <
+Kaban says hello to Hashibirokou			      <
+Tairiku Ookami says hello to Kaban			      <
+Kaban says hello to Saabaru				      <
+Hunboruto Pengin says hello to Tairiku Ookami		      <
+Saabaru says hello to Hunboruto Pengin			      <
+Hunboruto Pengin says hello to Araiguma			      <
+Saabaru says hello to Hashibirokou			      <
+Hunboruto Pengin says hello to Kaban			      <
+0								0
+==========.//81_skip_spaces.sy==========
+55								55
+==========.//82_long_func.sy==========
+==========.//83_long_array.sy==========
+02425294124166176216218-22282-3478214271817021835771848521867 |	02425294124166176216218-22282-3478214271817021835771848521867
+216							      <
+==========.//84_long_array2.sy==========
+3								3
+0								0
+==========.//85_long_code.sy==========
+==========.//86_long_code2.sy==========
+==========.//87_many_params.sy==========
+331024								331024
+0								0
+==========.//88_many_params2.sy==========
+0123000009							0123000009
+9								9
+805 3612 2695 1778 861 3668 2751 1834 917 0 			805 3612 2695 1778 861 3668 2751 1834 917 0 
+0								0
+==========.//89_many_globals.sy==========
+2822118							      |	28221180
+0							      <
+==========.//90_many_locals.sy==========
+254								254
+0								0
+==========.//91_many_locals2.sy==========
+01234567891011121314151617181920212223242526272829		01234567891011121314151617181920212223242526272829
+6								6
+25								25
+==========.//92_register_alloc.sy==========
+194							      |	4242
+194							      <
+==========.//93_nested_calls.sy==========
+250								250
+==========.//94_nested_loops.sy==========
+==========.//95_float.sy==========
+cminusfc: /home/syx/Test/jianmu/2023ustc-jianmu-compiler/src/lightir/Instruction.cpp:133: CallInst::CallInst(Function *, std::vector<Value *>, BasicBlock *): Assertion `func_type->get_param_type(i) == args[i]->get_type() && "CallInst: Wrong arg type"' failed.
+cminusfc: /home/syx/Test/jianmu/2023ustc-jianmu-compiler/src/lightir/Instruction.cpp:133: CallInst::CallInst(Function *, std::vector<Value *>, BasicBlock *): Assertion `func_type->get_param_type(i) == args[i]->get_type() && "CallInst: Wrong arg type"' failed.
+==========.//96_matrix_add.sy==========
+024								024
+024								024
+024								024
+0								0
+==========.//97_matrix_sub.sy==========
+000								000
+000								000
+000								000
+0								0
+==========.//98_matrix_mul.sy==========
+036								036
+036								036
+036								036
+0								0
+==========.//99_matrix_tran.sy==========
+000								000
+111								111
+222								222
+0								0

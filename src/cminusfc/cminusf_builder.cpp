@@ -341,7 +341,8 @@ Value* CminusfBuilder::visit(ASTSelectionStmt &node) {
         auto retBB = BasicBlock::create(module.get(), "ret"+std::to_string(context.label_time++), function);    
         builder->create_cond_br(TrueFalse, trueBB, retBB); 
         builder->set_insert_point(trueBB); 
-        node.if_statement->accept(*this);   
+        if(node.if_statement!=nullptr)
+            node.if_statement->accept(*this);   
         if (not builder->get_insert_block()->is_terminated())  
             builder->create_br(retBB);    
         builder->set_insert_point(retBB);  //在后面继续加后续语句 
@@ -507,7 +508,7 @@ Value* CminusfBuilder::visit(ASTBlockItem& node)
 {
     if (node.local_declaration!=nullptr)
         node.local_declaration->accept(*this);
-    else 
+    else if(node.statement!=nullptr)
         node.statement->accept(*this);
     return nullptr;
 }
@@ -893,7 +894,12 @@ Value* CminusfBuilder::visit(ASTRelExp& node) {
         {
             Value* repval;
             if(lres->get_type()->is_integer_type())
+            {
+                if(lres->get_type()->is_int1_type())
+                    lres=builder->create_zext(lres,INT32_T);
                 repval=builder->create_icmp_gt(lres,CONST_ZERO(INT32_T));
+            }
+                
             else
                 repval=builder->create_fcmp_gt(lres,CONST_ZERO(FLOAT_T));
             auto function = builder->get_insert_block()->get_parent();
@@ -1027,7 +1033,10 @@ Value* CminusfBuilder::visit(ASTRelExp& node) {
         else
         {
             if (lres->get_type()->is_integer_type() && rres->get_type()->is_integer_type()) {     //都为整数的情况
-                
+                if(lres->get_type()->is_int1_type())
+                    lres=builder->create_zext(lres,INT32_T);
+                if(rres->get_type()->is_int1_type())
+                    rres=builder->create_zext(rres,INT32_T);
                 switch (node.op) {  
                 case OP_LE:
                     ret_val = builder->create_icmp_le(lres, rres);break;
@@ -1133,9 +1142,12 @@ Value* CminusfBuilder::visit(ASTUnaryExp& node) {
         {
             switch (node.op) { 
             case OP_NOT:
-                if(val->get_type()!=temtype)
-                    val=builder->create_zext(val,temtype);
-                val=builder->create_icmp_le(val,CONST_ZERO(temtype));break;
+                if(val->get_type()==INT1_T)
+                    val=builder->create_zext(val,INT32_T);
+                if(val->get_type()->is_integer_type())
+                    val=builder->create_icmp_le(val,CONST_ZERO(INT32_T));
+                else 
+                    val=builder->create_icmp_le(val,CONST_ZERO(FLOAT_T));break;
             case OP_POS:
                 break;
             case OP_NEG:
@@ -1144,7 +1156,12 @@ Value* CminusfBuilder::visit(ASTUnaryExp& node) {
                     val=builder->create_fsub(CONST_ZERO(FLOAT_T),val);
                 }
                 else
+                {
+                    if(val->get_type()->is_int1_type())
+                        val=builder->create_zext(val,INT32_T);
                     val=builder->create_isub(CONST_ZERO(INT32_T),val);
+                }
+                    
                 break;
             }
         }
