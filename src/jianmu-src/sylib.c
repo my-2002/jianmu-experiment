@@ -49,29 +49,8 @@ void putfarray(int n, float a[]) {
 
 void putf(char a[], ...) {
     va_list args;
-    /*int num = 0;
-    for(int i = 0; i < strlen(a) - 1; i++)
-      if(a[i] == '%' && (a[i+1] == 'd' || a[i+1] == 'c' || a[i+1] == 'f'))
-        num++;*/
     va_start(args, a);
-    for(int i = 0; i < strlen(a) - 1; i++)
-    {
-      if(a[i] == '%' && a[i+1] == 'd')
-      {
-        printf("%d", va_arg(args, int));
-        i++;
-      } else if (a[i] == '%' && a[i+1] == 'c')
-      {
-        printf("%c", va_arg(args, char));
-        i++;
-      } else if (a[i] == '%' && a[i+1] == 'f')
-      {
-        printf("%f", va_arg(args, float));
-        i++;
-      }
-      else
-        putchar(a[i]);
-    }
+    vfprintf(stdout, a, args);
     va_end(args);
 }
 

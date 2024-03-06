@@ -1147,7 +1147,8 @@ Value* CminusfBuilder::visit(ASTUnaryExp& node) {
                 if(val->get_type()->is_integer_type())
                     val=builder->create_icmp_le(val,CONST_ZERO(INT32_T));
                 else 
-                    val=builder->create_icmp_le(val,CONST_ZERO(FLOAT_T));break;
+                    val=builder->create_icmp_le(val,CONST_ZERO(FLOAT_T));
+                break;
             case OP_POS:
                 break;
             case OP_NEG:
