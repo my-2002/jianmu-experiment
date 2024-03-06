@@ -810,6 +810,7 @@ Value* CminusfBuilder::visit(ASTLVal& node) {
     else//在常量表达式中
     {
         auto var = scope.find(node.id)->val;
+        auto const_val = scope.find_const_val(node.id);
         if(node.expression.size()!=0)//是数组
         {
             for(auto& exp:node.expression)
@@ -844,10 +845,10 @@ Value* CminusfBuilder::visit(ASTLVal& node) {
             for(int i = index.size()-1; i>=0; i--)
             {
                 int num = dynamic_cast<ConstantInt* >(index[i])->get_value();
-                var = (dynamic_cast<ConstantArray*>(var))->get_element_value(num);
+                const_val = (dynamic_cast<ConstantArray*>(const_val))->get_element_value(num);
             } 
         }
-        ret_value = var;
+        ret_value = const_val;
     }
     return ret_value;
 }
