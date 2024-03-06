@@ -408,7 +408,13 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
         auto node = new ASTNum();
         if (_STR_EQ(n->children[0]->name, "IntConst")) {
             node->type = TYPE_INT;
-            node->i_val = std::stoi(n->children[0]->children[0]->name);
+            char head[2];
+            if(_STR_EQ(strncpy(head, n->children[0]->children[0]->name, 2), "0x") || _STR_EQ(strncpy(head, n->children[0]->children[0]->name, 2), "0X"))
+                node->i_val = std::stoi(n->children[0]->children[0]->name, 0, 16);
+            else if ((n->children[0]->children[0]->name)[0] == '0')
+                node->i_val = std::stoi(n->children[0]->children[0]->name, 0, 8);
+            else
+                node->i_val = std::stoi(n->children[0]->children[0]->name);
         } else if (_STR_EQ(n->children[0]->name, "floatConst")) {
             node->type = TYPE_FLOAT;
             node->f_val = std::stof(n->children[0]->children[0]->name);
