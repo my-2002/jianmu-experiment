@@ -20,10 +20,10 @@ typedef struct Info{
 class Scope {
   public:
     // enter a new scope
-    void enter() { inner.emplace_back(); }
+    void enter() { inner.emplace_back(); inner_const_val.emplace_back();}
 
     // exit a scope
-    void exit() { inner.pop_back(); }
+    void exit() { inner.pop_back(); inner_const_val.pop_back();}
 
     bool in_global() { return inner.size() == 1; }
 
@@ -38,6 +38,11 @@ class Scope {
         return result.second;
     }
 
+    bool push_const_val(const std::string& name, Constant* val) {
+        auto result = inner_const_val[inner_const_val.size() - 1].insert({name, val});
+        return result.second;
+    }
+
     Info* find(const std::string& name) {
         for (auto s = inner.rbegin(); s != inner.rend(); s++) {
             auto iter = s->find(name);
@@ -45,15 +50,26 @@ class Scope {
                 return iter->second;
             }
         }
-
         // Name not found: handled here?
         assert(false && "Name not found in scope");
+        return nullptr;
+    }
 
+    Constant* find_const_val(const std::string& name) {
+        for (auto s = inner_const_val.rbegin(); s != inner_const_val.rend(); s++) {
+            auto iter = s->find(name);
+            if (iter != s->end()) {
+                return iter->second;
+            }
+        }
+        // Name not found: handled here?
+        assert(false && "Name not found in constant scope");
         return nullptr;
     }
 
   private:
     std::vector<std::map<std::string, Info*>> inner;
+    std::vector<std::map<std::string, Constant*>> inner_const_val;
 };
 
 class CminusfBuilder : public ASTVisitor {
@@ -189,6 +205,9 @@ class CminusfBuilder : public ASTVisitor {
 
         //函数参数相关
         std::unordered_map<std::string, std::vector<Value*>> array_size;
+
+        //exp相关
+        bool is_const_exp = false;//当前表达式是否为constexp
 
         //init 相关
         std::vector<int> array_index; //储存当前赋值的变量的数组层次元素个数，如a[2][3][4],存储[4,3,2]

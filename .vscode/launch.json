@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/build/cminusfc",
             "args": [
-                "${workspaceFolder}/tests/all_test_cases/functional/86_long_code2.sy",
+                "${workspaceFolder}/tests/all_test_cases/functional/82_long_func.sy",
                 "-emit-llvm"
             ],
             "stopAtEntry": false,

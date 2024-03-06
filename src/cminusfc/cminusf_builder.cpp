@@ -68,7 +68,9 @@ Value* CminusfBuilder::visit(ASTVarDef& node) {//记得加隐式转换
         
         for(auto&exp:node.expression)
         {
+            context.is_const_exp = true;
             auto temp = exp->accept(*this);
+            context.is_const_exp = false;
             int size = dynamic_cast<ConstantInt*>(temp)->get_value();
             arrayType = ArrayType::get(arrayType, size); 
             context.array_index.push_back(size);
@@ -153,11 +155,10 @@ Value* CminusfBuilder::visit(ASTVarDef& node) {//记得加隐式转换
 Value* CminusfBuilder::visit(ASTConstDecl& node) {
     // Add your code here
     for(auto &cdef:node.constdef)
-    {
         cdef->accept(*this);
-    }
     return nullptr;
 }
+
 Value* CminusfBuilder::visit(ASTConstDef& node) {         
     if (node.type == TYPE_INT)
         context.tmpType = INT32_T;
@@ -172,19 +173,53 @@ Value* CminusfBuilder::visit(ASTConstDef& node) {
         
         for(auto&exp:node.expression)
         {
+            context.is_const_exp = true;
             auto temp = exp->accept(*this);
+            context.is_const_exp = false;
             int size = dynamic_cast<ConstantInt*>(temp)->get_value();
             arrayType = ArrayType::get(arrayType, size); 
             context.array_index.push_back(size);
         }
+        Constant* initializer;
+        Value* arrayAlloca; 
+        context.is_const_exp = true;
+        initializer=dynamic_cast<Constant*>(node.initiation->accept(*this));
+        context.is_const_exp = false;
+        if (scope.in_global())
+            arrayAlloca = GlobalVariable::create(node.id, module.get(), arrayType, true, initializer);
+        else
+        {
+            arrayAlloca = builder->create_alloca(arrayType);
+            builder->create_store(initializer,arrayAlloca);
+        }
+        context.array_index.clear();
+        context.val_pos.clear();
+        scope.push_const_val(node.id, initializer);
+        scope.push(node.id, arrayAlloca, true);// 将获得的数组变量加入域 
+        return arrayAlloca;
     }
-    Value *init;
-    init=node.initiation->accept(*this);
-    context.array_index.clear();
-    context.val_pos.clear();
-    scope.push(node.id, init, true);// 将获得的数组变量加入域 
-    return init;
+    else {  
+        Value* varAlloca;     
+        context.is_const_exp = true;
+        auto const_init = dynamic_cast<Constant*>(node.initiation->accept(*this));
+        context.is_const_exp = false;
+        if(dynamic_cast<ConstantFP*>(const_init) && context.tmpType==INT32_T)
+            const_init=CONST_INT((int)(dynamic_cast<ConstantFP*>(const_init)->get_value()));
+        else if(dynamic_cast<ConstantInt*>(const_init) && context.tmpType==FLOAT_T)
+            const_init=CONST_FP((float)(dynamic_cast<ConstantInt*>(const_init)->get_value()));
+        if (scope.in_global())         
+            varAlloca = GlobalVariable::create(node.id, module.get(), context.tmpType, true, const_init);
+        else   
+        {
+            varAlloca = builder->create_alloca(context.tmpType);
+            builder->create_store(const_init,varAlloca);
+        } 
+        scope.push_const_val(node.id, const_init);
+        scope.push(node.id, varAlloca, true); 
+        return varAlloca;
+    }
 }
+
 Value* CminusfBuilder::visit(ASTFunDeclaration &node) {
     FunctionType *fun_type;
     Type *ret_type;
@@ -273,23 +308,6 @@ Value* CminusfBuilder::visit(ASTParam &node) {
     scope.push(node.id, paramAlloca, false);
     return nullptr;
 }
-
-/*Value* CminusfBuilder::visit(ASTCompoundStmt &node) {
-    // TODO: This function is not complete.
-    // You may need to add some code here
-    // to deal with complex statements.
-
-    for (auto &decl : node.local_declarations) {
-        decl->accept(*this);
-    }
-
-    for (auto &stmt : node.statement_list) {
-        stmt->accept(*this);
-        if (builder->get_insert_block()->is_terminated())
-            break;
-    }
-    return nullptr;
-}*/
 
 Value* CminusfBuilder::visit(ASTSelectionStmt &node) {
     // TODO: This function is empty now.
@@ -716,7 +734,7 @@ Value* CminusfBuilder::visit(ASTInit& node) {
 Value* CminusfBuilder::visit(ASTLVal& node) {
     Value* ret_value;
     std::vector<Value*> index;
-    if(!scope.find(node.id)->is_const)//不是常量名
+    if(!context.is_const_exp)//不在常量表达式中
     {
         auto var = scope.find(node.id)->val;       
         bool assign = context.assign;    // 是否由赋值语句调用
@@ -789,7 +807,7 @@ Value* CminusfBuilder::visit(ASTLVal& node) {
                 ret_value = builder->create_load(var);
         }
     }
-    else//是常量名
+    else//在常量表达式中
     {
         auto var = scope.find(node.id)->val;
         if(node.expression.size()!=0)//是数组
