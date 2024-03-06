@@ -106,7 +106,7 @@ class CminusfBuilder : public ASTVisitor {
         //int arrayfloat_num=10;
         auto *TyArrayfloat = module->get_float_ptr_type();
         std::vector<Type*> getfarray_params;
-        getfarray_params.push_back(TyArrayint);
+        getfarray_params.push_back(TyArrayfloat);
         auto *getfarray_type = FunctionType::get(TyInt32, getfarray_params);
         auto *getfarray = Function::create(getfarray_type, "getfarray", module.get());
 
@@ -132,6 +132,7 @@ class CminusfBuilder : public ASTVisitor {
         auto *putfloat = Function::create(putfloat_type, "putfloat", module.get());
 
         std::vector<Type*> putfarray_params;
+        putfarray_params.push_back(TyInt32);
         putfarray_params.push_back(TyArrayfloat);
         auto *putfarray_type = FunctionType::get(TyVoid, putfarray_params);
         auto *putfarray = Function::create(putfarray_type, "putfarray", module.get());

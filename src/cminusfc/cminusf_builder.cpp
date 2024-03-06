@@ -937,7 +937,11 @@ Value* CminusfBuilder::visit(ASTRelExp& node) {
                 //else //变量
                 //{
                 if(rres->get_type()->is_integer_type())
+                {
+                    if(rres->get_type()->is_int1_type())
+                        rres=builder->create_zext(rres,INT32_T);
                     ret_val1 = builder->create_icmp_gt(rres,CONST_ZERO(INT32_T));
+                }
                 else
                     ret_val1 = builder->create_fcmp_gt(rres,CONST_ZERO(FLOAT_T));
                 //}
