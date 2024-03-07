@@ -709,9 +709,13 @@ Value* CminusfBuilder::visit(ASTInit& node) {
             }
             arrayType = ArrayType::get(arrayType, capacity);
         }
+        if(consts.size()==0)
+            val=CONST_ZERO(ArrayType::get(arrayType,context.array_index[context.level]));
+        else{
         for(int i=consts.size()+1;i<=context.array_index[context.level];i++)
             consts.push_back(dynamic_cast<Constant*>(CONST_ZERO(arrayType)));
         val=ConstantArray::get(ArrayType::get(arrayType,consts.size()),consts);
+        }
         node.level = context.level + 1;
         if(flag==1)
         {

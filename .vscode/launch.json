@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/build/cminusfc",
             "args": [
-                "${workspaceFolder}/tests/all_test_cases/functional/95_float.sy",
+                "${workspaceFolder}/tests/jianmu-tests/func/my_test.sy",
                 "-emit-llvm"
             ],
             "stopAtEntry": false,
