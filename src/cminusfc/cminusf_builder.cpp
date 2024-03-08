@@ -654,7 +654,7 @@ Value* CminusfBuilder::visit(ASTInit& node) {
     {  
         std::vector<Constant*> consts;
         std::vector<int> true_level;
-        int max_true_level=-1;
+        int max_true_level=0;
         //int is_zero=1;
         for (auto &init:node.sub_inits)
             if(max_true_level<init->level)
