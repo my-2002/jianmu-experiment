@@ -491,6 +491,10 @@ Value* CminusfBuilder::visit(ASTAdditiveExpression &node) {
     else
     {
         if (lres->get_type()->is_integer_type() && rres->get_type()->is_integer_type()) {    
+            if(lres->get_type()->is_int1_type())
+                lres=builder->create_zext(lres,INT32_T);
+            if(rres->get_type()->is_int1_type())
+                rres=builder->create_zext(rres,INT32_T);
             switch (node.op) {
             case OP_PLUS:
                 ret_val = builder->create_iadd(lres, rres);break;
@@ -651,6 +655,7 @@ Value* CminusfBuilder::visit(ASTInit& node) {
         std::vector<Constant*> consts;
         std::vector<int> true_level;
         int max_true_level=0;
+        int is_zero=1;
         for (auto &init:node.sub_inits)
             if(max_true_level<init->level)
                 max_true_level=init->level;
@@ -718,6 +723,16 @@ Value* CminusfBuilder::visit(ASTInit& node) {
             }
             arrayType = ArrayType::get(arrayType, capacity);
         }
+        for(auto const_val:consts)
+        {
+            if (dynamic_cast<ConstantInt*>(const_val)==nullptr or dynamic_cast<ConstantInt*>(const_val)->get_value()!=0)
+            {
+                is_zero=0;
+            }
+        }
+        if(consts.size()==0 or is_zero==1)
+            val=CONST_ZERO(ArrayType::get(arrayType,context.array_index[context.level]));
+        else{
         for(int i=consts.size()+1;i<=context.array_index[context.level];i++)
         {
             consts.push_back(dynamic_cast<Constant*>(CONST_ZERO(arrayType)));
@@ -725,6 +740,7 @@ Value* CminusfBuilder::visit(ASTInit& node) {
         }
             
         val=ConstantArray::get(ArrayType::get(arrayType,consts.size()),consts);
+        }
         node.level = context.level + 1;
         if(flag==1)
         {
@@ -978,7 +994,11 @@ Value* CminusfBuilder::visit(ASTRelExp& node) {
                 //else //变量
                 //{
                     if(rres->get_type()->is_integer_type())
+                    {
+                        if(rres->get_type()->is_int1_type())
+                            rres=builder->create_zext(rres,INT32_T);
                         ret_val2 = builder->create_icmp_gt(rres,CONST_ZERO(INT32_T));
+                    }     
                     else
                         ret_val2 = builder->create_fcmp_gt(rres,CONST_ZERO(FLOAT_T));
                 //}
