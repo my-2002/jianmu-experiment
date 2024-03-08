@@ -106,6 +106,7 @@ Value* CminusfBuilder::visit(ASTVarDef& node) {//记得加隐式转换
         }
         context.array_index.clear();
         context.val_pos.clear();
+        context.cur_pos.clear();
         scope.push(node.id, arrayAlloca, false);// 将获得的数组变量加入域 
         return arrayAlloca;
     }
@@ -194,6 +195,7 @@ Value* CminusfBuilder::visit(ASTConstDef& node) {
         }
         context.array_index.clear();
         context.val_pos.clear();
+        context.cur_pos.clear();
         scope.push_const_val(node.id, initializer);
         scope.push(node.id, arrayAlloca, true);// 将获得的数组变量加入域 
         return arrayAlloca;
@@ -615,6 +617,13 @@ Value* CminusfBuilder::visit(ASTMulExpression& node) {
     return ret_val;
 }
 
+void CminusfBuilder::cur_pos_add(int dim, int num)
+{
+    if(dim < (int)context.array_index.size()-1 && context.cur_pos[dim]+num >= context.array_index[dim])
+        cur_pos_add(dim+1, (context.cur_pos[dim]+num)/context.array_index[dim]);
+    context.cur_pos[dim] = (context.cur_pos[dim]+num)%context.array_index[dim];
+}
+
 
 Value* CminusfBuilder::visit(ASTInit& node) {
     Value* val;
@@ -623,19 +632,19 @@ Value* CminusfBuilder::visit(ASTInit& node) {
     if(node.expression!=nullptr)
     {
         auto exp=node.expression->accept(*this);
-        if(!dynamic_cast<Constant*>(exp) && context.array_index.size())
+        if(!dynamic_cast<Constant*>(exp) && !context.array_index.empty())
         {
             //说明该处是变量引用
             val=CONST_ZERO(context.tmpType);
             auto des_val=exp;
             for(auto pos_val:context.cur_pos)
                 context.val_pos[des_val].push_back(ConstantInt::get(pos_val, module.get()));
-            while(context.val_pos[des_val].size() < context.array_index.size())
-                context.val_pos[des_val].push_back(CONST_INT(0));
             std::reverse(context.val_pos[des_val].begin(),context.val_pos[des_val].end());
         }
         else
             val=exp;
+        if(not context.array_index.empty())
+            cur_pos_add(0, 1);
     }
     else
     {  
@@ -643,10 +652,8 @@ Value* CminusfBuilder::visit(ASTInit& node) {
         std::vector<int> true_level;
         int max_true_level=0;
         for (auto &init:node.sub_inits)
-        {
             if(max_true_level<init->level)
                 max_true_level=init->level;
-        }
         if(context.level>max_true_level+1)
         {
             temp_conlevel=context.level;
@@ -686,6 +693,7 @@ Value* CminusfBuilder::visit(ASTInit& node) {
                     else if(j==(int)true_level.size()-1)
                     {
                         uplevel.insert(uplevel.end(),capacity-num,dynamic_cast<Constant*>(CONST_ZERO(arrayType)));
+                        cur_pos_add(i+1, capacity-num);
                         consts.erase(consts.begin()+j-num+1,consts.begin()+j+1);  
                         consts.insert(consts.begin()+j-num+1,dynamic_cast<Constant*>(ConstantArray::get(ArrayType::get(arrayType,capacity),uplevel)));
                         uplevel.clear();
@@ -698,6 +706,7 @@ Value* CminusfBuilder::visit(ASTInit& node) {
                 else if(num>0 )
                 {
                     uplevel.insert(uplevel.end(),capacity-num,dynamic_cast<Constant*>(CONST_ZERO(arrayType)));
+                    cur_pos_add(i+1, capacity-num);
                     consts.erase(consts.begin()+j-num+1,consts.begin()+j+1);  
                     consts.insert(consts.begin()+j-num+1,dynamic_cast<Constant*>(ConstantArray::get(ArrayType::get(arrayType,capacity),uplevel)));
                     uplevel.clear();
@@ -710,7 +719,11 @@ Value* CminusfBuilder::visit(ASTInit& node) {
             arrayType = ArrayType::get(arrayType, capacity);
         }
         for(int i=consts.size()+1;i<=context.array_index[context.level];i++)
+        {
             consts.push_back(dynamic_cast<Constant*>(CONST_ZERO(arrayType)));
+            cur_pos_add(context.level, 1);
+        }
+            
         val=ConstantArray::get(ArrayType::get(arrayType,consts.size()),consts);
         node.level = context.level + 1;
         if(flag==1)
@@ -726,8 +739,6 @@ Value* CminusfBuilder::visit(ASTInit& node) {
             context.level=temp_conlevel;
         }
     }
-    if(context.level < (int)context.array_index.size()-1 and not context.array_index.empty())
-        context.cur_pos[context.level+1]=(context.cur_pos[context.level+1]+1)%context.array_index[context.level+1];
     
     return val;
 }

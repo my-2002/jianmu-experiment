@@ -190,6 +190,8 @@ class CminusfBuilder : public ASTVisitor {
     virtual Value *visit(ASTRelExp &) override final;
     virtual Value *visit(ASTAdditiveExpression &) override final;
 
+    void cur_pos_add(int, int);
+
     std::unique_ptr<IRBuilder> builder;
     Scope scope;
     std::unique_ptr<Module> module;
