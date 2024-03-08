@@ -6,3 +6,4 @@ rm -rf output
 directory="./"
 # 移除没有后缀的可执行文件
 find "$directory" -type f -executable ! -name "*.*" -exec rm {} \;
+find "$directory" -name "*.ll" |xargs rm -f
