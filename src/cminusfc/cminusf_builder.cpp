@@ -654,8 +654,8 @@ Value* CminusfBuilder::visit(ASTInit& node) {
     {  
         std::vector<Constant*> consts;
         std::vector<int> true_level;
-        int max_true_level=0;
-        int is_zero=1;
+        int max_true_level=-1;
+        //int is_zero=1;
         for (auto &init:node.sub_inits)
             if(max_true_level<init->level)
                 max_true_level=init->level;
@@ -723,24 +723,23 @@ Value* CminusfBuilder::visit(ASTInit& node) {
             }
             arrayType = ArrayType::get(arrayType, capacity);
         }
-        for(auto const_val:consts)
-        {
-            if (dynamic_cast<ConstantInt*>(const_val)==nullptr or dynamic_cast<ConstantInt*>(const_val)->get_value()!=0)
-            {
-                is_zero=0;
-            }
-        }
+        /*for(auto const_val:consts)
+            if (!dynamic_cast<ConstantZero*>(const_val))
+                if(!dynamic_cast<ConstantInt*>(const_val) || dynamic_cast<ConstantInt*>(const_val)->get_value()!=0)  
+                    if(!dynamic_cast<ConstantFP*>(const_val) || dynamic_cast<ConstantFP*>(const_val)->get_value()!=0)
+                        is_zero=0;
         if(consts.size()==0 or is_zero==1)
             val=CONST_ZERO(ArrayType::get(arrayType,context.array_index[context.level]));
-        else{
-        for(int i=consts.size()+1;i<=context.array_index[context.level];i++)
-        {
-            consts.push_back(dynamic_cast<Constant*>(CONST_ZERO(arrayType)));
-            cur_pos_add(context.level, 1);
-        }
-            
-        val=ConstantArray::get(ArrayType::get(arrayType,consts.size()),consts);
-        }
+        else
+        {*/
+            for(int i=consts.size()+1;i<=context.array_index[context.level];i++)
+            {
+                consts.push_back(dynamic_cast<Constant*>(CONST_ZERO(arrayType)));
+                cur_pos_add(context.level, 1);
+            }
+                
+            val=ConstantArray::get(ArrayType::get(arrayType,consts.size()),consts);
+        //}
         node.level = context.level + 1;
         if(flag==1)
         {
@@ -750,7 +749,10 @@ Value* CminusfBuilder::visit(ASTInit& node) {
                 std::vector<Constant*> uplevels;
                 uplevels.push_back(dynamic_cast<Constant*>(val));
                 uplevels.insert(uplevels.end(),capcity-1,dynamic_cast<Constant*>(CONST_ZERO(val->get_type())));
-                val=ConstantArray::get(ArrayType::get(val->get_type(),capcity),uplevels);
+                cur_pos_add(i, capcity-1);
+                //if(!dynamic_cast<ConstantZero*>(val))
+                    val = ConstantArray::get(ArrayType::get(val->get_type(),capcity),uplevels);
+                //else val = CONST_ZERO(ArrayType::get(val->get_type(),capcity)); 
             }
             context.level=temp_conlevel;
         }
