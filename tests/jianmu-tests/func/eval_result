@@ -34,10 +34,8 @@
 	Fail
 ===========END========
 
-	execute Fail
-===========END========
-
 	Fail
+	Success
 ===========END========
 
 	Fail

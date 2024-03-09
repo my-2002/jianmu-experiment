@@ -311,7 +311,7 @@ void CodeGen::gen_alloca() {
         append_inst("addi.d $t0, $zero, " + std::to_string(offset));
     else
         load_large_int64(offset, Reg::t(0));
-    if(alloc_size<4095)
+    if(alloc_size<2048)
         append_inst("addi.d $t0, $t0, " + std::to_string(-static_cast<int>(alloc_size)));
     else
     {
@@ -363,7 +363,7 @@ void CodeGen::gen_store(Value* val) {
         else //说明是zeroinit
         {
             int num = (int)val_type->get_size()/4;
-            if(num<4095)
+            if(num<2048)
                 append_inst("addi.w $t1, $zero, "+std::to_string(num));
             else
                 load_large_int32(num,Reg::t(1));
@@ -566,7 +566,7 @@ void CodeGen::gen_gep() {
     for(int i=1; i<(int)(gepInst->get_num_operand()); i++)
     {
         auto size = tmp_type->get_size();
-        if(size<4095)
+        if(size<2048)
             append_inst("addi.w $t2, $zero, " + std::to_string(size));
         else
             load_large_int32(size,Reg::t(2));       //大数组情况
@@ -641,6 +641,8 @@ std::string CodeGen::print_init(Constant* init){
     }
     else if (auto init_int = dynamic_cast<ConstantInt*>(init))
         return init_int->print();
+    else if (auto init_zero = dynamic_cast<ConstantZero*>(init))
+        return "0";
     else
         return dynamic_cast<ConstantFP*>(init)->print();
     return str;

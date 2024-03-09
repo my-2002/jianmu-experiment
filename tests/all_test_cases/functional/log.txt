@@ -1,13 +1,13 @@
 ==========.//00_main.sy==========
 3								3
 ==========.//01_var_defn2.sy==========
-10							      |	5
+10								10
 ==========.//02_var_defn3.sy==========
 5								5
 ==========.//03_arr_defn2.sy==========
 0								0
 ==========.//04_arr_defn3.sy==========
-14							      |	8
+14								14
 ==========.//05_arr_defn4.sy==========
 21								21
 ==========.//06_const_var_defn2.sy==========
@@ -69,7 +69,7 @@
 ==========.//33_while_if_test3.sy==========
 88								88
 ==========.//34_arr_expr_len.sy==========
-51							      |	0
+51								51
 ==========.//35_op_priority1.sy==========
 40								40
 ==========.//36_op_priority2.sy==========
@@ -82,12 +82,12 @@
 1							      |	11
 1							      <
 ==========.//40_unary_op.sy==========
-cminusfc: /home/syx/Test/jianmu/2023ustc-jianmu-compiler/src/lightir/Instruction.cpp:73: ICmpInst::ICmpInst(Instruction::OpID, Value *, Value *, BasicBlock *): Assertion `lhs->get_type()->is_int32_type() && rhs->get_type()->is_int32_type() && "CmpInst operands are not both i32"' failed.
-cminusfc: /home/syx/Test/jianmu/2023ustc-jianmu-compiler/src/lightir/Instruction.cpp:73: ICmpInst::ICmpInst(Instruction::OpID, Value *, Value *, BasicBlock *): Assertion `lhs->get_type()->is_int32_type() && rhs->get_type()->is_int32_type() && "CmpInst operands are not both i32"' failed.
+0								0
 ==========.//41_unary_op2.sy==========
-cminusfc: /home/syx/Test/jianmu/2023ustc-jianmu-compiler/src/lightir/Instruction.cpp:73: ICmpInst::ICmpInst(Instruction::OpID, Value *, Value *, BasicBlock *): Assertion `lhs->get_type()->is_int32_type() && rhs->get_type()->is_int32_type() && "CmpInst operands are not both i32"' failed.
-cminusfc: /home/syx/Test/jianmu/2023ustc-jianmu-compiler/src/lightir/Instruction.cpp:73: ICmpInst::ICmpInst(Instruction::OpID, Value *, Value *, BasicBlock *): Assertion `lhs->get_type()->is_int32_type() && rhs->get_type()->is_int32_type() && "CmpInst operands are not both i32"' failed.
+4							      |	40
+0							      <
 ==========.//42_empty_stmt.sy==========
+21								21
 ==========.//43_logi_assign.sy==========
 1								1
 ==========.//44_stmt_expr.sy==========
@@ -96,9 +96,9 @@ cminusfc: /home/syx/Test/jianmu/2023ustc-jianmu-compiler/src/lightir/Instruction
 ==========.//45_comment1.sy==========
 5								5
 ==========.//46_hex_defn.sy==========
-15							      |	0
+15								15
 ==========.//47_hex_oct_add.sy==========
-88							      |	75
+88								88
 ==========.//48_assign_complex_expr.sy==========
 -171							      |	-1710
 0							      <
@@ -106,9 +106,14 @@ cminusfc: /home/syx/Test/jianmu/2023ustc-jianmu-compiler/src/lightir/Instruction
 2							      |	20
 0							      <
 ==========.//50_short_circuit.sy==========
-cminusfc: /home/syx/Test/jianmu/2023ustc-jianmu-compiler/src/lightir/Instruction.cpp:73: ICmpInst::ICmpInst(Instruction::OpID, Value *, Value *, BasicBlock *): Assertion `lhs->get_type()->is_int32_type() && rhs->get_type()->is_int32_type() && "CmpInst operands are not both i32"' failed.
-cminusfc: /home/syx/Test/jianmu/2023ustc-jianmu-compiler/src/lightir/Instruction.cpp:73: ICmpInst::ICmpInst(Instruction::OpID, Value *, Value *, BasicBlock *): Assertion `lhs->get_type()->is_int32_type() && rhs->get_type()->is_int32_type() && "CmpInst operands are not both i32"' failed.
+11111210						      |	111112100
+0							      <
 ==========.//51_short_circuit3.sy==========
+0 3 0 3								0 3 0 3
+3 3								3 3
+ADF								ADF
+CIJK								CIJK
+0								0
 ==========.//52_scope.sy==========
 1							      |	10
 0							      <
@@ -119,8 +124,8 @@ cminusfc: /home/syx/Test/jianmu/2023ustc-jianmu-compiler/src/lightir/Instruction
 331								331
 1								1
 218								218
-5							      |	0
-6719							      |	0010
+5								5
+6719								6719
 0								0
 ==========.//55_sort_test1.sy==========
 0								0
@@ -219,12 +224,9 @@ cminusfc: /home/syx/Test/jianmu/2023ustc-jianmu-compiler/src/lightir/Instruction
 I'm Suzumiya Haruhi from the East Junior High School, and I'm	I'm Suzumiya Haruhi from the East Junior High School, and I'm
 0								0
 ==========.//69_expr_eval.sy==========
--820							      |	panic!
-696							      |	-1
-1220							      |	panic!
-							      >	-1
-							      >	panic!
-							      >	-1
+-820								-820
+696								696
+1220								1220
 panic!								panic!
 -1								-1
 panic!								panic!
@@ -235,12 +237,11 @@ panic!								panic!
 0								0
 ==========.//71_full_conn.sy==========
 dog								dog
-cat							      <
+cat								cat
 dog								dog
 dog								dog
-cat							      |	dog
-cat							      |	dog
-							      >	dog
+cat								cat
+cat								cat
 0								0
 ==========.//72_hanoi.sy==========
 1 2, 1 3, 2 3, 1 2, 3 1, 3 2, 1 2, 1 3, 2 3, 2 1, 3 1, 2 3, 1	1 2, 1 3, 2 3, 1 2, 3 1, 3 2, 1 2, 1 3, 2 3, 2 1, 3 1, 2 3, 1
@@ -259,27 +260,133 @@ cat							      |	dog
 23								23
 0								0
 ==========.//75_max_flow.sy==========
-77							      |	0
+77								77
 0								0
 ==========.//76_n_queens.sy==========
-cminusfc: /home/syx/Test/jianmu/2023ustc-jianmu-compiler/src/lightir/Instruction.cpp:73: ICmpInst::ICmpInst(Instruction::OpID, Value *, Value *, BasicBlock *): Assertion `lhs->get_type()->is_int32_type() && rhs->get_type()->is_int32_type() && "CmpInst operands are not both i32"' failed.
-cminusfc: /home/syx/Test/jianmu/2023ustc-jianmu-compiler/src/lightir/Instruction.cpp:73: ICmpInst::ICmpInst(Instruction::OpID, Value *, Value *, BasicBlock *): Assertion `lhs->get_type()->is_int32_type() && rhs->get_type()->is_int32_type() && "CmpInst operands are not both i32"' failed.
+1								1
+1 3 5 2 4							1 3 5 2 4
+1 4 2 5 3							1 4 2 5 3
+2 4 1 3 5							2 4 1 3 5
+2 5 3 1 4							2 5 3 1 4
+3 1 4 2 5							3 1 4 2 5
+3 5 2 4 1							3 5 2 4 1
+4 1 3 5 2							4 1 3 5 2
+4 2 5 3 1							4 2 5 3 1
+5 2 4 1 3							5 2 4 1 3
+5 3 1 4 2							5 3 1 4 2
+2 4 6 1 3 5							2 4 6 1 3 5
+3 6 2 5 1 4							3 6 2 5 1 4
+4 1 5 2 6 3							4 1 5 2 6 3
+5 3 1 6 4 2							5 3 1 6 4 2
+1 5 8 6 3 7 2 4							1 5 8 6 3 7 2 4
+1 6 8 3 7 4 2 5							1 6 8 3 7 4 2 5
+1 7 4 6 8 2 5 3							1 7 4 6 8 2 5 3
+1 7 5 8 2 4 6 3							1 7 5 8 2 4 6 3
+2 4 6 8 3 1 7 5							2 4 6 8 3 1 7 5
+2 5 7 1 3 8 6 4							2 5 7 1 3 8 6 4
+2 5 7 4 1 8 6 3							2 5 7 4 1 8 6 3
+2 6 1 7 4 8 3 5							2 6 1 7 4 8 3 5
+2 6 8 3 1 4 7 5							2 6 8 3 1 4 7 5
+2 7 3 6 8 5 1 4							2 7 3 6 8 5 1 4
+2 7 5 8 1 4 6 3							2 7 5 8 1 4 6 3
+2 8 6 1 3 5 7 4							2 8 6 1 3 5 7 4
+3 1 7 5 8 2 4 6							3 1 7 5 8 2 4 6
+3 5 2 8 1 7 4 6							3 5 2 8 1 7 4 6
+3 5 2 8 6 4 7 1							3 5 2 8 6 4 7 1
+3 5 7 1 4 2 8 6							3 5 7 1 4 2 8 6
+3 5 8 4 1 7 2 6							3 5 8 4 1 7 2 6
+3 6 2 5 8 1 7 4							3 6 2 5 8 1 7 4
+3 6 2 7 1 4 8 5							3 6 2 7 1 4 8 5
+3 6 2 7 5 1 8 4							3 6 2 7 5 1 8 4
+3 6 4 1 8 5 7 2							3 6 4 1 8 5 7 2
+3 6 4 2 8 5 7 1							3 6 4 2 8 5 7 1
+3 6 8 1 4 7 5 2							3 6 8 1 4 7 5 2
+3 6 8 1 5 7 2 4							3 6 8 1 5 7 2 4
+3 6 8 2 4 1 7 5							3 6 8 2 4 1 7 5
+3 7 2 8 5 1 4 6							3 7 2 8 5 1 4 6
+3 7 2 8 6 4 1 5							3 7 2 8 6 4 1 5
+3 8 4 7 1 6 2 5							3 8 4 7 1 6 2 5
+4 1 5 8 2 7 3 6							4 1 5 8 2 7 3 6
+4 1 5 8 6 3 7 2							4 1 5 8 6 3 7 2
+4 2 5 8 6 1 3 7							4 2 5 8 6 1 3 7
+4 2 7 3 6 8 1 5							4 2 7 3 6 8 1 5
+4 2 7 3 6 8 5 1							4 2 7 3 6 8 5 1
+4 2 7 5 1 8 6 3							4 2 7 5 1 8 6 3
+4 2 8 5 7 1 3 6							4 2 8 5 7 1 3 6
+4 2 8 6 1 3 5 7							4 2 8 6 1 3 5 7
+4 6 1 5 2 8 3 7							4 6 1 5 2 8 3 7
+4 6 8 2 7 1 3 5							4 6 8 2 7 1 3 5
+4 6 8 3 1 7 5 2							4 6 8 3 1 7 5 2
+4 7 1 8 5 2 6 3							4 7 1 8 5 2 6 3
+4 7 3 8 2 5 1 6							4 7 3 8 2 5 1 6
+4 7 5 2 6 1 3 8							4 7 5 2 6 1 3 8
+4 7 5 3 1 6 8 2							4 7 5 3 1 6 8 2
+4 8 1 3 6 2 7 5							4 8 1 3 6 2 7 5
+4 8 1 5 7 2 6 3							4 8 1 5 7 2 6 3
+4 8 5 3 1 7 2 6							4 8 5 3 1 7 2 6
+5 1 4 6 8 2 7 3							5 1 4 6 8 2 7 3
+5 1 8 4 2 7 3 6							5 1 8 4 2 7 3 6
+5 1 8 6 3 7 2 4							5 1 8 6 3 7 2 4
+5 2 4 6 8 3 1 7							5 2 4 6 8 3 1 7
+5 2 4 7 3 8 6 1							5 2 4 7 3 8 6 1
+5 2 6 1 7 4 8 3							5 2 6 1 7 4 8 3
+5 2 8 1 4 7 3 6							5 2 8 1 4 7 3 6
+5 3 1 6 8 2 4 7							5 3 1 6 8 2 4 7
+5 3 1 7 2 8 6 4							5 3 1 7 2 8 6 4
+5 3 8 4 7 1 6 2							5 3 8 4 7 1 6 2
+5 7 1 3 8 6 4 2							5 7 1 3 8 6 4 2
+5 7 1 4 2 8 6 3							5 7 1 4 2 8 6 3
+5 7 2 4 8 1 3 6							5 7 2 4 8 1 3 6
+5 7 2 6 3 1 4 8							5 7 2 6 3 1 4 8
+5 7 2 6 3 1 8 4							5 7 2 6 3 1 8 4
+5 7 4 1 3 8 6 2							5 7 4 1 3 8 6 2
+5 8 4 1 3 6 2 7							5 8 4 1 3 6 2 7
+5 8 4 1 7 2 6 3							5 8 4 1 7 2 6 3
+6 1 5 2 8 3 7 4							6 1 5 2 8 3 7 4
+6 2 7 1 3 5 8 4							6 2 7 1 3 5 8 4
+6 2 7 1 4 8 5 3							6 2 7 1 4 8 5 3
+6 3 1 7 5 8 2 4							6 3 1 7 5 8 2 4
+6 3 1 8 4 2 7 5							6 3 1 8 4 2 7 5
+6 3 1 8 5 2 4 7							6 3 1 8 5 2 4 7
+6 3 5 7 1 4 2 8							6 3 5 7 1 4 2 8
+6 3 5 8 1 4 2 7							6 3 5 8 1 4 2 7
+6 3 7 2 4 8 1 5							6 3 7 2 4 8 1 5
+6 3 7 2 8 5 1 4							6 3 7 2 8 5 1 4
+6 3 7 4 1 8 2 5							6 3 7 4 1 8 2 5
+6 4 1 5 8 2 7 3							6 4 1 5 8 2 7 3
+6 4 2 8 5 7 1 3							6 4 2 8 5 7 1 3
+6 4 7 1 3 5 2 8							6 4 7 1 3 5 2 8
+6 4 7 1 8 2 5 3							6 4 7 1 8 2 5 3
+6 8 2 4 1 7 5 3							6 8 2 4 1 7 5 3
+7 1 3 8 6 4 2 5							7 1 3 8 6 4 2 5
+7 2 4 1 8 5 3 6							7 2 4 1 8 5 3 6
+7 2 6 3 1 4 8 5							7 2 6 3 1 4 8 5
+7 3 1 6 8 5 2 4							7 3 1 6 8 5 2 4
+7 3 8 2 5 1 6 4							7 3 8 2 5 1 6 4
+7 4 2 5 8 1 3 6							7 4 2 5 8 1 3 6
+7 4 2 8 6 1 3 5							7 4 2 8 6 1 3 5
+7 5 3 1 6 8 2 4							7 5 3 1 6 8 2 4
+8 2 4 1 7 5 3 6							8 2 4 1 7 5 3 6
+8 2 5 3 1 7 4 6							8 2 5 3 1 7 4 6
+8 3 1 6 2 5 7 4							8 3 1 6 2 5 7 4
+8 4 1 3 6 2 7 5							8 4 1 3 6 2 7 5
+107								107
 ==========.//77_substr.sy==========
 43								43
 6								6
 0								0
 ==========.//78_side_effect.sy==========
-1							      |	3 0
-4 2							      |	4
-5							      |	7 0
-8 4							      |	8
-9							      |	11 0
-12 8							      |	12
-13							      |	15 0
-16 16							      |	23 0
-24 16							      |	31 0
-29 16							      |	36 0
-29							      |	36
+1								1
+4 2								4 2
+5								5
+8 4								8 4
+9								9
+12 8								12 8
+13								13
+16 16								16 16
+24 16								24 16
+29 16								29 16
+29								29
 ==========.//79_var_name.sy==========
 3								3
 5								5
@@ -301,38 +408,55 @@ cminusfc: /home/syx/Test/jianmu/2023ustc-jianmu-compiler/src/lightir/Instruction
 10946								10946
 236								236
 ==========.//80_chaos_token.sy==========
-Welcome to the Japari Park!				      <
-Araiguma says hello to Tairiku Ookami			      <
-Tairiku Ookami says hello to Saabaru			      <
-Araiguma says hello to Kaban				      <
-Hunboruto Pengin says hello to Hashibirokou		      <
-Hashibirokou says hello to Tairiku Ookami		      <
-Hunboruto Pengin says hello to Saabaru			      <
-Hashibirokou says hello to Araiguma			      <
-Araiguma says hello to Hunboruto Pengin			      <
-Hashibirokou says hello to Kaban			      <
-Araiguma says hello to Hashibirokou			      <
-Kaban says hello to Tairiku Ookami			      <
-Araiguma says hello to Saabaru				      <
-Kaban says hello to Araiguma				      <
-Hashibirokou says hello to Hunboruto Pengin		      <
-Saabaru says hello to Tairiku Ookami			      <
-Hashibirokou says hello to Saabaru			      <
-Saabaru says hello to Araiguma				      <
-Kaban says hello to Hunboruto Pengin			      <
-Saabaru says hello to Kaban				      <
-Kaban says hello to Hashibirokou			      <
-Tairiku Ookami says hello to Kaban			      <
-Kaban says hello to Saabaru				      <
-Hunboruto Pengin says hello to Tairiku Ookami		      <
-Saabaru says hello to Hunboruto Pengin			      <
-Hunboruto Pengin says hello to Araiguma			      <
-Saabaru says hello to Hashibirokou			      <
-Hunboruto Pengin says hello to Kaban			      <
+Welcome to the Japari Park!					Welcome to the Japari Park!
+Araiguma says hello to Tairiku Ookami				Araiguma says hello to Tairiku Ookami
+Tairiku Ookami says hello to Saabaru				Tairiku Ookami says hello to Saabaru
+Araiguma says hello to Kaban					Araiguma says hello to Kaban
+Hunboruto Pengin says hello to Hashibirokou			Hunboruto Pengin says hello to Hashibirokou
+Hashibirokou says hello to Tairiku Ookami			Hashibirokou says hello to Tairiku Ookami
+Hunboruto Pengin says hello to Saabaru				Hunboruto Pengin says hello to Saabaru
+Hashibirokou says hello to Araiguma				Hashibirokou says hello to Araiguma
+Araiguma says hello to Hunboruto Pengin				Araiguma says hello to Hunboruto Pengin
+Hashibirokou says hello to Kaban				Hashibirokou says hello to Kaban
+Araiguma says hello to Hashibirokou				Araiguma says hello to Hashibirokou
+Kaban says hello to Tairiku Ookami				Kaban says hello to Tairiku Ookami
+Araiguma says hello to Saabaru					Araiguma says hello to Saabaru
+Kaban says hello to Araiguma					Kaban says hello to Araiguma
+Hashibirokou says hello to Hunboruto Pengin			Hashibirokou says hello to Hunboruto Pengin
+Saabaru says hello to Tairiku Ookami				Saabaru says hello to Tairiku Ookami
+Hashibirokou says hello to Saabaru				Hashibirokou says hello to Saabaru
+Saabaru says hello to Araiguma					Saabaru says hello to Araiguma
+Kaban says hello to Hunboruto Pengin				Kaban says hello to Hunboruto Pengin
+Saabaru says hello to Kaban					Saabaru says hello to Kaban
+Kaban says hello to Hashibirokou				Kaban says hello to Hashibirokou
+Tairiku Ookami says hello to Kaban				Tairiku Ookami says hello to Kaban
+Kaban says hello to Saabaru					Kaban says hello to Saabaru
+Hunboruto Pengin says hello to Tairiku Ookami			Hunboruto Pengin says hello to Tairiku Ookami
+Saabaru says hello to Hunboruto Pengin				Saabaru says hello to Hunboruto Pengin
+Hunboruto Pengin says hello to Araiguma				Hunboruto Pengin says hello to Araiguma
+Saabaru says hello to Hashibirokou				Saabaru says hello to Hashibirokou
+Hunboruto Pengin says hello to Kaban				Hunboruto Pengin says hello to Kaban
 0								0
 ==========.//81_skip_spaces.sy==========
 55								55
 ==========.//82_long_func.sy==========
+1								1
+2								2
+4								4
+8								8
+16								16
+32								32
+64								64
+128								128
+256								256
+512								512
+1024								1024
+2048								2048
+4096								4096
+8192								8192
+16384								16384
+32768								32768
+0								0
 ==========.//83_long_array.sy==========
 02425294124166176216218-22282-3478214271817021835771848521867 |	02425294124166176216218-22282-3478214271817021835771848521867
 216							      <
@@ -340,6 +464,8 @@ Hunboruto Pengin says hello to Kaban			      <
 3								3
 0								0
 ==========.//85_long_code.sy==========
+7238926282254275832735749053546579352646394592968929756452279 |	7238926282254275832735749053546579352646394592968929756452279
+0							      <
 ==========.//86_long_code2.sy==========
 ==========.//87_many_params.sy==========
 331024								331024
@@ -360,14 +486,35 @@ Hunboruto Pengin says hello to Kaban			      <
 6								6
 25								25
 ==========.//92_register_alloc.sy==========
-194							      |	4242
+194							      |	194194
 194							      <
 ==========.//93_nested_calls.sy==========
 250								250
 ==========.//94_nested_loops.sy==========
+38							      |	negative index exception
+							      >	0
 ==========.//95_float.sy==========
-cminusfc: /home/syx/Test/jianmu/2023ustc-jianmu-compiler/src/lightir/Instruction.cpp:133: CallInst::CallInst(Function *, std::vector<Value *>, BasicBlock *): Assertion `func_type->get_param_type(i) == args[i]->get_type() && "CallInst: Wrong arg type"' failed.
-cminusfc: /home/syx/Test/jianmu/2023ustc-jianmu-compiler/src/lightir/Instruction.cpp:133: CallInst::CallInst(Function *, std::vector<Value *>, BasicBlock *): Assertion `func_type->get_param_type(i) == args[i]->get_type() && "CallInst: Wrong arg type"' failed.
+ok								ok
+ok								ok
+							      >	error
+							      >	error
+ok								ok
+ok								ok
+ok								ok
+ok								ok
+ok							      |	0x1.d0a3dap+1 3
+ok							      |	0x1.d0a3dap+3 12
+0x1.e691e6p+1 3						      |	0x1.055c28p+5 27
+0x1.e691e6p+3 12					      |	0x1.d0a3dap+5 48
+0x1.11b21p+5 28						      |	0x1.6bp+6 75
+0x1.e691e6p+5 50					      |	0x1.055c28p+7 108
+0x1.7c21fcp+6 78					      |	0x1.63bd6ep+7 147
+0x1.11b21p+7 113					      |	0x1.d0a3dap+7 192
+0x1.7487b2p+7 153					      |	0x1.2607acp+8 243
+0x1.e691e6p+7 201					      <
+0x1.33e85p+8 254					      <
+10: 0x1.333334p+0 0x1.333334p+1 0x1.ccccccp+1 0x1.333334p+2 0	10: 0x1.333334p+0 0x1.333334p+1 0x1.ccccccp+1 0x1.333334p+2 0
+0								0
 ==========.//96_matrix_add.sy==========
 024								024
 024								024

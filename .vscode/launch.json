@@ -10,8 +10,8 @@
             "request": "launch",
             "program": "${workspaceFolder}/build/cminusfc",
             "args": [
-                "${workspaceFolder}/tests/jianmu-tests/func/my_test.sy",
-                "-emit-llvm"
+                "${workspaceFolder}/tests/all_test_cases/hidden_functional/04_break_continue.sy",
+                "-S"
             ],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",

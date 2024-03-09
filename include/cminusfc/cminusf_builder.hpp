@@ -203,9 +203,9 @@ class CminusfBuilder : public ASTVisitor {
         Value *arg = nullptr;
         int label_time=0;    //用于防止对于同一数组多次引用造成检查下标的bb的标签名重复问题
         bool assign = false; 
-        BasicBlock* condbb;
-        BasicBlock* retbb;
-
+        std::vector< BasicBlock*> condbb;
+        std::vector<BasicBlock*> retbb;
+        int loop_level = -1; //当前循环的层次
         //函数参数相关
         std::unordered_map<std::string, std::vector<Value*>> array_size;
 

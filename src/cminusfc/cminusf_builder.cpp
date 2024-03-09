@@ -377,8 +377,9 @@ Value* CminusfBuilder::visit(ASTIterationStmt &node) {
     auto conditionBB = BasicBlock::create(module.get(), "condition"+std::to_string(context.label_time++), function); //条件判断块
     auto loopBB = BasicBlock::create(module.get(), "loop"+std::to_string(context.label_time++), function);         //循环块
     auto retBB = BasicBlock::create(module.get(), "ret"+std::to_string(context.label_time++), function); 
-    context.condbb=conditionBB;
-    context.retbb=retBB;           
+    context.condbb.push_back(conditionBB);
+    context.retbb.push_back(retBB);        
+    context.loop_level++;   
     builder->create_br(conditionBB);     
     builder->set_insert_point(conditionBB); 
     auto res = node.condition->accept(*this);       
@@ -398,16 +399,18 @@ Value* CminusfBuilder::visit(ASTIterationStmt &node) {
         builder->create_br(conditionBB);    
 
     builder->set_insert_point(retBB);     
-
+    context.condbb.pop_back();
+    context.retbb.pop_back();
+    context.loop_level--;
     return nullptr;
 
 }
 Value* CminusfBuilder::visit(ASTIterterminatorStmt &node)
 {
     if(node.terminator==BREAK)
-        builder->create_br(context.retbb);
+        builder->create_br(context.retbb[context.loop_level]);
     else
-        builder->create_br(context.condbb);
+        builder->create_br(context.condbb[context.loop_level]);
     return nullptr;
 }
 Value* CminusfBuilder::visit(ASTReturnStmt &node) {
