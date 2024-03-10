@@ -10,8 +10,8 @@
             "request": "launch",
             "program": "${workspaceFolder}/build/cminusfc",
             "args": [
-                "${workspaceFolder}/tests/all_test_cases/hidden_functional/04_break_continue.sy",
-                "-S"
+                "${workspaceFolder}/tests/all_test_cases/hidden_functional/23_json.sy",
+                "-emit-llvm"
             ],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",

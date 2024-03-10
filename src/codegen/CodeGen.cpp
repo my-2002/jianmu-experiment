@@ -528,22 +528,28 @@ void CodeGen::gen_call() {
             auto size = arg.get_type()->get_size();
             auto arg_type = arg.get_type();
             offset=  ALIGN(offset + size, size);
-            if(arg_type->is_float_type())
+            if(offset<2048)
             {
-                load_to_freg(context.inst->get_operand(i++), FReg::ft(0));
                 append_inst("addi.d $t1, $sp, -"+std::to_string(offset));
-                append_inst("fst.w $ft0, $t1, 0");
             }
             else
             {
+                load_large_int64(offset, Reg::t(1));
+                append_inst("sub.d $t1, $sp, $t1");
+            }
+            if(arg_type->is_float_type())
+                {
+                    load_to_freg(context.inst->get_operand(i++), FReg::ft(0));
+                    append_inst("fst.w $ft0, $t1, 0");
+                }
+            else
+            {
                 load_to_greg(context.inst->get_operand(i++), Reg::t(0));
-                append_inst("addi.d $t1, $sp, -"+std::to_string(offset));
                 if(arg_type->is_pointer_type())
                     append_inst("st.d $t0, $t1, 0");
                 else
                     append_inst("st.w $t0, $t1, 0");
             }
-            
         }
     }
     
