@@ -540,7 +540,7 @@ void CodeGen::gen_call() {
             if(arg_type->is_float_type())
                 {
                     load_to_freg(context.inst->get_operand(i++), FReg::ft(0));
-                    append_inst("fst.w $ft0, $t1, 0");
+                    append_inst("fst.s $ft0, $t1, 0");
                 }
             else
             {
