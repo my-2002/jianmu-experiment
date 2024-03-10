@@ -467,6 +467,7 @@ Hunboruto Pengin says hello to Kaban				Hunboruto Pengin says hello to Kaban
 7238926282254275832735749053546579352646394592968929756452279 |	7238926282254275832735749053546579352646394592968929756452279
 0							      <
 ==========.//86_long_code2.sy==========
+160								160
 ==========.//87_many_params.sy==========
 331024								331024
 0								0
@@ -491,8 +492,7 @@ Hunboruto Pengin says hello to Kaban				Hunboruto Pengin says hello to Kaban
 ==========.//93_nested_calls.sy==========
 250								250
 ==========.//94_nested_loops.sy==========
-38							      |	negative index exception
-							      >	0
+38								38
 ==========.//95_float.sy==========
 ok								ok
 ok								ok

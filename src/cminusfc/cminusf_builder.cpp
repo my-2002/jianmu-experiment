@@ -639,9 +639,17 @@ Value* CminusfBuilder::visit(ASTInit& node) {
     if(node.expression!=nullptr)
     {
         auto exp=node.expression->accept(*this);
+        if(dynamic_cast<ConstantFP*>(exp) && context.tmpType == INT32_T)
+            exp = CONST_INT((int)(dynamic_cast<ConstantFP*>(exp)->get_value()));
+        else if (dynamic_cast<ConstantInt*>(exp) && context.tmpType == FLOAT_T)
+            exp = CONST_FP((float)(dynamic_cast<ConstantInt*>(exp)->get_value()));
         if(!dynamic_cast<Constant*>(exp) && !context.array_index.empty())
         {
             //说明该处是变量引用
+            if(exp->get_type()->is_float_type() && context.tmpType == INT32_T)
+                exp = builder->create_fptosi(exp, INT32_T);
+            else if (exp->get_type()->is_integer_type() && context.tmpType == FLOAT_T)
+                exp = builder->create_sitofp(exp, FLOAT_T);
             val=CONST_ZERO(context.tmpType);
             auto des_val=exp;
             for(auto pos_val:context.cur_pos)
