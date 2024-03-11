@@ -1,5 +1,5 @@
 #include "ast.hpp"
-
+#include <sstream>
 #include <cstring>
 #include <iostream>
 #include <stack>
@@ -418,7 +418,23 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
                 node->i_val = std::stoi(n->children[0]->children[0]->name);
         } else if (_STR_EQ(n->children[0]->name, "floatConst")) {
             node->type = TYPE_FLOAT;
-            node->f_val = std::stof(n->children[0]->children[0]->name);
+            char head[3];
+            head[2] = '\0';
+            /*if(_STR_EQ(strncpy(head, n->children[0]->children[0]->name, 2), "0x") || _STR_EQ(strncpy(head, n->children[0]->children[0]->name, 2), "0X")) {
+                unsigned int x;
+                std::stringstream ss;
+                ss << std::hex <<  n->children[0]->children[0]->name;
+                ss >> x;
+	            node->f_val =  reinterpret_cast<float&>(x);
+               
+            } else if ((n->children[0]->children[0]->name)[0] == '0') {
+                std::stringstream iss(n->children[0]->children[0]->name);
+                int octValue;
+                iss >> std::oct >> octValue; // 读取八进制整数
+                node->f_val = static_cast<float>(octValue); // 将八进制整数转换为浮点数
+            } else { */
+                node->f_val = static_cast<_Float32>(std::stof(n->children[0]->children[0]->name));
+            //}
         } else {
             _AST_NODE_ERROR_
         }

@@ -32,3 +32,4 @@ $ git push origin master
 6. 数组和putf需要修改，计时函数没有完成
 7.genstore处记得删
 8.84长数组需要优化，从中间代码角度
+9.对于浮点运算，暂时都按照单精度float处理，要是需要double，需要修改constantFP处的print函数到double,uint32改为64

@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/build/cminusfc",
             "args": [
-                "${workspaceFolder}/tests/all_test_cases/hidden_functional/23_json.sy",
+                "${workspaceFolder}/tests/all_test_cases/functional/95_float.sy",
                 "-emit-llvm"
             ],
             "stopAtEntry": false,

@@ -48,6 +48,10 @@ Value* CminusfBuilder::visit(ASTNum &node) {
 Value* CminusfBuilder::visit(ASTVarDeclaration &node) {
     // TODO: This function is empty now.
     // Add some code here.
+    if (node.type == TYPE_INT)
+        context.tmpType = INT32_T;
+    else if (node.type == TYPE_FLOAT)  
+        context.tmpType = FLOAT_T;
     for(auto &def:node.vardef)
     {
         def->accept(*this);
@@ -55,10 +59,6 @@ Value* CminusfBuilder::visit(ASTVarDeclaration &node) {
     return nullptr;
 }
 Value* CminusfBuilder::visit(ASTVarDef& node) {//记得加隐式转换
-    if (node.type == TYPE_INT)
-        context.tmpType = INT32_T;
-    else if (node.type == TYPE_FLOAT)  
-        context.tmpType = FLOAT_T;
     if (!node.expression.empty()) {         
         //说明声明变量是数组
         auto* arrayType = context.tmpType;
@@ -155,16 +155,16 @@ Value* CminusfBuilder::visit(ASTVarDef& node) {//记得加隐式转换
 }
 Value* CminusfBuilder::visit(ASTConstDecl& node) {
     // Add your code here
+    if (node.type == TYPE_INT)
+        context.tmpType = INT32_T;
+    else if (node.type == TYPE_FLOAT)  
+        context.tmpType = FLOAT_T;
     for(auto &cdef:node.constdef)
         cdef->accept(*this);
     return nullptr;
 }
 
 Value* CminusfBuilder::visit(ASTConstDef& node) {         
-    if (node.type == TYPE_INT)
-        context.tmpType = INT32_T;
-    else if (node.type == TYPE_FLOAT)  
-        context.tmpType = FLOAT_T;
     if (!node.expression.empty()) {         
         //说明声明变量是数组
         auto* arrayType = context.tmpType;

@@ -102,8 +102,8 @@ ConstantFP *ConstantFP::get(float val, Module *m) {
 std::string ConstantFP::print() {
     std::stringstream fp_ir_ss;
     std::string fp_ir;
-    double val = this->get_value();
-    fp_ir_ss << "0x" << std::hex << *(uint64_t *)&val << std::endl;
+    float val = this->get_value();
+    fp_ir_ss << "0x" << std::hex << *(uint32_t *)&val << std::endl;
     fp_ir_ss >> fp_ir;
     return fp_ir;
 }
