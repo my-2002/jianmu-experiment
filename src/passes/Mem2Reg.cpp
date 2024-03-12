@@ -108,10 +108,23 @@ void Mem2Reg::rename(BasicBlock *bb) {
             value_stack_[instr->get_operand(1)].push(instr->get_operand(0));
             st_inst_.insert(instr);
         }
+        //对于store数组的情况, 也需要进行处理
+        else if(instr->is_store() && instr->get_operand(1)->get_type()->is_array_type())
+        {
+            auto array_type = static_cast<ArrayType*>(instr->get_operand(1)->get_type());
+            auto array_size = array_type->get_num_of_elements();
+            for (size_t i = 0; i < array_size; ++i)
+            {
+                auto element = dynamic_cast<ConstantArray*>(instr->get_operand(0))->get_element_value(i);
+                auto desptr = IRBuilder::create_gep(instr->get_operand(1), {ConstantInt::get(0, 32), ConstantInt::get(i, 32)});
+                value_stack_[desptr].push(element);
+            }
+              st_inst_.insert(instr);
+        }
         if(instr->is_load())
         {
             Value* i = instr->get_operand(0);
-            if(is_valid_ptr(i) && value_stack_[i].top())
+            if(not is_global_variable(i) && value_stack_[i].top())
                 instr->replace_all_use_with(value_stack_[i].top());
         }
     }

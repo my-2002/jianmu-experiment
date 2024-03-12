@@ -11,7 +11,8 @@
             "program": "${workspaceFolder}/build/cminusfc",
             "args": [
                 "${workspaceFolder}/tests/all_test_cases/functional/95_float.sy",
-                "-emit-llvm"
+                "-S",
+                "-mem2reg"
             ],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
