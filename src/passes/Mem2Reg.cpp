@@ -103,7 +103,7 @@ void Mem2Reg::rename(BasicBlock *bb) {
             Value* i = phi_belong_[phi];
             value_stack_[i].push(instr);
         }
-        if(instr->is_store() && is_valid_ptr(instr->get_operand(1)))
+        if(instr->is_store() && is_valid_ptr(instr->get_operand(1)) && not instr->get_operand(0)->get_type()->is_array_type())
         {
             value_stack_[instr->get_operand(1)].push(instr->get_operand(0));
             st_inst_.insert(instr);
