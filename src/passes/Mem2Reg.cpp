@@ -108,8 +108,8 @@ void Mem2Reg::rename(BasicBlock *bb) {
             value_stack_[instr->get_operand(1)].push(instr->get_operand(0));
             st_inst_.insert(instr);
         }
-        //对于store数组的情况, 也需要进行处理
-        else if(instr->is_store() && instr->get_operand(1)->get_type()->is_array_type())
+        //对于store数组的情况, 不需要进行处理
+        /*else if(instr->is_store() && instr->get_operand(1)->get_type()->is_array_type())
         {
             auto array_type = static_cast<ArrayType*>(instr->get_operand(1)->get_type());
             auto array_size = array_type->get_num_of_elements();
@@ -120,11 +120,11 @@ void Mem2Reg::rename(BasicBlock *bb) {
                 value_stack_[desptr].push(element);
             }
               st_inst_.insert(instr);
-        }
+        }*/
         if(instr->is_load())
         {
             Value* i = instr->get_operand(0);
-            if(not is_global_variable(i) && value_stack_[i].top())
+            if(is_valid_ptr(i) && value_stack_[i].top())
                 instr->replace_all_use_with(value_stack_[i].top());
         }
     }
