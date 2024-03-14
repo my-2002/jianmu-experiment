@@ -12,26 +12,38 @@ private:
     std::map<BasicBlock*, std::set<Value*>> liveOut;
     std::map<BasicBlock*, std::set<Value*>> preliveIn;
     std::map<BasicBlock*, std::set<Value*>> preliveOut;
-    std::map<BasicBlock*, std::set<Value*>> gen;
-    std::map<BasicBlock*, std::set<Value*>> kill;
+    std::map<BasicBlock*, std::set<Value*>> use;
+    std::map<BasicBlock*, std::set<Value*>> def;
+
+    //强连通分量算法相关
+    std::map<BasicBlock*, int> dfn;
+    std::map<BasicBlock*, int> low;
+    std::map<BasicBlock*, bool> instack;
+    std::stack<BasicBlock*> bbstack;
+    std::map<BasicBlock*, int> scc_belong;
+    int bb_cnt, scc_cnt;
+
+    //伪线性序算法相关
+    std::vector<BasicBlock*> plo_blocks;
+    std::map<BasicBlock*, bool> visited;
 
     void initializeLiveVars()
     {
         liveIn.clear();
         liveOut.clear();
-        gen.clear();
-        kill.clear();
+        use.clear();
+        def.clear();
         preliveIn.clear();
         preliveOut.clear();
     }
 
-    void computeGenKill(BasicBlock *bb) {
+    void computeUseDef(BasicBlock *bb) {
         for (auto &inst1 : bb->get_instructions()) {
             auto inst = &inst1;
             if (inst->is_store()) {
                 auto storeInst = static_cast<StoreInst*>(inst);
-                kill[bb].insert(storeInst->get_operand(1));
-                gen[bb].insert(storeInst->get_operand(0));
+                def[bb].insert(storeInst->get_operand(1));
+                use[bb].insert(storeInst->get_operand(0));
             }
         }
     }
@@ -43,9 +55,9 @@ private:
             liveOutSet.insert(liveIn[succ].begin(), liveIn[succ].end());
         }
         liveOut[bb] = liveOutSet;
-        liveInSet = gen[bb];
+        liveInSet = use[bb];
         for (auto val : liveOutSet) {
-            if (kill[bb].find(val) == kill[bb].end()) {
+            if (def[bb].find(val) == def[bb].end()) {
                 liveInSet.insert(val);
             }
         }
@@ -64,12 +76,12 @@ public:
         return liveOut;
     }
 
-    const std::map<BasicBlock*, std::set<Value*>>& getGen() const {
-        return gen;
+    const std::map<BasicBlock*, std::set<Value*>>& getUse() const {
+        return use;
     }
 
-    const std::map<BasicBlock*, std::set<Value*>>& getKill() const {
-        return kill;
+    const std::map<BasicBlock*, std::set<Value*>>& getDef() const {
+        return def;
     }
 };
 
