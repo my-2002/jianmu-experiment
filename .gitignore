@@ -1,3 +1,4 @@
 build/
 tests/all_test_cases/final_performance
 tests/all_test_cases/performance
+.cache/

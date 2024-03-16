@@ -26,10 +26,14 @@ private:
     std::stack<BasicBlock*> bbstack;
     std::map<BasicBlock*, int> scc_belong;
     int bb_cnt, scc_cnt;
+    void tarjanInit();
+    void tarjan(BasicBlock* );
 
     //伪线性序算法相关
     std::vector<BasicBlock*> plo_blocks;
     std::map<BasicBlock*, bool> visited;
+    void pseudo_linear_order(BasicBlock*);
+
     static inline bool is_global_variable(Value *l_val) {
         return dynamic_cast<GlobalVariable *>(l_val) != nullptr;
     }
@@ -51,7 +55,7 @@ private:
             auto inst = &inst1;
             for(auto op : inst->get_operands())
             {
-                if(!is_global_variable(op) && !is_constant(op) && def[bb].count(op) == 0)
+                if(!is_global_variable(op) && !is_constant(op) && def[bb].count(op) == 0 && !dynamic_cast<BasicBlock*>(op))
                     use[bb].insert(op);
             }
             if(!inst->is_void())
@@ -131,12 +135,12 @@ private:
                 }
         }*/
 
-    }
+        }
     }
     void computeLiveInLiveOut(BasicBlock *bb) {
         std::set<Value*> liveInSet;
         std::set<Value*> liveOutSet;
-        for (auto succ : domTree->get_dom_tree_succ_blocks(bb)) {
+        for (auto succ : bb->get_succ_basic_blocks()) {
             liveOutSet.insert(liveIn[succ].begin(), liveIn[succ].end());
         }
         liveOut[bb] = liveOutSet;

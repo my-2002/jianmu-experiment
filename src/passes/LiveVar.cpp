@@ -26,19 +26,22 @@ void LiveVarAnalysis::run() {
         plo_blocks.clear();
         visited.clear();
         pseudo_linear_order(entry);
-        std::reverse(plo_blocks.begin(),plo_blocks.end());
         // Initialize the live variable sets for each basic block
         initializeLiveVars();
+        // Compute Use Def
+        for (auto it = plo_blocks.begin(); it != plo_blocks.end(); ++it) {
+            BasicBlock* bb = *it;
+            computeUseDef(bb);
+        }
         // Iterate until convergence
         bool changed = true;
         while (changed) {
             changed = false;
 
             // Traverse the basic blocks in reverse order
-            for (auto it = plo_blocks.begin(); it != plo_blocks.end(); ++it) {
+            for (auto it = plo_blocks.rbegin(); it != plo_blocks.rend(); ++it) {
                 BasicBlock* bb = *it;
 
-                computeUseDef(bb);
                 computeLiveInLiveOut(bb);
                 // Update the live variable sets for the current basic block
                 if (liveIn[bb] != preliveIn[bb]) {
@@ -84,10 +87,12 @@ void LiveVarAnalysis::run() {
             auto bb=inst->get_parent();
             for(auto op : inst->get_operands())
             {
-                if(!is_global_variable(op) && !is_constant(op))
+                if(!is_global_variable(op) && !is_constant(op) && !dynamic_cast<BasicBlock*>(op))
                 {
                     if(var_start_end.find(op)==var_start_end.end())  //最后一次使用该变量
                         var_start_end[op].second=cur_num;
+                    else
+                        var_start_end[op].second = var_start_end[op].second>cur_num ? var_start_end[op].second : cur_num;    
                 }
             }
             if(!inst->is_void())
@@ -100,11 +105,12 @@ void LiveVarAnalysis::run() {
                     }
                     else
                     {
-                       var_start_end[inst].first=cur_num+1;
+                        var_start_end[inst].first=cur_num+1;
                     }
                 }
             }
         }
+        cur_num -=2;
         // Print the live variable sets for each basic block
         //printLiveVars();
     }
@@ -116,7 +122,7 @@ void LiveVarAnalysis::tarjanInit()
     dfn.clear();
     low.clear();
     instack.clear();
-    bbstack.clear();
+    while(!bbstack.empty()) bbstack.pop();
     scc_belong.clear();
     bb_cnt = scc_cnt = 0;
 }
@@ -126,9 +132,8 @@ void LiveVarAnalysis::tarjan(BasicBlock* b)
     dfn[b] = low[b] = ++bb_cnt;
     instack[b] = true;
     bbstack.push(b);
-    for(auto &bb1 : b->get_succ_basic_blocks())
+    for(auto &bb : b->get_succ_basic_blocks())
     {
-        auto bb = &bb1;
         if(dfn[bb] == 0)
         {
             tarjan(bb);
@@ -142,7 +147,7 @@ void LiveVarAnalysis::tarjan(BasicBlock* b)
         scc_belong[b] = ++scc_cnt;
         while(bbstack.top() != b)
         {
-            scc_blong[bbstack.top()] = scc_cnt;
+            scc_belong[bbstack.top()] = scc_cnt;
             bbstack.pop();
         }
         bbstack.pop();
@@ -153,16 +158,10 @@ void LiveVarAnalysis::pseudo_linear_order(BasicBlock* b)
 {
     plo_blocks.push_back(b);
     visited[b] = true;
-    for(auto &bb1 : b->get_succ_basic_blocks())
-    {
-        auto bb = &bb1;
+    for(auto &bb : b->get_succ_basic_blocks())
         if(scc_belong[bb] == scc_belong[b] && !visited[bb])
             pseudo_linear_order(bb);
-    }
-    for(auto &bb1 : b->get_succ_basic_blocks())
-    {
-        auto bb = &bb1;
+    for(auto &bb : b->get_succ_basic_blocks())
         if(scc_belong[bb] != scc_belong[b] && !visited[bb])
             pseudo_linear_order(bb);
-    }
 }
