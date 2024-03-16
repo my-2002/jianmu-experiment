@@ -15,6 +15,9 @@ private:
     std::map<BasicBlock*, std::set<Value*>> preliveOut;
     std::map<BasicBlock*, std::set<Value*>> use;
     std::map<BasicBlock*, std::set<Value*>> def;
+    std::map<Value*, std::pair<int, int>> var_start_end;
+    std::vector<Instruction*> insts;
+    std::map<BasicBlock*, std::pair<int,int>> bb_start_end;
 
     //强连通分量算法相关
     std::map<BasicBlock*, int> dfn;

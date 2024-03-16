@@ -52,7 +52,59 @@ void LiveVarAnalysis::run() {
                 }
             }
         }
-
+        //开始精细化区间划分
+        //指令编号
+        int cur_num = 0;
+        for (auto it = plo_blocks.begin(); it != plo_blocks.end(); ++it) {
+            BasicBlock* bb = *it;
+            bb_start_end[bb].first = cur_num;
+            for(auto &inst1 : bb->get_instructions())
+            {
+                auto inst = &inst1;
+                insts.push_back(inst);
+                cur_num+=2;
+            }
+            bb_start_end[bb].second = cur_num-1;
+            //出口变量初始化为BB开始到结束
+            for(auto val:liveOut[bb])
+            {
+                if(var_start_end.find(val)==var_start_end.end())
+                    var_start_end[val]=make_pair(bb_start_end[bb].first,bb_start_end[bb].second);
+                else
+                {//合并同一变量的区间
+                    var_start_end[val].first = var_start_end[val].first<bb_start_end[bb].first?var_start_end[val].first:bb_start_end[bb].first;
+                    var_start_end[val].second = var_start_end[val].second>bb_start_end[bb].second?var_start_end[val].second:bb_start_end[bb].second;
+                }
+            }
+        }
+        //逆序遍历
+        cur_num -=2; //指向最后一条指令
+        for (auto it = insts.rbegin(); it != insts.rend(); ++it) {
+            Instruction* inst = *it;
+            auto bb=inst->get_parent();
+            for(auto op : inst->get_operands())
+            {
+                if(!is_global_variable(op) && !is_constant(op))
+                {
+                    if(var_start_end.find(op)==var_start_end.end())  //最后一次使用该变量
+                        var_start_end[op].second=cur_num;
+                }
+            }
+            if(!inst->is_void())
+            {
+                if(!is_global_variable(inst) and !is_constant(inst))
+                {
+                    if(inst->is_phi())
+                    {
+                        var_start_end[inst].first=bb_start_end[bb].first;
+                    }
+                    else
+                    {
+                       var_start_end[inst].first=cur_num+1;
+                    }
+                }
+            }
+        }
         // Print the live variable sets for each basic block
         //printLiveVars();
     }
