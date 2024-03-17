@@ -1,11 +1,15 @@
 #pragma once
 
 #include "PassManager.hpp"
-#include "logging.hpp"
+//#include "logging.hpp"
 #include <stack>
 #include "Dominators.hpp"
 #include "Value.hpp"
-
+struct CompareFirst {
+    bool operator()(const std::pair<int, int>& left, const std::pair<int, int>& right) {
+        return left.first < right.first;
+    }
+};
 class LiveVarAnalysis : public Pass {
 private:
     Dominators *domTree;
@@ -15,7 +19,7 @@ private:
     std::map<BasicBlock*, std::set<Value*>> preliveOut;
     std::map<BasicBlock*, std::set<Value*>> use;
     std::map<BasicBlock*, std::set<Value*>> def;
-    std::map<Value*, std::pair<int, int>> var_start_end;
+    std::map<Value*, std::pair<int, int>,CompareFirst> var_start_end;  //按照起始位置排序
     std::vector<Instruction*> insts;
     std::map<BasicBlock*, std::pair<int,int>> bb_start_end;
 
@@ -156,23 +160,11 @@ private:
         void printLiveVarAnalysis();
 
     public:
-        LiveVarAnalysis(Module *m) : Pass(m) {}
+        explicit LiveVarAnalysis(Module *m) : Pass(m) {}
         ~LiveVarAnalysis() noexcept override = default;
         void run() override;
-        const std::map<BasicBlock*, std::set<Value*>>& getLiveIn() const {
-            return liveIn;
+        const std::map<Value*, std::pair<int, int>,CompareFirst>& getvar_start_end() const {
+            return var_start_end;
         }
-
-        const std::map<BasicBlock*, std::set<Value*>>& getLiveOut() const {
-            return liveOut;
-        }
-
-    const std::map<BasicBlock*, std::set<Value*>>& getUse() const {
-        return use;
-    }
-
-    const std::map<BasicBlock*, std::set<Value*>>& getDef() const {
-        return def;
-    }
 };
 

@@ -5,9 +5,8 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/include/lightir",
-                "${workspaceFolder}/include/lightir",
-                "${workspaceFolder}/include/lightir",
-                "${workspaceFolder}/include/lightir",
+                "${workspaceFolder}/include/passes",
+                "${workspaceFolder}/include",
                 "/usr/include/llvm-14"
             ],
             "defines": [],
