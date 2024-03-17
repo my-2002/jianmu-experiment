@@ -259,22 +259,22 @@ void CodeGen::gen_binary() {
     // 根据指令类型生成汇编
     switch (context.inst->get_instr_type()) {
     case Instruction::add:
-        output.emplace_back("add.w $t2, $t0, $t1");
+        output.emplace_back("add.w $t1, $t0, $t1");
         break;
     case Instruction::sub:
-        output.emplace_back("sub.w $t2, $t0, $t1");
+        output.emplace_back("sub.w $t1, $t0, $t1");
         break;
     case Instruction::mul:
-        output.emplace_back("mul.w $t2, $t0, $t1");
+        output.emplace_back("mul.w $t1, $t0, $t1");
         break;
     case Instruction::sdiv:
-        output.emplace_back("div.w $t2, $t0, $t1");
+        output.emplace_back("div.w $t1, $t0, $t1");
         break;
     default:
         assert(false);
     }
     // 将结果填入栈帧中
-    store_from_greg(context.inst, Reg::t(2));
+    store_from_greg(context.inst, Reg::t(1));
 }
 
 void CodeGen::gen_float_binary() {
@@ -283,22 +283,22 @@ void CodeGen::gen_float_binary() {
     // 根据指令类型生成汇编
     switch (context.inst->get_instr_type()) {
     case Instruction::fadd:
-        output.emplace_back("fadd.s $ft2, $ft0, $ft1");
+        output.emplace_back("fadd.s $ft1, $ft0, $ft1");
         break;
     case Instruction::fsub:
-        output.emplace_back("fsub.s $ft2, $ft0, $ft1");
+        output.emplace_back("fsub.s $ft1, $ft0, $ft1");
         break;
     case Instruction::fmul:
-        output.emplace_back("fmul.s $ft2, $ft0, $ft1");
+        output.emplace_back("fmul.s $ft1, $ft0, $ft1");
         break;
     case Instruction::fdiv:
-        output.emplace_back("fdiv.s $ft2, $ft0, $ft1");
+        output.emplace_back("fdiv.s $ft1, $ft0, $ft1");
         break;
     default:
         assert(false);
     }
     // 将结果填入栈帧中
-    store_from_freg(context.inst, FReg::ft(2));
+    store_from_freg(context.inst, FReg::ft(1));
     // TODO 浮点类型的二元指令
     // throw not_implemented_error{__FUNCTION__};
 }
@@ -367,18 +367,11 @@ void CodeGen::gen_store(Value* val) {
                 append_inst("addi.w $t1, $zero, "+std::to_string(num));
             else
                 load_large_int32(num,Reg::t(1));
-            //append_inst("init_loop_"+val->get_name(),ASMInstruction::Label);
             append_inst("st.w $zero, $t0, 0");
             append_inst("addi.d $t0, $t0, 4");
             append_inst("addi.w $t1, $t1, -1");
             append_inst("bne $zero, $t1, -12");
             
-            
-            //for(int i=0; i<(int)val_type->get_size()/4; i++)
-            //{
-            //    append_inst("st.w $zero, $t0, 0");
-            //    append_inst("addi.d $t0, $t0, 4");
-            //}
         }
     }
     else if(val->get_type()->is_float_type())
@@ -431,16 +424,16 @@ void CodeGen::gen_icmp() {
     case Instruction::eq:
     {
         output.emplace_back("slt $t2, $t0, $t1");
-        output.emplace_back("slt $t3, $t1, $t0");
-        append_inst("or $t2, $t2, $t3");
+        output.emplace_back("slt $t1, $t1, $t0");
+        append_inst("or $t2, $t1, $t2");
         append_inst("xori $t2, $t2, 1");
         break;
     }
     case Instruction::ne:
     {
         output.emplace_back("slt $t2, $t0, $t1");
-        output.emplace_back("slt $t3, $t1, $t0");
-        append_inst("or $t2, $t2, $t3");
+        output.emplace_back("slt $t1, $t1, $t0");
+        append_inst("or $t2, $t1, $t2");
         break;
     }
     default:
@@ -451,7 +444,8 @@ void CodeGen::gen_icmp() {
     // throw not_implemented_error{__FUNCTION__};
 }
 
-void CodeGen::gen_fcmp() {load_to_freg(context.inst->get_operand(0), FReg::ft(0));
+void CodeGen::gen_fcmp() {
+    load_to_freg(context.inst->get_operand(0), FReg::ft(0));
     load_to_freg(context.inst->get_operand(1), FReg::ft(1));
     switch (context.inst->get_instr_type()) {
     case Instruction::fge:
