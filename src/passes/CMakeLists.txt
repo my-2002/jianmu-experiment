@@ -5,4 +5,5 @@ add_library(
     FuncInfo.cpp
     DeadCode.cpp
     LiveVar.cpp
+    RegAlloc.cpp
 )
