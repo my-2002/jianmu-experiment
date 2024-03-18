@@ -617,6 +617,7 @@ void CodeGen::gen_phi(BasicBlock* bb) {
                 BasicBlock* bb1 = dynamic_cast<BasicBlock*>(instr->get_operand(i*2-1));
                 if(bb1 == bb)
                 {
+                    //TODO 将栈式的变量值传递修改为通过寄存器映射表传递,注意判断是否是常数全局变量
                     if(instr->get_type()->is_float_type())
                     {
                         load_to_freg(instr->get_operand(i*2-2), FReg::ft(0));
