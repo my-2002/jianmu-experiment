@@ -36,6 +36,10 @@ struct Reg {
     static Reg ra() { return Reg(1); }
     static Reg sp() { return Reg(3); }
     static Reg fp() { return Reg(22); }
+    static Reg r(unsigned i) {
+        assert((4 <= i and i <= 11) || (15 <= i and i <= 20));
+        return Reg(i);
+    }
     static Reg a(unsigned i) {
         assert(0 <= i and i <= 7);
         return Reg(i + 4);
@@ -61,6 +65,10 @@ struct FReg {
 
     std::string print() const;
 
+    static FReg f(unsigned i) {
+        assert((0 <= i and i <= 7)||(11 <= i and i <= 23));
+        return FReg(i);
+    }
     static FReg fa(unsigned i) {
         assert(0 <= i and i <= 7);
         return FReg(i);
