@@ -113,6 +113,10 @@ void LiveVarAnalysis::run() {
         cur_num -=2;
         // Print the live variable sets for each basic block
         //printLiveVars();
+        for(auto pair:var_start_end)
+        {
+            f->var_start_end.insert(pair);
+        }
     }
     
 }
