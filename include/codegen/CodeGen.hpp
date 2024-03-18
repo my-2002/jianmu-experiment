@@ -3,6 +3,9 @@
 #include "ASMInstruction.hpp"
 #include "Module.hpp"
 #include "Register.hpp"
+#include "RegAlloc.hpp"
+
+#include <unordered_map>
 
 class CodeGen {
   public:
@@ -45,6 +48,10 @@ class CodeGen {
     void store_from_greg(Value *, const Reg &);
     void store_from_freg(Value *, const FReg &);
 
+    // 转移寄存器之间的数据
+    void move_from_greg_to_greg(const Reg &, const Reg &);
+    void move_from_freg_to_freg(const FReg &, const FReg &);
+
     void gen_prologue();
     void gen_ret();
     void gen_br();
@@ -77,6 +84,7 @@ class CodeGen {
         unsigned frame_size{0}; // 当前函数的栈帧大小
         int fcmp_cnt;
         std::unordered_map<Value *, int> offset_map{}; // 指针相对 fp 的偏移
+        std::unordered_map<Value* ,int> alloc_map{};
 
         void clear() {
             func = nullptr;
@@ -84,10 +92,12 @@ class CodeGen {
             frame_size = 0;
             fcmp_cnt = 0;
             offset_map.clear();
+            alloc_map.clear();
         }
 
     } context;
 
     Module *m;
+    std::unique_ptr<RegAlloc> regalloc_;
     std::list<ASMInstruction> output;
 };

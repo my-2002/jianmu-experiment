@@ -50,6 +50,10 @@ inline bool IS_IMM_12(int x) { return x <= IMM_12_MAX and x >= IMM_12_MIN; }
 #define FLOAD "fld"
 #define FSTORE "fst"
 
+// 整数和浮点数搬运
+#define MOV "bstrpick"
+#define FMOV "fmov"
+
 #define BYTE ".b"
 #define HALF_WORD ".h"
 #define WORD ".w"

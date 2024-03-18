@@ -40,15 +40,15 @@ void RegAlloc::run()
                 auto temp = *alloc_fvalues.end();
                 if(temp.second.second > it.second.second)
                 {
-                    fregmap_.erase(temp.first);
-                    alloc_fvalues.erase(temp);
                     fregmap_.insert(std::make_pair(it.first, fregmap_[temp.first]));
                     alloc_fvalues.insert(it);
+                    fregmap_.erase(temp.first);
+                    alloc_fvalues.erase(temp);
                 }
                 else
                     temp=it;
-                stack_offset_ += temp.first->get_type()->get_size();
-                stackmap_.insert(std::make_pair(temp.first, stack_offset_));
+                stack_offset_ = ALIGN(stack_offset_ + temp.first->get_type()->get_size(), temp.first->get_type()->get_size());
+                stackmap_.insert(std::make_pair(temp.first, -static_cast<int>(stack_offset_)));
             }
         }
         else
@@ -75,15 +75,15 @@ void RegAlloc::run()
                 auto temp = *alloc_gvalues.end();
                 if(temp.second.second > it.second.second)
                 {
-                    gregmap_.erase(temp.first);
-                    alloc_gvalues.erase(temp);
                     gregmap_.insert(std::make_pair(it.first, gregmap_[temp.first]));
                     alloc_gvalues.insert(it);
+                    gregmap_.erase(temp.first);
+                    alloc_gvalues.erase(temp);
                 }
                 else
                     temp=it;
-                stack_offset_ += temp.first->get_type()->get_size();
-                stackmap_.insert(std::make_pair(temp.first, stack_offset_));
+                stack_offset_ = ALIGN(stack_offset_ + temp.first->get_type()->get_size(), temp.first->get_type()->get_size());
+                stackmap_.insert(std::make_pair(temp.first, -static_cast<int>(stack_offset_)));
             }
         }
     }
