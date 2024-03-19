@@ -4,25 +4,12 @@
 
 void CodeGen::allocate() {
     // 备份 $ra $fp
-    unsigned offset = regalloc_->get_stack_offset();
-    context.offset_map = regalloc_->get_stackmap();
-
-    // 为每个参数分配栈空间
-    /*for (auto &arg : context.func->get_args()) {
-        auto size = arg.get_type()->get_size();
-        offset = ALIGN(offset + size, size);
-        context.offset_map[&arg] = -static_cast<int>(offset);
-    }*/
+    unsigned offset = context.func->stack_offset_;
+    context.offset_map = context.func->stackmap_;
 
     // 为指令结果分配栈空间
-    for (auto &bb : context.func->get_basic_blocks()) {
-        for (auto &instr : bb.get_instructions()) {
-            // 每个非 void 的定值都分配栈空间
-            /*if (not instr.is_void()) {
-                auto size = instr.get_type()->get_size();
-                offset = ALIGN(offset + size, size);
-                context.offset_map[&instr] = -static_cast<int>(offset);
-            }*/
+    for (auto &bb : context.func->get_basic_blocks())
+        for (auto &instr : bb.get_instructions()) 
             // alloca 的副作用：分配额外空间
             if (instr.is_alloca()) {
                 auto *alloca_inst = static_cast<AllocaInst *>(&instr);
@@ -30,8 +17,6 @@ void CodeGen::allocate() {
                 offset = ALIGN(offset + alloc_size, 4);
                 context.alloc_map[&instr] = -static_cast<int>(offset);  //建立一个额外空间偏移量和alloc值的映射
             }
-        }
-    }
 
     // 分配栈空间，需要是 16 的整数倍
     context.frame_size = ALIGN(offset, PROLOGUE_ALIGN);
@@ -53,8 +38,8 @@ void CodeGen::load_to_greg(Value *val, const Reg &reg) {
         append_inst(ADDI WORD, {reg.print(), "$zero", "0"});
     } else if (auto *global = dynamic_cast<GlobalVariable *>(val)) {
         append_inst(LOAD_ADDR, {reg.print(), global->get_name()});
-    } else if (regalloc_->get_gregmap().find(val) != regalloc_->get_gregmap().end()) {
-        move_from_greg_to_greg(Reg::r((unsigned)regalloc_->get_gregmap().find(val)->second), reg);
+    } else if (context.func->gregmap_.find(val) != context.func->gregmap_.end()) {
+        move_from_greg_to_greg(Reg::r((unsigned)context.func->gregmap_.find(val)->second), reg);
     } else {
         load_from_stack_to_greg(val, reg);
     }
@@ -105,7 +90,7 @@ void CodeGen::load_from_stack_to_greg(Value *val, const Reg &reg) {
 }
 
 void CodeGen::store_from_greg(Value *val, const Reg &reg) {
-    if(regalloc_->get_gregmap().find(val) == regalloc_->get_gregmap().end())
+    if(context.func->gregmap_.find(val) == context.func->gregmap_.end())
     {
         auto offset = context.offset_map.at(val);
         auto offset_str = std::to_string(offset);
@@ -119,7 +104,7 @@ void CodeGen::store_from_greg(Value *val, const Reg &reg) {
                 append_inst(STORE DOUBLE, {reg.print(), "$fp", offset_str});
             }
         } else {
-            auto addr = Reg::t(8);
+            auto addr = Reg::t(2);
             load_large_int64(offset, addr);
             append_inst(ADD DOUBLE, {addr.print(), "$fp", addr.print()});
             if (type->is_int1_type()) {
@@ -132,7 +117,7 @@ void CodeGen::store_from_greg(Value *val, const Reg &reg) {
         }
     }
     else
-        move_from_greg_to_greg(reg, Reg::r((unsigned)regalloc_->get_gregmap().find(val)->second));
+        move_from_greg_to_greg(reg, Reg::r((unsigned)context.func->gregmap_.find(val)->second));
 }
 
 void CodeGen::load_to_freg(Value *val, const FReg &freg) {
@@ -142,15 +127,15 @@ void CodeGen::load_to_freg(Value *val, const FReg &freg) {
         load_float_imm(val, freg);
     } else if(dynamic_cast<ConstantZero *>(val)) {
         append_inst("movgr2fr" WORD, {freg.print(),"$zero"});    
-    } else if(regalloc_->get_fregmap().find(val) != regalloc_->get_fregmap().end()){
-        move_from_freg_to_freg(FReg::f((unsigned)regalloc_->get_fregmap().find(val)->second), freg);
+    } else if(context.func->fregmap_.find(val) != context.func->fregmap_.end()){
+        move_from_freg_to_freg(FReg::f((unsigned)context.func->fregmap_.find(val)->second), freg);
     } else {
         auto offset = context.offset_map.at(val);
         auto offset_str = std::to_string(offset);
         if (IS_IMM_12(offset)) {
             append_inst(FLOAD SINGLE, {freg.print(), "$fp", offset_str});
         } else {
-            auto addr = Reg::t(8);
+            auto addr = Reg::t(2);
             load_large_int64(offset, addr);
             append_inst(ADD DOUBLE, {addr.print(), "$fp", addr.print()});
             append_inst(FLOAD SINGLE, {freg.print(), addr.print(), "0"});
@@ -160,20 +145,20 @@ void CodeGen::load_to_freg(Value *val, const FReg &freg) {
 
 void CodeGen::load_float_imm(float val, const FReg &r) {
     int32_t bytes = *reinterpret_cast<int32_t *>(&val);
-    load_large_int32(bytes, Reg::t(8));
-    append_inst(GR2FR WORD, {r.print(), Reg::t(8).print()});
+    load_large_int32(bytes, Reg::t(2));
+    append_inst(GR2FR WORD, {r.print(), Reg::t(2).print()});
 }
 
 void CodeGen::store_from_freg(Value *val, const FReg &r) {
-    if(regalloc_->get_fregmap().find(val) != regalloc_->get_fregmap().end())
-        move_from_freg_to_freg(r, FReg::f((unsigned)regalloc_->get_fregmap().find(val)->second));
+    if(context.func->fregmap_.find(val) != context.func->fregmap_.end())
+        move_from_freg_to_freg(r, FReg::f((unsigned)context.func->fregmap_.find(val)->second));
     else {
         auto offset = context.offset_map.at(val);
         if (IS_IMM_12(offset)) {
             auto offset_str = std::to_string(offset);
             append_inst(FSTORE SINGLE, {r.print(), "$fp", offset_str});
         } else {
-            auto addr = Reg::t(8);
+            auto addr = Reg::t(2);
             load_large_int64(offset, addr);
             append_inst(ADD DOUBLE, {addr.print(), "$fp", addr.print()});
             append_inst(FSTORE SINGLE, {r.print(), addr.print(), "0"});
@@ -205,21 +190,7 @@ void CodeGen::gen_prologue() {
         append_inst("sub.d $sp, $sp, $t0");
         append_inst("add.d $fp, $sp, $t0");
     }
-
-    // 将函数参数转移到栈帧上
-    int garg_cnt = 0;
-    int farg_cnt = 0;
-    if(context.func->get_args().size()<=8)
-    {
-        for (auto &arg : context.func->get_args()) {
-            if (arg.get_type()->is_float_type()) {
-                store_from_freg(&arg, FReg::fa(farg_cnt++));
-            } else { // int or pointer
-                store_from_greg(&arg, Reg::a(garg_cnt++));
-            }
-        }
-    }
-    //栈上传参已经处理好
+    //传参已经处理好
 }
 
 void CodeGen::gen_epilogue() {
@@ -323,20 +294,12 @@ void CodeGen::gen_float_binary() {
 }
 
 void CodeGen::gen_alloca() {
-    auto *alloca_inst = static_cast<AllocaInst *>(context.inst);
-    auto alloc_size = (int)alloca_inst->get_alloca_type()->get_size();
-    auto offset = context.offset_map.at(context.inst);
-    if(offset>-2048)
-        append_inst("addi.d $t0, $zero, " + std::to_string(offset));
+    //auto *alloca_inst = static_cast<AllocaInst *>(context.inst);
+    auto alloc_offset = (int)context.alloc_map.at(context.inst);
+    if(alloc_offset>-2048)
+        append_inst("addi.d $t0, $zero, " + std::to_string(alloc_offset));
     else
-        load_large_int64(offset, Reg::t(0));
-    if(alloc_size<2048)
-        append_inst("addi.d $t0, $t0, " + std::to_string(-static_cast<int>(alloc_size)));
-    else
-    {
-        load_large_int64(alloc_size,Reg::t(1));
-        append_inst("sub.d $t0, $t0, $t1");
-    }
+        load_large_int64(alloc_offset, Reg::t(0));
     append_inst("add.d $t0, $fp, $t0");
     store_from_greg(context.inst, Reg::t(0));
     /* 我们已经为 alloca 的内容分配空间，在此我们还需保存 alloca
@@ -424,41 +387,41 @@ void CodeGen::gen_icmp() {
     switch (context.inst->get_instr_type()) {
     case Instruction::ge:
     {
-        output.emplace_back("slt $t2, $t0, $t1");
-        append_inst("xori $t2, $t2, 1");
+        output.emplace_back("slt $t1, $t0, $t1");
+        append_inst("xori $t1, $t1, 1");
         break;
     }
     case Instruction::gt:
-        output.emplace_back("slt $t2, $t1, $t0");
+        output.emplace_back("slt $t1, $t1, $t0");
         break;
     case Instruction::le:
     {
-        output.emplace_back("slt $t2, $t1, $t0");
-        append_inst("xori $t2, $t2, 1");
+        output.emplace_back("slt $t1, $t1, $t0");
+        append_inst("xori $t1, $t1, 1");
         break;
     }
     case Instruction::lt:
-        output.emplace_back("slt $t2, $t0, $t1");
+        output.emplace_back("slt $t1, $t0, $t1");
         break;
     case Instruction::eq:
     {
         output.emplace_back("slt $t2, $t0, $t1");
         output.emplace_back("slt $t1, $t1, $t0");
-        append_inst("or $t2, $t1, $t2");
-        append_inst("xori $t2, $t2, 1");
+        append_inst("or $t1, $t1, $t2");
+        append_inst("xori $t1, $t1, 1");
         break;
     }
     case Instruction::ne:
     {
         output.emplace_back("slt $t2, $t0, $t1");
         output.emplace_back("slt $t1, $t1, $t0");
-        append_inst("or $t2, $t1, $t2");
+        append_inst("or $t1, $t1, $t2");
         break;
     }
     default:
         assert(false);
     }
-    store_from_greg(context.inst, Reg::t(2));
+    store_from_greg(context.inst, Reg::t(1));
     // 处理各种整数比较的情况
     // throw not_implemented_error{__FUNCTION__};
 }
@@ -522,13 +485,55 @@ void CodeGen::gen_call() {
     for(auto &arg : Func->get_args())
     {
         auto arg_type = arg.get_type();
-        if(arg_type->is_float_type()){
-            load_to_freg(context.inst->get_operand(i++), FReg::fa(0));
-            store_from_freg(&arg, FReg::fa(0));
+        if(arg_type->is_float_type())
+        {
+            load_to_freg(context.inst->get_operand(i++), FReg::ft(0));
+            if(Func->fregmap_.find(&arg) != Func->fregmap_.end())//arg被分配到寄存器中
+                move_from_freg_to_freg(FReg::ft(0), FReg::f((unsigned)Func->fregmap_.find(&arg)->second));
+            else//arg被分配到栈上
+            {
+                auto offset = Func->stackmap_.at(&arg);
+                if (IS_IMM_12(offset)) {
+                    auto offset_str = std::to_string(offset);
+                    append_inst(FSTORE SINGLE, {"$ft0", "$sp", offset_str});
+                } else {
+                    auto addr = Reg::t(2);
+                    load_large_int64(offset, addr);
+                    append_inst(ADD DOUBLE, {addr.print(), "$sp", addr.print()});
+                    append_inst(FSTORE SINGLE, {"$ft0", addr.print(), "0"});
+                }
+            }
         }
-        else {
-            load_to_greg(context.inst->get_operand(i++), Reg::a(0));
-            store_from_greg(&arg, Reg::a(0));
+        else
+        {
+            load_to_greg(context.inst->get_operand(i++), Reg::t(0));
+            if(Func->gregmap_.find(&arg) != Func->gregmap_.end())//arg被分配到寄存器中
+                move_from_greg_to_greg(Reg::t(0), Reg::r((unsigned)Func->gregmap_.find(&arg)->second));
+            else//arg被分配到栈上
+            {
+                auto offset = Func->stackmap_.at(&arg);
+                auto offset_str = std::to_string(offset);
+                if (IS_IMM_12(offset)) {
+                    if (arg_type->is_int1_type()) {
+                        append_inst(STORE BYTE, {"$t0", "$sp", offset_str});
+                    } else if (arg_type->is_int32_type()) {
+                        append_inst(STORE WORD, {"$t0", "$sp", offset_str});
+                    } else { // Pointer
+                        append_inst(STORE DOUBLE, {"$t0", "$sp", offset_str});
+                    }
+                } else {
+                    auto addr = Reg::t(2);
+                    load_large_int64(offset, addr);
+                    append_inst(ADD DOUBLE, {addr.print(), "$sp", addr.print()});
+                    if (arg_type->is_int1_type()) {
+                        append_inst(STORE BYTE, {"$t0", addr.print(), "0"});
+                    } else if (arg_type->is_int32_type()) {
+                        append_inst(STORE WORD, {"$t0", addr.print(), "0"});
+                    } else { // Pointer
+                        append_inst(STORE DOUBLE, {"$t0", addr.print(), "0"});
+                    }
+                }
+            }
         }
     }
     append_inst("bl "+Func_name);

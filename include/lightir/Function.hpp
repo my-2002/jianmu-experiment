@@ -11,6 +11,7 @@
 #include <llvm/ADT/ilist.h>
 #include <llvm/ADT/ilist_node.h>
 #include <map>
+#include <unordered_map>
 #include <memory>
 
 class Module;
@@ -56,6 +57,8 @@ class Function : public Value, public llvm::ilist_node<Function> {
     std::unordered_map<Value *, int> gregmap_;
     std::unordered_map<Value *, int> fregmap_;
     std::unordered_map<Value *, int> stackmap_;
+    unsigned stack_offset_;
+
   private:
     llvm::ilist<BasicBlock> basic_blocks_;
     std::list<Argument> arguments_;

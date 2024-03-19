@@ -104,6 +104,7 @@ void RegAlloc::run()
         func->gregmap_=gregmap_;
         func->fregmap_=fregmap_;
         func->stackmap_=stackmap_;
+        func->stack_offset_ = stack_offset_;
     }
     
     
