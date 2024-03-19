@@ -21,7 +21,7 @@ public:
     RegAlloc(Module *m) : Pass(m) {}
     ~RegAlloc() = default;
     void run() override;
-    const std::unordered_map<Value *, int>& get_gregmap() const {
+    /*const std::unordered_map<Value *, int>& get_gregmap() const {
         return gregmap_;
     }
     const std::unordered_map<Value *, int>& get_fregmap() const {
@@ -32,6 +32,6 @@ public:
     }
     const unsigned get_stack_offset(){
         return stack_offset_;
-    }
+    }*/
 };
 

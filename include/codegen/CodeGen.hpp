@@ -85,7 +85,7 @@ class CodeGen {
         int fcmp_cnt;
         std::unordered_map<Value *, int> offset_map{}; // 寄存器分配后，需要分配在栈上的val值相对 fp 的偏移
         std::unordered_map<Value* ,int> alloc_map{}; // alloc额外空间相对fp的偏移 
-        std::unordered_map<Value* ,int> arg_map{}; // arg传入位置相对fp的偏移
+        //std::unordered_map<Value* ,int> arg_map{}; // arg传入位置相对fp的偏移
 
         void clear() {
             func = nullptr;
@@ -94,12 +94,11 @@ class CodeGen {
             fcmp_cnt = 0;
             offset_map.clear();
             alloc_map.clear();
-            arg_map.clear();
+            //arg_map.clear();
         }
 
     } context;
 
     Module *m;
-    std::unique_ptr<RegAlloc> regalloc_;
     std::list<ASMInstruction> output;
 };

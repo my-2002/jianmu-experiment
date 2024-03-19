@@ -1,10 +1,8 @@
 #pragma once
 
 #include "PassManager.hpp"
-//#include "logging.hpp"
-#include <stack>
-#include "Dominators.hpp"
 #include "Value.hpp"
+#include <stack>
 struct CompareFirst {
     bool operator()(const std::pair<int, int>& left, const std::pair<int, int>& right) {
         return left.first < right.first;
@@ -12,7 +10,6 @@ struct CompareFirst {
 };
 class LiveVarAnalysis : public Pass {
 private:
-    Dominators *domTree;
     std::map<BasicBlock*, std::set<Value*>> liveIn;
     std::map<BasicBlock*, std::set<Value*>> liveOut;
     std::map<BasicBlock*, std::set<Value*>> preliveIn;
