@@ -27,7 +27,6 @@ private:
     std::stack<BasicBlock*> bbstack;
     std::map<BasicBlock*, int> scc_belong;
     int bb_cnt, scc_cnt;
-    void tarjanInit();
     void tarjan(BasicBlock* );
 
     //伪线性序算法相关
@@ -52,6 +51,14 @@ private:
         var_start_end.clear();
         insts.clear();
         bb_start_end.clear();
+        dfn.clear();
+        low.clear();
+        instack.clear();
+        while(!bbstack.empty()) bbstack.pop();
+        scc_belong.clear();
+        bb_cnt = scc_cnt = 0;
+        plo_blocks.clear();
+        visited.clear();
     }
 
     void computeUseDef(BasicBlock *bb) {

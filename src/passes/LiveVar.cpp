@@ -10,6 +10,7 @@ void LiveVarAnalysis::run() {
 
     // Find the entry block
     for (auto &f1 : m_->get_functions()) {
+        initializeLiveVars();
         BasicBlock* entry;
         auto f = &f1;
         if (f->get_basic_blocks().size() == 0)
@@ -20,14 +21,10 @@ void LiveVarAnalysis::run() {
                 entry = bb;
         }
         // Tarjan
-        tarjanInit();
         tarjan(entry);
         //pseudo_linear_order
-        plo_blocks.clear();
-        visited.clear();
         pseudo_linear_order(entry);
         // Initialize the live variable sets for each basic block
-        initializeLiveVars();
         // Compute Use Def
         for (auto it = plo_blocks.begin(); it != plo_blocks.end(); ++it) {
             BasicBlock* bb = *it;
@@ -119,16 +116,6 @@ void LiveVarAnalysis::run() {
         }
     }
     
-}
-
-void LiveVarAnalysis::tarjanInit()
-{
-    dfn.clear();
-    low.clear();
-    instack.clear();
-    while(!bbstack.empty()) bbstack.pop();
-    scc_belong.clear();
-    bb_cnt = scc_cnt = 0;
 }
 
 void LiveVarAnalysis::tarjan(BasicBlock* b)
