@@ -591,20 +591,129 @@ void CodeGen::gen_phi(BasicBlock* bb) {
             auto instr = &instr1;
             if(!instr->is_phi()) break;
             for(unsigned int i=1; i<=(instr->get_num_operand())/2; i++)
-            {
+            {   
                 BasicBlock* bb1 = dynamic_cast<BasicBlock*>(instr->get_operand(i*2-1));
                 if(bb1 == bb)
                 {
-                    //TODO 将栈式的变量值传递修改为通过寄存器映射表传递,注意判断是否是常数全局变量
-                    if(instr->get_type()->is_float_type())
+                    if(instr->get_function()->stackmap_.find(instr)!=instr->get_function()->stackmap_.end())
                     {
-                        load_to_freg(instr->get_operand(i*2-2), FReg::ft(0));
-                        store_from_freg(instr, FReg::ft(0));
+                        //phi指令的结果是栈上的变量
+                        auto offset = instr->get_function()->stackmap_.at(instr); 
+                        if(offset<2048)
+                            append_inst("addi.d $t0, $fp, " + std::to_string(offset));
+                        else
+                        {
+                            load_large_int64(offset, Reg::t(0));
+                            append_inst("add.d $t0, $fp, $t0");
+                        }
+                        //TODO 将栈式的变量值传递修改为通过寄存器映射表传递,注意判断是否是常数全局变量
+                        if(dynamic_cast<ConstantInt*>(instr->get_operand(i*2-2)))
+                        {
+                            append_inst("addi.w $t1, $zero, " + std::to_string(dynamic_cast<ConstantInt*>(instr->get_operand(i*2-2))->get_value())); 
+                            append_inst("st.w $t1, $t0, 0");
+                        }
+                        else if(dynamic_cast<ConstantFP*>(instr->get_operand(i*2-2)))
+                        {
+                            load_float_imm(dynamic_cast<ConstantFP*>(instr->get_operand(i*2-2))->get_value(), FReg::ft(0));
+                            append_inst("fst.s $ft0, $t0, 0");
+                        }
+                        else
+                        {
+                            //move_from 非常量
+                            if(instr->get_type()->is_float_type())
+                            {
+                                if(instr->get_function()->stackmap_.find(instr->get_operand(i*2-2)) != instr->get_function()->stackmap_.end())
+                                {
+                                    int offset1 = instr->get_function()->stackmap_.at(instr->get_operand(i*2-2));
+                                    if(offset1<2048)
+                                        append_inst("addi.d $t1, $fp, " + std::to_string(offset1));
+                                    else
+                                    {
+                                        load_large_int64(offset1, Reg::t(1));
+                                        append_inst("add.d $t1, $fp, $t1");
+                                    }
+                                    append_inst("fld.s $ft0, $t1, 0");
+                                    append_inst("fst.s $ft0, $t0, 0");
+                                }
+                                else
+                                {
+                                    int reg = instr->get_function()->fregmap_.at(instr->get_operand(i*2-2));
+                                    move_from_freg_to_freg(FReg::f(reg), FReg::ft(0));
+                                    append_inst("fst.s $ft0, $t0, 0");
+                                }
+                            }
+                            else
+                            {
+                                if(instr->get_function()->stackmap_.find(instr->get_operand(i*2-2)) != instr->get_function()->stackmap_.end())
+                                {
+                                    int offset1 = instr->get_function()->stackmap_.at(instr->get_operand(i*2-2));
+                                    if(offset1<2048)
+                                        append_inst("addi.d $t1, $fp, " + std::to_string(offset1));
+                                    else
+                                    {
+                                        load_large_int64(offset1, Reg::t(1));
+                                        append_inst("add.d $t1, $fp, $t1");
+                                    }
+                                    append_inst("ld.w $t0, $t1, 0");
+                                }
+                                else
+                                {
+                                    int reg = instr->get_function()->gregmap_.at(instr->get_operand(i*2-2));
+                                    move_from_greg_to_greg(Reg::r(reg), Reg::t(0));
+                                }
+                            }
+                        } 
                     }
                     else
                     {
-                        load_to_greg(instr->get_operand(i*2-2), Reg::t(0));
-                        store_from_greg(instr, Reg::t(0));
+                        if(dynamic_cast<ConstantFP*>(instr->get_operand(i*2-2)))
+                        {
+                            int reg=instr->get_function()->fregmap_.at(instr);
+                            load_float_imm(dynamic_cast<ConstantFP*>(instr->get_operand(i*2-2))->get_value(), FReg::ft(reg));
+                        }
+                        else if(dynamic_cast<ConstantInt*>(instr->get_operand(i*2-2)))
+                        {
+                            append_inst("addi.w $t0, $zero, " + std::to_string(dynamic_cast<ConstantInt*>(instr->get_operand(i*2-2))->get_value()));
+                            int reg=instr->get_function()->gregmap_.at(instr);
+                            move_from_greg_to_greg(Reg::t(0), Reg::r(reg));
+                        }
+                        else if(instr->get_function()->fregmap_.find(instr->get_operand(i*2-2)) != instr->get_function()->fregmap_.end())
+                        {
+                            int m_f = instr->get_function()->fregmap_.at(instr->get_operand(i*2-2));
+                            int m_t = instr->get_function()->fregmap_.at(instr);
+                            if(m_f!=m_t)
+                                move_from_freg_to_freg(FReg::f(m_f), FReg::ft(m_t));
+                        }
+                        else if(instr->get_function()->gregmap_.find(instr->get_operand(i*2-2)) != instr->get_function()->gregmap_.end())
+                        {
+                            int m_f = instr->get_function()->gregmap_.at(instr->get_operand(i*2-2));
+                            int m_t = instr->get_function()->gregmap_.at(instr);
+                            if(m_f!=m_t)
+                                move_from_greg_to_greg(Reg::r(m_f), Reg::t(m_t));
+                        }
+                        else 
+                        {   //move from stack
+                            auto offset = instr->get_function()->stackmap_.at(instr->get_operand(i*2-2));
+                            if(offset<2048)
+                                append_inst("addi.d $t0, $fp, " + std::to_string(offset));
+                            else
+                            {
+                                load_large_int64(offset, Reg::t(0));
+                                append_inst("add.d $t0, $fp, $t0");
+                            }
+                            if(instr->get_type()->is_float_type())
+                            {
+                                append_inst("fld.s $ft0, $t0, 0");
+                                int reg=instr->get_function()->fregmap_.at(instr);
+                                move_from_freg_to_freg(FReg::ft(0), FReg::f(reg));
+                            }
+                            else
+                            {
+                                append_inst("ld.w $t0, $t0, 0");
+                                int reg=instr->get_function()->gregmap_.at(instr);
+                                move_from_greg_to_greg(Reg::t(0), Reg::r(reg));
+                            }
+                        }
                     }
                     break;
                 } 

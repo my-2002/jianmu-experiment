@@ -34,3 +34,4 @@ $ git push origin master
 8.84长数组需要优化，从中间代码角度
 9.对于浮点运算，暂时都按照单精度float处理，要是需要double，需要修改constantFP处的print函数到double,uint32改为64
 10.考虑函数调用时,寄存器上变量值的保存 条件表示寄存器的处理
+11.phi函数可能涉及类型转换
