@@ -52,6 +52,9 @@ private:
         def.clear();
         preliveIn.clear();
         preliveOut.clear();
+        var_start_end.clear();
+        insts.clear();
+        bb_start_end.clear();
     }
 
     void computeUseDef(BasicBlock *bb) {
