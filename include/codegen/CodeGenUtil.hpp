@@ -17,7 +17,7 @@ inline unsigned ALIGN(unsigned x, unsigned alignment) {
 inline bool IS_IMM_12(int x) { return x <= IMM_12_MAX and x >= IMM_12_MIN; }
 
 /* 栈帧相关 */
-#define PROLOGUE_OFFSET_BASE 16 // $ra $fp
+#define PROLOGUE_OFFSET_BASE 16 + 14 * 8 + 21 * 4 // $ra $fp
 #define PROLOGUE_ALIGN 16
 
 /* 龙芯指令 */

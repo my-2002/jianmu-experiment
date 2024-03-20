@@ -52,6 +52,10 @@ class CodeGen {
     void move_from_greg_to_greg(const Reg &, const Reg &);
     void move_from_freg_to_freg(const FReg &, const FReg &);
 
+    // 保存和恢复寄存器状态
+    void store_context_regs();
+    void load_context_regs();
+
     void gen_prologue();
     void gen_ret();
     void gen_br();
@@ -85,7 +89,6 @@ class CodeGen {
         int fcmp_cnt;
         std::unordered_map<Value *, int> offset_map{}; // 寄存器分配后，需要分配在栈上的val值相对 fp 的偏移
         std::unordered_map<Value* ,int> alloc_map{}; // alloc额外空间相对fp的偏移 
-        //std::unordered_map<Value* ,int> arg_map{}; // arg传入位置相对fp的偏移
 
         void clear() {
             func = nullptr;
@@ -94,7 +97,6 @@ class CodeGen {
             fcmp_cnt = 0;
             offset_map.clear();
             alloc_map.clear();
-            //arg_map.clear();
         }
 
     } context;
