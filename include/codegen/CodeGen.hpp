@@ -89,7 +89,10 @@ class CodeGen {
         int fcmp_cnt;
         std::unordered_map<Value *, int> offset_map{}; // 寄存器分配后，需要分配在栈上的val值相对 fp 的偏移
         std::unordered_map<Value* ,int> alloc_map{}; // alloc额外空间相对fp的偏移 
-
+        int seq = 0;
+        bool is_cond=false;
+        std::map<int,int> gloop;
+        std::map<int,int> floop;
         void clear() {
             func = nullptr;
             inst = nullptr;

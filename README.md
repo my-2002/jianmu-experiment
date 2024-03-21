@@ -30,8 +30,8 @@ $ git push origin master
 4. 变量定义的数组部分的constexp可能需要做非负整数的检查
 5. getchar 暂时按照整数写，如需要更改，在cminusbuilderhpp中将有关函数类型改为TyChar即可
 6. 数组和putf需要修改，计时函数没有完成
-7.genstore处记得删
-8.84长数组需要优化，从中间代码角度
-9.对于浮点运算，暂时都按照单精度float处理，要是需要double，需要修改constantFP处的print函数到double,uint32改为64
-10.考虑函数调用时,寄存器上变量值的保存 条件表示寄存器的处理
-11.phi函数可能涉及类型转换
+7. genstore处记得删
+8. 84长数组需要优化，从中间代码角度
+9. 对于浮点运算，暂时都按照单精度float处理，要是需要double，需要修改constantFP处的print函数到double,uint32改为64
+10. 考虑函数调用时,寄存器上变量值的保存 条件表示寄存器的处理
+11. phi函数可能涉及类型转换

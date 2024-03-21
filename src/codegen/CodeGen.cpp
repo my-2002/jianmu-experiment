@@ -168,11 +168,13 @@ void CodeGen::store_from_freg(Value *val, const FReg &r) {
 }
 
 void CodeGen::move_from_greg_to_greg(const Reg &sreg, const Reg &dreg) {
-    append_inst(MOV DOUBLE, {dreg.print(), sreg.print(), "63", "0"});
+    if(sreg.id!=dreg.id)
+        append_inst(MOV DOUBLE, {dreg.print(), sreg.print(), "63", "0"});
 }
 
 void CodeGen::move_from_freg_to_freg(const FReg &sreg, const FReg &dreg) {
-    append_inst(FMOV SINGLE, {dreg.print(), sreg.print()});
+    if(sreg.id!=dreg.id)
+        append_inst(FMOV SINGLE, {dreg.print(), sreg.print()});
 }
 
 void CodeGen::store_context_regs(){
@@ -648,7 +650,7 @@ void CodeGen::gen_phi(BasicBlock* bb) {
                 BasicBlock* bb1 = dynamic_cast<BasicBlock*>(instr->get_operand(i*2-1));
                 if(bb1 == bb)
                 {
-                    if(instr->get_function()->stackmap_.find(instr)!=instr->get_function()->stackmap_.end())
+                    /*if(instr->get_function()->stackmap_.find(instr)!=instr->get_function()->stackmap_.end())
                     {
                         //phi指令的结果是栈上的变量
                         auto offset = instr->get_function()->stackmap_.at(instr); 
@@ -767,6 +769,44 @@ void CodeGen::gen_phi(BasicBlock* bb) {
                                 move_from_greg_to_greg(Reg::t(0), Reg::r(reg));
                             }
                         }
+                    }*/
+                    if(dynamic_cast<BranchInst*>(context.inst)->is_cond_br())
+                    {
+                        context.is_cond=true;
+                        if(s1->get_name()[0]!='t')
+                            break;
+                    }
+                    else if(context.is_cond)
+                    {   //有条件跳转的br
+                        if(s1->get_name()[0]!='f')
+                            break;
+                        context.is_cond=false;
+                        append_inst("br tempbb"+ ++context.seq);
+                        append_inst("tempbb"+context.seq,ASMInstruction::Label);
+                    }
+                    if(instr->get_type()->is_float_type())
+                    {
+                        if(instr->get_function()->fregmap_.find(instr->get_operand(i*2-2))!=instr->get_function()->fregmap_.end() and context.floop.find(instr->get_function()->fregmap_.at(instr->get_operand(i*2-2)))!=context.floop.end())
+                            move_from_freg_to_freg(FReg::ft(context.floop[instr->get_function()->fregmap_.at(instr->get_operand(i*2-2))]), FReg::ft(0));
+                        else
+                            load_to_freg(instr->get_operand(i*2-2), FReg::ft(0));
+                        if(instr->get_function()->stackmap_.find(instr)==instr->get_function()->stackmap_.end())
+                        {
+                            context.floop[instr->get_function()->fregmap_.at(instr)]=context.floop.size()+1;     //暂时只将1,2号寄存器做暂存,不考虑大于2个到栈上的情况
+                            load_to_freg(instr, FReg::ft(context.floop.size()+1));
+                        }
+                        store_from_freg(instr, FReg::ft(0));
+                    }
+                    else
+                    {
+                        if(instr->get_function()->gregmap_.find(instr->get_operand(i*2-2))!=instr->get_function()->gregmap_.end() and context.gloop.find(instr->get_function()->gregmap_.at(instr->get_operand(i*2-2)))!=context.gloop.end())
+                            move_from_greg_to_greg(Reg::t(context.gloop[instr->get_function()->gregmap_.at(instr->get_operand(i*2-2))]), Reg::t(0));
+                        else
+                            load_to_greg(instr->get_operand(i*2-2), Reg::t(0));
+                        load_to_greg(instr->get_operand(i*2-2), Reg::t(0));
+                        if(instr->get_function()->stackmap_.find(instr)==instr->get_function()->stackmap_.end())
+                            context.gloop[instr->get_function()->gregmap_.at(instr)]=context.gloop.size()+1;
+                        store_from_greg(instr, Reg::t(0));
                     }
                     break;
                 } 
