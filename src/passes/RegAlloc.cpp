@@ -18,8 +18,8 @@ void RegAlloc::init()
 
 void RegAlloc::run()
 {
-    //livevaranalysis_ = std::make_unique<LiveVarAnalysis>(m_);
-    //livevaranalysis_->run();
+    livevaranalysis_ = std::make_unique<LiveVarAnalysis>(m_);
+    livevaranalysis_->run();
     //auto var_start_end = livevaranalysis_->getvar_start_end();
     for(auto& func1:m_->get_functions())
     {
@@ -86,7 +86,7 @@ void RegAlloc::run()
                 }
                 else  //溢出操作
                 {
-                    auto temp = *alloc_gvalues.end();
+                    auto temp = *alloc_gvalues.rbegin();
                     if(temp.second.second > it.second.second)
                     {
                         gregmap_.insert(std::make_pair(it.first, gregmap_[temp.first]));

@@ -84,7 +84,7 @@ void LiveVarAnalysis::run() {
             auto bb=inst->get_parent();
             for(auto op : inst->get_operands())
             {
-                if(!is_global_variable(op) && !is_constant(op) && !dynamic_cast<BasicBlock*>(op))
+                if(!is_global_variable(op) && !is_constant(op) && !dynamic_cast<BasicBlock*>(op) && !dynamic_cast<Function*>(op))
                 {
                     if(var_start_end.find(op)==var_start_end.end())  //最后一次使用该变量
                         var_start_end[op].second=cur_num;
@@ -106,8 +106,9 @@ void LiveVarAnalysis::run() {
                     }
                 }
             }
+            cur_num -=2;
         }
-        cur_num -=2;
+        
         // Print the live variable sets for each basic block
         //printLiveVars();
         for(auto pair:var_start_end)

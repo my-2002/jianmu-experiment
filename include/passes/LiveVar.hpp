@@ -62,7 +62,7 @@ private:
             auto inst = &inst1;
             for(auto op : inst->get_operands())
             {
-                if(!is_global_variable(op) && !is_constant(op) && def[bb].count(op) == 0 && !dynamic_cast<BasicBlock*>(op))
+                if(!is_global_variable(op) && !is_constant(op) && def[bb].count(op) == 0 && !dynamic_cast<BasicBlock*>(op) && !dynamic_cast<Function*>(op))
                     use[bb].insert(op);
             }
             if(!inst->is_void())

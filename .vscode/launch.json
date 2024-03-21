@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/build/cminusfc",
             "args": [
-                "${workspaceFolder}/tests/all_test_cases/functional/95_float.sy",
+                "${workspaceFolder}/tests/jianmu-tests/func/05_arr_defn4.sy",
                 "-S",
                 "-mem2reg"
             ],
