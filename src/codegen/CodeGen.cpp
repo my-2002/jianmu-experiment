@@ -181,22 +181,22 @@ void CodeGen::store_context_regs(){
     append_inst(ADDI WORD, {"$t0", "$fp", "-16"});
     for(int i = 4;i <= 11; i++)
     {
-        append_inst(ADDI WORD, {"$t0", "t0", "-8"});
+        append_inst(ADDI WORD, {"$t0", "$t0", "-8"});
         append_inst(STORE DOUBLE, {Reg::r(i).print(), "$t0", "0"});
     }
     for(int i = 15;i <= 20; i++)
     {
-        append_inst(ADDI WORD, {"$t0", "t0", "-8"});
+        append_inst(ADDI WORD, {"$t0", "$t0", "-8"});
         append_inst(STORE DOUBLE, {Reg::r(i).print(), "$t0", "0"});
     }
     for(int i = 0;i <= 7; i++)
     {
-        append_inst(ADDI WORD, {"$t0", "t0", "-4"});
+        append_inst(ADDI WORD, {"$t0", "$t0", "-4"});
         append_inst(FSTORE SINGLE, {FReg::f(i).print(), "$t0", "0"});
     }
     for(int i = 11;i <= 23; i++)
     {
-        append_inst(ADDI WORD, {"$t0", "t0", "-4"});
+        append_inst(ADDI WORD, {"$t0", "$t0", "-4"});
         append_inst(FSTORE SINGLE, {FReg::f(i).print(), "$t0", "0"});
     }
 }
@@ -205,22 +205,22 @@ void CodeGen::load_context_regs(){
     append_inst(ADDI WORD, {"$t0", "$fp", "-16"});
     for(int i = 4;i <= 11; i++)
     {
-        append_inst(ADDI WORD, {"$t0", "t0", "-8"});
+        append_inst(ADDI WORD, {"$t0", "$t0", "-8"});
         append_inst(LOAD DOUBLE, {Reg::r(i).print(), "$t0", "0"});
     }
     for(int i = 15;i <= 20; i++)
     {
-        append_inst(ADDI WORD, {"$t0", "t0", "-8"});
+        append_inst(ADDI WORD, {"$t0", "$t0", "-8"});
         append_inst(LOAD DOUBLE, {Reg::r(i).print(), "$t0", "0"});
     }
     for(int i = 0;i <= 7; i++)
     {
-        append_inst(ADDI WORD, {"$t0", "t0", "-4"});
+        append_inst(ADDI WORD, {"$t0", "$t0", "-4"});
         append_inst(FLOAD SINGLE, {FReg::f(i).print(), "$t0", "0"});
     }
     for(int i = 11;i <= 23; i++)
     {
-        append_inst(ADDI WORD, {"$t0", "t0", "-4"});
+        append_inst(ADDI WORD, {"$t0", "$t0", "-4"});
         append_inst(FLOAD SINGLE, {FReg::f(i).print(), "$t0", "0"});
     }
 }

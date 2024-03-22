@@ -3,19 +3,15 @@
 ==========.//03_arr_defn2.sy==========
 0								0
 ==========.//05_arr_defn4.sy==========
-terminate called after throwing an instance of 'std::out_of_range'
-  what():  _Map_base::at
+21							      |	132
 ==========.//06_const_var_defn2.sy==========
-terminate called after throwing an instance of 'std::out_of_range'
-  what():  _Map_base::at
+5								5
 ==========.//08_const_array_defn.sy==========
-terminate called after throwing an instance of 'std::out_of_range'
-  what():  _Map_base::at
+4								4
 ==========.//08_global_arr_init.sy==========
 5								5
 ==========.//27_scope5.sy==========
-terminate called after throwing an instance of 'std::out_of_range'
-  what():  _Map_base::at
+109							      |	139
 ==========.//36_rotate.sy==========
 terminate called after throwing an instance of 'std::out_of_range'
   what():  _Map_base::at
@@ -50,5 +46,3 @@ terminate called after throwing an instance of 'std::out_of_range'
 terminate called after throwing an instance of 'std::out_of_range'
   what():  _Map_base::at
 ==========.//my_test.sy==========
-terminate called after throwing an instance of 'std::out_of_range'
-  what():  _Map_base::at
