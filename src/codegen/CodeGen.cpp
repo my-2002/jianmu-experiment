@@ -1,6 +1,7 @@
 #include "CodeGen.hpp"
 
 #include "CodeGenUtil.hpp"
+#include <string>
 
 void CodeGen::allocate() {
     // 备份 $ra $fp
@@ -532,55 +533,69 @@ void CodeGen::gen_call() {
     auto Func = static_cast<Function* >(context.inst->get_operand(0));
     auto Func_name = Func->get_name();
     unsigned i = 1;
-    for(auto &arg : Func->get_args())
-    {
-        auto arg_type = arg.get_type();
-        if(arg_type->is_float_type())
+    if(Func->get_basic_blocks().size() == 0) { //判断是否为外部函数
+        unsigned a_i, fa_i;
+        a_i = fa_i = 0;
+        for(auto &arg : Func->get_args())
         {
-            load_to_freg(context.inst->get_operand(i++), FReg::ft(0));
-            if(Func->fregmap_.find(&arg) != Func->fregmap_.end())//arg被分配到寄存器中
-                move_from_freg_to_freg(FReg::ft(0), FReg::f((unsigned)Func->fregmap_.find(&arg)->second));
-            else//arg被分配到栈上
+            auto arg_type = arg.get_type();
+            if(arg_type->is_float_type())
+                load_to_freg(context.inst->get_operand(i++), FReg::fa(fa_i++));
+            else
+                load_to_greg(context.inst->get_operand(i++), Reg::a(a_i++));
+        }
+    }
+    else {
+        for(auto &arg : Func->get_args())
+        {
+            auto arg_type = arg.get_type();
+            if(arg_type->is_float_type())
             {
-                auto offset = Func->stackmap_.at(&arg);
-                if (IS_IMM_12(offset)) {
-                    auto offset_str = std::to_string(offset);
-                    append_inst(FSTORE SINGLE, {"$ft0", "$sp", offset_str});
-                } else {
-                    auto addr = Reg::t(2);
-                    load_large_int64(offset, addr);
-                    append_inst(ADD DOUBLE, {addr.print(), "$sp", addr.print()});
-                    append_inst(FSTORE SINGLE, {"$ft0", addr.print(), "0"});
+                load_to_freg(context.inst->get_operand(i++), FReg::ft(0));
+                if(Func->fregmap_.find(&arg) != Func->fregmap_.end())//arg被分配到寄存器中
+                    move_from_freg_to_freg(FReg::ft(0), FReg::f((unsigned)Func->fregmap_.find(&arg)->second));
+                else//arg被分配到栈上
+                {
+                    auto offset = Func->stackmap_.at(&arg);
+                    if (IS_IMM_12(offset)) {
+                        auto offset_str = std::to_string(offset);
+                        append_inst(FSTORE SINGLE, {"$ft0", "$sp", offset_str});
+                    } else {
+                        auto addr = Reg::t(2);
+                        load_large_int64(offset, addr);
+                        append_inst(ADD DOUBLE, {addr.print(), "$sp", addr.print()});
+                        append_inst(FSTORE SINGLE, {"$ft0", addr.print(), "0"});
+                    }
                 }
             }
-        }
-        else
-        {
-            load_to_greg(context.inst->get_operand(i++), Reg::t(0));
-            if(Func->gregmap_.find(&arg) != Func->gregmap_.end())//arg被分配到寄存器中
-                move_from_greg_to_greg(Reg::t(0), Reg::r((unsigned)Func->gregmap_.find(&arg)->second));
-            else//arg被分配到栈上
+            else
             {
-                auto offset = Func->stackmap_.at(&arg);
-                auto offset_str = std::to_string(offset);
-                if (IS_IMM_12(offset)) {
-                    if (arg_type->is_int1_type()) {
-                        append_inst(STORE BYTE, {"$t0", "$sp", offset_str});
-                    } else if (arg_type->is_int32_type()) {
-                        append_inst(STORE WORD, {"$t0", "$sp", offset_str});
-                    } else { // Pointer
-                        append_inst(STORE DOUBLE, {"$t0", "$sp", offset_str});
-                    }
-                } else {
-                    auto addr = Reg::t(2);
-                    load_large_int64(offset, addr);
-                    append_inst(ADD DOUBLE, {addr.print(), "$sp", addr.print()});
-                    if (arg_type->is_int1_type()) {
-                        append_inst(STORE BYTE, {"$t0", addr.print(), "0"});
-                    } else if (arg_type->is_int32_type()) {
-                        append_inst(STORE WORD, {"$t0", addr.print(), "0"});
-                    } else { // Pointer
-                        append_inst(STORE DOUBLE, {"$t0", addr.print(), "0"});
+                load_to_greg(context.inst->get_operand(i++), Reg::t(0));
+                if(Func->gregmap_.find(&arg) != Func->gregmap_.end())//arg被分配到寄存器中
+                    move_from_greg_to_greg(Reg::t(0), Reg::r((unsigned)Func->gregmap_.find(&arg)->second));
+                else//arg被分配到栈上
+                {
+                    auto offset = Func->stackmap_.at(&arg);
+                    auto offset_str = std::to_string(offset);
+                    if (IS_IMM_12(offset)) {
+                        if (arg_type->is_int1_type()) {
+                            append_inst(STORE BYTE, {"$t0", "$sp", offset_str});
+                        } else if (arg_type->is_int32_type()) {
+                            append_inst(STORE WORD, {"$t0", "$sp", offset_str});
+                        } else { // Pointer
+                            append_inst(STORE DOUBLE, {"$t0", "$sp", offset_str});
+                        }
+                    } else {
+                        auto addr = Reg::t(2);
+                        load_large_int64(offset, addr);
+                        append_inst(ADD DOUBLE, {addr.print(), "$sp", addr.print()});
+                        if (arg_type->is_int1_type()) {
+                            append_inst(STORE BYTE, {"$t0", addr.print(), "0"});
+                        } else if (arg_type->is_int32_type()) {
+                            append_inst(STORE WORD, {"$t0", addr.print(), "0"});
+                        } else { // Pointer
+                            append_inst(STORE DOUBLE, {"$t0", addr.print(), "0"});
+                        }
                     }
                 }
             }
@@ -781,8 +796,8 @@ void CodeGen::gen_phi(BasicBlock* bb) {
                         if(s1->get_name()[0]!='f')
                             break;
                         context.is_cond=false;
-                        append_inst("br tempbb"+ ++context.seq);
-                        append_inst("tempbb"+context.seq,ASMInstruction::Label);
+                        append_inst("br tempbb"+ std::to_string(++context.seq));
+                        append_inst("tempbb"+std::to_string(context.seq),ASMInstruction::Label);
                     }
                     if(instr->get_type()->is_float_type())
                     {

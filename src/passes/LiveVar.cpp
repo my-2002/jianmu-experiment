@@ -5,6 +5,11 @@
 
 using namespace std;
 
+bool cmp(const std::pair<Value *, std::pair<int, int>>& left, 
+                    const std::pair<Value *, std::pair<int, int>>& right) {
+        return left.second.first < right.second.first;
+    }
+
 void LiveVarAnalysis::run() {
     // Code goes here
 
@@ -112,9 +117,8 @@ void LiveVarAnalysis::run() {
         // Print the live variable sets for each basic block
         //printLiveVars();
         for(auto pair:var_start_end)
-        {
-            f->var_start_end.insert(pair);
-        }
+            f->var_start_end.insert(f->var_start_end.end(), pair);
+        sort(f->var_start_end.begin(), f->var_start_end.end());
     }
     
 }

@@ -24,6 +24,8 @@ void RegAlloc::run()
     for(auto& func1:m_->get_functions())
     {
         auto func=&func1;
+        if (func->get_basic_blocks().size() == 0)
+            continue;
         auto var_start_end=func->var_start_end;
         init();
         std::set<std::pair<Value *, std::pair<int, int>>, CompareSecond> alloc_gvalues; //按照结束时间从小到大排序

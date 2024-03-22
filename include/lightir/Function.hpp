@@ -48,13 +48,7 @@ class Function : public Value, public llvm::ilist_node<Function> {
     void set_instr_name();
     std::string print();
     //寄存器分配相关变量
-    struct CompareFirst {
-    bool operator()(const std::pair<Value *, std::pair<int, int>>& left, 
-                    const std::pair<Value *, std::pair<int, int>>& right) const {
-        return left.second.first < right.second.first;
-    }
-};
-    std::set<std::pair<Value *, std::pair<int, int>>, CompareFirst> var_start_end;
+    std::vector<std::pair<Value *, std::pair<int, int>>> var_start_end;
     std::unordered_map<Value *, int> gregmap_;
     std::unordered_map<Value *, int> fregmap_;
     std::unordered_map<Value *, int> stackmap_;
