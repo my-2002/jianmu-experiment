@@ -118,7 +118,7 @@ void LiveVarAnalysis::run() {
         //printLiveVars();
         for(auto pair:var_start_end)
             f->var_start_end.insert(f->var_start_end.end(), pair);
-        sort(f->var_start_end.begin(), f->var_start_end.end());
+        sort(f->var_start_end.begin(), f->var_start_end.end(), cmp);
     }
     
 }
