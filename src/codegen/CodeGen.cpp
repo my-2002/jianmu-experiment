@@ -178,51 +178,75 @@ void CodeGen::move_from_freg_to_freg(const FReg &sreg, const FReg &dreg) {
         append_inst(FMOV SINGLE, {dreg.print(), sreg.print()});
 }
 
-void CodeGen::store_context_regs(){
-    append_inst(ADDI WORD, {"$t0", "$fp", "-16"});
-    for(int i = 4;i <= 11; i++)
+void CodeGen::store_context_regs(Function* f){
+    append_inst(ADDI DOUBLE, {"$t0", "$fp", "-16"});
+    if(f->get_basic_blocks().size() == 0)
     {
-        append_inst(ADDI WORD, {"$t0", "$t0", "-8"});
-        append_inst(STORE DOUBLE, {Reg::r(i).print(), "$t0", "0"});
+        unsigned a_i, fa_i;
+        a_i = fa_i = 0;
+        for(auto &arg : f->get_args())
+        {
+            auto arg_type = arg.get_type();
+            if(arg_type->is_float_type())
+            {
+                append_inst(ADDI DOUBLE, {"$t0", "$t0", "-4"});
+                append_inst(FSTORE SINGLE, {FReg::fa(fa_i++).print(), "$t0", "0"});
+            }
+            else
+            {
+                append_inst(ADDI DOUBLE, {"$t0", "$t0", "-8"});
+                append_inst(STORE DOUBLE, {Reg::a(a_i++).print(), "$t0", "0"});
+            }
+        }
     }
-    for(int i = 15;i <= 20; i++)
+    else
     {
-        append_inst(ADDI WORD, {"$t0", "$t0", "-8"});
-        append_inst(STORE DOUBLE, {Reg::r(i).print(), "$t0", "0"});
-    }
-    for(int i = 0;i <= 7; i++)
-    {
-        append_inst(ADDI WORD, {"$t0", "$t0", "-4"});
-        append_inst(FSTORE SINGLE, {FReg::f(i).print(), "$t0", "0"});
-    }
-    for(int i = 11;i <= 23; i++)
-    {
-        append_inst(ADDI WORD, {"$t0", "$t0", "-4"});
-        append_inst(FSTORE SINGLE, {FReg::f(i).print(), "$t0", "0"});
+        for(auto it = f->used_greg.begin(); it != f->used_greg.end(); ++it)
+        {
+            append_inst(ADDI DOUBLE, {"$t0", "$t0", "-8"});
+            append_inst(STORE DOUBLE, {Reg::r(*it).print(), "$t0", "0"});
+        }
+        for(auto it = f->used_freg.begin(); it != f->used_freg.end(); ++it)
+        {
+            append_inst(ADDI DOUBLE, {"$t0", "$t0", "-4"});
+            append_inst(FSTORE SINGLE, {FReg::f(*it).print(), "$t0", "0"});
+        }
     }
 }
 
-void CodeGen::load_context_regs(){
-    append_inst(ADDI WORD, {"$t0", "$fp", "-16"});
-    for(int i = 4;i <= 11; i++)
+void CodeGen::load_context_regs(Function* f){
+    append_inst(ADDI DOUBLE, {"$t0", "$fp", "-16"});
+    if(f->get_basic_blocks().size() == 0)
     {
-        append_inst(ADDI WORD, {"$t0", "$t0", "-8"});
-        append_inst(LOAD DOUBLE, {Reg::r(i).print(), "$t0", "0"});
+        unsigned a_i, fa_i;
+        a_i = fa_i = 0;
+        for(auto &arg : f->get_args())
+        {
+            auto arg_type = arg.get_type();
+            if(arg_type->is_float_type())
+            {
+                append_inst(ADDI DOUBLE, {"$t0", "$t0", "-4"});
+                append_inst(FLOAD SINGLE, {FReg::fa(fa_i++).print(), "$t0", "0"});
+            }
+            else
+            {
+                append_inst(ADDI DOUBLE, {"$t0", "$t0", "-8"});
+                append_inst(LOAD DOUBLE, {Reg::a(a_i++).print(), "$t0", "0"});
+            }
+        }
     }
-    for(int i = 15;i <= 20; i++)
+    else
     {
-        append_inst(ADDI WORD, {"$t0", "$t0", "-8"});
-        append_inst(LOAD DOUBLE, {Reg::r(i).print(), "$t0", "0"});
-    }
-    for(int i = 0;i <= 7; i++)
-    {
-        append_inst(ADDI WORD, {"$t0", "$t0", "-4"});
-        append_inst(FLOAD SINGLE, {FReg::f(i).print(), "$t0", "0"});
-    }
-    for(int i = 11;i <= 23; i++)
-    {
-        append_inst(ADDI WORD, {"$t0", "$t0", "-4"});
-        append_inst(FLOAD SINGLE, {FReg::f(i).print(), "$t0", "0"});
+        for(auto it = f->used_greg.begin(); it != f->used_greg.end(); ++it)
+        {
+            append_inst(ADDI DOUBLE, {"$t0", "$t0", "-8"});
+            append_inst(LOAD DOUBLE, {Reg::r(*it).print(), "$t0", "0"});
+        }
+        for(auto it = f->used_freg.begin(); it != f->used_freg.end(); ++it)
+        {
+            append_inst(ADDI DOUBLE, {"$t0", "$t0", "-4"});
+            append_inst(FLOAD SINGLE, {FReg::f(*it).print(), "$t0", "0"});
+        }
     }
 }
 
@@ -529,8 +553,8 @@ void CodeGen::gen_zext() {
 }
 
 void CodeGen::gen_call() {
-    store_context_regs();// 保存寄存器状态
     auto Func = static_cast<Function* >(context.inst->get_operand(0));
+    store_context_regs(Func);// 保存寄存器状态
     auto Func_name = Func->get_name();
     unsigned i = 1;
     if(Func->get_basic_blocks().size() == 0) { //判断是否为外部函数
@@ -609,7 +633,7 @@ void CodeGen::gen_call() {
         else
             store_from_greg(context.inst, Reg::a(0));
     }
-    load_context_regs();// 恢复寄存器状态
+    load_context_regs(Func);// 恢复寄存器状态
     // throw not_implemented_error{__FUNCTION__};
 }
 

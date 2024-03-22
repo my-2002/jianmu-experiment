@@ -13,7 +13,7 @@ void RegAlloc::init()
     stackmap_.clear();
     unusedgregs_={4,5,6,7,8,9,10,11,15,16,17,18,19,20};
     unusedfregs_={0,1,2,3,4,5,6,7,11,12,13,14,15,16,17,18,19,20,21,22,23};
-    stack_offset_ = 0;
+    stack_offset_ = PROLOGUE_OFFSET_BASE;
 }
 
 void RegAlloc::run()
@@ -48,6 +48,7 @@ void RegAlloc::run()
                 if(unusedfregs_.size() > 0) //存在可用寄存器
                 {
                     fregmap_.insert(std::make_pair(it.first, *unusedfregs_.begin()));
+                    func->used_freg.insert(*unusedfregs_.begin());
                     alloc_fvalues.insert(it);
                     unusedfregs_.erase(unusedfregs_.begin());
                 }
@@ -83,6 +84,7 @@ void RegAlloc::run()
                 if(unusedgregs_.size() > 0) //存在可用寄存器
                 {
                     gregmap_.insert(std::make_pair(it.first, *unusedgregs_.begin()));
+                    func->used_greg.insert(*unusedgregs_.begin());
                     alloc_gvalues.insert(it);
                     unusedgregs_.erase(unusedgregs_.begin());
                 }
@@ -108,6 +110,4 @@ void RegAlloc::run()
         func->stackmap_=stackmap_;
         func->stack_offset_ = stack_offset_;
     }
-    
-    
 }
