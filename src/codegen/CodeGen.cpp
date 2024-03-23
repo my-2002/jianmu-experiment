@@ -553,6 +553,7 @@ void CodeGen::gen_zext() {
 }
 
 void CodeGen::gen_call() {
+    append_inst(ADDI DOUBLE, {"$t1", "$fp", "-16"});
     auto Func = static_cast<Function* >(context.inst->get_operand(0));
     store_context_regs(Func);// 保存寄存器状态
     auto Func_name = Func->get_name();
@@ -575,7 +576,16 @@ void CodeGen::gen_call() {
             auto arg_type = arg.get_type();
             if(arg_type->is_float_type())
             {
-                load_to_freg(context.inst->get_operand(i++), FReg::ft(0));
+                if(context.func->stackmap_.find(context.inst->get_operand(i))==context.func->stackmap_.end())
+                {
+                    int reg_num = context.func->fregmap_[context.inst->get_operand(i++)];
+                    int seq = std::distance(context.func->used_freg.begin(),context.func->used_freg.find(reg_num))+1; 
+                    int offset = 4*seq+8*context.func->used_greg.size();
+                    append_inst("addi.d $t1, $t1, "+std::to_string(-offset));
+                    append_inst("fld.s $ft0, $t1, 0");
+                }
+                else
+                    load_to_freg(context.inst->get_operand(i++), FReg::ft(0));
                 if(Func->fregmap_.find(&arg) != Func->fregmap_.end())//arg被分配到寄存器中
                     move_from_freg_to_freg(FReg::ft(0), FReg::f((unsigned)Func->fregmap_.find(&arg)->second));
                 else//arg被分配到栈上
@@ -594,7 +604,16 @@ void CodeGen::gen_call() {
             }
             else
             {
-                load_to_greg(context.inst->get_operand(i++), Reg::t(0));
+                if(context.func->stackmap_.find(context.inst->get_operand(i))==context.func->stackmap_.end())
+                {
+                    int reg_num = context.func->gregmap_[context.inst->get_operand(i++)];
+                    int seq = std::distance(context.func->used_greg.begin(),context.func->used_greg.find(reg_num))+1; 
+                    int offset = 8*seq;
+                    append_inst("addi.d $t1, $t1, "+std::to_string(-offset));
+                    append_inst("ld.d $t0, $t1, 0");
+                }
+                else
+                    load_to_greg(context.inst->get_operand(i++), Reg::t(0));
                 if(Func->gregmap_.find(&arg) != Func->gregmap_.end())//arg被分配到寄存器中
                     move_from_greg_to_greg(Reg::t(0), Reg::r((unsigned)Func->gregmap_.find(&arg)->second));
                 else//arg被分配到栈上
@@ -626,14 +645,21 @@ void CodeGen::gen_call() {
         }
     }
     append_inst("bl "+Func_name);
-    if(not Func->get_return_type()->is_void_type())
+    if(not Func->get_return_type()->is_void_type())            
     {
         if(Func->get_return_type()->is_float_type())
-            store_from_freg(context.inst, FReg::fa(0));
+            move_from_freg_to_freg(FReg::fa(0),FReg::ft(1));
         else
-            store_from_greg(context.inst, Reg::a(0));
+            move_from_greg_to_greg(Reg::a(0),Reg::t(1));
     }
     load_context_regs(Func);// 恢复寄存器状态
+    if(not Func->get_return_type()->is_void_type())                 //防止恢复寄存器时覆盖掉函数返回值
+    {
+        if(Func->get_return_type()->is_float_type())
+            store_from_freg(context.inst, FReg::ft(1));
+        else
+            store_from_greg(context.inst, Reg::t(1));
+    }
     // throw not_implemented_error{__FUNCTION__};
 }
 
