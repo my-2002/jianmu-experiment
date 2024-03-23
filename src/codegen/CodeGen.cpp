@@ -576,11 +576,11 @@ void CodeGen::gen_call() {
             auto arg_type = arg.get_type();
             if(arg_type->is_float_type())
             {
-                if(context.func->stackmap_.find(context.inst->get_operand(i))==context.func->stackmap_.end())
+                if(context.func->fregmap_.find(context.inst->get_operand(i))!=context.func->fregmap_.end() && Func->used_freg.find(context.func->fregmap_[context.inst->get_operand(i)])!=Func->used_freg.end())
                 {
                     int reg_num = context.func->fregmap_[context.inst->get_operand(i++)];
-                    int seq = std::distance(context.func->used_freg.begin(),context.func->used_freg.find(reg_num))+1; 
-                    int offset = 4*seq+8*context.func->used_greg.size();
+                    int seq = std::distance(Func->used_freg.begin(),Func->used_freg.find(reg_num))+1; 
+                    int offset = 4*seq+8*Func->used_greg.size();
                     append_inst("addi.d $t1, $t1, "+std::to_string(-offset));
                     append_inst("fld.s $ft0, $t1, 0");
                 }
@@ -604,10 +604,10 @@ void CodeGen::gen_call() {
             }
             else
             {
-                if(context.func->stackmap_.find(context.inst->get_operand(i))==context.func->stackmap_.end())
+                if(context.func->gregmap_.find(context.inst->get_operand(i))!=context.func->gregmap_.end() && Func->used_greg.find(context.func->gregmap_[context.inst->get_operand(i)])!=Func->used_greg.end())
                 {
                     int reg_num = context.func->gregmap_[context.inst->get_operand(i++)];
-                    int seq = std::distance(context.func->used_greg.begin(),context.func->used_greg.find(reg_num))+1; 
+                    int seq = std::distance(Func->used_greg.begin(),Func->used_greg.find(reg_num))+1; 
                     int offset = 8*seq;
                     append_inst("addi.d $t1, $t1, "+std::to_string(-offset));
                     append_inst("ld.d $t0, $t1, 0");
