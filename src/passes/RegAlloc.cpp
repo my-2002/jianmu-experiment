@@ -13,7 +13,7 @@ void RegAlloc::init()
     stackmap_.clear();
     unusedgregs_={4,5,6,7,8,9,10,11,15,16,17,18,19,20};
     unusedfregs_={0,1,2,3,4,5,6,7,11,12,13,14,15,16,17,18,19,20,21,22,23};
-    stack_offset_ = 0;
+    stack_offset_ = PROLOGUE_OFFSET_BASE;
 }
 
 void RegAlloc::run()
