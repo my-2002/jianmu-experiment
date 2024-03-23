@@ -53,8 +53,8 @@ class CodeGen {
     void move_from_freg_to_freg(const FReg &, const FReg &);
 
     // 保存和恢复寄存器状态
-    void store_context_regs();
-    void load_context_regs();
+    void store_context_regs(Function*);
+    void load_context_regs(Function*);
 
     void gen_prologue();
     void gen_ret();

@@ -53,6 +53,8 @@ class Function : public Value, public llvm::ilist_node<Function> {
     std::unordered_map<Value *, int> fregmap_;
     std::unordered_map<Value *, int> stackmap_;
     unsigned stack_offset_;
+    std::set<int> used_greg;
+    std::set<int> used_freg;
 
   private:
     llvm::ilist<BasicBlock> basic_blocks_;

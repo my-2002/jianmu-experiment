@@ -48,6 +48,7 @@ void RegAlloc::run()
                 if(unusedfregs_.size() > 0) //存在可用寄存器
                 {
                     fregmap_.insert(std::make_pair(it.first, *unusedfregs_.begin()));
+                    func->used_freg.insert(*unusedfregs_.begin());
                     alloc_fvalues.insert(it);
                     unusedfregs_.erase(unusedfregs_.begin());
                 }
@@ -83,6 +84,7 @@ void RegAlloc::run()
                 if(unusedgregs_.size() > 0) //存在可用寄存器
                 {
                     gregmap_.insert(std::make_pair(it.first, *unusedgregs_.begin()));
+                    func->used_greg.insert(*unusedgregs_.begin());
                     alloc_gvalues.insert(it);
                     unusedgregs_.erase(unusedgregs_.begin());
                 }
@@ -108,6 +110,4 @@ void RegAlloc::run()
         func->stackmap_=stackmap_;
         func->stack_offset_ = stack_offset_;
     }
-    
-    
 }
