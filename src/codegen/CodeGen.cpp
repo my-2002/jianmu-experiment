@@ -182,22 +182,39 @@ void CodeGen::store_context_regs(Function* f){
     append_inst(ADDI DOUBLE, {"$t0", "$fp", "-16"});
     if(f->get_basic_blocks().size() == 0)
     {
-        unsigned a_i, fa_i;
-        a_i = fa_i = 0;
-        for(auto &arg : f->get_args())
+        if(not f->get_return_type()->is_void_type())            
         {
-            auto arg_type = arg.get_type();
-            if(arg_type->is_float_type())
+            if(f->get_return_type()->is_float_type())
             {
                 append_inst(ADDI DOUBLE, {"$t0", "$t0", "-4"});
-                append_inst(FSTORE SINGLE, {FReg::fa(fa_i++).print(), "$t0", "0"});
+                append_inst(FSTORE SINGLE, {FReg::fa(0).print(), "$t0", "0"});
             }
             else
             {
                 append_inst(ADDI DOUBLE, {"$t0", "$t0", "-8"});
-                append_inst(STORE DOUBLE, {Reg::a(a_i++).print(), "$t0", "0"});
+                append_inst(STORE DOUBLE, {Reg::a(0).print(), "$t0", "0"});
             }
         }
+        else 
+        {
+            unsigned a_i, fa_i;
+            a_i = fa_i = 0;
+            for(auto &arg : f->get_args())
+            {
+                auto arg_type = arg.get_type();
+                if(arg_type->is_float_type())
+                {
+                    append_inst(ADDI DOUBLE, {"$t0", "$t0", "-4"});
+                    append_inst(FSTORE SINGLE, {FReg::fa(fa_i++).print(), "$t0", "0"});
+                }
+                else
+                {
+                    append_inst(ADDI DOUBLE, {"$t0", "$t0", "-8"});
+                    append_inst(STORE DOUBLE, {Reg::a(a_i++).print(), "$t0", "0"});
+                }
+            }
+        }
+        
     }
     else
     {
@@ -218,20 +235,36 @@ void CodeGen::load_context_regs(Function* f){
     append_inst(ADDI DOUBLE, {"$t0", "$fp", "-16"});
     if(f->get_basic_blocks().size() == 0)
     {
-        unsigned a_i, fa_i;
-        a_i = fa_i = 0;
-        for(auto &arg : f->get_args())
+        if(not f->get_return_type()->is_void_type())            
         {
-            auto arg_type = arg.get_type();
-            if(arg_type->is_float_type())
+            if(f->get_return_type()->is_float_type())
             {
                 append_inst(ADDI DOUBLE, {"$t0", "$t0", "-4"});
-                append_inst(FLOAD SINGLE, {FReg::fa(fa_i++).print(), "$t0", "0"});
+                append_inst(FLOAD SINGLE, {FReg::fa(0).print(), "$t0", "0"});
             }
             else
             {
                 append_inst(ADDI DOUBLE, {"$t0", "$t0", "-8"});
-                append_inst(LOAD DOUBLE, {Reg::a(a_i++).print(), "$t0", "0"});
+                append_inst(LOAD DOUBLE, {Reg::a(0).print(), "$t0", "0"});
+            }
+        }
+        else
+        {
+            unsigned a_i, fa_i;
+            a_i = fa_i = 0;
+            for(auto &arg : f->get_args())
+            {
+                auto arg_type = arg.get_type();
+                if(arg_type->is_float_type())
+                {
+                    append_inst(ADDI DOUBLE, {"$t0", "$t0", "-4"});
+                    append_inst(FLOAD SINGLE, {FReg::fa(fa_i++).print(), "$t0", "0"});
+                }
+                else
+                {
+                    append_inst(ADDI DOUBLE, {"$t0", "$t0", "-8"});
+                    append_inst(LOAD DOUBLE, {Reg::a(a_i++).print(), "$t0", "0"});
+                }
             }
         }
     }
@@ -553,7 +586,7 @@ void CodeGen::gen_zext() {
 }
 
 void CodeGen::gen_call() {
-    append_inst(ADDI DOUBLE, {"$t1", "$fp", "-16"});
+    //append_inst(ADDI DOUBLE, {"$t1", "$fp", "-16"});
     auto Func = static_cast<Function* >(context.inst->get_operand(0));
     store_context_regs(Func);// 保存寄存器状态
     auto Func_name = Func->get_name();
@@ -581,6 +614,7 @@ void CodeGen::gen_call() {
                     int reg_num = context.func->fregmap_[context.inst->get_operand(i++)];
                     int seq = std::distance(Func->used_freg.begin(),Func->used_freg.find(reg_num))+1; 
                     int offset = 4*seq+8*Func->used_greg.size();
+                    append_inst(ADDI DOUBLE, {"$t1", "$fp", "-16"});
                     append_inst("addi.d $t1, $t1, "+std::to_string(-offset));
                     append_inst("fld.s $ft0, $t1, 0");
                 }
@@ -588,7 +622,7 @@ void CodeGen::gen_call() {
                     load_to_freg(context.inst->get_operand(i++), FReg::ft(0));
                 if(Func->fregmap_.find(&arg) != Func->fregmap_.end())//arg被分配到寄存器中
                     move_from_freg_to_freg(FReg::ft(0), FReg::f((unsigned)Func->fregmap_.find(&arg)->second));
-                else//arg被分配到栈上
+                else if(Func->stackmap_.find(&arg) != Func->stackmap_.end())//arg被分配到栈上
                 {
                     auto offset = Func->stackmap_.at(&arg);
                     if (IS_IMM_12(offset)) {
@@ -609,6 +643,7 @@ void CodeGen::gen_call() {
                     int reg_num = context.func->gregmap_[context.inst->get_operand(i++)];
                     int seq = std::distance(Func->used_greg.begin(),Func->used_greg.find(reg_num))+1; 
                     int offset = 8*seq;
+                    append_inst(ADDI DOUBLE, {"$t1", "$fp", "-16"});
                     append_inst("addi.d $t1, $t1, "+std::to_string(-offset));
                     append_inst("ld.d $t0, $t1, 0");
                 }
@@ -616,7 +651,7 @@ void CodeGen::gen_call() {
                     load_to_greg(context.inst->get_operand(i++), Reg::t(0));
                 if(Func->gregmap_.find(&arg) != Func->gregmap_.end())//arg被分配到寄存器中
                     move_from_greg_to_greg(Reg::t(0), Reg::r((unsigned)Func->gregmap_.find(&arg)->second));
-                else//arg被分配到栈上
+                else if(Func->stackmap_.find(&arg) != Func->stackmap_.end())//arg被分配到栈上
                 {
                     auto offset = Func->stackmap_.at(&arg);
                     auto offset_str = std::to_string(offset);
@@ -715,126 +750,6 @@ void CodeGen::gen_phi(BasicBlock* bb) {
                 BasicBlock* bb1 = dynamic_cast<BasicBlock*>(instr->get_operand(i*2-1));
                 if(bb1 == bb)
                 {
-                    /*if(instr->get_function()->stackmap_.find(instr)!=instr->get_function()->stackmap_.end())
-                    {
-                        //phi指令的结果是栈上的变量
-                        auto offset = instr->get_function()->stackmap_.at(instr); 
-                        if(offset<2048)
-                            append_inst("addi.d $t0, $fp, " + std::to_string(offset));
-                        else
-                        {
-                            load_large_int64(offset, Reg::t(0));
-                            append_inst("add.d $t0, $fp, $t0");
-                        }
-                        //TODO 将栈式的变量值传递修改为通过寄存器映射表传递,注意判断是否是常数全局变量
-                        if(dynamic_cast<ConstantInt*>(instr->get_operand(i*2-2)))
-                        {
-                            append_inst("addi.w $t1, $zero, " + std::to_string(dynamic_cast<ConstantInt*>(instr->get_operand(i*2-2))->get_value())); 
-                            append_inst("st.w $t1, $t0, 0");
-                        }
-                        else if(dynamic_cast<ConstantFP*>(instr->get_operand(i*2-2)))
-                        {
-                            load_float_imm(dynamic_cast<ConstantFP*>(instr->get_operand(i*2-2))->get_value(), FReg::ft(0));
-                            append_inst("fst.s $ft0, $t0, 0");
-                        }
-                        else
-                        {
-                            //move_from 非常量
-                            if(instr->get_type()->is_float_type())
-                            {
-                                if(instr->get_function()->stackmap_.find(instr->get_operand(i*2-2)) != instr->get_function()->stackmap_.end())
-                                {
-                                    int offset1 = instr->get_function()->stackmap_.at(instr->get_operand(i*2-2));
-                                    if(offset1<2048)
-                                        append_inst("addi.d $t1, $fp, " + std::to_string(offset1));
-                                    else
-                                    {
-                                        load_large_int64(offset1, Reg::t(1));
-                                        append_inst("add.d $t1, $fp, $t1");
-                                    }
-                                    append_inst("fld.s $ft0, $t1, 0");
-                                    append_inst("fst.s $ft0, $t0, 0");
-                                }
-                                else
-                                {
-                                    int reg = instr->get_function()->fregmap_.at(instr->get_operand(i*2-2));
-                                    move_from_freg_to_freg(FReg::f(reg), FReg::ft(0));
-                                    append_inst("fst.s $ft0, $t0, 0");
-                                }
-                            }
-                            else
-                            {
-                                if(instr->get_function()->stackmap_.find(instr->get_operand(i*2-2)) != instr->get_function()->stackmap_.end())
-                                {
-                                    int offset1 = instr->get_function()->stackmap_.at(instr->get_operand(i*2-2));
-                                    if(offset1<2048)
-                                        append_inst("addi.d $t1, $fp, " + std::to_string(offset1));
-                                    else
-                                    {
-                                        load_large_int64(offset1, Reg::t(1));
-                                        append_inst("add.d $t1, $fp, $t1");
-                                    }
-                                    append_inst("ld.w $t0, $t1, 0");
-                                }
-                                else
-                                {
-                                    int reg = instr->get_function()->gregmap_.at(instr->get_operand(i*2-2));
-                                    move_from_greg_to_greg(Reg::r(reg), Reg::t(0));
-                                }
-                            }
-                        } 
-                    }
-                    else
-                    {
-                        if(dynamic_cast<ConstantFP*>(instr->get_operand(i*2-2)))
-                        {
-                            int reg=instr->get_function()->fregmap_.at(instr);
-                            load_float_imm(dynamic_cast<ConstantFP*>(instr->get_operand(i*2-2))->get_value(), FReg::ft(reg));
-                        }
-                        else if(dynamic_cast<ConstantInt*>(instr->get_operand(i*2-2)))
-                        {
-                            append_inst("addi.w $t0, $zero, " + std::to_string(dynamic_cast<ConstantInt*>(instr->get_operand(i*2-2))->get_value()));
-                            int reg=instr->get_function()->gregmap_.at(instr);
-                            move_from_greg_to_greg(Reg::t(0), Reg::r(reg));
-                        }
-                        else if(instr->get_function()->fregmap_.find(instr->get_operand(i*2-2)) != instr->get_function()->fregmap_.end())
-                        {
-                            int m_f = instr->get_function()->fregmap_.at(instr->get_operand(i*2-2));
-                            int m_t = instr->get_function()->fregmap_.at(instr);
-                            if(m_f!=m_t)
-                                move_from_freg_to_freg(FReg::f(m_f), FReg::ft(m_t));
-                        }
-                        else if(instr->get_function()->gregmap_.find(instr->get_operand(i*2-2)) != instr->get_function()->gregmap_.end())
-                        {
-                            int m_f = instr->get_function()->gregmap_.at(instr->get_operand(i*2-2));
-                            int m_t = instr->get_function()->gregmap_.at(instr);
-                            if(m_f!=m_t)
-                                move_from_greg_to_greg(Reg::r(m_f), Reg::t(m_t));
-                        }
-                        else 
-                        {   //move from stack
-                            auto offset = instr->get_function()->stackmap_.at(instr->get_operand(i*2-2));
-                            if(offset<2048)
-                                append_inst("addi.d $t0, $fp, " + std::to_string(offset));
-                            else
-                            {
-                                load_large_int64(offset, Reg::t(0));
-                                append_inst("add.d $t0, $fp, $t0");
-                            }
-                            if(instr->get_type()->is_float_type())
-                            {
-                                append_inst("fld.s $ft0, $t0, 0");
-                                int reg=instr->get_function()->fregmap_.at(instr);
-                                move_from_freg_to_freg(FReg::ft(0), FReg::f(reg));
-                            }
-                            else
-                            {
-                                append_inst("ld.w $t0, $t0, 0");
-                                int reg=instr->get_function()->gregmap_.at(instr);
-                                move_from_greg_to_greg(Reg::t(0), Reg::r(reg));
-                            }
-                        }
-                    }*/
                     if(dynamic_cast<BranchInst*>(context.inst)->is_cond_br())
                     {
                         context.is_cond=true;
