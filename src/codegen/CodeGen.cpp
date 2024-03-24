@@ -588,7 +588,7 @@ void CodeGen::gen_call() {
                     load_to_freg(context.inst->get_operand(i++), FReg::ft(0));
                 if(Func->fregmap_.find(&arg) != Func->fregmap_.end())//arg被分配到寄存器中
                     move_from_freg_to_freg(FReg::ft(0), FReg::f((unsigned)Func->fregmap_.find(&arg)->second));
-                else//arg被分配到栈上
+                else if(Func->stackmap_.find(&arg)!=Func->stackmap_.end())//arg被分配到栈上
                 {
                     auto offset = Func->stackmap_.at(&arg);
                     if (IS_IMM_12(offset)) {
@@ -616,7 +616,7 @@ void CodeGen::gen_call() {
                     load_to_greg(context.inst->get_operand(i++), Reg::t(0));
                 if(Func->gregmap_.find(&arg) != Func->gregmap_.end())//arg被分配到寄存器中
                     move_from_greg_to_greg(Reg::t(0), Reg::r((unsigned)Func->gregmap_.find(&arg)->second));
-                else//arg被分配到栈上
+                else if(Func->stackmap_.find(&arg)!=Func->stackmap_.end())//arg被分配到栈上
                 {
                     auto offset = Func->stackmap_.at(&arg);
                     auto offset_str = std::to_string(offset);
