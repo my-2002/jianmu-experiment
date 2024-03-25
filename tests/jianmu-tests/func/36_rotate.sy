@@ -75,6 +75,6 @@ int main() {
   float rad = getfloat();
   getch();
   if (read_image() < 0) return -1;
-  //write_pgm(rad);
+  write_pgm(rad);
   return 0;
 }

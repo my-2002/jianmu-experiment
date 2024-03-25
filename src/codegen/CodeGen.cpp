@@ -796,8 +796,22 @@ void CodeGen::gen_phi(BasicBlock* bb) {
                 BasicBlock* bb1 = dynamic_cast<BasicBlock*>(instr->get_operand(i*2-1));
                 if(bb1 == bb)
                 {
+                    if(dynamic_cast<BranchInst*>(context.inst)->is_cond_br())
+                    {
+                        context.is_cond=true;
+                        if(s1->get_name()[0]!='t')
+                            break;
+                    }
+                    else if(context.is_cond)
+                    {   //有条件跳转的br
+                        if(s1->get_name()[0]!='f')
+                            break;
+                        context.is_cond=false;
+                        append_inst("br tempbb"+ std::to_string(++context.seq));
+                        append_inst("tempbb"+std::to_string(context.seq),ASMInstruction::Label);
+                    }
                     if(instr->get_type()->is_float_type())
-                    {   //消除环
+                    {
                         if(instr->get_function()->fregmap_.find(instr->get_operand(i*2-2))!=instr->get_function()->fregmap_.end() and context.floop.find(instr->get_function()->fregmap_.at(instr->get_operand(i*2-2)))!=context.floop.end())
                             move_from_freg_to_freg(FReg::ft(context.floop[instr->get_function()->fregmap_.at(instr->get_operand(i*2-2))]), FReg::ft(0));
                         else
