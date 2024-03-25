@@ -805,7 +805,7 @@ void CodeGen::gen_phi(BasicBlock* bb) {
                         if(instr->get_function()->stackmap_.find(instr)==instr->get_function()->stackmap_.end())
                         {
                             context.floop[instr->get_function()->fregmap_.at(instr)]=context.floop.size()+1;     //暂时只将1,2号寄存器做暂存,不考虑大于2个到栈上的情况
-                            load_to_freg(instr, FReg::ft(context.floop.size()+1));
+                            load_to_freg(instr, FReg::ft(context.floop.size()));
                         }
                         store_from_freg(instr, FReg::ft(0));
                     }
@@ -816,7 +816,10 @@ void CodeGen::gen_phi(BasicBlock* bb) {
                         else
                             load_to_greg(instr->get_operand(i*2-2), Reg::t(0));
                         if(instr->get_function()->stackmap_.find(instr)==instr->get_function()->stackmap_.end())
+                        {
                             context.gloop[instr->get_function()->gregmap_.at(instr)]=context.gloop.size()+1;
+                            load_to_greg(instr, Reg::t(context.gloop.size()));
+                        }          
                         store_from_greg(instr, Reg::t(0));
                     }
                     break;
