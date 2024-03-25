@@ -58,7 +58,7 @@ class CodeGen {
 
     void gen_prologue();
     void gen_ret();
-    void gen_br();
+    void gen_br(BasicBlock*);
     void gen_binary();
     void gen_float_binary();
     void gen_alloca();
@@ -90,7 +90,6 @@ class CodeGen {
         std::unordered_map<Value *, int> offset_map{}; // 寄存器分配后，需要分配在栈上的val值相对 fp 的偏移
         std::unordered_map<Value* ,int> alloc_map{}; // alloc额外空间相对fp的偏移 
         int seq = 0;
-        bool is_cond=false;
         std::map<int,int> gloop;
         std::map<int,int> floop;
         void clear() {

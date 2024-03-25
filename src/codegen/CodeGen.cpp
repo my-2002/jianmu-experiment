@@ -334,13 +334,56 @@ void CodeGen::gen_ret() {
     // throw not_implemented_error{__FUNCTION__};
 }
 
-void CodeGen::gen_br() {
+void CodeGen::gen_br(BasicBlock *bb) {
     auto *branchInst = static_cast<BranchInst *>(context.inst);
     if (branchInst->is_cond_br()) {
         load_to_greg(context.inst->get_operand(0), Reg::t(0));
         auto *truebb = static_cast<BasicBlock *>(branchInst->get_operand(1));
         auto *falsebb = static_cast<BasicBlock *>(branchInst->get_operand(2));
         append_inst("bnez $t0, " + label_name(truebb));
+        //对于phi指令的条件跳转做处理
+        append_inst("b tempbb"+ std::to_string(++context.seq));
+        append_inst("tempbb"+std::to_string(context.seq), ASMInstruction::Label);
+        //复用phi指令内部的代码
+        auto *s1 = bb->get_succ_basic_blocks().back();
+        for (auto &instr1 : s1->get_instructions())
+        {
+            auto instr = &instr1;
+            if(!instr->is_phi()) break;
+            for(unsigned int i=1; i<=(instr->get_num_operand())/2; i++)
+            {   
+                BasicBlock* bb1 = dynamic_cast<BasicBlock*>(instr->get_operand(i*2-1));
+                if(bb1 == bb)
+                {
+                    if(instr->get_type()->is_float_type())
+                    {   //消除环
+                        if(instr->get_function()->fregmap_.find(instr->get_operand(i*2-2))!=instr->get_function()->fregmap_.end() and context.floop.find(instr->get_function()->fregmap_.at(instr->get_operand(i*2-2)))!=context.floop.end())
+                            move_from_freg_to_freg(FReg::ft(context.floop[instr->get_function()->fregmap_.at(instr->get_operand(i*2-2))]), FReg::ft(0));
+                        else
+                            load_to_freg(instr->get_operand(i*2-2), FReg::ft(0));
+                        if(instr->get_function()->stackmap_.find(instr)==instr->get_function()->stackmap_.end())
+                        {
+                            context.floop[instr->get_function()->fregmap_.at(instr)]=context.floop.size()+1;     //暂时只将1,2号寄存器做暂存,不考虑大于2个到栈上的情况
+                            load_to_freg(instr, FReg::ft(context.floop.size()+1));
+                        }
+                        store_from_freg(instr, FReg::ft(0));
+                    }
+                    else
+                    {
+                        if(instr->get_function()->gregmap_.find(instr->get_operand(i*2-2))!=instr->get_function()->gregmap_.end() and context.gloop.find(instr->get_function()->gregmap_.at(instr->get_operand(i*2-2)))!=context.gloop.end())
+                            move_from_greg_to_greg(Reg::t(context.gloop[instr->get_function()->gregmap_.at(instr->get_operand(i*2-2))]), Reg::t(0));
+                        else
+                            load_to_greg(instr->get_operand(i*2-2), Reg::t(0));
+                        if(instr->get_function()->stackmap_.find(instr)==instr->get_function()->stackmap_.end())
+                            context.gloop[instr->get_function()->gregmap_.at(instr)]=context.gloop.size()+1;
+                        store_from_greg(instr, Reg::t(0));
+                    }
+                    break;
+                } 
+            }
+        }
+        context.gloop.clear();
+        context.floop.clear();
         append_inst("b " + label_name(falsebb));
         // 补全条件跳转的情况
         // throw not_implemented_error{__FUNCTION__};
@@ -740,7 +783,10 @@ void CodeGen::gen_fptosi() {
 
 void CodeGen::gen_phi(BasicBlock* bb) {
     append_inst("gen_phi", ASMInstruction::Comment);
-    for (auto &s1 : bb->get_succ_basic_blocks())
+    int i=0;
+    for (auto &s1 : bb->get_succ_basic_blocks()){
+        if(i==1)
+            break;
         for (auto &instr1 : s1->get_instructions())
         {
             auto instr = &instr1;
@@ -750,22 +796,8 @@ void CodeGen::gen_phi(BasicBlock* bb) {
                 BasicBlock* bb1 = dynamic_cast<BasicBlock*>(instr->get_operand(i*2-1));
                 if(bb1 == bb)
                 {
-                    if(dynamic_cast<BranchInst*>(context.inst)->is_cond_br())
-                    {
-                        context.is_cond=true;
-                        if(s1->get_name()[0]!='t')
-                            break;
-                    }
-                    else if(context.is_cond)
-                    {   //有条件跳转的br
-                        if(s1->get_name()[0]!='f')
-                            break;
-                        context.is_cond=false;
-                        append_inst("br tempbb"+ std::to_string(++context.seq));
-                        append_inst("tempbb"+std::to_string(context.seq),ASMInstruction::Label);
-                    }
                     if(instr->get_type()->is_float_type())
-                    {
+                    {   //消除环
                         if(instr->get_function()->fregmap_.find(instr->get_operand(i*2-2))!=instr->get_function()->fregmap_.end() and context.floop.find(instr->get_function()->fregmap_.at(instr->get_operand(i*2-2)))!=context.floop.end())
                             move_from_freg_to_freg(FReg::ft(context.floop[instr->get_function()->fregmap_.at(instr->get_operand(i*2-2))]), FReg::ft(0));
                         else
@@ -783,7 +815,6 @@ void CodeGen::gen_phi(BasicBlock* bb) {
                             move_from_greg_to_greg(Reg::t(context.gloop[instr->get_function()->gregmap_.at(instr->get_operand(i*2-2))]), Reg::t(0));
                         else
                             load_to_greg(instr->get_operand(i*2-2), Reg::t(0));
-                        load_to_greg(instr->get_operand(i*2-2), Reg::t(0));
                         if(instr->get_function()->stackmap_.find(instr)==instr->get_function()->stackmap_.end())
                             context.gloop[instr->get_function()->gregmap_.at(instr)]=context.gloop.size()+1;
                         store_from_greg(instr, Reg::t(0));
@@ -792,6 +823,10 @@ void CodeGen::gen_phi(BasicBlock* bb) {
                 } 
             }
         }
+        i++;
+    }
+    context.gloop.clear();
+    context.floop.clear();
 }
 
 std::string CodeGen::print_init(Constant* init){
@@ -887,7 +922,7 @@ void CodeGen::run() {
                         break;
                     case Instruction::br:
                         gen_phi(&bb);
-                        gen_br();
+                        gen_br(&bb);
                         break;
                     case Instruction::add:
                     case Instruction::sub:
