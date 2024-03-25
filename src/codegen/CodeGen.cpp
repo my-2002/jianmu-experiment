@@ -182,39 +182,26 @@ void CodeGen::store_context_regs(Function* f){
     append_inst(ADDI DOUBLE, {"$t0", "$fp", "-16"});
     if(f->get_basic_blocks().size() == 0)
     {
-        if(not f->get_return_type()->is_void_type())            
+        for(unsigned i=4; i<=11; i++)
         {
-            if(f->get_return_type()->is_float_type())
-            {
-                append_inst(ADDI DOUBLE, {"$t0", "$t0", "-4"});
-                append_inst(FSTORE SINGLE, {FReg::fa(0).print(), "$t0", "0"});
-            }
-            else
-            {
-                append_inst(ADDI DOUBLE, {"$t0", "$t0", "-8"});
-                append_inst(STORE DOUBLE, {Reg::a(0).print(), "$t0", "0"});
-            }
+            append_inst(ADDI DOUBLE, {"$t0", "$t0", "-8"});
+            append_inst(STORE DOUBLE, {Reg::r(i).print(), "$t0", "0"});
         }
-        else 
+        for(unsigned i=15; i<=20; i++)
         {
-            unsigned a_i, fa_i;
-            a_i = fa_i = 0;
-            for(auto &arg : f->get_args())
-            {
-                auto arg_type = arg.get_type();
-                if(arg_type->is_float_type())
-                {
-                    append_inst(ADDI DOUBLE, {"$t0", "$t0", "-4"});
-                    append_inst(FSTORE SINGLE, {FReg::fa(fa_i++).print(), "$t0", "0"});
-                }
-                else
-                {
-                    append_inst(ADDI DOUBLE, {"$t0", "$t0", "-8"});
-                    append_inst(STORE DOUBLE, {Reg::a(a_i++).print(), "$t0", "0"});
-                }
-            }
+            append_inst(ADDI DOUBLE, {"$t0", "$t0", "-8"});
+            append_inst(STORE DOUBLE, {Reg::r(i).print(), "$t0", "0"});
         }
-        
+        for(unsigned i=0; i<=7; i++)
+        {
+            append_inst(ADDI DOUBLE, {"$t0", "$t0", "-4"});
+            append_inst(FSTORE SINGLE, {FReg::f(i).print(), "$t0", "0"});
+        }
+        for(unsigned i=11; i<=23; i++)
+        {
+            append_inst(ADDI DOUBLE, {"$t0", "$t0", "-4"});
+            append_inst(FSTORE SINGLE, {FReg::f(i).print(), "$t0", "0"});
+        }
     }
     else
     {
@@ -235,37 +222,25 @@ void CodeGen::load_context_regs(Function* f){
     append_inst(ADDI DOUBLE, {"$t0", "$fp", "-16"});
     if(f->get_basic_blocks().size() == 0)
     {
-        if(not f->get_return_type()->is_void_type())            
+        for(unsigned i=4; i<=11; i++)
         {
-            if(f->get_return_type()->is_float_type())
-            {
-                append_inst(ADDI DOUBLE, {"$t0", "$t0", "-4"});
-                append_inst(FLOAD SINGLE, {FReg::fa(0).print(), "$t0", "0"});
-            }
-            else
-            {
-                append_inst(ADDI DOUBLE, {"$t0", "$t0", "-8"});
-                append_inst(LOAD DOUBLE, {Reg::a(0).print(), "$t0", "0"});
-            }
+            append_inst(ADDI DOUBLE, {"$t0", "$t0", "-8"});
+            append_inst(LOAD DOUBLE, {Reg::r(i).print(), "$t0", "0"});
         }
-        else
+        for(unsigned i=15; i<=20; i++)
         {
-            unsigned a_i, fa_i;
-            a_i = fa_i = 0;
-            for(auto &arg : f->get_args())
-            {
-                auto arg_type = arg.get_type();
-                if(arg_type->is_float_type())
-                {
-                    append_inst(ADDI DOUBLE, {"$t0", "$t0", "-4"});
-                    append_inst(FLOAD SINGLE, {FReg::fa(fa_i++).print(), "$t0", "0"});
-                }
-                else
-                {
-                    append_inst(ADDI DOUBLE, {"$t0", "$t0", "-8"});
-                    append_inst(LOAD DOUBLE, {Reg::a(a_i++).print(), "$t0", "0"});
-                }
-            }
+            append_inst(ADDI DOUBLE, {"$t0", "$t0", "-8"});
+            append_inst(LOAD DOUBLE, {Reg::r(i).print(), "$t0", "0"});
+        }
+        for(unsigned i=0; i<=7; i++)
+        {
+            append_inst(ADDI DOUBLE, {"$t0", "$t0", "-4"});
+            append_inst(FLOAD SINGLE, {FReg::f(i).print(), "$t0", "0"});
+        }
+        for(unsigned i=11; i<=23; i++)
+        {
+            append_inst(ADDI DOUBLE, {"$t0", "$t0", "-4"});
+            append_inst(FLOAD SINGLE, {FReg::f(i).print(), "$t0", "0"});
         }
     }
     else
