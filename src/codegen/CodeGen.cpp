@@ -616,9 +616,21 @@ void CodeGen::gen_call() {
         {
             auto arg_type = arg.get_type();
             if(arg_type->is_float_type())
-                load_to_freg(context.inst->get_operand(i++), FReg::fa(fa_i++));
+            {
+                move_from_freg_to_freg(FReg::fa(fa_i),FReg::ft(fa_i));
+                if(context.func->fregmap_.find(context.inst->get_operand(i))!= context.func->fregmap_.end() and 0<=context.func->fregmap_[context.inst->get_operand(i)]&& context.func->fregmap_[context.inst->get_operand(i)] < fa_i +1)
+                    move_from_freg_to_freg(FReg::ft(context.func->fregmap_[context.inst->get_operand(i++)]),FReg::fa(fa_i++));
+                else
+                    load_to_freg(context.inst->get_operand(i++), FReg::fa(fa_i++));
+            }
             else
-                load_to_greg(context.inst->get_operand(i++), Reg::a(a_i++));
+            {
+                move_from_greg_to_greg(Reg::a(a_i),Reg::t(a_i));
+                if(context.func->gregmap_.find(context.inst->get_operand(i))!= context.func->gregmap_.end() and 3<context.func->gregmap_[context.inst->get_operand(i)] && context.func->gregmap_[context.inst->get_operand(i)] < a_i + 5)
+                    move_from_greg_to_greg(Reg::t(context.func->gregmap_[context.inst->get_operand(i++)]-4),Reg::a(a_i++));
+                else
+                    load_to_greg(context.inst->get_operand(i++), Reg::a(a_i++));
+            }
         }
     }
     else {

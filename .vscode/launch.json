@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/build/cminusfc",
             "args": [
-                "${workspaceFolder}/tests/jianmu-tests/func/66_exgcd.sy",
+                "${workspaceFolder}/tests/all_test_cases/functional/96_matrix_add.sy",
                 "-S",
                 "-mem2reg"
             ],
