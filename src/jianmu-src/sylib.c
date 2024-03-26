@@ -71,7 +71,7 @@ __attribute((destructor)) void after_main(){
   }
   fprintf(stderr,"TOTAL: %dH-%dM-%dS-%dus\n",_sysy_h[0],_sysy_m[0],_sysy_s[0],_sysy_us[0]);
 }  
-void _sysy_starttime(int lineno){
+/*void _sysy_starttime(int lineno){
   _sysy_l1[_sysy_idx] = lineno;
   gettimeofday(&_sysy_start,NULL);
 }
@@ -83,8 +83,20 @@ void _sysy_stoptime(int lineno){
   _sysy_m[_sysy_idx] += _sysy_s[_sysy_idx] / 60 ; _sysy_s[_sysy_idx] %= 60;
   _sysy_h[_sysy_idx] += _sysy_m[_sysy_idx] / 60 ; _sysy_m[_sysy_idx] %= 60;
   _sysy_idx ++;
+}*/
+void starttime(){
+  _sysy_l1[_sysy_idx] = 1;
+  gettimeofday(&_sysy_start,NULL);
 }
-
+void stoptime(){
+  gettimeofday(&_sysy_end,NULL);
+  _sysy_l2[_sysy_idx] = 1;
+  _sysy_us[_sysy_idx] += 1000000 * ( _sysy_end.tv_sec - _sysy_start.tv_sec ) + _sysy_end.tv_usec - _sysy_start.tv_usec;
+  _sysy_s[_sysy_idx] += _sysy_us[_sysy_idx] / 1000000 ; _sysy_us[_sysy_idx] %= 1000000;
+  _sysy_m[_sysy_idx] += _sysy_s[_sysy_idx] / 60 ; _sysy_s[_sysy_idx] %= 60;
+  _sysy_h[_sysy_idx] += _sysy_m[_sysy_idx] / 60 ; _sysy_m[_sysy_idx] %= 60;
+  _sysy_idx ++;
+}
 //额外补充
 void neg_idx_except() {
     printf("negative index exception\n");
