@@ -54,7 +54,7 @@ void RegAlloc::run()
                 }
                 else  //溢出操作
                 {
-                    auto temp = *alloc_fvalues.end();
+                    auto temp = *std::prev(alloc_fvalues.end());
                     if(temp.second.second > it.second.second)
                     {
                         fregmap_.insert(std::make_pair(it.first, fregmap_[temp.first]));
@@ -90,7 +90,8 @@ void RegAlloc::run()
                 }
                 else  //溢出操作
                 {
-                    auto temp = *alloc_gvalues.rbegin();
+                    auto temp = *std::prev(alloc_gvalues.end());
+                    
                     if(temp.second.second > it.second.second)
                     {
                         gregmap_.insert(std::make_pair(it.first, gregmap_[temp.first]));
