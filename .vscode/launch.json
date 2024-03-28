@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/build/cminusfc",
             "args": [
-                "${workspaceFolder}/tests/all_test_cases/functional/96_matrix_add.sy",
+                "${workspaceFolder}/tests/all_test_cases/hidden_functional/29_long_line.sy",
                 "-S",
                 "-mem2reg"
             ],

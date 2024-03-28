@@ -6,4 +6,5 @@ add_library(
     DeadCode.cpp
     LiveVar.cpp
     RegAlloc.cpp
+    Gvn.cpp
 )
