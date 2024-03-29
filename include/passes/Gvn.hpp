@@ -1,6 +1,7 @@
 #pragma once
 
 #include "PassManager.hpp"
+#include "FuncInfo.hpp"
 
 // TODO:analysis of MemAddress use chain
 // improve efficiency of GVN
@@ -8,22 +9,23 @@
 
 class GVN : public Pass{
   public:
-    GVN() = default;
-    virtual void get_analysis_usage(pass::AnalysisUsage &AU) const override {
+    GVN(Module *m) : Pass(m), func_info(std::make_shared<FuncInfo>(m)) {}
+    ~GVN() = default;
+    /*virtual void get_analysis_usage(pass::AnalysisUsage &AU) const override {
         using KillType = pass::AnalysisUsage::KillType;
         AU.set_kill_type(KillType::Normal);
         AU.add_require<FuncInfo>();
         AU.add_require<DepthOrder>();
         AU.add_post<DeadCode>();
-    }
-    virtual bool run(pass::PassManager *mgr) override;
+    }*/
+    virtual void run() override;
 
     template <class T, typename... Args>
     std::shared_ptr<T> create_expr(Args... args) {
         return std::make_shared<T>(std::forward<Args>(args)...);
     }
 
-    bool always_invalid() const override { return false; }
+    //virtual bool always_invalid() const override { return false; }
 
     // Expression
     class Expression {
@@ -47,7 +49,7 @@ class GVN : public Pass{
         virtual std::string print() = 0;
         template <typename T>
         static bool equal_as(const Expression *lhs, const Expression *rhs) {
-            return *::as_a<const T>(lhs) == *::as_a<const T>(rhs);
+            return dynamic_cast<const T*>(lhs) == dynamic_cast<const T*>(rhs);
         }
 
         bool operator==(const Expression &other) const {
@@ -105,9 +107,9 @@ class GVN : public Pass{
     // Expr that takes Expr as args
     class ConstExpr final : public Expression {
       public:
-        ConstExpr(ir::Value *con)
+        ConstExpr(Value *con)
             : Expression(expr_type::e_const),
-              _const(::as_a<ir::Constant>(con)) {}
+              _const(dynamic_cast<Constant*>(con)) {}
 
         bool operator==(const ConstExpr &other) const {
             return _const == other._const;
@@ -118,13 +120,13 @@ class GVN : public Pass{
         }
 
       private:
-        ir::Constant *_const;
+        Constant *_const;
     };
     // the case, that operands of the current inst doesn't have ValExpr, won't
     // happen in depth_priority_oder
     class UniqueExpr final : public Expression { // load/store/alloca/ptr2int/int2ptr
       public:
-        UniqueExpr(ir::Value *val)
+        UniqueExpr(Value *val)
             : Expression(expr_type::e_unique), _val(val) {}
 
         bool operator==(const UniqueExpr &other) const {
@@ -136,14 +138,14 @@ class GVN : public Pass{
         }
 
       private:
-        ir::Value *_val;
+        Value *_val;
     };
     // For non-pure functions, it will be as the basic ValueExpression
     class CallExpr final : public Expression {
       public:
-        CallExpr(ir::Instruction *inst)
+        CallExpr(Instruction *inst)
             : Expression(expr_type::e_call), _inst(inst) {} // non-pure function
-        CallExpr(ir::Function *func,
+        CallExpr(Function *func,
                  std::vector<std::shared_ptr<Expression>> &&params)
             : Expression(expr_type::e_call), _func(func), _params(params) {
         } // pure function
@@ -170,8 +172,8 @@ class GVN : public Pass{
         }
 
       private:
-        ir::Function *_func{};
-        ir::Instruction *_inst{};
+        Function *_func{};
+        Instruction *_inst{};
         std::vector<std::shared_ptr<Expression>> _params{};
     };
     class LoadExpr final : public Expression {
@@ -245,12 +247,12 @@ class GVN : public Pass{
 
     class IBinExpr final : public BinExpr {
       public:
-        IBinExpr(ir::IBinaryInst::IBinOp op, std::shared_ptr<Expression> lhs,
+        IBinExpr(IBinaryInst::OpID op, std::shared_ptr<Expression> lhs,
                  std::shared_ptr<Expression> rhs)
             : BinExpr(expr_type::e_ibin, lhs, rhs), _op(op) {}
 
         bool operator==(const IBinExpr &other) const {
-            if (_op == ir::IBinaryInst::ADD or _op == ir::IBinaryInst::MUL)
+            if (_op == IBinaryInst::add or _op == IBinaryInst::mul)
                 return _op == other._op && ((*get_lhs() == *other.get_lhs() &&
                                              *get_rhs() == *other.get_rhs()) ||
                                             (*get_lhs() == *other.get_rhs() &&
@@ -259,7 +261,7 @@ class GVN : public Pass{
                    *get_rhs() == *other.get_rhs();
         }
 
-        ir::IBinaryInst::IBinOp get_ibin_op() { return _op; }
+        IBinaryInst::OpID get_ibin_op() { return _op; }
 
         virtual std::string print() {
             std::string lhs_s = "[" + get_lhs()->print() + "]\n";
@@ -268,17 +270,17 @@ class GVN : public Pass{
         }
 
       private:
-        ir::IBinaryInst::IBinOp _op;
+        IBinaryInst::OpID _op;
     };
 
     class FBinExpr final : public BinExpr {
       public:
-        FBinExpr(ir::FBinaryInst::FBinOp op, std::shared_ptr<Expression> lhs,
+        FBinExpr(FBinaryInst::OpID op, std::shared_ptr<Expression> lhs,
                  std::shared_ptr<Expression> rhs)
             : BinExpr(expr_type::e_fbin, lhs, rhs), _op(op) {}
 
         bool operator==(const FBinExpr &other) const {
-            if (_op == ir::FBinaryInst::FADD or _op == ir::FBinaryInst::FMUL)
+            if (_op == FBinaryInst::fadd or _op == FBinaryInst::fmul)
                 return _op == other._op && ((*get_lhs() == *other.get_lhs() &&
                                              *get_rhs() == *other.get_rhs()) ||
                                             (*get_lhs() == *other.get_rhs() &&
@@ -287,7 +289,7 @@ class GVN : public Pass{
                    *get_rhs() == *other.get_rhs();
         }
 
-        ir::FBinaryInst::FBinOp get_fbin_op() { return _op; }
+        FBinaryInst::OpID get_fbin_op() { return _op; }
 
         virtual std::string print() {
             std::string lhs_s = "[" + get_lhs()->print() + "]\n";
@@ -296,12 +298,12 @@ class GVN : public Pass{
         }
 
       private:
-        ir::FBinaryInst::FBinOp _op;
+        FBinaryInst::OpID _op;
     };
 
     class ICmpExpr final : public BinExpr {
       public:
-        ICmpExpr(ir::ICmpInst::ICmpOp op, std::shared_ptr<Expression> lhs,
+        ICmpExpr(ICmpInst::OpID op, std::shared_ptr<Expression> lhs,
                  std::shared_ptr<Expression> rhs)
             : BinExpr(expr_type::e_icmp, lhs, rhs), _op(op) {}
 
@@ -310,7 +312,7 @@ class GVN : public Pass{
                    *get_rhs() == *other.get_rhs();
         }
 
-        ir::ICmpInst::ICmpOp get_icmp_op() { return _op; }
+        ICmpInst::OpID get_icmp_op() { return _op; }
 
         virtual std::string print() {
             std::string lhs_s = "[" + get_lhs()->print() + "]\n";
@@ -319,12 +321,12 @@ class GVN : public Pass{
         }
 
       private:
-        ir::ICmpInst::ICmpOp _op;
+        ICmpInst::OpID _op;
     };
 
     class FCmpExpr final : public BinExpr {
       public:
-        FCmpExpr(ir::FCmpInst::FCmpOp op, std::shared_ptr<Expression> lhs,
+        FCmpExpr(FCmpInst::OpID op, std::shared_ptr<Expression> lhs,
                  std::shared_ptr<Expression> rhs)
             : BinExpr(expr_type::e_fcmp, lhs, rhs), _op(op) {}
 
@@ -333,7 +335,7 @@ class GVN : public Pass{
                    *get_rhs() == *other.get_rhs();
         }
 
-        ir::FCmpInst::FCmpOp get_fcmp_op() { return _op; }
+        FCmpInst::OpID get_fcmp_op() { return _op; }
 
         virtual std::string print() {
             std::string lhs_s = "[" + get_lhs()->print() + "]\n";
@@ -342,7 +344,7 @@ class GVN : public Pass{
         }
 
       private:
-        ir::FCmpInst::FCmpOp _op;
+        FCmpInst::OpID _op;
     };
 
     class GepExpr final : public Expression {
@@ -368,22 +370,22 @@ class GVN : public Pass{
 
     class PhiExpr final : public Expression {
       public:
-        PhiExpr(ir::BasicBlock *bb)
+        PhiExpr(BasicBlock *bb)
             : Expression(expr_type::e_phi), _ori_bb(bb),
-              _pre_bbs({bb->pre_bbs().begin(), bb->pre_bbs().end()}), _vals{} {}
-        PhiExpr(ir::BasicBlock *bb,
+              _pre_bbs({bb->get_pre_basic_blocks().begin(), bb->get_pre_basic_blocks().end()}), _vals{} {}
+        PhiExpr(BasicBlock *bb,
                 std::vector<std::shared_ptr<Expression>> &&vals)
             : Expression(expr_type::e_phi), _ori_bb(bb),
-              _pre_bbs({bb->pre_bbs().begin(), bb->pre_bbs().end()}),
+              _pre_bbs({bb->get_pre_basic_blocks().begin(), bb->get_pre_basic_blocks().end()}),
               _vals(vals) {}
 
         size_t size() const { return _vals.size(); }
 
-        ir::BasicBlock *get_ori_bb() { return _ori_bb; }
+        BasicBlock *get_ori_bb() { return _ori_bb; }
 
         std::shared_ptr<Expression> get_val(size_t i) { return _vals[i]; }
 
-        ir::BasicBlock *get_pre_bb(size_t i) { return _pre_bbs[i]; }
+        BasicBlock *get_pre_bb(size_t i) { return _pre_bbs[i]; }
 
         void add_val(std::shared_ptr<Expression> ve) { _vals.push_back(ve); }
 
@@ -407,8 +409,8 @@ class GVN : public Pass{
         }
 
       private:
-        ir::BasicBlock *_ori_bb;
-        std::vector<ir::BasicBlock *> _pre_bbs;
+        BasicBlock *_ori_bb;
+        std::vector<BasicBlock *> _pre_bbs;
         std::vector<std::shared_ptr<Expression>> _vals;
     };
 
@@ -416,10 +418,10 @@ class GVN : public Pass{
     size_t next_value_number;
     struct CongruenceClass {
         unsigned index;
-        ir::Value *leader;
+        Value *leader;
         std::shared_ptr<Expression> val_expr;
         std::shared_ptr<PhiExpr> phi_expr;
-        std::set<ir::Value *> members;
+        std::set<Value *> members;
         bool operator<(const CongruenceClass &other) const {
             return this->index < other.index;
         }
@@ -427,14 +429,14 @@ class GVN : public Pass{
 
         CongruenceClass(size_t index)
             : index(index), leader{}, val_expr{}, phi_expr{}, members{} {}
-        CongruenceClass(size_t index, ir::Value *leader,
+        CongruenceClass(size_t index, Value *leader,
                         std::shared_ptr<Expression> val_expr,
                         std::shared_ptr<PhiExpr> phi_expr)
             : index(index), leader(leader), val_expr(val_expr),
               phi_expr(phi_expr), members{} {}
-        CongruenceClass(size_t index, ir::Value *leader,
+        CongruenceClass(size_t index, Value *leader,
                         std::shared_ptr<Expression> val_expr,
-                        std::shared_ptr<PhiExpr> phi_expr, ir::Value *member)
+                        std::shared_ptr<PhiExpr> phi_expr, Value *member)
             : index(index), leader(leader), val_expr(val_expr),
               phi_expr(phi_expr), members{member} {}
     };
@@ -446,8 +448,8 @@ class GVN : public Pass{
     // partitions
     struct less_part {
         bool
-        operator()(const std::shared_ptr<pass::GVN::CongruenceClass> &a,
-                   const std::shared_ptr<pass::GVN::CongruenceClass> &b) const {
+        operator()(const std::shared_ptr<GVN::CongruenceClass> &a,
+                   const std::shared_ptr<GVN::CongruenceClass> &b) const {
             return *a < *b;
         }
     };
@@ -458,13 +460,13 @@ class GVN : public Pass{
     partitions clone(partitions &&p);
 
     // GVN functions
-    void detect_equivalences(ir::Function *func);
+    void detect_equivalences(Function *func);
     partitions join(const partitions &p1, const partitions &p2);
     std::shared_ptr<CongruenceClass>
         intersect(std::shared_ptr<CongruenceClass>,
                   std::shared_ptr<CongruenceClass>);
-    partitions transfer_function(ir::Instruction *, partitions &);
-    std::shared_ptr<Expression> valueExpr(ir::Value *, partitions &);
+    partitions transfer_function(Instruction *, partitions &);
+    std::shared_ptr<Expression> valueExpr(Value *, partitions &);
     std::shared_ptr<PhiExpr> valuePhiFunc(std::shared_ptr<Expression>);
     std::shared_ptr<Expression> getVN(partitions &,
                                       std::shared_ptr<Expression>);
@@ -473,7 +475,7 @@ class GVN : public Pass{
     void replace_cc_members();
 
     // utils function
-    std::shared_ptr<Expression> get_ve(ir::Value *, partitions &);
+    std::shared_ptr<Expression> get_ve(Value *, partitions &);
     template <typename Derived, typename Base>
     static bool is_a(std::shared_ptr<Base> base) {
         static_assert(std::is_base_of<Base, Derived>::value);
@@ -491,11 +493,11 @@ class GVN : public Pass{
     }
     template <typename ExprT, typename InstT,
               typename OP> // only for valueExpr function
-    std::shared_ptr<ExprT> create_BinOperExpr(OP op, ir::Value *val,
+    std::shared_ptr<ExprT> create_BinOperExpr(OP op, Value *val,
                                               partitions &pin) {
         std::shared_ptr<Expression> lhs, rhs;
-        lhs = valueExpr(::as_a<InstT>(val)->get_operand(0), pin);
-        rhs = valueExpr(::as_a<InstT>(val)->get_operand(1), pin);
+        lhs = valueExpr(as_a<InstT>(val)->get_operand(0), pin);
+        rhs = valueExpr(as_a<InstT>(val)->get_operand(1), pin);
         return create_expr<ExprT>(op, lhs, rhs);
     }
 
@@ -506,16 +508,17 @@ class GVN : public Pass{
 
   private:
     partitions TOP{create_cc(0)};
-    ir::Function *_func;
-    ir::BasicBlock *_bb;
-    const pass::FuncInfo::ResultType *_func_info;
-    const pass::DepthOrder::ResultType *_depth_order;
-    std::map<ir::BasicBlock *, partitions> _pin, _pout;
+    Function *_func;
+    BasicBlock *_bb;
+    std::shared_ptr<FuncInfo> func_info;
+    //const pass::FuncInfo::ResultType *_func_info;
+    //const pass::DepthOrder::ResultType *_depth_order;
+    std::map<BasicBlock *, partitions> _pin, _pout;
 
     // helper members which can improve analysis efficiency
-    std::unordered_map<ir::Value *, std::shared_ptr<Expression>>
+    std::unordered_map<Value *, std::shared_ptr<Expression>>
         _val2expr{}; // just record GlobalVal and Constant
     unsigned phi_construct_point;
-    std::map<ir::BasicBlock *, partitions> non_copy_pout;
+    std::map<BasicBlock *, partitions> non_copy_pout;
 };
 
