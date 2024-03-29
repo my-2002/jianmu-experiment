@@ -1,17 +1,14 @@
-#include "gvn.hh"
-#include "basic_block.hh"
-#include "constant.hh"
-#include "depth_order.hh"
-#include "dominator.hh"
-#include "err.hh"
-#include "func_info.hh"
-#include "function.hh"
-#include "global_variable.hh"
-#include "instruction.hh"
+#include "Gvn.hpp"
+#include "BasicBlock.hpp"
+#include "Constant.hpp"
+#include "Dominators.hpp"
+#include "Function.hpp"
+#include "GlobalVariable.hpp"
+#include "Instruction.hpp"
 
-#include "type.hh"
-#include "utils.hh"
-#include "value.hh"
+#include "Type.hpp"
+#include "CodeGenUtil.hpp"
+#include "Value.hpp"
 #include <algorithm>
 #include <cassert>
 #include <iterator>
@@ -20,21 +17,19 @@
 #include <utility>
 #include <vector>
 
-using namespace pass;
-using namespace ir;
 using namespace std;
 
 namespace std {
 template <>
-bool operator==(const shared_ptr<pass::GVN::Expression> &lhs,
-                const shared_ptr<pass::GVN::Expression> &rhs) noexcept {
+bool operator==(const shared_ptr<GVN::Expression> &lhs,
+                const shared_ptr<GVN::Expression> &rhs) noexcept {
     if (lhs == nullptr || rhs == nullptr)
         return false;
     return *lhs == *rhs;
 }
 template <>
-bool operator==(const shared_ptr<pass::GVN::PhiExpr> &lhs,
-                const shared_ptr<pass::GVN::PhiExpr> &rhs) noexcept {
+bool operator==(const shared_ptr<GVN::PhiExpr> &lhs,
+                const shared_ptr<GVN::PhiExpr> &rhs) noexcept {
     if (lhs == nullptr || rhs == nullptr)
         return false;
     return dynamic_pointer_cast<GVN::Expression>(lhs) ==
@@ -66,7 +61,7 @@ bool GVN::CongruenceClass::operator==(const CongruenceClass &other) const {
     if (!(this->leader == other.leader))
         return false;
     for (auto &mem : other.members) {
-        if (contains(this->members, mem))
+        if (this->members.find(mem)!=this->members.end())
             continue;
         else
             return false;
@@ -78,12 +73,11 @@ bool GVN::run(PassManager *mgr) {
     _func_info = &mgr->get_result<FuncInfo>();
     _depth_order = &mgr->get_result<DepthOrder>();
     clear();
-    auto m = mgr->get_module();
-    for (auto &gv : m->global_vars()) {
+    for (auto &gv : m_->get_global_variable()) {
         _val2expr[&gv] = create_expr<UniqueExpr>(&gv);
     }
-    for (auto &f : m->functions()) {
-        if (f.is_external)
+    for (auto &f : m_->get_functions()) {
+        if (f.is_declaration())
             continue;
         _func = &f;
         // initialize the global variables
@@ -134,10 +128,10 @@ GVN::intersect(shared_ptr<CongruenceClass> Ci, shared_ptr<CongruenceClass> Cj) {
         for (auto mem :
              Ck->members) { // when there is a non-phi inst in members,
                             // the phi must be equal to the inst.
-            if (::is_a<Constant>(mem)) {
+            if (is_a<Constant>(mem)) {
                 Ck->leader = mem;
                 break;
-            } else if (::is_a<Instruction>(
+            } else if (is_a<Instruction>(
                            mem)) { // Select the first inst in depth_first_order
                 auto bb = ::as_a<Instruction>(mem)->get_parent();
                 if (order_id <= _depth_order->_post_order_id.at(_func).at(bb)) {
@@ -254,8 +248,7 @@ void GVN::detect_equivalences(Function *func) {
                         if (inst == oper) // if oper is inst itself, no transfer
                             continue;
                         for (auto &Ci : _pout[_bb]) {
-                            if (contains(Ci->members,
-                                         static_cast<Value *>(inst))) {
+                            if (Ci->members.find(static_cast<Value *>(inst))!=Ci->members.end()) {
                                 Ci->members.erase(inst);
                                 if (Ci->members.size() == 0)
                                     _pout[_bb].erase(Ci);
@@ -264,7 +257,7 @@ void GVN::detect_equivalences(Function *func) {
                         }
                         bool flag = true;
                         for (auto &cc : _pout[_bb]) {
-                            if (contains(cc->members, oper)) {
+                            if (cc->members.find(oper)!=cc->members.end()) {
                                 cc->members.insert(inst);
                                 flag = false;
                                 break;
@@ -296,7 +289,7 @@ void GVN::detect_equivalences(Function *func) {
 GVN::partitions GVN::transfer_function(Instruction *inst, partitions &pin) {
     partitions pout = clone(pin);
     for (auto cc : pout) {
-        if (contains(cc->members, static_cast<Value *>(inst))) {
+        if (cc->members.find(static_cast<Value *>(inst))!=cc->members.end()) {
             cc->members.erase(inst);
             if (cc->members.size() == 0)
                 pout.erase(cc);
@@ -441,7 +434,7 @@ std::shared_ptr<GVN::PhiExpr> GVN::valuePhiFunc(shared_ptr<Expression> ve) {
 
 std::shared_ptr<GVN::Expression> GVN::get_ve(Value *val, partitions &pin) {
     for (auto cc : pin) {
-        if (contains(cc->members, val))
+        if (cc->members.find(val)!=cc->members.end())
             return cc->val_expr;
     }
     return nullptr;
