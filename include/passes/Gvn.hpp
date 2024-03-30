@@ -496,8 +496,8 @@ class GVN : public Pass{
     std::shared_ptr<ExprT> create_BinOperExpr(OP op, Value *val,
                                               partitions &pin) {
         std::shared_ptr<Expression> lhs, rhs;
-        lhs = valueExpr(as_a<InstT>(val)->get_operand(0), pin);
-        rhs = valueExpr(as_a<InstT>(val)->get_operand(1), pin);
+        lhs = valueExpr(dynamic_cast<InstT*>(val)->get_operand(0), pin);
+        rhs = valueExpr(dynamic_cast<InstT*>(val)->get_operand(1), pin);
         return create_expr<ExprT>(op, lhs, rhs);
     }
 
@@ -511,8 +511,12 @@ class GVN : public Pass{
     Function *_func;
     BasicBlock *_bb;
     std::shared_ptr<FuncInfo> func_info;
-    //const pass::FuncInfo::ResultType *_func_info;
-    //const pass::DepthOrder::ResultType *_depth_order;
+    //逆后序遍历相关
+    std::map<BasicBlock *, unsigned> bb_postorder_{};
+    std::vector<BasicBlock*> bb_vector_{};
+    std::map<BasicBlock *, bool> bb_vis_{};
+    void DFS(BasicBlock* bb);
+    
     std::map<BasicBlock *, partitions> _pin, _pout;
 
     // helper members which can improve analysis efficiency
