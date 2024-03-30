@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/build/cminusfc",
             "args": [
-                "${workspaceFolder}/tests/all_test_cases/hidden_functional/29_long_line.sy",
+                "${workspaceFolder}/tests/jianmu-tests/func/36_rotate.sy",
                 "-S",
                 "-mem2reg"
             ],
