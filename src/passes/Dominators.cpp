@@ -28,7 +28,7 @@ void Dominators::DFS(BasicBlock* b)
         if(!bb_vis_[bb1])
             DFS(bb1);
     bb_vector_.push_back(b);
-    bb_postorder_.insert({b, ++cnt_postorder});
+    bb_postorder_.insert({b, bb_vector_.size()});
 }
 
 BasicBlock* Dominators::intersect(BasicBlock* b1, BasicBlock *b2)
@@ -58,7 +58,6 @@ void Dominators::create_idom(Function *f) {
         auto bb = &bb1;
         bb_vis_.insert({bb, false});
     }
-    cnt_postorder = 0;
     DFS(f->get_entry_block());//DFS进行后序遍历
     idom_.at(f->get_entry_block()) = f->get_entry_block();
     bool changed = true;

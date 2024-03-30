@@ -32,7 +32,6 @@ class Dominators : public Pass {
 
     //  补充需要的函数
 
-    int cnt_postorder;
     std::map<BasicBlock *, int> bb_postorder_{};
     std::vector<BasicBlock*> bb_vector_{};
     std::map<BasicBlock *, bool> bb_vis_{};
