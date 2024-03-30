@@ -1,7 +1,7 @@
 #include "Mem2Reg.hpp"
 #include "IRBuilder.hpp"
 #include "Value.hpp"
-
+#include "Constant.hpp"
 #include <memory>
 #include <set>
 #include <map>
@@ -13,6 +13,8 @@ void Mem2Reg::run() {
     dominators_->run();
     // 以函数为单元遍历实现 Mem2Reg 算法
     for (auto &f : m_->get_functions()) {
+        std::map<Value*, Instruction *> rm_undef_phi;
+        unsigned int num=0;
         if (f.is_declaration())
             continue;
         func_ = &f;
@@ -23,6 +25,41 @@ void Mem2Reg::run() {
             rename(func_->get_entry_block());
         }
         // 后续 DeadCode 将移除冗余的局部变量的分配空间
+        for(auto &bbs:func_->get_basic_blocks())
+        {
+            auto bb = &bbs;
+            for(auto &inst:bb->get_instructions())
+            {
+                auto instr = &inst;
+                
+                if(instr->is_phi() and instr->get_num_operand()<4)
+                {
+                    rm_undef_phi.insert({instr->get_operand(0), instr});
+                }
+                else if(not instr->is_phi() and rm_undef_phi.size())
+                {
+                    break;  
+                }   
+                num++;
+            }
+            for(auto &rm:rm_undef_phi)
+            {
+                bb->get_instructions().erase(rm.second);
+            }
+            num -=rm_undef_phi.size();
+            for(auto &rm:rm_undef_phi)
+            {
+                auto begin_inst = bb->get_instructions().begin();
+                std::advance(begin_inst, num);
+                if(rm.first->get_type()->is_integer_type())
+                    rm.second = IBinaryInst::create_add(rm.first,ConstantZero::get(rm.first->get_type(),m_),bb);
+                else
+                    rm.second = FBinaryInst::create_fadd(rm.first,ConstantZero::get(rm.first->get_type(),m_),bb);
+                bb->get_instructions().insert(begin_inst, rm.second);
+            }
+            
+            rm_undef_phi.clear();
+        }
     }
 }
 
