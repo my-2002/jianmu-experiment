@@ -14,6 +14,47 @@ void DeadCode::run() {
         }
     } while (changed);
     LOG_INFO << "dead code pass erased " << ins_count << " instructions";
+    for(auto &F : m_->get_functions())
+    {
+        auto func = &F;
+        std::map<Value*, Instruction *> rm_undef_phi;
+        unsigned int num=0;
+        for(auto &bbs:func->get_basic_blocks())
+        {
+            auto bb = &bbs;
+            for(auto &inst:bb->get_instructions())
+            {
+                auto instr = &inst;
+                
+                if(instr->is_phi() and instr->get_num_operand()<4)
+                {
+                    rm_undef_phi.insert({instr->get_operand(0), instr});
+                }
+                else if(not instr->is_phi() and rm_undef_phi.size())
+                {
+                    break;  
+                }   
+                num++;
+            }
+            for(auto &rm:rm_undef_phi)
+            {
+                bb->get_instructions().erase(rm.second);
+            }
+            num -=rm_undef_phi.size();
+            for(auto &rm:rm_undef_phi)
+            {
+                auto begin_inst = bb->get_instructions().begin();
+                std::advance(begin_inst, num);
+                if(rm.first->get_type()->is_integer_type())
+                    rm.second = IBinaryInst::create_add(rm.first,ConstantZero::get(rm.first->get_type(),m_),bb);
+                else
+                    rm.second = FBinaryInst::create_fadd(rm.first,ConstantZero::get(rm.first->get_type(),m_),bb);
+                bb->get_instructions().insert(begin_inst, rm.second);
+            }
+            
+            rm_undef_phi.clear();
+        }
+    }
 }
 
 void DeadCode::mark(Function *func) {

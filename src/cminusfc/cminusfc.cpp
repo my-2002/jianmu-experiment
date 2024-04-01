@@ -55,6 +55,7 @@ int main(int argc, char **argv) {
 
     if (config.mem2reg) {
         PM.add_pass<Mem2Reg>();
+        PM.add_pass<DeadCode>();
         PM.add_pass<GVN>();
         PM.add_pass<DeadCode>();
         PM.add_pass<RegAlloc>();

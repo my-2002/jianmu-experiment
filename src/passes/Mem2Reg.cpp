@@ -25,7 +25,7 @@ void Mem2Reg::run() {
             rename(func_->get_entry_block());
         }
         // 后续 DeadCode 将移除冗余的局部变量的分配空间
-        for(auto &bbs:func_->get_basic_blocks())
+        /*for(auto &bbs:func_->get_basic_blocks())
         {
             auto bb = &bbs;
             for(auto &inst:bb->get_instructions())
@@ -59,7 +59,7 @@ void Mem2Reg::run() {
             }
             
             rm_undef_phi.clear();
-        }
+        }*/
     }
 }
 
