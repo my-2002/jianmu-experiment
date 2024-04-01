@@ -1,4 +1,6 @@
 #include "DeadCode.hpp"
+#include "Constant.hpp"
+#include "Instruction.hpp"
 #include "logging.hpp"
 
 // 处理流程：两趟处理，mark 标记有用变量，sweep 删除无用指令
@@ -27,31 +29,31 @@ void DeadCode::run() {
                 auto instr = &inst;
                 
                 if(instr->is_phi() and instr->get_num_operand()<4)
-                {
                     rm_undef_phi.insert({instr->get_operand(0), instr});
-                }
-                else if(not instr->is_phi() and rm_undef_phi.size())
-                {
+                else if(not instr->is_phi())
                     break;  
-                }   
                 num++;
             }
             for(auto &rm:rm_undef_phi)
-            {
                 bb->get_instructions().erase(rm.second);
-            }
             num -=rm_undef_phi.size();
             for(auto &rm:rm_undef_phi)
             {
                 auto begin_inst = bb->get_instructions().begin();
                 std::advance(begin_inst, num);
-                if(rm.first->get_type()->is_integer_type())
+                if(rm.first->get_type()->is_int32_type())
                     rm.second = IBinaryInst::create_add(rm.first,ConstantZero::get(rm.first->get_type(),m_),bb);
-                else
+                else if (rm.first->get_type()->is_float_type())
                     rm.second = FBinaryInst::create_fadd(rm.first,ConstantZero::get(rm.first->get_type(),m_),bb);
+                else 
+                {
+                    auto temp = ZextInst::create_zext_to_i32(rm.first, bb);
+                    bb->get_instructions().insert(begin_inst, temp);
+                    rm.second = ICmpInst::create_ne(temp, ConstantInt::get(0, m_), bb);
+                }
                 bb->get_instructions().insert(begin_inst, rm.second);
             }
-            
+            num=0;
             rm_undef_phi.clear();
         }
     }
