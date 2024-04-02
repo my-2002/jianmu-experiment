@@ -27,32 +27,49 @@ void DeadCode::run() {
             for(auto &inst:bb->get_instructions())
             {
                 auto instr = &inst;
-                
-                if(instr->is_phi() and instr->get_num_operand()<4)
-                    rm_undef_phi.insert({instr->get_operand(0), instr});
+                if(instr->is_phi())
+                {
+                    int cnt = 0;
+                    Value* record;
+                    for(unsigned i = 0; i < instr->get_num_operand(); i+=2)
+                        if(instr->get_operand(i))
+                        {
+                            cnt++;
+                            record = instr->get_operand(i);
+                        } 
+                    if(cnt==1)
+                        rm_undef_phi.insert({record, instr});
+                }
                 else if(not instr->is_phi())
                     break;  
                 num++;
             }
             for(auto &rm:rm_undef_phi)
-                bb->get_instructions().erase(rm.second);
-            num -=rm_undef_phi.size();
-            for(auto &rm:rm_undef_phi)
             {
                 auto begin_inst = bb->get_instructions().begin();
+                Instruction* new_inst;
                 std::advance(begin_inst, num);
                 if(rm.first->get_type()->is_int32_type())
-                    rm.second = IBinaryInst::create_add(rm.first,ConstantZero::get(rm.first->get_type(),m_),bb);
+                {
+                    new_inst = IBinaryInst::create_add(rm.first,ConstantZero::get(rm.first->get_type(),m_),bb);
+                    bb->get_instructions().insert(begin_inst, new_inst);
+                }
                 else if (rm.first->get_type()->is_float_type())
-                    rm.second = FBinaryInst::create_fadd(rm.first,ConstantZero::get(rm.first->get_type(),m_),bb);
+                {
+                    new_inst = FBinaryInst::create_fadd(rm.first,ConstantZero::get(rm.first->get_type(),m_),bb);
+                    bb->get_instructions().insert(begin_inst, new_inst);
+                }
                 else 
                 {
                     auto temp = ZextInst::create_zext_to_i32(rm.first, bb);
+                    new_inst = ICmpInst::create_ne(temp, ConstantInt::get(0, m_), bb);
+                    bb->get_instructions().insert(begin_inst, new_inst);
                     bb->get_instructions().insert(begin_inst, temp);
-                    rm.second = ICmpInst::create_ne(temp, ConstantInt::get(0, m_), bb);
                 }
-                bb->get_instructions().insert(begin_inst, rm.second);
+                rm.second->replace_all_use_with(new_inst);
             }
+            for(auto &rm:rm_undef_phi)
+                bb->get_instructions().erase(rm.second);
             num=0;
             rm_undef_phi.clear();
         }
