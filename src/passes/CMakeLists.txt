@@ -7,4 +7,5 @@ add_library(
     LiveVar.cpp
     RegAlloc.cpp
     Gvn.cpp
+    GepTrans.cpp
 )
