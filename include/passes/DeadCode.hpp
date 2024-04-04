@@ -25,5 +25,4 @@ class DeadCode : public Pass {
     void mark(Instruction *ins);
     bool sweep(Function *func);
     bool is_critical(Instruction *ins);
-    void transfer_undef_phi();
 };

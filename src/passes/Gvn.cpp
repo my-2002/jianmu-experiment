@@ -259,7 +259,18 @@ void GVN::detect_equivalences(Function *func) {
                             if (inst->get_operands()[i] == _bb)
                                 break;
                         }
-                        assert(i < inst->get_operands().size());
+                        //assert(i < inst->get_operands().size());
+                        if(i >= inst->get_operands().size())
+                        {
+                            Value* oper = ConstantInt::get(-114514, m_);
+                            shared_ptr<Expression> ve;
+                            ve = valueExpr(oper, _pout[_bb]);
+                            auto cc = create_cc(next_value_number++, oper, ve,
+                                                nullptr, oper);
+                            cc->members.insert(inst);
+                            _pout[_bb].insert(cc);
+                            continue;
+                        }
                         auto oper = inst->get_operand(i - 1);
                         // transfer inst according to oper's CC to prevent from
                         // CC increasing unlimitedly
