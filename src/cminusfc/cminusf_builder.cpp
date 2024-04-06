@@ -790,7 +790,7 @@ Value* CminusfBuilder::visit(ASTLVal& node) {
             }             
 
             auto function = builder->get_insert_block()->get_parent(); 
-            Value * cond= CONST_ZERO(INT32_T);
+            /*Value * cond= CONST_ZERO(INT32_T);
             for(auto& i:index)
             {
                 auto indexTest = builder->create_icmp_lt(i, CONST_ZERO(INT32_T)); 
@@ -808,7 +808,7 @@ Value* CminusfBuilder::visit(ASTLVal& node) {
             builder->create_call(static_cast<Function*>(fail), {});
             builder->create_br(gtzBB);    
 
-            builder->set_insert_point(gtzBB);  
+            builder->set_insert_point(gtzBB);  */
             if(var->get_type()->get_pointer_element_type()->is_array_type())
                 index.insert(index.begin(), CONST_INT(0));
             else if (var->get_type()->get_pointer_element_type()->is_pointer_type())
@@ -861,7 +861,7 @@ Value* CminusfBuilder::visit(ASTLVal& node) {
                     res = builder->create_fptosi(res, INT32_T);     //转换数组下标值
                 index.push_back(res);
             }             
-
+            /*
             auto function = builder->get_insert_block()->get_parent(); 
             Value * cond= CONST_ZERO(INT32_T);
             for(auto& i:index)
@@ -882,7 +882,7 @@ Value* CminusfBuilder::visit(ASTLVal& node) {
             builder->create_br(gtzBB);    
 
             builder->set_insert_point(gtzBB);  
-
+            */
             for(int i = index.size()-1; i>=0; i--)
             {
                 int num = dynamic_cast<ConstantInt* >(index[i])->get_value();

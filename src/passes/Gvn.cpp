@@ -79,7 +79,6 @@ void GVN::run() {
         if (f.is_declaration())
             continue;
         _func = &f;
-        // initialize the global variables
         {
             next_value_number = 1;
             _pin.clear();
@@ -145,19 +144,17 @@ GVN::intersect(shared_ptr<CongruenceClass> Ci, shared_ptr<CongruenceClass> Cj) {
     else {
         unsigned order_id = 0;
         for (auto mem :
-             Ck->members) { // when there is a non-phi inst in members,
-                            // the phi must be equal to the inst.
+             Ck->members) { 
             if (dynamic_cast<Constant*>(mem)) {
                 Ck->leader = mem;
                 break;
-            } else if (dynamic_cast<Instruction*>(mem)) { // Select the first inst in depth_first_order
+            } else if (dynamic_cast<Instruction*>(mem)) {
                 auto bb = dynamic_cast<Instruction*>(mem)->get_parent();
                 if (order_id <= bb_postorder_.at(bb)) {
                     order_id = bb_postorder_.at(bb);
                     Ck->leader = mem;
                 }
-            } else { // for globalvar and argument, it shouldn't be intersected
-                     // after mem2reg
+            } else { 
                 throw logic_error{mem->get_type()->print() +
                                   "has been intersected"};
             }
@@ -174,9 +171,7 @@ GVN::intersect(shared_ptr<CongruenceClass> Ci, shared_ptr<CongruenceClass> Cj) {
                 if (not is_a<PhiExpr>(Ci->val_expr) ||
                     as_a<PhiExpr>(Ci->val_expr)->get_ori_bb() != _bb ||
                     as_a<PhiExpr>(Ci->val_expr)->size() >
-                        phi_construct_point) { // this case guarantee that
-                                               // Ci->val_expr must be the same
-                                               // data in previous predecessor
+                        phi_construct_point) {
                     for (unsigned i = 0; i < phi_construct_point; i++) {
                         Ck->phi_expr->add_val(Ci->val_expr);
                     }
@@ -197,7 +192,6 @@ GVN::intersect(shared_ptr<CongruenceClass> Ci, shared_ptr<CongruenceClass> Cj) {
 }
 
 void GVN::detect_equivalences(Function *func) {
-    // initialize POUT of each bb
     for (auto &bb : func->get_basic_blocks()) {
         _pout[&bb] = TOP;
     }
@@ -221,7 +215,7 @@ void GVN::detect_equivalences(Function *func) {
                     pin = join(pin, _pout[pre_bb]);
                     phi_construct_point++;
                 }
-            else // it can only produce phi_expr when pre_bb > 2
+            else
                 pin = non_copy_pout[*pre_bbs.begin()];
             if (_bb == func->get_entry_block()) {
                 _pout[_bb] = clone(_pin[_bb]);
@@ -234,14 +228,9 @@ void GVN::detect_equivalences(Function *func) {
                     dynamic_cast<ReturnInst*>(&inst_r) ||
                     (dynamic_cast<CallInst*>(&inst_r) &&
                      inst_r.get_use_list()
-                         .empty())) // For pure_func, if it isn't used, it
-                                    // will be optimized by mem2reg
-                                    // Thus, this case must be a non-pure_func
-                                    // and if it isn't be used, it will not be
-                                    // as a basic ValueExpression
+                         .empty())) 
                     continue;
                 _pout[_bb] = transfer_function(&inst_r, _pout[_bb]);
-                // special judgement to prevent from large number of CC
                 if (_pout[_bb].size() > 200) {
                     non_copy_pout.clear();
                     return;
@@ -259,7 +248,6 @@ void GVN::detect_equivalences(Function *func) {
                             if (inst->get_operands()[i] == _bb)
                                 break;
                         }
-                        //assert(i < inst->get_operands().size());
                         if(i >= inst->get_operands().size())
                         {
                             Value* oper = ConstantInt::get(-114514, m_);
@@ -272,9 +260,7 @@ void GVN::detect_equivalences(Function *func) {
                             continue;
                         }
                         auto oper = inst->get_operand(i - 1);
-                        // transfer inst according to oper's CC to prevent from
-                        // CC increasing unlimitedly
-                        if (inst == oper) // if oper is inst itself, no transfer
+                        if (inst == oper) 
                             continue;
                         for (auto &Ci : _pout[_bb]) {
                             if (Ci->members.find(static_cast<Value *>(inst))!=Ci->members.end()) {
@@ -485,8 +471,7 @@ GVN::partitions GVN::clone(const GVN::partitions &p) {
 }
 
 void GVN::replace_cc_members() {
-    for (auto &[bb_r, part] : non_copy_pout) { // if it is a copy statement, it
-                                               // shouldn't replace any inst
+    for (auto &[bb_r, part] : non_copy_pout) { 
         auto bb = bb_r;
         for (auto &cc : part) {
             if (cc->index == 0)
@@ -506,14 +491,9 @@ void GVN::replace_cc_members() {
                                 auto parent = inst->get_parent();
                                 if (dynamic_cast<PhiInst*>(inst))
                                     return inst->get_operand(use.arg_no_ + 1) ==
-                                           bb; // only replace the
-                                               // operand of the
-                                               // user from current
-                                               // bb for phi
+                                           bb; 
                                 else
-                                    return parent == bb; // replace the members
-                                                         // if users are in the
-                                                         // same block as bb
+                                    return parent == bb;
                             }
                             return false;
                         });

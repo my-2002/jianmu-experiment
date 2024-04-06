@@ -3,21 +3,12 @@
 #include "PassManager.hpp"
 #include "FuncInfo.hpp"
 
-// TODO:analysis of MemAddress use chain
-// improve efficiency of GVN
 
 
 class GVN : public Pass{
   public:
     GVN(Module *m) : Pass(m), func_info(std::make_shared<FuncInfo>(m)) {}
     ~GVN() = default;
-    /*virtual void get_analysis_usage(pass::AnalysisUsage &AU) const override {
-        using KillType = pass::AnalysisUsage::KillType;
-        AU.set_kill_type(KillType::Normal);
-        AU.add_require<FuncInfo>();
-        AU.add_require<DepthOrder>();
-        AU.add_post<DeadCode>();
-    }*/
     virtual void run() override;
 
     template <class T, typename... Args>
@@ -25,9 +16,7 @@ class GVN : public Pass{
         return std::make_shared<T>(std::forward<Args>(args)...);
     }
 
-    //virtual bool always_invalid() const override { return false; }
 
-    // Expression
     class Expression {
       public:
         enum class expr_type {
@@ -103,8 +92,7 @@ class GVN : public Pass{
         expr_type _op;
     };
     friend Expression;
-    // ConstExpr and UniqueExpr will be as the basic ValueExpression for other
-    // Expr that takes Expr as args
+
     class ConstExpr final : public Expression {
       public:
         ConstExpr(Value *con)
@@ -122,8 +110,7 @@ class GVN : public Pass{
       private:
         Constant *_const;
     };
-    // the case, that operands of the current inst doesn't have ValExpr, won't
-    // happen in depth_priority_oder
+
     class UniqueExpr final : public Expression { // load/store/alloca/ptr2int/int2ptr
       public:
         UniqueExpr(Value *val)
@@ -140,7 +127,7 @@ class GVN : public Pass{
       private:
         Value *_val;
     };
-    // For non-pure functions, it will be as the basic ValueExpression
+
     class CallExpr final : public Expression {
       public:
         CallExpr(Instruction *inst)
@@ -201,8 +188,7 @@ class GVN : public Pass{
 
         bool operator==(const StoreExpr &other) const {
             return false && *_addr == *other._addr &&
-                   *_val == *other._val; // TODO: how to tell two StoreExpr is
-                                         // the same
+                   *_val == *other._val;
         }
 
         virtual std::string print() {
@@ -214,8 +200,6 @@ class GVN : public Pass{
         std::shared_ptr<Expression> _addr;
     };
 
-    // If two UnitExprs' _unit is different, the exprs are
-    // absolutely different
     class UnitExpr final : public Expression { // zext/fp2si/si2fp/sext/trunc/
       public:
         UnitExpr(std::shared_ptr<Expression> oper)
@@ -414,7 +398,7 @@ class GVN : public Pass{
         std::vector<std::shared_ptr<Expression>> _vals;
     };
 
-    // CongruemceClass
+
     size_t next_value_number;
     struct CongruenceClass {
         unsigned index;
@@ -445,7 +429,7 @@ class GVN : public Pass{
     create_cc(Args... args) { // only the number of TOP cc can be 0
         return std::make_shared<CongruenceClass>(std::forward<Args>(args)...);
     }
-    // partitions
+   
     struct less_part {
         bool
         operator()(const std::shared_ptr<GVN::CongruenceClass> &a,
@@ -454,8 +438,6 @@ class GVN : public Pass{
         }
     };
     using partitions = std::set<std::shared_ptr<CongruenceClass>, less_part>;
-    // when transfering partitions between bbs, it must use "clone" in order
-    // to prevent from changing other bbs' pout when changing cur_bb's pin
     partitions clone(const partitions &p);
     partitions clone(partitions &&p);
 
@@ -471,10 +453,10 @@ class GVN : public Pass{
     std::shared_ptr<Expression> getVN(partitions &,
                                       std::shared_ptr<Expression>);
 
-    // replace the members of the same CongruemceClass with the first value
+
     void replace_cc_members();
 
-    // utils function
+   
     std::shared_ptr<Expression> get_ve(Value *, partitions &);
     template <typename Derived, typename Base>
     static bool is_a(std::shared_ptr<Base> base) {
@@ -492,7 +474,7 @@ class GVN : public Pass{
         return derived;
     }
     template <typename ExprT, typename InstT,
-              typename OP> // only for valueExpr function
+              typename OP> 
     std::shared_ptr<ExprT> create_BinOperExpr(OP op, Value *val,
                                               partitions &pin) {
         std::shared_ptr<Expression> lhs, rhs;
@@ -519,9 +501,8 @@ class GVN : public Pass{
     
     std::map<BasicBlock *, partitions> _pin, _pout;
 
-    // helper members which can improve analysis efficiency
     std::unordered_map<Value *, std::shared_ptr<Expression>>
-        _val2expr{}; // just record GlobalVal and Constant
+        _val2expr{}; 
     unsigned phi_construct_point;
     std::map<BasicBlock *, partitions> non_copy_pout;
 };

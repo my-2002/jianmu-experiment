@@ -8,4 +8,5 @@ add_library(
     RegAlloc.cpp
     Gvn.cpp
     GepTrans.cpp
+    LoopUnrolling.cpp
 )
