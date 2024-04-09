@@ -9,4 +9,5 @@ add_library(
     Gvn.cpp
     GepTrans.cpp
     LoopUnrolling.cpp
+    LoopFind.cpp
 )

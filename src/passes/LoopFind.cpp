@@ -59,7 +59,7 @@ void LoopFind::run() {
                     for (auto suc : bb->get_succ_basic_blocks()) {
                         if (loop.bbs.find(suc)==loop.bbs.end()) {
                             loop.exits.insert({bb, nullptr});
-                            if (suc->pre_bbs().size() == 1) {
+                            if (suc->get_pre_basic_blocks().size() == 1) {
                                 loop.exits[bb] = suc;
                             }
                         }
