@@ -80,7 +80,7 @@ void LoopFind::run() {
                 loop.ind_var_info = parse_ind_var(&bb, loop);
             }
         }
-        _result.loop_info[&func].loops = std::move(loops);
+        _result->loop_info[&func].loops = std::move(loops);
     }
 }
 

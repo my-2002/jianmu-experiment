@@ -3,6 +3,7 @@
 #include <codecvt>
 #include <type_traits>
 #include <optional>
+#include "CodeGenUtil.hpp"
 #include "../../include/passes/LoopUnrolling.hpp"
 
 using namespace std;
@@ -106,8 +107,8 @@ LoopUnrolling::parse_simple_loop(BasicBlock *header, const LoopInfo &loop) {
     }
 
     // find initial and step
-    for (auto &&inst : header->insts()) {
-        if (not inst.is<PhiInst>()) {
+    for (auto &&inst : header->get_instructions()) {
+        if (dynamic_cast<PhiInst *>(&inst)==nullptr) {
             break;
         }
         if (&inst != ret.ind_var) {
@@ -119,14 +120,14 @@ LoopUnrolling::parse_simple_loop(BasicBlock *header, const LoopInfo &loop) {
         // loop body
         assert(phi_inst->to_pairs().size() == 2);
         for (auto [value, source] : phi_inst->to_pairs()) {
-            if (contains(loop.bbs, source)) {
+            if (loop.bbs.find(source)!=loop.bbs.end()) {
                 // step
-                if (not value->is<IBinaryInst>()) {
+                if (dynamic_cast<IBinaryInst *>(value) == nullptr) {
                     continue;
                 }
                 auto ibinary_inst = dynamic_cast<IBinaryInst *>(value);
-                auto ibin_op = ibinary_inst->get_ibin_op();
-                if (ibin_op != IBinaryInst::ADD) {
+                auto ibin_op = ibinary_inst->get_instr_op_name();
+                if (ibin_op != "add") {
                     continue;
                 }
                 if (ibinary_inst->lhs()->is<ConstInt>() and
