@@ -32,30 +32,15 @@ class LoopFind final : public Pass {
         std::unordered_map<Function *, FuncLoopInfo> loop_info;
     };
 
-    void get_analysis_usage(AnalysisUsage &AU) const final {
-        using KillType = AnalysisUsage::KillType;
-        AU.set_kill_type(KillType::None);
-        AU.add_require<Dominator>();
-    }
-
-    std::any get_result() const final { return &_result; }
-
     void run() override;
-
-    void clear() {
-        _result.loop_info.clear();
-        _dom = nullptr;
-        _m = nullptr;
-    }
 
   private:
     using LoopInfo = ResultType::LoopInfo;
 
     std::set<BasicBlock *> find_bbs_by_latch(BasicBlock *header,
                                                 BasicBlock *latch);
-    auto parse_ind_var(ir::BasicBlock *header, const LoopInfo &loop)
+    auto parse_ind_var(BasicBlock *header, const LoopInfo &loop)
         -> std::optional<LoopInfo::IndVarInfo>;
-    void log() const;
 
     ResultType _result;
     std::unique_ptr<Dominators> dominators_;

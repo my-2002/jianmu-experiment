@@ -362,3 +362,13 @@ PhiInst *PhiInst::create_phi(Type *ty, BasicBlock *bb,
                              std::vector<BasicBlock *> val_bbs) {
     return create(ty, vals, val_bbs, bb);
 }
+
+std::vector<std::pair<Value *, BasicBlock *>> PhiInst::to_pairs() const {
+    std::vector<std::pair<Value *, BasicBlock *>> ret;
+    for (auto it = get_operands().begin(); it != get_operands().end(); it += 2) {
+        auto op = *it;
+        auto bb = *(it + 1);
+        ret.emplace_back(op, dynamic_cast<BasicBlock*>(bb));
+    }
+    return ret;
+}

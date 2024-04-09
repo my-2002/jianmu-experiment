@@ -12,8 +12,6 @@ using namespace std;
 void LoopFind::run() {
     using LoopInfo = ResultType::LoopInfo;
 
-    clear();
-
     dominators_ = std::make_unique<Dominators>(m_);
     dominators_->run();
 
@@ -58,8 +56,8 @@ void LoopFind::run() {
                 // find all exiting bbs
                 // set exit bb for each exiting bb if exists
                 for (auto bb : loop.bbs) {
-                    for (auto suc : bb->suc_bbs()) {
-                        if (not contains(loop.bbs, suc)) {
+                    for (auto suc : bb->get_succ_basic_blocks()) {
+                        if (loop.bbs.find(suc)==loop.bbs.end()) {
                             loop.exits.insert({bb, nullptr});
                             if (suc->pre_bbs().size() == 1) {
                                 loop.exits[bb] = suc;
@@ -139,38 +137,45 @@ auto LoopFind::parse_ind_var(BasicBlock *header, const LoopInfo &loop)
     }
 
     auto icmp_inst = dynamic_cast<ICmpInst*>(cond);
-    auto icmp_op = icmp_inst->get_instr_op_name();
+    auto icmp_op = icmp_inst->get_instr_type();
     auto lhs = icmp_inst->get_operand(0);
     auto rhs = icmp_inst->get_operand(1);
 
     auto exit_cond = [&](bool is_ind_rhs) {
-        std::string opposite;
-        if(icmp_op == "EQ") opposite = "NE";
-        else if (icmp_op == "NE") opposite = "EQ";
-        else if (icmp_op == "GT") opposite = "LT";
-        else if (icmp_op == "LT") opposite = "GT";
-        else if (icmp_op == "GE") opposite = "LE";
-        else if (icmp_op == "LE") opposite = "GE";
+        Instruction::OpID opposite;
+        if(icmp_op == Instruction::OpID::eq) opposite = Instruction::OpID::ne;
+        else if (icmp_op == Instruction::OpID::ne) opposite = Instruction::OpID::eq;
+        else if (icmp_op == Instruction::OpID::gt) opposite = Instruction::OpID::lt;
+        else if (icmp_op == Instruction::OpID::lt) opposite = Instruction::OpID::gt;
+        else if (icmp_op == Instruction::OpID::ge) opposite = Instruction::OpID::le;
+        else if (icmp_op == Instruction::OpID::le) opposite = Instruction::OpID::ge;
         else throw unreachable_error{};
         auto op = is_ind_rhs ? opposite : icmp_op;
-        if (not contains(loop.bbs, br_inst->get_operand(2)->as<BasicBlock>())) {
+        if (loop.bbs.find(dynamic_cast<BasicBlock*>(br_inst->get_operand(2)))==loop.bbs.end()) {
             // exit if cond is true
             return op;
-        } else if (not contains(loop.bbs,
-                                br_inst->get_operand(1)->as<BasicBlock>())) {
+        } else if (loop.bbs.find(dynamic_cast<BasicBlock*>(br_inst->get_operand(1)))==loop.bbs.end()) {
             // exit if cond is false
-            return ICmpInst::not_icmp_op(op);
+            Instruction::OpID ret_op;
+            if(op == Instruction::OpID::eq) ret_op = Instruction::OpID::ne;
+            else if (op == Instruction::OpID::ne) ret_op = Instruction::OpID::eq;
+            else if (op == Instruction::OpID::gt) ret_op = Instruction::OpID::le;
+            else if (op == Instruction::OpID::lt) ret_op = Instruction::OpID::ge;
+            else if (op == Instruction::OpID::ge) ret_op = Instruction::OpID::lt;
+            else if (op == Instruction::OpID::le) ret_op = Instruction::OpID::gt;
+            else throw unreachable_error{};
+            return ret_op;
         } else {
             throw unreachable_error{};
         }
     };
 
     auto is_loop_invariant = [&](Value *v) {
-        if (not v->is<Instruction>()) {
+        if (not dynamic_cast<Instruction*>(v)) {
             return true;
         }
-        auto inst = as_a<Instruction>(v);
-        return not contains(loop.bbs, inst->get_parent());
+        auto inst = dynamic_cast<Instruction*>(v);
+        return loop.bbs.find(inst->get_parent())==loop.bbs.end();
     };
 
     if (is_loop_invariant(lhs)) {
@@ -188,35 +193,36 @@ auto LoopFind::parse_ind_var(BasicBlock *header, const LoopInfo &loop)
     // find initial and step
     ind_var_info.initial = nullptr;
     ind_var_info.step = nullptr;
-    for (auto &&inst : header->insts()) {
-        if (not inst.is<PhiInst>()) {
+    for (auto &inst1 : header->get_instructions()) {
+        auto inst = &inst1;
+        if (not dynamic_cast<PhiInst*>(inst)) {
             break;
         }
-        if (&inst != ind_var_info.ind_var) {
+        if (inst != ind_var_info.ind_var) {
             continue;
         }
         // the phi for induction variable
-        auto phi_inst = inst.as<PhiInst>();
+        auto phi_inst = dynamic_cast<PhiInst*>(inst);
         // the phi should has two source, one from preheader and the other from
         // loop body
         if (phi_inst->to_pairs().size() != 2) {
             return nullopt;
         }
         for (auto [value, source] : phi_inst->to_pairs()) {
-            if (contains(loop.bbs, source)) {
+            if (loop.bbs.find(source)!=loop.bbs.end()) {
                 // step
-                if (not value->is<IBinaryInst>()) {
+                if (not dynamic_cast<IBinaryInst*>(value)) {
                     continue;
                 }
-                auto ibinary_inst = value->as<IBinaryInst>();
-                auto ibin_op = ibinary_inst->get_ibin_op();
-                if (ibin_op != IBinaryInst::ADD) {
+                auto ibinary_inst = dynamic_cast<IBinaryInst*>(value);
+                auto ibin_op = ibinary_inst->get_instr_type();
+                if (ibin_op != Instruction::OpID::add) {
                     continue;
                 }
-                if (ibinary_inst->rhs() == ind_var_info.ind_var) {
-                    ind_var_info.step = ibinary_inst->lhs();
-                } else if (ibinary_inst->lhs() == ind_var_info.ind_var) {
-                    ind_var_info.step = ibinary_inst->rhs();
+                if (ibinary_inst->get_operand(0) == ind_var_info.ind_var) {
+                    ind_var_info.step = ibinary_inst->get_operand(1);
+                } else if (ibinary_inst->get_operand(1) == ind_var_info.ind_var) {
+                    ind_var_info.step = ibinary_inst->get_operand(0);
                 }
             } else {
                 // initial
@@ -258,22 +264,4 @@ LoopFind::ResultType::FuncLoopInfo::get_topo_order() const {
         assert(changed);
     }
     return ret;
-}
-
-void LoopFind::log() const {
-    for (auto &&[func, func_loop] : _result.loop_info) {
-        debugs << func->get_name() << '\n';
-        for (auto &&[header, loop] : func_loop.loops) {
-            debugs << "loop " << header->get_name() << '\n';
-            for (auto &&latch : loop.latches) {
-                debugs << latch->get_name() << ' ';
-            }
-            debugs << '\n';
-            for (auto &&bb : loop.bbs) {
-                debugs << bb->get_name() << ' ';
-            }
-            debugs << "\n\n";
-        }
-        debugs << '\n';
-    }
 }
