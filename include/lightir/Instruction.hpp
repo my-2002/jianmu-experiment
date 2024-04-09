@@ -355,5 +355,6 @@ class PhiInst : public BaseInst<PhiInst> {
         this->add_operand(val);
         this->add_operand(pre_bb);
     }
+    std::vector<std::pair<Value *, BasicBlock *>> to_pairs() const;
     virtual std::string print() override;
 };
