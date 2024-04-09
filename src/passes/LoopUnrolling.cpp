@@ -170,7 +170,7 @@ bool LoopUnrolling::should_unroll(const SimpleLoopInfo &simple_loop) {
     return inst_cnt * estimate < UNROLL_MAX;
 }
 
-void LoopUnroll::unroll_simple_loop(const SimpleLoopInfo &simple_loop) {
+void LoopUnrolling::unroll_simple_loop(const SimpleLoopInfo &simple_loop, Module *m_) {
     auto header = simple_loop.header;
 
     // topological sort
@@ -335,7 +335,7 @@ void LoopUnroll::unroll_simple_loop(const SimpleLoopInfo &simple_loop) {
     }
 }
 
-void LoopUnroll::handle_func(Function *func, const FuncLoopInfo &func_loop) {
+void LoopUnrolling::handle_func(Function *func, const FuncLoopInfo &func_loop, Module *m_) {
     for (auto &&header : func_loop.get_topo_order()) {
         auto &&loop = func_loop.loops.at(header);
         assert(loop.preheader != nullptr);
@@ -347,11 +347,11 @@ void LoopUnroll::handle_func(Function *func, const FuncLoopInfo &func_loop) {
             continue;
         }
         //debugs << "unrolling " + simple_loop->header->get_name() << '\n';
-        unroll_simple_loop(simple_loop.value());
+        unroll_simple_loop(simple_loop.value(),m_);
     }
 }
 
-bool LoopUnroll::run(PassManager *mgr) {
+void LoopUnrolling::run() {
     // 创建支配树分析 Pass 的实例
     loopfind_ = std::make_unique<LoopFind>(m_);
     // 建立支配树
@@ -361,7 +361,6 @@ bool LoopUnroll::run(PassManager *mgr) {
         if (func.is_declaration()) {
             continue;
         }
-        handle_func(&func, loop_info.at(&func));
+        handle_func(&func, loop_info.at(&func),m_);
     }
-    return false;
 }

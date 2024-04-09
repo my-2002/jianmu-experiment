@@ -237,7 +237,7 @@ auto LoopFind::parse_ind_var(BasicBlock *header, const LoopInfo &loop)
 }
 
 vector<BasicBlock *>
-LoopFind::ResultType::FuncLoopInfo::get_topo_order() const {
+LoopFind::ResultType::FuncLoopInfo::get_topo_order() const {    //构造拓扑排序
     vector<BasicBlock *> ret;
     map<BasicBlock *, size_t> parent_cnt;
     for (auto &&[header, _] : loops) {

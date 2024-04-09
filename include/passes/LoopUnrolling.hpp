@@ -11,6 +11,7 @@ class LoopUnrolling final : public Pass {
     void run() override;
 
   private:
+  
     static constexpr int UNROLL_MAX = 10000;
     std::unique_ptr<LoopFind> loopfind_;
 
@@ -31,8 +32,8 @@ class LoopUnrolling final : public Pass {
 
     static bool should_unroll(const SimpleLoopInfo &simple_loop);
 
-    void unroll_simple_loop(const SimpleLoopInfo &simple_loop);
+    static void unroll_simple_loop(const SimpleLoopInfo &simple_loop, Module *m_);
 
-    static void handle_func(Function *func, const FuncLoopInfo &func_loop);
+    static void handle_func(Function *func, const FuncLoopInfo &func_loop, Module *m_);
 };
 
