@@ -1,6 +1,8 @@
-#includ "LoopUnroling.hpp"
+#include "Value.hpp"
 #include <codecvt>
 #include <type_traits>
+#include <optional>
+#include "../../include/passes/LoopUnrolling.hpp"
 
 using namespace std;
 
@@ -54,7 +56,7 @@ LoopUnrolling::parse_simple_loop(BasicBlock *header, const LoopInfo &loop) {
     }
 
     auto icmp_inst = dynamic_cast<ICmpInst*>(cond);
-    auto icmp_op = icmp_inst->get_icmp_op();
+    auto icmp_op = icmp_inst->get_instr_op_name();
     auto lhs = icmp_inst->lhs();
     auto rhs = icmp_inst->rhs();
 
@@ -66,23 +68,24 @@ LoopUnrolling::parse_simple_loop(BasicBlock *header, const LoopInfo &loop) {
             return op;
         } else if (br_inst->get_operand(2) == ret.exit) {
             // exit if cond is false
-            return ICmpInst::not_icmp_op(op);
+            return ICmpInst::;
         } else {
             throw unreachable_error{};
         }
     };
 
     // at least one op should be mutable after constant folding
-    assert(not lhs->is<ConstInt>() or not rhs->is<ConstInt>());
-    if (lhs->is<ConstInt>()) {
+    assert(dynamic_cast<ConstantInt*>(lhs)==nullptr or dynamic_cast<ConstantInt*>(rhs) == nullptr);
+    if (dynamic_cast<ConstantInt*>(lhs) != nullptr){
         ret.ind_var = rhs;
         ret.icmp_op = exit_cond(true);
-        ret.bound = lhs->as<ConstInt>();
-    } else if (rhs->is<ConstInt>()) {
+        ret.bound = dynamic_cast<ConstantInt*>(lhs);
+    } else if (dynamic_cast<ConstantInt*>(rhs) != nullptr){ {
         ret.ind_var = lhs;
         ret.icmp_op = exit_cond(false);
-        ret.bound = rhs->as<ConstInt>();
-    } else {
+        ret.bound = dynamic_cast<ConstantInt*>(rhs);
+    } else 
+    {
         return nullopt;
     }
 
@@ -95,7 +98,7 @@ LoopUnrolling::parse_simple_loop(BasicBlock *header, const LoopInfo &loop) {
             continue;
         }
         // the phi for induction variable
-        auto phi_inst = inst.as<PhiInst>();
+        auto phi_inst = dynamic_cast<PhiInst *>(&inst);
         // the phi should has two source, one from preheader and the other from
         // loop body
         assert(phi_inst->to_pairs().size() == 2);
@@ -105,7 +108,7 @@ LoopUnrolling::parse_simple_loop(BasicBlock *header, const LoopInfo &loop) {
                 if (not value->is<IBinaryInst>()) {
                     continue;
                 }
-                auto ibinary_inst = value->as<IBinaryInst>();
+                auto ibinary_inst = dynamic_cast<IBinaryInst *>(value);
                 auto ibin_op = ibinary_inst->get_ibin_op();
                 if (ibin_op != IBinaryInst::ADD) {
                     continue;
@@ -119,7 +122,7 @@ LoopUnrolling::parse_simple_loop(BasicBlock *header, const LoopInfo &loop) {
                 }
             } else {
                 // initial
-                if (not value->is<ConstInt>()) {
+                if (dynamic_cast<ConstInt *>(value) == nullptr) {
                     continue;
                 }
                 ret.initial = value->as<ConstInt>();
@@ -133,7 +136,7 @@ LoopUnrolling::parse_simple_loop(BasicBlock *header, const LoopInfo &loop) {
     return ret;
 }
 
-bool LoopUnroll::should_unroll(const SimpleLoopInfo &simple_loop) {
+bool LoopUnrolling::should_unroll(const SimpleLoopInfo &simple_loop) {
     int initial = simple_loop.initial->val();
     int step = simple_loop.step->val();
     int bound = simple_loop.bound->val();
