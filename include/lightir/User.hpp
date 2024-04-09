@@ -17,6 +17,23 @@ class User : public Value {
     // start from 0
     void set_operand(unsigned i, Value *v);
     void add_operand(Value *v);
+    void replace_operand(Value *old_val, Value *new_val) {
+        set_operand_for_each_if([&](Value *op) -> std::pair<bool, Value *> {
+            if (op == old_val) {
+                return {true, new_val};
+            } else {
+                return {false, nullptr};
+            }
+        });
+    }
+    void set_operand_for_each_if(
+    std::function<std::pair<bool, Value *>(Value *)> check) {
+        for (unsigned i = 0; i < operands_.size(); ++i) {
+            auto [change, new_value] = check(operands_[i]);
+            if (change)
+                set_operand(i, new_value);
+        }
+    }
 
     void remove_all_operands();
     void remove_operand(unsigned i);

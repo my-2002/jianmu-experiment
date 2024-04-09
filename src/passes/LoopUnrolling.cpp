@@ -1,6 +1,8 @@
+#include "Constant.hpp"
 #include "Instruction.hpp"
 #include "Value.hpp"
 #include <codecvt>
+#include <list>
 #include <type_traits>
 #include <optional>
 #include "CodeGenUtil.hpp"
@@ -130,19 +132,19 @@ LoopUnrolling::parse_simple_loop(BasicBlock *header, const LoopInfo &loop) {
                 if (ibin_op != "add") {
                     continue;
                 }
-                if (ibinary_inst->lhs()->is<ConstInt>() and
-                    ibinary_inst->rhs() == ret.ind_var) {
-                    ret.step = ibinary_inst->lhs()->as<ConstInt>();
-                } else if (ibinary_inst->rhs()->is<ConstInt>() and
-                           ibinary_inst->lhs() == ret.ind_var) {
-                    ret.step = ibinary_inst->rhs()->as<ConstInt>();
+                if (dynamic_cast<ConstantInt*>(ibinary_inst->get_operand(0)) and
+                    ibinary_inst->get_operand(1) == ret.ind_var) {
+                    ret.step = dynamic_cast<ConstantInt*>(ibinary_inst->get_operand(0));
+                } else if (dynamic_cast<ConstantInt*>(ibinary_inst->get_operand(1)) and
+                           ibinary_inst->get_operand(0) == ret.ind_var) {
+                    ret.step = dynamic_cast<ConstantInt*>(ibinary_inst->get_operand(1));
                 }
             } else {
                 // initial
-                if (dynamic_cast<ConstInt *>(value) == nullptr) {
+                if (dynamic_cast<ConstantInt *>(value) == nullptr) {
                     continue;
                 }
-                ret.initial = value->as<ConstInt>();
+                ret.initial = dynamic_cast<ConstantInt *>(value);
             }
         }
     }
@@ -154,13 +156,13 @@ LoopUnrolling::parse_simple_loop(BasicBlock *header, const LoopInfo &loop) {
 }
 
 bool LoopUnrolling::should_unroll(const SimpleLoopInfo &simple_loop) {
-    int initial = simple_loop.initial->val();
-    int step = simple_loop.step->val();
-    int bound = simple_loop.bound->val();
+    int initial = simple_loop.initial->get_value();
+    int step = simple_loop.step->get_value();
+    int bound = simple_loop.bound->get_value();
 
     long long inst_cnt{0};
     for (auto bb : simple_loop.bbs) {
-        inst_cnt += bb->insts().size();
+        inst_cnt += bb->get_instructions().size();
     }
 
     int estimate = (bound - initial) / step;
@@ -175,10 +177,10 @@ void LoopUnroll::unroll_simple_loop(const SimpleLoopInfo &simple_loop) {
     vector<BasicBlock *> bodies_order;
     map<BasicBlock *, size_t> pre_cnt;
     for (auto bb : simple_loop.bodies) {
-        if (contains(bb->pre_bbs(), header)) {
+        if (std::find(bb->get_pre_basic_blocks().begin(), bb->get_pre_basic_blocks().end(), header)!=bb->get_pre_basic_blocks().end()) {
             pre_cnt[bb] = 0;
         } else {
-            pre_cnt[bb] = bb->pre_bbs().size();
+            pre_cnt[bb] = bb->get_pre_basic_blocks().size();
         }
     }
     while (not pre_cnt.empty()) {
@@ -186,7 +188,7 @@ void LoopUnroll::unroll_simple_loop(const SimpleLoopInfo &simple_loop) {
         for (auto [bb, cnt] : pre_cnt) {
             if (cnt == 0) {
                 bodies_order.push_back(bb);
-                for (auto suc : bb->suc_bbs()) {
+                for (auto suc : bb->get_succ_basic_blocks()) {
                     if (suc != header) {
                         pre_cnt[suc]--;
                     }
@@ -203,72 +205,75 @@ void LoopUnroll::unroll_simple_loop(const SimpleLoopInfo &simple_loop) {
 
     map<Value *, Value *> old2new, phi_dst2src;
     // set phi_var_map to initial value
-    for (auto &&inst : header->insts()) {
-        if (not inst.is<PhiInst>()) {
+    for (auto &inst : header->get_instructions()) {
+        if (not dynamic_cast<PhiInst*>(&inst)) {
             break;
         }
         // the phi for induction variable
-        auto phi_inst = inst.as<PhiInst>();
+        auto phi_inst = dynamic_cast<PhiInst*>(&inst);
         // the phi should has two source, one from preheader and the other from
         // loop body
         assert(phi_inst->to_pairs().size() == 2);
         for (auto [value, source] : phi_inst->to_pairs()) {
-            if (contains(simple_loop.bbs, source)) {
+            if (simple_loop.bbs.find(source)!=simple_loop.bbs.end()) {
                 phi_dst2src.emplace(phi_inst, value);
             }
         }
         for (auto [value, source] : phi_inst->to_pairs()) {
-            if (not contains(simple_loop.bbs, source)) {
+            if (simple_loop.bbs.find(source)==simple_loop.bbs.end()) {
                 old2new.emplace(phi_dst2src[phi_inst], value);
             }
         }
     }
 
     auto should_exit = [&](int i) {
-        int bound = simple_loop.bound->val();
+        int bound = simple_loop.bound->get_value();
         switch (simple_loop.icmp_op) {
-        case ICmpInst::EQ:
+        case ICmpInst::OpID::eq:
             return i == bound;
-        case ICmpInst::NE:
+        case ICmpInst::OpID::ne:
             return i != bound;
-        case ICmpInst::LT:
+        case ICmpInst::OpID::lt:
             return i < bound;
-        case ICmpInst::LE:
+        case ICmpInst::OpID::le:
             return i <= bound;
-        case ICmpInst::GT:
+        case ICmpInst::OpID::gt:
             return i > bound;
-        case ICmpInst::GE:
+        case ICmpInst::OpID::ge:
             return i >= bound;
         default:
             throw unreachable_error{};
         }
     };
 
-    auto func = header->get_func();
+    auto func = header->get_parent();
 
     auto clone_bbs = [&]() {
         for (auto bb : bodies_order) {
-            old2new[bb] = func->create_bb();
+            old2new[bb] = BasicBlock::create(m_, "old2new_"+bb->get_name(), func);
+            func->add_basic_block(dynamic_cast<BasicBlock*>(old2new[bb]));
         }
-        old2new[header] = func->create_bb();
+        old2new[header] = BasicBlock::create(m_, "old2new_"+header->get_name(), func);
+        func->add_basic_block(dynamic_cast<BasicBlock*>(old2new[header]));
     };
 
     auto clone2bb = [&](BasicBlock *old_bb) {
-        auto new_bb = old2new.at(old_bb)->as<BasicBlock>();
-        for (auto &inst : old_bb->insts()) {
+        auto new_bb = dynamic_cast<BasicBlock*>(old2new.at(old_bb));
+        for (auto &inst : old_bb->get_instructions()) {
             if (old_bb == header) {
-                if (inst.is<PhiInst>()) {
+                if (dynamic_cast<PhiInst*>(&inst)) {
                     old2new[&inst] = old2new[phi_dst2src[&inst]];
                     continue;
-                } else if (inst.is<BrInst>()) {
+                } else if (dynamic_cast<BranchInst*>(&inst)) {
                     continue;
                 }
             }
-            auto new_inst = new_bb->clone_inst(new_bb->insts().end(), &inst);
+            auto new_inst=&inst;
+            //auto new_inst = new_bb->clone_inst(new_bb->insts().end(), &inst);
 
             new_inst->set_operand_for_each_if(
                 [&](Value *op) -> pair<bool, Value *> {
-                    if (contains(old2new, op))
+                    if (old2new.find(op)!=old2new.end())
                         return {true, old2new[op]};
                     else
                         return {false, nullptr};
@@ -277,26 +282,27 @@ void LoopUnroll::unroll_simple_loop(const SimpleLoopInfo &simple_loop) {
         }
     };
 
-    auto unroll_exit = [&]() { return old2new[header]->as<BasicBlock>(); };
+    auto unroll_exit = [&]() { return dynamic_cast<BasicBlock*>(old2new[header]); };
     auto unroll_entry = [&]() {
-        if (contains(old2new, static_cast<Value *>(bodies_order.front()))) {
-            return old2new[bodies_order.front()]->as<BasicBlock>();
+        if (old2new.find(static_cast<Value *>(bodies_order.front()))!=old2new.end()) {
+            return dynamic_cast<BasicBlock*>(old2new[bodies_order.front()]);
         } else {
-            return old2new[header]->as<BasicBlock>();
+            return dynamic_cast<BasicBlock*>(old2new[header]);
         }
     };
 
-    old2new[header] = func->create_bb();
+    old2new[header] = BasicBlock::create(m_, "old2new_"+header->get_name(), func);
+    func->add_basic_block(dynamic_cast<BasicBlock*>(old2new[header]));
     clone2bb(header);
     auto bbs_entry = unroll_entry();
 
-    for (int i = simple_loop.initial->val(); not should_exit(i);
-         i += simple_loop.step->val()) {
+    for (int i = simple_loop.initial->get_value(); not should_exit(i);
+         i += simple_loop.step->get_value()) {
         // connect last exit to current entry
         auto last_exit = unroll_exit();
         clone_bbs();
         auto entry = unroll_entry();
-        last_exit->create_inst<BrInst>(entry);
+        BranchInst::create_br(entry, last_exit);
 
         // clone bbs and header
         for (auto bb : bodies_order) {
@@ -306,23 +312,23 @@ void LoopUnroll::unroll_simple_loop(const SimpleLoopInfo &simple_loop) {
     }
 
     for (auto [old_inst, new_inst] : old2new) {
-        if (not old_inst->is<Instruction>()) {
+        if (not dynamic_cast<Instruction*>(old_inst)) {
             continue;
         }
         old_inst->replace_all_use_with(new_inst);
     }
 
     // connect exit
-    header->erase_inst(&header->br_inst());
-    unroll_exit()->create_inst<BrInst>(simple_loop.exit);
+    header->erase_instr(dynamic_cast<BranchInst*>(&header->get_instructions().back()));
+    BranchInst::create_br(simple_loop.exit, unroll_exit());
 
     // connect preheader
-    simple_loop.preheader->br_inst().replace_operand(header, bbs_entry);
+    simple_loop.preheader->get_instructions().back().replace_operand(header, bbs_entry);
 
     // remove old bbs
-    for (auto it = func->bbs().begin(); it != func->bbs().end();) {
-        if (contains(simple_loop.bbs, &*it)) {
-            it = func->bbs().erase(it);
+    for (auto it = func->get_basic_blocks().begin(); it != func->get_basic_blocks().end();) {
+        if (simple_loop.bbs.find(&*it)!=simple_loop.bbs.end()) {
+            it = func->get_basic_blocks().erase(it);
         } else {
             ++it;
         }
