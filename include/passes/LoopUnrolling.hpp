@@ -6,12 +6,13 @@
 
 class LoopUnrolling final : public Pass {
   public:
-    explicit LoopUnrolling(Module *m) : Pass(m) {}
-    ~LoopUnrolling() noexcept override = default;
+    LoopUnrolling(Module *m) : Pass(m) {}
+    ~LoopUnrolling() = default;
     void run() override;
 
   private:
     static constexpr int UNROLL_MAX = 10000;
+    std::unique_ptr<LoopFind> loopfind_;
 
     using LoopInfo = LoopFind::ResultType::LoopInfo;
     using FuncLoopInfo = LoopFind::ResultType::FuncLoopInfo;

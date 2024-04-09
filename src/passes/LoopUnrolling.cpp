@@ -1,3 +1,4 @@
+#include "Instruction.hpp"
 #include "Value.hpp"
 #include <codecvt>
 #include <type_traits>
@@ -6,7 +7,7 @@
 
 using namespace std;
 
-optional <LoopUnrolling::SimpleLoopInfo>
+std::optional <LoopUnrolling::SimpleLoopInfo>
 LoopUnrolling::parse_simple_loop(BasicBlock *header, const LoopInfo &loop) {
     SimpleLoopInfo ret;
 
@@ -56,19 +57,34 @@ LoopUnrolling::parse_simple_loop(BasicBlock *header, const LoopInfo &loop) {
     }
 
     auto icmp_inst = dynamic_cast<ICmpInst*>(cond);
-    auto icmp_op = icmp_inst->get_instr_op_name();
-    auto lhs = icmp_inst->lhs();
-    auto rhs = icmp_inst->rhs();
+    Instruction::OpID icmp_op = icmp_inst->get_instr_type();
+    auto lhs = icmp_inst->get_operand(0);
+    auto rhs = icmp_inst->get_operand(1);
 
     auto exit_cond = [&](bool is_ind_rhs) {
-        auto opposite = ICmpInst::opposite_icmp_op(icmp_op);
+        Instruction::OpID opposite;
+        if(icmp_op == Instruction::OpID::eq) opposite = Instruction::OpID::ne;
+        else if (icmp_op == Instruction::OpID::ne) opposite = Instruction::OpID::eq;
+        else if (icmp_op == Instruction::OpID::gt) opposite = Instruction::OpID::lt;
+        else if (icmp_op == Instruction::OpID::lt) opposite = Instruction::OpID::gt;
+        else if (icmp_op == Instruction::OpID::ge) opposite = Instruction::OpID::le;
+        else if (icmp_op == Instruction::OpID::le) opposite = Instruction::OpID::ge;
+        else throw unreachable_error{};
         auto op = is_ind_rhs ? opposite : icmp_op;
         if (br_inst->get_operand(1) == ret.exit) {
             // exit if cond is true
             return op;
         } else if (br_inst->get_operand(2) == ret.exit) {
             // exit if cond is false
-            return ICmpInst::;
+            Instruction::OpID ret_op;
+            if(op == Instruction::OpID::eq) ret_op = Instruction::OpID::ne;
+            else if (op == Instruction::OpID::ne) ret_op = Instruction::OpID::eq;
+            else if (op == Instruction::OpID::gt) ret_op = Instruction::OpID::le;
+            else if (op == Instruction::OpID::lt) ret_op = Instruction::OpID::ge;
+            else if (op == Instruction::OpID::ge) ret_op = Instruction::OpID::lt;
+            else if (op == Instruction::OpID::le) ret_op = Instruction::OpID::gt;
+            else throw unreachable_error{};
+            return ret_op;
         } else {
             throw unreachable_error{};
         }
@@ -80,7 +96,7 @@ LoopUnrolling::parse_simple_loop(BasicBlock *header, const LoopInfo &loop) {
         ret.ind_var = rhs;
         ret.icmp_op = exit_cond(true);
         ret.bound = dynamic_cast<ConstantInt*>(lhs);
-    } else if (dynamic_cast<ConstantInt*>(rhs) != nullptr){ {
+    } else if (dynamic_cast<ConstantInt*>(rhs) != nullptr) {
         ret.ind_var = lhs;
         ret.icmp_op = exit_cond(false);
         ret.bound = dynamic_cast<ConstantInt*>(rhs);
@@ -323,16 +339,19 @@ void LoopUnroll::handle_func(Function *func, const FuncLoopInfo &func_loop) {
         if (not should_unroll(simple_loop.value())) {
             continue;
         }
-        debugs << "unrolling " + simple_loop->header->get_name() << '\n';
+        //debugs << "unrolling " + simple_loop->header->get_name() << '\n';
         unroll_simple_loop(simple_loop.value());
     }
 }
 
 bool LoopUnroll::run(PassManager *mgr) {
-    auto &&loop_info = mgr->get_result<LoopFind>().loop_info;
-    auto m = mgr->get_module();
-    for (auto &&func : m->functions()) {
-        if (func.is_external) {
+    // 创建支配树分析 Pass 的实例
+    loopfind_ = std::make_unique<LoopFind>(m_);
+    // 建立支配树
+    loopfind_->run();
+    auto loop_info = loopfind_->get_result()->loop_info;
+    for (auto &func : m_->get_functions()) {
+        if (func.is_declaration()) {
             continue;
         }
         handle_func(&func, loop_info.at(&func));

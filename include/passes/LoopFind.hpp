@@ -34,6 +34,8 @@ class LoopFind final : public Pass {
 
     void run() override;
 
+    ResultType* get_result() const { return &_result; }
+
   private:
     using LoopInfo = ResultType::LoopInfo;
 
