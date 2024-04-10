@@ -59,8 +59,9 @@ int main(int argc, char **argv) {
         PM.add_pass<Mem2Reg>();
         //PM.add_pass<GepTrans>();
         PM.add_pass<DeadCode>();
-        PM.add_pass<LoopUnrolling>();
         PM.add_pass<GVN>();
+        PM.add_pass<DeadCode>();
+        PM.add_pass<LoopUnrolling>();
         PM.add_pass<DeadCode>();
         PM.add_pass<RegAlloc>();
     }

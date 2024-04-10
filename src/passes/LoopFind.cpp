@@ -19,7 +19,7 @@ void LoopFind::run() {
         if (func.is_declaration())
             continue;
         // for each bb in func to find all loops in func
-        unordered_map<BasicBlock *, LoopInfo> loops;
+        std::unordered_map<BasicBlock *, LoopInfo> loops;
         for (auto &bb : func.get_basic_blocks()) {
             // try find a loop using bb as header
             for (auto &pre_bb : bb.get_pre_basic_blocks()) {
@@ -80,7 +80,7 @@ void LoopFind::run() {
                 loop.ind_var_info = parse_ind_var(&bb, loop);
             }
         }
-        _result->loop_info[&func].loops = std::move(loops);
+        _result.loop_info[&func].loops = std::move(loops);
     }
 }
 

@@ -34,7 +34,7 @@ class LoopFind final : public Pass {
 
     void run() override;
 
-    ResultType* get_result() const { return _result; }
+    const ResultType* get_result() const { return &_result; }
 
   private:
     using LoopInfo = ResultType::LoopInfo;
@@ -44,6 +44,6 @@ class LoopFind final : public Pass {
     auto parse_ind_var(BasicBlock *header, const LoopInfo &loop)
         -> std::optional<LoopInfo::IndVarInfo>;
 
-    ResultType* _result;
+    ResultType _result;
     std::unique_ptr<Dominators> dominators_;
 };
