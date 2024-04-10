@@ -4,6 +4,7 @@
 #include "IRprinter.hpp"
 #include "Module.hpp"
 #include "Type.hpp"
+#include "Value.hpp"
 
 #include <algorithm>
 #include <cassert>
@@ -15,6 +16,50 @@ Instruction::Instruction(Type *ty, OpID id, BasicBlock *parent)
     : User(ty, ""), op_id_(id), parent_(parent) {
     if (parent)
         parent->add_instruction(this);
+}
+
+Instruction *Instruction::clone_inst(Instruction *inst, BasicBlock *bb){
+    switch (inst->get_instr_type()) {
+        // Terminator Instructions
+        case ret: return ReturnInst::clone_ReturnInst(dynamic_cast<ReturnInst*>(inst), bb);break;
+        case br: return BranchInst::clone_BranchInst(dynamic_cast<BranchInst *>(inst), bb);
+        // Standard binary operators
+        case add:
+        case sub:
+        case mul:
+        case sdiv: return IBinaryInst::clone_IBinaryInst(dynamic_cast<IBinaryInst *>(inst), bb);break;
+        // float binary operators
+        case fadd:
+        case fsub:
+        case fmul:
+        case fdiv: return FBinaryInst::clone_FBinaryInst(dynamic_cast<FBinaryInst *>(inst), bb);break;
+        // Memory operators
+        case alloca: return AllocaInst::clone_AllocaInst(dynamic_cast<AllocaInst *>(inst), bb);break;
+        case load: return LoadInst::clone_LoadInst(dynamic_cast<LoadInst *>(inst), bb);break;
+        case store: return StoreInst::clone_StoreInst(dynamic_cast<StoreInst *>(inst), bb);break;
+        // Int compare operators
+        case ge:
+        case gt:
+        case le:
+        case lt:
+        case eq:
+        case ne: return ICmpInst::clone_ICmpInst(dynamic_cast<ICmpInst *>(inst), bb);break;
+        // Float compare operators
+        case fge:
+        case fgt:
+        case fle:
+        case flt:
+        case feq:
+        case fne: return FCmpInst::clone_FCmpInst(dynamic_cast<FCmpInst *>(inst), bb);break;
+        // Other operators
+        case phi: return PhiInst::clone_PhiInst(dynamic_cast<PhiInst *>(inst), bb);break;
+        case call: return CallInst::clone_CallInst(dynamic_cast<CallInst *>(inst), bb);break;
+        case getelementptr: return GetElementPtrInst::clone_GetElementPtrInst(dynamic_cast<GetElementPtrInst *>(inst), bb);break;
+        case zext: return ZextInst::clone_ZextInst(dynamic_cast<ZextInst *>(inst), bb);break; // zero extend
+        case fptosi: return FpToSiInst::clone_FpToSiInst(dynamic_cast<FpToSiInst *>(inst), bb);break;
+        case sitofp: return SiToFpInst::clone_SiToFpInst(dynamic_cast<SiToFpInst *>(inst), bb);break;
+    }
+    return nullptr;
 }
 
 Function *Instruction::get_function() { return parent_->get_parent(); }
@@ -44,6 +89,9 @@ IBinaryInst *IBinaryInst::create_mul(Value *v1, Value *v2, BasicBlock *bb) {
 IBinaryInst *IBinaryInst::create_sdiv(Value *v1, Value *v2, BasicBlock *bb) {
     return create(sdiv, v1, v2, bb);
 }
+IBinaryInst *IBinaryInst::clone_IBinaryInst(IBinaryInst *inst, BasicBlock *bb) {
+    return create(inst->get_instr_type(), inst->get_operand(0), inst->get_operand(1), bb);
+}
 
 FBinaryInst::FBinaryInst(OpID id, Value *v1, Value *v2, BasicBlock *bb)
     : BaseInst<FBinaryInst>(bb->get_module()->get_float_type(), id, bb) {
@@ -64,6 +112,9 @@ FBinaryInst *FBinaryInst::create_fmul(Value *v1, Value *v2, BasicBlock *bb) {
 }
 FBinaryInst *FBinaryInst::create_fdiv(Value *v1, Value *v2, BasicBlock *bb) {
     return create(fdiv, v1, v2, bb);
+}
+FBinaryInst *FBinaryInst::clone_FBinaryInst(FBinaryInst *inst, BasicBlock *bb) {
+    return create(inst->get_instr_type(), inst->get_operand(0), inst->get_operand(1), bb);
 }
 
 ICmpInst::ICmpInst(OpID id, Value *lhs, Value *rhs, BasicBlock *bb)
@@ -93,6 +144,9 @@ ICmpInst *ICmpInst::create_eq(Value *v1, Value *v2, BasicBlock *bb) {
 ICmpInst *ICmpInst::create_ne(Value *v1, Value *v2, BasicBlock *bb) {
     return create(ne, v1, v2, bb);
 }
+ICmpInst *ICmpInst::clone_ICmpInst(ICmpInst *inst, BasicBlock *bb) {
+    return create(inst->get_instr_type(), inst->get_operand(0), inst->get_operand(1), bb);
+}
 
 FCmpInst::FCmpInst(OpID id, Value *lhs, Value *rhs, BasicBlock *bb)
     : BaseInst<FCmpInst>(bb->get_module()->get_int1_type(), id, bb) {
@@ -121,6 +175,9 @@ FCmpInst *FCmpInst::create_feq(Value *v1, Value *v2, BasicBlock *bb) {
 FCmpInst *FCmpInst::create_fne(Value *v1, Value *v2, BasicBlock *bb) {
     return create(fne, v1, v2, bb);
 }
+FCmpInst *FCmpInst::clone_FCmpInst(FCmpInst *inst, BasicBlock *bb) {
+    return create(inst->get_instr_type(), inst->get_operand(0), inst->get_operand(1), bb);
+}
 
 CallInst::CallInst(Function *func, std::vector<Value *> args, BasicBlock *bb)
     : BaseInst<CallInst>(func->get_return_type(), call, bb) {
@@ -138,6 +195,12 @@ CallInst::CallInst(Function *func, std::vector<Value *> args, BasicBlock *bb)
 CallInst *CallInst::create_call(Function *func, std::vector<Value *> args,
                                 BasicBlock *bb) {
     return create(func, args, bb);
+}
+CallInst *CallInst::clone_CallInst(CallInst *inst, BasicBlock *bb){
+    std::vector<Value *> args;
+    for(unsigned i = 1; i < inst->get_num_operand(); i++)
+        args.push_back(inst->get_operand(i));
+    return create(dynamic_cast<Function*>(inst->get_operand(0)), args, bb);
 }
 
 FunctionType *CallInst::get_function_type() const {
@@ -191,6 +254,10 @@ BranchInst *BranchInst::create_cond_br(Value *cond, BasicBlock *if_true,
 BranchInst *BranchInst::create_br(BasicBlock *if_true, BasicBlock *bb) {
     return create(nullptr, if_true, nullptr, bb);
 }
+BranchInst *BranchInst::clone_BranchInst(BranchInst *inst, BasicBlock *bb){
+    if(inst->is_cond_br()) return create(inst->get_operand(0), dynamic_cast<BasicBlock*>(inst->get_operand(1)), dynamic_cast<BasicBlock*>(inst->get_operand(2)), bb);
+    else return create(nullptr, dynamic_cast<BasicBlock*>(inst->get_operand(0)), nullptr, bb);
+}
 
 ReturnInst::ReturnInst(Value *val, BasicBlock *bb)
     : BaseInst<ReturnInst>(bb->get_module()->get_void_type(), ret, bb) {
@@ -210,6 +277,10 @@ ReturnInst *ReturnInst::create_ret(Value *val, BasicBlock *bb) {
 }
 ReturnInst *ReturnInst::create_void_ret(BasicBlock *bb) {
     return create(nullptr, bb);
+}
+ReturnInst *ReturnInst::clone_ReturnInst(ReturnInst *inst, BasicBlock *bb){
+    if(inst->is_void_ret()) return create(nullptr, bb);
+    else return create(inst->get_operand(0), bb);
 }
 
 bool ReturnInst::is_void_ret() const { return get_num_operand() == 0; }
@@ -259,6 +330,12 @@ GetElementPtrInst *GetElementPtrInst::create_gep(Value *ptr,
                                                  BasicBlock *bb) {
     return create(ptr, idxs, bb);
 }
+GetElementPtrInst *GetElementPtrInst::clone_GetElementPtrInst(GetElementPtrInst *inst, BasicBlock *bb){
+    std::vector<Value*> idxs;
+    for(unsigned i = 1; i < inst->get_num_operand(); i++)
+        idxs.push_back(inst->get_operand(i));
+    return create(inst->get_operand(0), idxs, bb);
+}
 
 StoreInst::StoreInst(Value *val, Value *ptr, BasicBlock *bb)
     : BaseInst<StoreInst>(bb->get_module()->get_void_type(), store, bb) {
@@ -270,6 +347,9 @@ StoreInst::StoreInst(Value *val, Value *ptr, BasicBlock *bb)
 
 StoreInst *StoreInst::create_store(Value *val, Value *ptr, BasicBlock *bb) {
     return create(val, ptr, bb);
+}
+StoreInst *StoreInst::clone_StoreInst(StoreInst *inst, BasicBlock *bb) {
+    return create(inst->get_operand(0), inst->get_operand(1), bb);
 }
 
 LoadInst::LoadInst(Value *ptr, BasicBlock *bb)
@@ -284,6 +364,9 @@ LoadInst::LoadInst(Value *ptr, BasicBlock *bb)
 LoadInst *LoadInst::create_load(Value *ptr, BasicBlock *bb) {
     return create(ptr, bb);
 }
+LoadInst *LoadInst::clone_LoadInst(LoadInst *inst, BasicBlock *bb){
+    return create(inst->get_operand(0), bb);
+}
 
 AllocaInst::AllocaInst(Type *ty, BasicBlock *bb)
     : BaseInst<AllocaInst>(PointerType::get(ty), alloca, bb) {
@@ -296,6 +379,9 @@ AllocaInst::AllocaInst(Type *ty, BasicBlock *bb)
 
 AllocaInst *AllocaInst::create_alloca(Type *ty, BasicBlock *bb) {
     return create(ty, bb);
+}
+AllocaInst *AllocaInst::clone_AllocaInst(AllocaInst *inst, BasicBlock *bb) {
+    return create(inst->get_alloca_type(), bb);
 }
 
 ZextInst::ZextInst(Value *val, Type *ty, BasicBlock *bb)
@@ -316,6 +402,9 @@ ZextInst *ZextInst::create_zext(Value *val, Type *ty, BasicBlock *bb) {
 ZextInst *ZextInst::create_zext_to_i32(Value *val, BasicBlock *bb) {
     return create(val, bb->get_module()->get_int32_type(), bb);
 }
+ZextInst *ZextInst::clone_ZextInst(ZextInst *inst, BasicBlock *bb) {
+    return create(inst->get_operand(0), inst->get_dest_type(), bb);
+}
 
 FpToSiInst::FpToSiInst(Value *val, Type *ty, BasicBlock *bb)
     : BaseInst<FpToSiInst>(ty, fptosi, bb) {
@@ -332,6 +421,9 @@ FpToSiInst *FpToSiInst::create_fptosi(Value *val, Type *ty, BasicBlock *bb) {
 FpToSiInst *FpToSiInst::create_fptosi_to_i32(Value *val, BasicBlock *bb) {
     return create(val, bb->get_module()->get_int32_type(), bb);
 }
+FpToSiInst *FpToSiInst::clone_FpToSiInst(FpToSiInst *inst, BasicBlock *bb) {
+    return create(inst->get_operand(0), inst->get_dest_type(), bb);
+}
 
 SiToFpInst::SiToFpInst(Value *val, Type *ty, BasicBlock *bb)
     : BaseInst<SiToFpInst>(ty, sitofp, bb) {
@@ -343,6 +435,9 @@ SiToFpInst::SiToFpInst(Value *val, Type *ty, BasicBlock *bb)
 
 SiToFpInst *SiToFpInst::create_sitofp(Value *val, BasicBlock *bb) {
     return create(val, bb->get_module()->get_float_type(), bb);
+}
+SiToFpInst *SiToFpInst::clone_SiToFpInst(SiToFpInst *inst, BasicBlock *bb) {
+    return create(inst->get_operand(0), inst->get_dest_type(), bb);
 }
 
 PhiInst::PhiInst(Type *ty, std::vector<Value *> vals,
@@ -361,6 +456,15 @@ PhiInst *PhiInst::create_phi(Type *ty, BasicBlock *bb,
                              std::vector<Value *> vals,
                              std::vector<BasicBlock *> val_bbs) {
     return create(ty, vals, val_bbs, bb);
+}
+PhiInst *PhiInst::clone_PhiInst(PhiInst *inst, BasicBlock *bb){
+    std::vector<Value*> vals;
+    std::vector<BasicBlock*> val_bbs;
+    for (unsigned i = 0; i < inst->get_num_operand(); i+=2){
+        vals.push_back(inst->get_operand(i));
+        val_bbs.push_back(dynamic_cast<BasicBlock*>(inst->get_operand(i+1)));
+    }
+    return create(inst->get_type(), vals, val_bbs, bb);
 }
 
 std::vector<std::pair<Value *, BasicBlock *>> PhiInst::to_pairs() const {

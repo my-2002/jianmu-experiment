@@ -268,8 +268,7 @@ void LoopUnrolling::unroll_simple_loop(const SimpleLoopInfo &simple_loop, Module
                     continue;
                 }
             }
-            auto new_inst=&inst;
-            //auto new_inst = new_bb->clone_inst(new_bb->insts().end(), &inst);
+            auto new_inst = Instruction::clone_inst(&inst, new_bb);
 
             new_inst->set_operand_for_each_if(
                 [&](Value *op) -> pair<bool, Value *> {

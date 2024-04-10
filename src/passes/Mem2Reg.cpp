@@ -14,7 +14,7 @@ void Mem2Reg::run() {
     // 以函数为单元遍历实现 Mem2Reg 算法
     for (auto &f : m_->get_functions()) {
         std::map<Value*, Instruction *> rm_undef_phi;
-        unsigned int num=0;
+        //unsigned int num=0;
         if (f.is_declaration())
             continue;
         func_ = &f;

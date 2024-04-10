@@ -109,6 +109,8 @@ class Instruction : public User, public llvm::ilist_node<Instruction> {
 
     bool isTerminator() const { return is_br() || is_ret(); }
 
+    static Instruction* clone_inst(Instruction* inst, BasicBlock* bb);
+
   private:
     OpID op_id_;
     BasicBlock *parent_;
@@ -135,6 +137,7 @@ class IBinaryInst : public BaseInst<IBinaryInst> {
     static IBinaryInst *create_sub(Value *v1, Value *v2, BasicBlock *bb);
     static IBinaryInst *create_mul(Value *v1, Value *v2, BasicBlock *bb);
     static IBinaryInst *create_sdiv(Value *v1, Value *v2, BasicBlock *bb);
+    static IBinaryInst *clone_IBinaryInst(IBinaryInst* inst, BasicBlock *bb);
 
     virtual std::string print() override;
 };
@@ -150,6 +153,7 @@ class FBinaryInst : public BaseInst<FBinaryInst> {
     static FBinaryInst *create_fsub(Value *v1, Value *v2, BasicBlock *bb);
     static FBinaryInst *create_fmul(Value *v1, Value *v2, BasicBlock *bb);
     static FBinaryInst *create_fdiv(Value *v1, Value *v2, BasicBlock *bb);
+    static FBinaryInst *clone_FBinaryInst(FBinaryInst* inst, BasicBlock *bb);
 
     virtual std::string print() override;
 };
@@ -167,6 +171,7 @@ class ICmpInst : public BaseInst<ICmpInst> {
     static ICmpInst *create_lt(Value *v1, Value *v2, BasicBlock *bb);
     static ICmpInst *create_eq(Value *v1, Value *v2, BasicBlock *bb);
     static ICmpInst *create_ne(Value *v1, Value *v2, BasicBlock *bb);
+    static ICmpInst *clone_ICmpInst(ICmpInst* inst, BasicBlock *bb);
 
     virtual std::string print() override;
 };
@@ -184,6 +189,7 @@ class FCmpInst : public BaseInst<FCmpInst> {
     static FCmpInst *create_flt(Value *v1, Value *v2, BasicBlock *bb);
     static FCmpInst *create_feq(Value *v1, Value *v2, BasicBlock *bb);
     static FCmpInst *create_fne(Value *v1, Value *v2, BasicBlock *bb);
+    static FCmpInst *clone_FCmpInst(FCmpInst* inst, BasicBlock* bb);
 
     virtual std::string print() override;
 };
@@ -197,6 +203,7 @@ class CallInst : public BaseInst<CallInst> {
   public:
     static CallInst *create_call(Function *func, std::vector<Value *> args,
                                  BasicBlock *bb);
+    static CallInst *clone_CallInst(CallInst* inst, BasicBlock* bb);
     FunctionType *get_function_type() const;
 
     virtual std::string print() override;
@@ -214,6 +221,7 @@ class BranchInst : public BaseInst<BranchInst> {
     static BranchInst *create_cond_br(Value *cond, BasicBlock *if_true,
                                       BasicBlock *if_false, BasicBlock *bb);
     static BranchInst *create_br(BasicBlock *if_true, BasicBlock *bb);
+    static BranchInst *clone_BranchInst(BranchInst* inst, BasicBlock* bb);
 
     bool is_cond_br() const { return get_num_operand() == 3; }
 
@@ -229,6 +237,7 @@ class ReturnInst : public BaseInst<ReturnInst> {
   public:
     static ReturnInst *create_ret(Value *val, BasicBlock *bb);
     static ReturnInst *create_void_ret(BasicBlock *bb);
+    static ReturnInst *clone_ReturnInst(ReturnInst* inst, BasicBlock* bb);
     bool is_void_ret() const;
 
     virtual std::string print() override;
@@ -244,6 +253,7 @@ class GetElementPtrInst : public BaseInst<GetElementPtrInst> {
     static Type *get_element_type(Value *ptr, std::vector<Value *> idxs);
     static GetElementPtrInst *create_gep(Value *ptr, std::vector<Value *> idxs,
                                          BasicBlock *bb);
+    static GetElementPtrInst *clone_GetElementPtrInst(GetElementPtrInst* inst, BasicBlock* bb);
     Type *get_element_type() const;
 
     virtual std::string print() override;
@@ -257,6 +267,7 @@ class StoreInst : public BaseInst<StoreInst> {
 
   public:
     static StoreInst *create_store(Value *val, Value *ptr, BasicBlock *bb);
+    static StoreInst *clone_StoreInst(StoreInst* inst, BasicBlock* bb);
 
     Value *get_rval() { return this->get_operand(0); }
     Value *get_lval() { return this->get_operand(1); }
@@ -272,6 +283,7 @@ class LoadInst : public BaseInst<LoadInst> {
 
   public:
     static LoadInst *create_load(Value *ptr, BasicBlock *bb);
+    static LoadInst *clone_LoadInst(LoadInst* inst, BasicBlock* bb);
 
     Value *get_lval() const { return this->get_operand(0); }
     Type *get_load_type() const { return get_type(); };
@@ -287,6 +299,7 @@ class AllocaInst : public BaseInst<AllocaInst> {
 
   public:
     static AllocaInst *create_alloca(Type *ty, BasicBlock *bb);
+    static AllocaInst *clone_AllocaInst(AllocaInst* inst, BasicBlock* bb);
 
     Type *get_alloca_type() const {
         return get_type()->get_pointer_element_type();
@@ -304,6 +317,7 @@ class ZextInst : public BaseInst<ZextInst> {
   public:
     static ZextInst *create_zext(Value *val, Type *ty, BasicBlock *bb);
     static ZextInst *create_zext_to_i32(Value *val, BasicBlock *bb);
+    static ZextInst *clone_ZextInst(ZextInst* inst, BasicBlock* bb);
 
     Type *get_dest_type() const { return get_type(); };
 
@@ -319,6 +333,7 @@ class FpToSiInst : public BaseInst<FpToSiInst> {
   public:
     static FpToSiInst *create_fptosi(Value *val, Type *ty, BasicBlock *bb);
     static FpToSiInst *create_fptosi_to_i32(Value *val, BasicBlock *bb);
+    static FpToSiInst *clone_FpToSiInst(FpToSiInst* inst, BasicBlock* bb);
 
     Type *get_dest_type() const { return get_type(); };
 
@@ -333,6 +348,7 @@ class SiToFpInst : public BaseInst<SiToFpInst> {
 
   public:
     static SiToFpInst *create_sitofp(Value *val, BasicBlock *bb);
+    static SiToFpInst *clone_SiToFpInst(SiToFpInst* inst, BasicBlock* bb);
 
     Type *get_dest_type() const { return get_type(); };
 
@@ -350,6 +366,7 @@ class PhiInst : public BaseInst<PhiInst> {
     static PhiInst *create_phi(Type *ty, BasicBlock *bb,
                                std::vector<Value *> vals = {},
                                std::vector<BasicBlock *> val_bbs = {});
+    static PhiInst *clone_PhiInst(PhiInst* inst, BasicBlock* bb);
 
     void add_phi_pair_operand(Value *val, Value *pre_bb) {
         this->add_operand(val);
