@@ -29,40 +29,40 @@ void LoopFind::run() {
                         // first time to find the header bb
                         loops.insert({&bb, LoopInfo{}});
                     }
-                    LoopInfo loop = loops.find(&bb)->second;
-                    loop.latches.push_back(pre_bb);
+                    LoopInfo* loop = &(loops.find(&bb)->second);
+                    loop->latches.push_back(pre_bb);
                     std::set<BasicBlock*> ret;
                     find_bbs_by_latch(&bb, pre_bb, ret);
-                    loop.bbs.insert(ret.begin(), ret.end());
+                    loop->bbs.insert(ret.begin(), ret.end());
                 }
             }
             if (loops.find(&bb) != loops.end()) {
-                auto loop = loops.find(&bb)->second;
+                LoopInfo* loop = &(loops.find(&bb)->second);
 
                 // set preheader if exists
                 vector<BasicBlock *> outer_pre_bbs;
                 for (auto pre : bb.get_pre_basic_blocks()) {
                     // prebb out of the loop that has only one
                     // sucbb (header)
-                    if (loop.bbs.find(pre) == loop.bbs.end()) {
+                    if (loop->bbs.find(pre) == loop->bbs.end()) {
                         outer_pre_bbs.push_back(pre);
                     }
                 }
 
-                loop.preheader = nullptr;
+                loop->preheader = nullptr;
                 if (outer_pre_bbs.size() == 1 and
                     outer_pre_bbs.back()->get_succ_basic_blocks().size() == 1) {
-                    loop.preheader = outer_pre_bbs.back();
+                    loop->preheader = outer_pre_bbs.back();
                 }
 
                 // find all exiting bbs
                 // set exit bb for each exiting bb if exists
-                for (auto bb : loop.bbs) {
+                for (auto bb : loop->bbs) {
                     for (auto suc : bb->get_succ_basic_blocks()) {
-                        if (loop.bbs.find(suc)==loop.bbs.end()) {
-                            loop.exits.insert({bb, nullptr});
+                        if (loop->bbs.find(suc)==loop->bbs.end()) {
+                            loop->exits.insert({bb, nullptr});
                             if (suc->get_pre_basic_blocks().size() == 1) {
-                                loop.exits[bb] = suc;
+                                loop->exits[bb] = suc;
                             }
                         }
                     }
@@ -79,7 +79,7 @@ void LoopFind::run() {
                 }
 
                 // parse ind var
-                loop.ind_var_info = parse_ind_var(&bb, loop);
+                loop->ind_var_info = parse_ind_var(&bb, *loop);
             }
         }
         _result.loop_info[&func].loops = std::move(loops);
