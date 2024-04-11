@@ -23,7 +23,7 @@ void LoopFind::run() {
         for (auto &bb : func.get_basic_blocks()) {
             // try find a loop using bb as header
             for (auto &pre_bb : bb.get_pre_basic_blocks()) {
-                if (dominators_->get_idom(&bb) == pre_bb) {
+                if (dominators_->get_idom(pre_bb) == &bb) {
                     // found a latch pre_bb -> bb
                     if (loops.find(&bb) == loops.end()) {
                         // first time to find the header bb
