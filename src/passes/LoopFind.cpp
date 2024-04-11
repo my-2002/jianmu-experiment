@@ -20,7 +20,7 @@ void LoopFind::run() {
             continue;
         // for each bb in func to find all loops in func
         std::unordered_map<BasicBlock *, LoopInfo> loops;
-        for (auto &bb : func.get_basic_blocks()) {
+        for (auto &bb : func.get_basic_blocks()) {                 //通过判断是否支配前驱块来判断是否存在循环
             // try find a loop using bb as header
             for (auto &pre_bb : bb.get_pre_basic_blocks()) {
                 if (dominators_->is_dom(&bb, pre_bb)) {
