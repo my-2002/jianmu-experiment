@@ -39,8 +39,7 @@ class LoopFind final : public Pass {
   private:
     using LoopInfo = ResultType::LoopInfo;
 
-    std::set<BasicBlock *> find_bbs_by_latch(BasicBlock *header,
-                                                BasicBlock *latch);
+    bool find_bbs_by_latch(BasicBlock *header, BasicBlock *latch, std::set<BasicBlock*>&ret);
     auto parse_ind_var(BasicBlock *header, const LoopInfo &loop)
         -> std::optional<LoopInfo::IndVarInfo>;
 

@@ -31,7 +31,9 @@ void LoopFind::run() {
                     }
                     LoopInfo loop = loops.find(&bb)->second;
                     loop.latches.push_back(pre_bb);
-                    loop.bbs.insert(find_bbs_by_latch(&bb, pre_bb).begin(), find_bbs_by_latch(&bb, pre_bb).end());
+                    std::set<BasicBlock*> ret;
+                    find_bbs_by_latch(&bb, pre_bb, ret);
+                    loop.bbs.insert(ret.begin(), ret.end());
                 }
             }
             if (loops.find(&bb) != loops.end()) {
@@ -84,9 +86,7 @@ void LoopFind::run() {
     }
 }
 
-set<BasicBlock *> LoopFind::find_bbs_by_latch(BasicBlock *header,
-                                              BasicBlock *latch) {
-    set<BasicBlock *> ret;
+bool LoopFind::find_bbs_by_latch(BasicBlock *header, BasicBlock *latch, std::set<BasicBlock*>&ret) {
     ret.insert(header);
     queue<BasicBlock *> bfs;
     bfs.push(latch);
@@ -104,7 +104,7 @@ set<BasicBlock *> LoopFind::find_bbs_by_latch(BasicBlock *header,
             }
         }
     }
-    return ret;
+    return true;
 }
 
 auto LoopFind::parse_ind_var(BasicBlock *header, const LoopInfo &loop)
