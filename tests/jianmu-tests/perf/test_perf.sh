@@ -62,6 +62,7 @@ fi
 
 echo "[info] Start testing, using testcase dir: $test_dir"
 # asm
+startTime=`date +"%Y-%m-%d %H:%M:%S"`
 for case in $testcases; do
 	echo "==========$case==========" >>$LOG
 	case_base_name=$(basename -s .$suffix "$case")
@@ -87,18 +88,27 @@ for case in $testcases; do
 		>>$LOG
 	check_return_value $? 0 "CE" "gcc compiler error" || continue
 
-	# qemu run
-	if [ -e "$in_file" ]; then
-		exec_cmd="qemu-loongarch64 $exe_file >$out_file <$in_file"
-	else
-		exec_cmd="qemu-loongarch64 $exe_file >$out_file"
-	fi
-	bash -c "$exec_cmd"
-	ret=$?
-	# remove trailing null byte in the end line
-	sed -i "\$s/\x00*$//" "$out_file"
-	# append return value
-	echo $ret >>"$out_file"
+	 # qemu run
+    if [ -e "$in_file" ]; then
+        # Start recording execution time for this part
+        startTimeLoop=`date +"%s"`
+        exec_cmd="qemu-loongarch64 $exe_file >$out_file <$in_file"
+    else
+        # Start recording execution time for this part
+        startTimeLoop=`date +"%s"`
+        exec_cmd="qemu-loongarch64 $exe_file >$out_file"
+    fi
+    bash -c "$exec_cmd"
+    ret=$?
+    # remove trailing null byte in the end line
+    sed -i "\$s/\x00*$//" "$out_file"
+    # append return value
+    echo $ret >>"$out_file"
+    # End recording execution time for this part
+    endTimeLoop=`date +"%s"`
+    sumTimeLoop=$(($endTimeLoop-$startTimeLoop))
+    # Output execution time for this part
+    echo "$case_base_name execution time: $sumTimeLoop second."
 
 	# compare output
 	diff --strip-trailing-cr "$std_out_file" "$out_file" -y >>$LOG
@@ -107,3 +117,9 @@ for case in $testcases; do
 	# ok
 	printf "\033[1;32mOK\033[0m\n"
 done
+
+endTime=`date +"%Y-%m-%d %H:%M:%S"`
+st=`date -d  "$startTime" +%s`
+et=`date -d  "$endTime" +%s`
+sumTime=$(($et-$st))
+echo "Total time is : $sumTime second."
