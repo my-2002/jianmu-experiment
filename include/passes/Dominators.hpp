@@ -23,6 +23,8 @@ class Dominators : public Pass {
         return dom_tree_succ_blocks_.at(bb);
     }
 
+    bool is_dom(BasicBlock *b1, BasicBlock *b2);
+
   private:
     void create_idom(Function *f);
     void create_dominance_frontier(Function *f);

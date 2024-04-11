@@ -2,6 +2,7 @@
 #include <list>
 #include <map>
 #include <vector>
+#include <queue>
 
 void Dominators::run() {
     for (auto &f1 : m_->get_functions()) {
@@ -108,4 +109,24 @@ void Dominators::create_dom_tree_succ(Function *f) {
             (dom_tree_succ_blocks_.at(idom_.at(bb))).insert(bb);
     }
     //  分析得到 f 中各个基本块的支配树后继
+}
+
+bool Dominators::is_dom(BasicBlock *domer, BasicBlock *domee) {
+    if (domer == domee)
+        return true;
+    std::queue<BasicBlock *> bfs{};
+    bfs.push(domer);
+    while (not bfs.empty()) {
+        auto bb = bfs.front();
+        bfs.pop();
+        //assert(contains(dom_tree_succ_blocks, bb));
+        for (auto &&suc_bb : get_dom_tree_succ_blocks(bb)) {
+            if (suc_bb == domee) {
+                return true;
+            }
+            bfs.push(suc_bb);
+        }
+    }
+    return false;
+
 }
