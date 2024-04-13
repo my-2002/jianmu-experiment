@@ -351,7 +351,6 @@ void LoopUnrolling::handle_func(Function *func, const FuncLoopInfo &func_loop, M
 }
 
 void LoopUnrolling::run() {
-    // 创建支配树分析 Pass 的实例
     loopfind_ = std::make_unique<LoopFind>(m_);
     // 建立支配树
     loopfind_->run();

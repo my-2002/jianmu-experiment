@@ -7,6 +7,7 @@
 #include "Gvn.hpp"
 #include "GepTrans.hpp"
 #include "LoopUnrolling.hpp"
+#include "LoopInvariant.hpp"
 
 #include <filesystem>
 #include <fstream>
@@ -61,6 +62,7 @@ int main(int argc, char **argv) {
         PM.add_pass<DeadCode>();
         PM.add_pass<GVN>();
         PM.add_pass<DeadCode>();
+        PM.add_pass<LoopInvariant>();
         PM.add_pass<LoopUnrolling>();
         PM.add_pass<DeadCode>();
         PM.add_pass<RegAlloc>();

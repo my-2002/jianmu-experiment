@@ -10,4 +10,5 @@ add_library(
     GepTrans.cpp
     LoopUnrolling.cpp
     LoopFind.cpp
+    LoopInvariant.cpp
 )
